@@ -28,75 +28,8 @@ namespace SudokuSetterAndSolver
                     }
                     singleArrayValue++;
                 }
-            }
-            bool backtracking = false;
-            //Main loop that will provide the back tracking. 
-            for (int k = 0; k <= 8; k++)
-            {
-                for (int f = 0; f <= 8; f++)
-                {
-                    if (staticNumbers[k, f] == 0)
-                    {
-                        List<int> validNUmbersInRow = checkRow(sudokuPuzzleMultiExample, k, f);
-                        List<int> validNumbersInColumn = checkColumn(sudokuPuzzleMultiExample, k, f);
-                        List<int> validNumbersInBlock = checkBlock(sudokuPuzzleMultiExample, k, f);
-                        List<int> validNumbers = GetValidNumbers(validNumbersInColumn, validNUmbersInRow, validNumbersInBlock);
-                        
-                        if (validNumbers.Count == 0)
-                        {
-                            //backtrack 
-                            bool staticNumbersBool = false;
-                            if (f != 0 || k == 0)
-                            {
-                                f = f - 1;
-                                while (f>=0)
-                                {
-                                    if (staticNumbers[k, f] != 0)
-                                    {
-                                        f = f - 1;
-                                        staticNumbersBool = true;
-                                    }
-                                    else
-                                    {
-                                        f = f - 1;
-                                        break;
-                                    }
-
-                                }
-
-                                if (f == -2)
-                                {
-                                    k = k - 2;
-                                }
-                                //f = f-2;
-
-                            }
-                            else
-                            {
-                                k = k - 1;
-                            }
-
-                        }
-                        else
-                        {
-                            foreach (var validNumber in validNumbers)
-                            {
-                                if (sudokuPuzzleMultiExample[k, f] == validNumber)
-                                {
-
-                                }
-                                else
-                                {
-                                    sudokuPuzzleMultiExample[k, f] = validNumber;
-                                    break;
-                                }
-
-                            }
-                        }
-
-                    }
-                    //This is the point where the puzzle should be solved 
-                }
+            
+           
             }
         }
 
