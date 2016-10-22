@@ -1,4 +1,6 @@
-﻿namespace SudokuSetterAndSolver
+﻿using System.Windows.Forms;
+
+namespace SudokuSetterAndSolver
 {
     partial class RandomPuzzleGameScreen
     {
@@ -28,6 +30,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+
+            CreateGrid(9);
+
             this.sudokuGrid = new System.Windows.Forms.GroupBox();
             this.textBox54 = new System.Windows.Forms.TextBox();
             this.textBox55 = new System.Windows.Forms.TextBox();
@@ -957,6 +962,41 @@
             this.sudokuGrid.ResumeLayout(false);
             this.sudokuGrid.PerformLayout();
             this.ResumeLayout(false);
+
+        }
+
+        private void CreateGrid(int gridSize)
+        {
+            int[,] gridMultiDimensionalArray = new int[gridSize, gridSize];
+            int rowLocation = 0, columnLocation = 0;
+            for (int i = 0; i <= gridSize; i++)
+            {
+                for (int j = 0; j <= gridSize; j++)
+                {
+                    TextBox txtBox = new TextBox();
+                    this.Controls.Add(txtBox);
+                    txtBox.Name = i.ToString() + j.ToString();
+                    txtBox.ReadOnly = true;
+                    txtBox.Size = new System.Drawing.Size(70, 38);
+                    txtBox.TabIndex = 0;
+                    txtBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+                    txtBox.Click += new System.EventHandler(this.puzzleSquareClick);
+                    txtBox.TextChanged += new System.EventHandler(this.a1_TextChanged);
+                    if (i == 0 && j == 0)
+                    {
+                        txtBox.Location = new System.Drawing.Point(70, 0);
+                    }
+                    else
+                    {
+                        rowLocation = rowLocation + 70;
+                        txtBox.Location = new System.Drawing.Point(0 + rowLocation, 0 + columnLocation);
+                    }
+                }
+                rowLocation = 0;
+                columnLocation = columnLocation + 38;
+            }
+
+
 
         }
 

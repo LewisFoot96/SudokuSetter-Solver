@@ -45,7 +45,7 @@
             this.gamePlayScreenBtn.TabIndex = 0;
             this.gamePlayScreenBtn.Text = "Play";
             this.gamePlayScreenBtn.UseVisualStyleBackColor = true;
-            this.gamePlayScreenBtn.Click += new System.EventHandler(this.button1_Click);
+            this.gamePlayScreenBtn.Click += new System.EventHandler(this.gamePlayScreenBtn_Click);
             // 
             // pictureBox1
             // 
@@ -63,6 +63,7 @@
             this.randomPuzzleScreenBtn.TabIndex = 2;
             this.randomPuzzleScreenBtn.Text = "Random Puzzle";
             this.randomPuzzleScreenBtn.UseVisualStyleBackColor = true;
+            this.randomPuzzleScreenBtn.Click += new System.EventHandler(this.randomPuzzleScreenBtn_Click);
             // 
             // solveSudokuScreenBtn
             // 
@@ -72,6 +73,7 @@
             this.solveSudokuScreenBtn.TabIndex = 3;
             this.solveSudokuScreenBtn.Text = "Solve Sudoku";
             this.solveSudokuScreenBtn.UseVisualStyleBackColor = true;
+            this.solveSudokuScreenBtn.Click += new System.EventHandler(this.solveSudokuScreenBtn_Click);
             // 
             // statisticsScreenBtn
             // 
@@ -81,6 +83,7 @@
             this.statisticsScreenBtn.TabIndex = 4;
             this.statisticsScreenBtn.Text = "Statistics ";
             this.statisticsScreenBtn.UseVisualStyleBackColor = true;
+            this.statisticsScreenBtn.Click += new System.EventHandler(this.statisticsScreenBtn_Click);
             // 
             // instructionsCreditsScreenBtn
             // 
@@ -90,6 +93,7 @@
             this.instructionsCreditsScreenBtn.TabIndex = 5;
             this.instructionsCreditsScreenBtn.Text = "Instructions/credits";
             this.instructionsCreditsScreenBtn.UseVisualStyleBackColor = true;
+            this.instructionsCreditsScreenBtn.Click += new System.EventHandler(this.instructionsCreditsScreenBtn_Click);
             // 
             // MainMenu
             // 
