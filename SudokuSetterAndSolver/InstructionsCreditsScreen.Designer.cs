@@ -49,6 +49,7 @@
             this.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.ClientSize = new System.Drawing.Size(1468, 1112);
             this.Controls.Add(this.gameBanner);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "InstructionsCreditsScreen";
             this.Text = "InstructionsCreditsScreen";
             ((System.ComponentModel.ISupportInitialize)(this.gameBanner)).EndInit();

@@ -18,6 +18,7 @@ namespace SudokuSetterAndSolver
         public RandomPuzzleGameScreen(int gridSize)
         {
             InitializeComponent();
+            CreateGrid(9);
         }
 
 

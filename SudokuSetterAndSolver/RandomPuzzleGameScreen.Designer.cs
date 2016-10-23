@@ -38,9 +38,9 @@ namespace SudokuSetterAndSolver
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(1463, 280);
+            this.button1.Location = new System.Drawing.Point(1272, 432);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(205, 141);
+            this.button1.Size = new System.Drawing.Size(171, 141);
             this.button1.TabIndex = 85;
             this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
@@ -63,6 +63,7 @@ namespace SudokuSetterAndSolver
             this.ClientSize = new System.Drawing.Size(1468, 1112);
             this.Controls.Add(this.gameBanner);
             this.Controls.Add(this.button1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "RandomPuzzleGameScreen";
             this.Text = "RandomPuzzleGameScreen";
             ((System.ComponentModel.ISupportInitialize)(this.gameBanner)).EndInit();
@@ -81,8 +82,7 @@ namespace SudokuSetterAndSolver
             int[,] gridMultiDimensionalArray = new int[gridSize, gridSize];
             int rowLocation = 0, columnLocation = 0;
             for (int i = 0; i < gridSize; i++)
-            {
-                
+            {          
                 for (int j = 0; j < gridSize; j++)
                 {
                     //Creating a textbox for the each cell, with the valid details. 
@@ -114,7 +114,7 @@ namespace SudokuSetterAndSolver
                     if (i == 0 && j == 0)
                     {
                         rowLocation = rowLocation + 70;
-                        columnLocation = columnLocation + 50;              
+                        columnLocation = columnLocation + 100;              
                     }
                     else
                     {

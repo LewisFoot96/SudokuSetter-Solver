@@ -110,7 +110,7 @@
             this.Controls.Add(this.solveSudokuScreenBtn);
             this.Controls.Add(this.randomPuzzleScreenBtn);
             this.Controls.Add(this.gamePlayScreenBtn);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainMenu";
             this.Text = "Main Menu";
             ((System.ComponentModel.ISupportInitialize)(this.gameBanner)).EndInit();
