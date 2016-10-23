@@ -101,6 +101,9 @@
     <EmbeddedResource Include="MainMenu.resx">
       <DependentUpon>MainMenu.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="PlayLevelsScreen.resx">
+      <DependentUpon>PlayLevelsScreen.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
@@ -111,6 +114,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SolveSudokuScreen.resx">
       <DependentUpon>SolveSudokuScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StatisticsScreen.resx">
+      <DependentUpon>StatisticsScreen.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
