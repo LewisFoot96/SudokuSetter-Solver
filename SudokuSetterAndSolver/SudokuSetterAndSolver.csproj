@@ -98,6 +98,9 @@
     </Compile>
     <Compile Include="SudokuPuzzleGenerator.cs" />
     <Compile Include="SudokuSolver.cs" />
+    <EmbeddedResource Include="InstructionsCreditsScreen.resx">
+      <DependentUpon>InstructionsCreditsScreen.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainMenu.resx">
       <DependentUpon>MainMenu.cs</DependentUpon>
     </EmbeddedResource>

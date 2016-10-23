@@ -36,7 +36,7 @@
             // gameBanner
             // 
             this.gameBanner.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("gameBanner.BackgroundImage")));
-            this.gameBanner.Location = new System.Drawing.Point(0, 1);
+            this.gameBanner.Location = new System.Drawing.Point(0, 0);
             this.gameBanner.Name = "gameBanner";
             this.gameBanner.Size = new System.Drawing.Size(1467, 250);
             this.gameBanner.TabIndex = 7;
