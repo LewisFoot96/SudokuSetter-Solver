@@ -30,8 +30,10 @@ namespace SudokuSetterAndSolver
         /// </summary>
         private void InitializeComponent()
         {
-            CreateGrid(9);
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RandomPuzzleGameScreen));
             this.button1 = new System.Windows.Forms.Button();
+            this.gameBanner = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.gameBanner)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -44,14 +46,26 @@ namespace SudokuSetterAndSolver
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // gameBanner
+            // 
+            this.gameBanner.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("gameBanner.BackgroundImage")));
+            this.gameBanner.Location = new System.Drawing.Point(0, 0);
+            this.gameBanner.Name = "gameBanner";
+            this.gameBanner.Size = new System.Drawing.Size(1467, 250);
+            this.gameBanner.TabIndex = 86;
+            this.gameBanner.TabStop = false;
+            // 
             // RandomPuzzleGameScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1724, 930);
+            this.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.ClientSize = new System.Drawing.Size(1468, 1112);
+            this.Controls.Add(this.gameBanner);
             this.Controls.Add(this.button1);
             this.Name = "RandomPuzzleGameScreen";
             this.Text = "RandomPuzzleGameScreen";
+            ((System.ComponentModel.ISupportInitialize)(this.gameBanner)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -115,5 +129,6 @@ namespace SudokuSetterAndSolver
 
         #endregion
         private System.Windows.Forms.Button button1;
+        private PictureBox gameBanner;
     }
 }
