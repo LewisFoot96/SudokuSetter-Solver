@@ -78,6 +78,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="PuzzleManager.cs" />
     <Compile Include="RandomPuzzleGameScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -147,6 +148,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SSSGameScreenFullBanner.fw1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Puzzles\TestPuzzle.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

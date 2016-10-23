@@ -10,6 +10,7 @@ namespace SudokuSetterAndSolver
     {
 
         int _gridSize = 0;
+        PuzzleManager puzzleManager = new PuzzleManager();
         
         public SudokuPuzzleGenerator(int gridSize)
         {
@@ -28,8 +29,13 @@ namespace SudokuSetterAndSolver
                     gridValue[i, j] = randomNumber.Next(0, 9);
                 }
             }
+
+            puzzleManager.SavePuzzleToFile(gridValue);
+          
             return gridValue;
         }
+
+
         
     }
 }
