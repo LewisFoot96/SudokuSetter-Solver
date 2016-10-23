@@ -104,6 +104,9 @@
     <EmbeddedResource Include="PlayLevelsScreen.resx">
       <DependentUpon>PlayLevelsScreen.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="PlaySudokuScreen.resx">
+      <DependentUpon>PlaySudokuScreen.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
