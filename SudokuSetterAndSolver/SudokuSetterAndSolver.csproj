@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GridManager.cs" />
     <Compile Include="InstructionsCreditsScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -72,6 +73,11 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="RandomPuzzleGameScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -97,15 +103,14 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="RandomPuzzleGameScreen.resx">
       <DependentUpon>RandomPuzzleGameScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SolveSudokuScreen.resx">
+      <DependentUpon>SolveSudokuScreen.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -124,6 +129,12 @@
     <Folder Include="Images\" />
     <Folder Include="Screens\" />
     <Folder Include="SudokuPuzzles\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SSSGameScreenFullBanner.fw.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SSSGameScreenFullBanner.fw1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

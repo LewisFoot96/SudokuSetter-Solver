@@ -28,11 +28,37 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SolveSudokuScreen));
+            this.gameBanner = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.gameBanner)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // gameBanner
+            // 
+            this.gameBanner.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("gameBanner.BackgroundImage")));
+            this.gameBanner.Location = new System.Drawing.Point(1, 1);
+            this.gameBanner.Name = "gameBanner";
+            this.gameBanner.Size = new System.Drawing.Size(1467, 250);
+            this.gameBanner.TabIndex = 7;
+            this.gameBanner.TabStop = false;
+            // 
+            // SolveSudokuScreen
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.ClientSize = new System.Drawing.Size(1468, 1112);
+            this.Controls.Add(this.gameBanner);
+            this.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+            this.Name = "SolveSudokuScreen";
             this.Text = "SolveSudokuScreen";
+            ((System.ComponentModel.ISupportInitialize)(this.gameBanner)).EndInit();
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private System.Windows.Forms.PictureBox gameBanner;
     }
 }

@@ -8,8 +8,28 @@ namespace SudokuSetterAndSolver
 {
     class SudokuPuzzleGenerator
     {
-        
 
+        int _gridSize = 0;
+        
+        public SudokuPuzzleGenerator(int gridSize)
+        {
+            _gridSize = gridSize;
+        }
+
+        public int[,] CreateSudokuGrid()
+        {
+            Random randomNumber = new Random();
+            int[,] gridValue = new int[_gridSize, _gridSize];
+
+            for (int i = 0; i < _gridSize; i++)
+            {
+                for (int j = 0; j < _gridSize; j++)
+                {
+                    gridValue[i, j] = randomNumber.Next(0, 9);
+                }
+            }
+            return gridValue;
+        }
         
     }
 }
