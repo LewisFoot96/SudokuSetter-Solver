@@ -16,5 +16,10 @@ namespace SudokuSetterAndSolver
         {
             InitializeComponent();
         }
+
+        private void levelButtonClick(object sender, EventArgs e)
+        {
+
+        }
     }
 }
