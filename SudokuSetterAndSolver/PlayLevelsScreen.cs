@@ -19,7 +19,9 @@ namespace SudokuSetterAndSolver
 
         private void levelButtonClick(object sender, EventArgs e)
         {
-
+            this.Hide();
+            PlaySudokuScreen playSudokuScreen = new PlaySudokuScreen();
+            playSudokuScreen.Show();
         }
     }
 }

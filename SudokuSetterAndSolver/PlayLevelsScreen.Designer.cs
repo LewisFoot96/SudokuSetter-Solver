@@ -76,6 +76,7 @@
             this.level4.TabIndex = 10;
             this.level4.Text = "Level 4";
             this.level4.UseVisualStyleBackColor = true;
+            this.level4.Click += new System.EventHandler(this.levelButtonClick);
             // 
             // level3
             // 
@@ -85,6 +86,7 @@
             this.level3.TabIndex = 11;
             this.level3.Text = "Level 3";
             this.level3.UseVisualStyleBackColor = true;
+            this.level3.Click += new System.EventHandler(this.levelButtonClick);
             // 
             // level2
             // 
@@ -94,6 +96,7 @@
             this.level2.TabIndex = 12;
             this.level2.Text = "Level 2";
             this.level2.UseVisualStyleBackColor = true;
+            this.level2.Click += new System.EventHandler(this.levelButtonClick);
             // 
             // level6
             // 
@@ -103,6 +106,7 @@
             this.level6.TabIndex = 16;
             this.level6.Text = "Level 6";
             this.level6.UseVisualStyleBackColor = true;
+            this.level6.Click += new System.EventHandler(this.levelButtonClick);
             // 
             // level7
             // 
@@ -112,6 +116,7 @@
             this.level7.TabIndex = 15;
             this.level7.Text = "Level 7";
             this.level7.UseVisualStyleBackColor = true;
+            this.level7.Click += new System.EventHandler(this.levelButtonClick);
             // 
             // level8
             // 
@@ -121,6 +126,7 @@
             this.level8.TabIndex = 14;
             this.level8.Text = "Level 8";
             this.level8.UseVisualStyleBackColor = true;
+            this.level8.Click += new System.EventHandler(this.levelButtonClick);
             // 
             // level5
             // 
@@ -130,6 +136,7 @@
             this.level5.TabIndex = 13;
             this.level5.Text = "Level 5";
             this.level5.UseVisualStyleBackColor = true;
+            this.level5.Click += new System.EventHandler(this.levelButtonClick);
             // 
             // level10
             // 
@@ -139,6 +146,7 @@
             this.level10.TabIndex = 20;
             this.level10.Text = "Level 10";
             this.level10.UseVisualStyleBackColor = true;
+            this.level10.Click += new System.EventHandler(this.levelButtonClick);
             // 
             // level11
             // 
@@ -148,6 +156,7 @@
             this.level11.TabIndex = 19;
             this.level11.Text = "Level 11";
             this.level11.UseVisualStyleBackColor = true;
+            this.level11.Click += new System.EventHandler(this.levelButtonClick);
             // 
             // level12
             // 
@@ -157,6 +166,7 @@
             this.level12.TabIndex = 18;
             this.level12.Text = "Level 12";
             this.level12.UseVisualStyleBackColor = true;
+            this.level12.Click += new System.EventHandler(this.levelButtonClick);
             // 
             // level9
             // 
@@ -166,6 +176,7 @@
             this.level9.TabIndex = 17;
             this.level9.Text = "Level 9";
             this.level9.UseVisualStyleBackColor = true;
+            this.level9.Click += new System.EventHandler(this.levelButtonClick);
             // 
             // level14
             // 
@@ -175,6 +186,7 @@
             this.level14.TabIndex = 24;
             this.level14.Text = "Level 14";
             this.level14.UseVisualStyleBackColor = true;
+            this.level14.Click += new System.EventHandler(this.levelButtonClick);
             // 
             // level15
             // 
@@ -184,6 +196,7 @@
             this.level15.TabIndex = 23;
             this.level15.Text = "Level 15";
             this.level15.UseVisualStyleBackColor = true;
+            this.level15.Click += new System.EventHandler(this.levelButtonClick);
             // 
             // level16
             // 
@@ -193,6 +206,7 @@
             this.level16.TabIndex = 22;
             this.level16.Text = "Level 16";
             this.level16.UseVisualStyleBackColor = true;
+            this.level16.Click += new System.EventHandler(this.levelButtonClick);
             // 
             // level13
             // 
@@ -202,6 +216,7 @@
             this.level13.TabIndex = 21;
             this.level13.Text = "Level 13";
             this.level13.UseVisualStyleBackColor = true;
+            this.level13.Click += new System.EventHandler(this.levelButtonClick);
             // 
             // PlayLevelsScreen
             // 
