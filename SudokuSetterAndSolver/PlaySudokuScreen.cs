@@ -19,6 +19,7 @@ namespace SudokuSetterAndSolver
 
         public PlaySudokuScreen(string fileNameFromButtonPress)
         {
+            InitializeComponent();
             //The string that is passed into here will be the file exntesion value, to load in the correct file. 
         }
     }

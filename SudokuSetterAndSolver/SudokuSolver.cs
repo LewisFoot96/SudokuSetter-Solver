@@ -25,14 +25,196 @@ namespace SudokuSetterAndSolver
 
         //array that stores the static numbers that are within the puzzle. 
         int[,] staticNumbers = new int[9, 9];
-
+        int[] validNumbers = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        List<int> validNumbersForRegion = new List<int>();
         public void solvePuzzle()
         {
+            for (int validValue = 1; validValue <= 9; validValue++)
+            {
+                validNumbersForRegion.Add(validValue);
+            }
+
             //Generate the puzzle and then solve it. 
             GeneratePuzzle();
-            solve(sudokuPuzzleMultiExample, 0);
+            //solve(sudokuPuzzleMultiExample, 0);
+            SolveConstraintsProblem(sudokuPuzzleMultiExample, validNumbersForRegion);
         }
 
+        private void GeneratePuzzle()
+        {
+            int singleArrayValue = 0;
+            //Populating multi dimensionsal array. 
+            for (int i = 0; i <= 8; i++)
+            {
+                for (int j = 0; j <= 8; j++)
+                {
+                    sudokuPuzzleMultiExample[i, j] = sudokuPuzzleExample9[singleArrayValue];
+                    if (sudokuPuzzleMultiExample[i, j] != 0)
+                    {
+                        staticNumbers[i, j] = sudokuPuzzleMultiExample[i, j];
+                    }
+                    singleArrayValue++;
+                }
+            }
+
+        }
+
+        #region Constraint problem 
+
+        //Method takes way to long due to random nature, and the amount of possibilities this creates. 
+
+        private void SolveConstraintsProblem(int[,] puzzle, List<int> tempValidNumberRegion)
+        {
+            bool rows = false;
+            bool columns = false;
+            bool minigrids = false;
+            Random random = new Random();
+            bool solved = false;
+
+            while (rows == false || columns == false || minigrids == false)
+            {
+                tempValidNumberRegion = validNumbersForRegion;
+
+                rows = GetRowTotalValues(puzzle);
+                columns = GetColumnTotalValues(puzzle);
+                minigrids = GetBlockTotalValues(puzzle);
+                for (int i = 0; i <= 8; i++)
+                {
+
+                    for (int z = 0; z <= 8; z++)
+                    {
+                        for (int listValue = 0; listValue <= tempValidNumberRegion.Count - 1; listValue++)
+                        {
+                            if (tempValidNumberRegion[listValue] == puzzle[i, z])
+                            {
+                                tempValidNumberRegion.RemoveAt(listValue);
+                            }
+                        }
+                    }
+                    for (int j = 0; j <= 8; j++)
+                    {
+                        if (puzzle[i, j] == 0)
+                        {
+                            int randomNumber = tempValidNumberRegion[random.Next(tempValidNumberRegion.Count - 1)];
+
+
+                            puzzle[i, j] = randomNumber;
+                            for (int listValue = 0; listValue <= tempValidNumberRegion.Count - 1; listValue++)
+                            {
+                                if (tempValidNumberRegion[listValue] == randomNumber)
+                                {
+                                    tempValidNumberRegion.RemoveAt(listValue);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    tempValidNumberRegion = PopulateNumberList(tempValidNumberRegion);
+
+
+                }
+            }
+            solved = true;
+        }
+
+        private List<int> PopulateNumberList(List<int> numberList)
+        {
+            for (int validValue = 1; validValue <= 9; validValue++)
+            {
+                numberList.Add(validValue);
+            }
+
+            return numberList;
+        }
+
+        private bool GetRowTotalValues(int[,] puzzle)
+        {
+            int totalValue = 0;
+            List<int> rowTotalValues = new List<int>();
+            for (int i = 0; i <= 8; i++)
+            {
+                for (int j = 0; j <= 8; j++)
+                {
+                    totalValue += puzzle[i, j];
+                }
+                rowTotalValues.Add(totalValue);
+                totalValue = 0;
+            }
+
+            foreach (var value in rowTotalValues)
+            {
+                if (value != 45)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private bool GetColumnTotalValues(int[,] puzzle)
+        {
+            int totalValue = 0;
+            List<int> coulmnTotalValues = new List<int>();
+            for (int i = 0; i <= 8; i++)
+            {
+
+                for (int j = 0; j <= 8; j++)
+                {
+                    totalValue += puzzle[j, i];
+                }
+                coulmnTotalValues.Add(totalValue);
+                totalValue = 0;
+            }
+            foreach (var value in coulmnTotalValues)
+            {
+                if (value != 45)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private bool GetBlockTotalValues(int[,] puzzle)
+        {
+            int kStartPoint = 0;
+            int jStartPoint = 0;
+            int totalValue = 0;
+            List<int> blockTotalValues = new List<int>();
+            for (int i = 0; i <= 8; i++)
+            {
+                for (int k = kStartPoint; k <= kStartPoint + 2; k++)
+                {
+                    for (int j = jStartPoint; j <= jStartPoint + 2; j++)
+                    {
+                        totalValue += puzzle[k, j];
+
+                    }
+                }
+                if (i == 0 || i == 1 || i==3 || i==4 || i==6 || i==7)
+                {
+                    jStartPoint += 3;
+                }
+                else if (i == 2 ||i ==5 )
+                {
+                    jStartPoint = 0;
+                    kStartPoint += 3;
+                }
+                blockTotalValues.Add(totalValue);
+                totalValue = 0;
+            }
+            foreach (var value in blockTotalValues)
+            {
+                if (value != 45)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        #endregion
+
+        #region Backtracking
 
         public void solve(int[,] sudokuGrid, int previousNumber)
         {
@@ -72,7 +254,7 @@ namespace SudokuSetterAndSolver
                         //If the cell is empty and the cell is not a static number. 
                         if (sudokuPuzzleMultiExample[i, j] == 0 && staticNumbers[i, j] == 0)
                         {
-                            if(i==0 && j==1)
+                            if (i == 0 && j == 1)
                             {
 
                             }
@@ -184,24 +366,6 @@ namespace SudokuSetterAndSolver
             }
         }
 
-        private void GeneratePuzzle()
-        {
-            int singleArrayValue = 0;
-            //Populating multi dimensionsal array. 
-            for (int i = 0; i <= 8; i++)
-            {
-                for (int j = 0; j <= 8; j++)
-                {
-                    sudokuPuzzleMultiExample[i, j] = sudokuPuzzleExample9[singleArrayValue];
-                    if (sudokuPuzzleMultiExample[i, j] != 0)
-                    {
-                        staticNumbers[i, j] = sudokuPuzzleMultiExample[i, j];
-                    }
-                    singleArrayValue++;
-                }
-            }
-
-        }
 
         private List<int> checkBlock(int[,] sudokuPuzzleExample, int squareRowNumber, int squareColumnNumber)
         {
@@ -432,6 +596,8 @@ namespace SudokuSetterAndSolver
 
             return validNumbers;
         }
+
+        #endregion 
 
     }
 }

@@ -241,6 +241,7 @@
             this.Controls.Add(this.level4);
             this.Controls.Add(this.level1);
             this.Controls.Add(this.gameBanner);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "PlayLevelsScreen";
             this.Text = "PlayLevelsScreen";
