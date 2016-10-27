@@ -36,7 +36,8 @@ namespace SudokuSetterAndSolver
 
             //Generate the puzzle and then solve it. 
             GeneratePuzzle();
-            //solve(sudokuPuzzleMultiExample, 0);
+            SolveUsingRecursiveBactracking();
+            solve(sudokuPuzzleMultiExample, 0);
             SolveConstraintsProblem(sudokuPuzzleMultiExample, validNumbersForRegion);
         }
 
@@ -48,7 +49,7 @@ namespace SudokuSetterAndSolver
             {
                 for (int j = 0; j <= 8; j++)
                 {
-                    sudokuPuzzleMultiExample[i, j] = sudokuPuzzleExample9[singleArrayValue];
+                    sudokuPuzzleMultiExample[i, j] = sudokuPuzzleExample[singleArrayValue];
                     if (sudokuPuzzleMultiExample[i, j] != 0)
                     {
                         staticNumbers[i, j] = sudokuPuzzleMultiExample[i, j];
@@ -58,6 +59,79 @@ namespace SudokuSetterAndSolver
             }
 
         }
+
+        #region New Recursive backtracking algorithm 
+
+        //Suodku multiexample is the global varibale that stores the grid. 
+
+       public void SolveUsingRecursiveBactracking()
+        {
+            //Get nexg empt cell, for all candidates 
+            //Chnage 
+            //Recursive call and then reverse the change 
+
+            //Check to see if the puzzle is complete. 
+            int emptyCellCount = 0;
+            for (int i = 0; i <= 8; i++)
+            {
+                for (int j = 0; j <= 8; j++)
+                {
+                    if (sudokuPuzzleMultiExample[i, j] == 0)
+                    {
+                        emptyCellCount++;
+                    }
+                }
+            }
+
+            //If the puzzle is complete then a solution is found. 
+            if (emptyCellCount == 0)
+            {
+                for (int i = 0; i <= 8; i++)
+                {
+                    for (int j = 0; j <= 8; j++)
+                    {
+                        Console.WriteLine(sudokuPuzzleMultiExample[i, j]);
+                    }
+                }
+            }
+
+            //Cycle through all of the cells until an empty one. 
+            for (int i = 0; i <= 8; i++)
+            {
+                for (int j = 0; j <= 8; j++)
+                {
+                    //If the cell is empty and the cell is not a static number. 
+                    if (sudokuPuzzleMultiExample[i, j] == 0 && staticNumbers[i, j] == 0)
+                    {
+                        //All of the check to see what numbers are valid for that particular square. 
+                        List<int> validNUmbersInRow = checkRow(sudokuPuzzleMultiExample, i, j);
+                        List<int> validNumbersInColumn = checkColumn(sudokuPuzzleMultiExample, i, j);
+                        List<int> validNumbersInBlock = checkBlock(sudokuPuzzleMultiExample, i, j);
+                        List<int> validNumbers = GetValidNumbers(validNumbersInColumn, validNUmbersInRow, validNumbersInBlock);
+
+                        foreach (var validNumber in validNumbers)
+                        {
+                            ChangeGrid(i,j, validNumber);
+                            SolveUsingRecursiveBactracking();
+                            ReverseGrid(i,j, validNumber);
+                        }
+                    }
+                }
+            }
+
+        }
+
+        public void ChangeGrid(int rowNumber, int columnNumber, int validNumber)
+        {
+            sudokuPuzzleMultiExample[rowNumber,columnNumber] = validNumber;
+        }
+
+        public void ReverseGrid(int rowNUmber, int columnNumber, int validNumber)
+        {
+            sudokuPuzzleMultiExample[rowNUmber, columnNumber] = 0;
+        }
+
+        #endregion 
 
         #region Constraint problem 
 
