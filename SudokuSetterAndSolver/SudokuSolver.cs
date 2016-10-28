@@ -36,6 +36,7 @@ namespace SudokuSetterAndSolver
 
             //Generate the puzzle and then solve it. 
             GeneratePuzzle();
+            SolveSudokRuleBased();
             SolveUsingRecursiveBactracking();
             solve(sudokuPuzzleMultiExample, 0);
             SolveConstraintsProblem(sudokuPuzzleMultiExample, validNumbersForRegion);
@@ -44,12 +45,13 @@ namespace SudokuSetterAndSolver
         private void GeneratePuzzle()
         {
             int singleArrayValue = 0;
+            
             //Populating multi dimensionsal array. 
             for (int i = 0; i <= 8; i++)
             {
                 for (int j = 0; j <= 8; j++)
                 {
-                    sudokuPuzzleMultiExample[i, j] = sudokuPuzzleExample[singleArrayValue];
+                    sudokuPuzzleMultiExample[i, j] = sudokuPuzzleExample3[singleArrayValue];
                     if (sudokuPuzzleMultiExample[i, j] != 0)
                     {
                         staticNumbers[i, j] = sudokuPuzzleMultiExample[i, j];
@@ -60,11 +62,204 @@ namespace SudokuSetterAndSolver
 
         }
 
+        private bool CheckToSeeIfPuzzleIsSolved()
+        {
+            // Check to see if the puzzle is complete.
+            int emptyCellCount = 0;
+            for (int i = 0; i <= 8; i++)
+            {
+                for (int j = 0; j <= 8; j++)
+                {
+                    if (sudokuPuzzleMultiExample[i, j] == 0)
+                    {
+                        emptyCellCount++;
+                    }
+                }
+            }
+
+            //If the puzzle is complete then a solution is found. 
+            if (emptyCellCount == 0)
+            {
+              
+                        return true;
+                
+            }
+            else
+            {
+                return false; 
+            }
+        }
+
+        #region Rule Based Algorithm 
+
+        //Use human rules to check the puzzle out, inserting any possible values, then use bactrcking to solve the rest of the puzzle. 
+
+        List<List<int>> candidatesList = new List<List<int>>();
+
+        public void SolveSudokRuleBased()
+        {
+
+            //Trying to implement hidde singles is not easy. 
+            List<int> listOfCandidatesInRow = new List<int>();
+            List<int> previousValidNumbersRow = new List<int>();
+            int nakedSinglesCount = 0; 
+
+
+            for (int rowNumber = 0; rowNumber <= 8; rowNumber++)
+            {
+                listOfCandidatesInRow.Clear();
+
+                for (int columnNumber = 0; columnNumber <= 8; columnNumber++)
+                {
+                    //All of the check to see what numbers are valid for that particular square. 
+                    List<int> validNUmbersInRow = checkRow(sudokuPuzzleMultiExample, rowNumber, columnNumber);
+                    List<int> validNumbersInColumn = checkColumn(sudokuPuzzleMultiExample, rowNumber, columnNumber);
+                    List<int> validNumbersInBlock = checkBlock(sudokuPuzzleMultiExample, rowNumber, columnNumber);
+                    List<int> validNumbers = GetValidNumbers(validNumbersInColumn, validNUmbersInRow, validNumbersInBlock);
+
+                    //Static numbers check 
+                    if (staticNumbers[rowNumber, columnNumber] == 0)
+                    {
+                        candidatesList.Add(validNumbers);
+                        if (validNumbers.Count == 1)
+                        {
+                            //Changing values and making them static 
+                            nakedSinglesCount ++;
+                            staticNumbers[rowNumber, columnNumber] = validNumbers[0];
+                            sudokuPuzzleMultiExample[rowNumber, columnNumber] = validNumbers[0];
+                        }
+                    }
+                    else
+                    {
+                        candidatesList.Add(null);
+                    }
+
+                    listOfCandidatesInRow.AddRange(validNumbers);
+                    //Naked singles 
+                   
+
+
+                }
+
+
+            }
+
+            if(nakedSinglesCount !=0)
+            {
+                bool solved = CheckToSeeIfPuzzleIsSolved();
+
+                if(solved)
+                {
+                    Console.WriteLine("Solved"); 
+                }
+                candidatesList.Clear();
+                //Recursive call to see if there is any more naked singles. 
+                SolveSudokRuleBased();
+            }
+
+
+        }
+
+        private void CandidateHandling()
+        {
+            NakedTuples();
+            HiddenColumnSingles();
+            HiddenBlockSingles();
+        }
+
+
+        private void NakedTuples()
+        {
+            List<List<int>> cadidatesInSingleRow = new List<List<int>>();
+            List<int> previousCandidates = new List<int>();
+            List<int> indexValue = new List<int>();
+            for (int rowNumber = 0; rowNumber <= 80; rowNumber++)
+            {
+                cadidatesInSingleRow.Add(candidatesList[rowNumber]);
+
+                //If the row is at an end. 
+                if (rowNumber % 8 == 0)
+                {
+                    //Seeing of there are any naked tuples within the row. 
+                    for (int firstIndexValue = rowNumber - 8; firstIndexValue <= rowNumber; firstIndexValue++)
+                    {
+                        //Gets all of the index values for the naked tuples, so candidates can be removed. 
+                        for (int secondIndexValue = rowNumber - 8; secondIndexValue <= rowNumber; secondIndexValue++)
+                        {
+                            //This comapres 2 lists to see if thet are equal 
+                            //http://stackoverflow.com/questions/22173762/check-if-two-lists-are-equal
+                            if (Enumerable.SequenceEqual(cadidatesInSingleRow[firstIndexValue].OrderBy(fList => fList),
+                                cadidatesInSingleRow[secondIndexValue].OrderBy(sList => sList)) == true)
+                            {
+                                indexValue.Add(firstIndexValue);
+                                indexValue.Add(secondIndexValue);
+                                
+                            }
+                        }
+
+                        //Getting all of the naked values. 
+                        List<int> nakedCandidates = cadidatesInSingleRow[indexValue[0]];
+                        bool isIndexNumber = false;
+
+                        //Removing naked values from other cells within the grid. 
+                        for (int indexValueOfListInRow = rowNumber - 8; indexValueOfListInRow <= rowNumber; indexValueOfListInRow++)
+                        {
+                            foreach (int nakedValueIndexNumber in indexValue)
+                            {
+                                //If the cell is equal to one of the ones that have the naked tuples in, then do not remove the cnaidates from the cell. 
+                                if (indexValueOfListInRow == nakedValueIndexNumber)
+                                {
+                                    isIndexNumber = true;
+                                    break;
+                                }
+                            }
+                            //If the cell is not part of the naked tuples, then removed the candidates, if any from the cell. 
+                            if (isIndexNumber != true)
+                            {
+                                for (int candidateNumber = 0; candidateNumber <= cadidatesInSingleRow[rowNumber].Count; candidateNumber++)
+                                {
+                                    foreach (int nakedCandidateNumber in nakedCandidates)
+                                    {
+                                        foreach (int valueInRowCandiates in cadidatesInSingleRow[rowNumber])
+                                        {
+                                            if (valueInRowCandiates == nakedCandidateNumber)
+                                            {
+                                                //Removing candidate from cell. 
+                                                candidatesList[rowNumber].RemoveAt(candidateNumber);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                           
+                        }
+                        indexValue.Clear();    
+                    } //Closing bracket when all comparing has been completed. 
+                    cadidatesInSingleRow.Clear();
+                }
+            }
+        }
+
+        private void HiddenColumnSingles()
+        {
+
+        }
+
+        private void HiddenBlockSingles()
+        {
+
+        }
+        public void HiddenSingles()
+        {
+
+        }
+        #endregion 
+
         #region New Recursive backtracking algorithm 
 
         //Suodku multiexample is the global varibale that stores the grid. 
 
-       public void SolveUsingRecursiveBactracking()
+        public void SolveUsingRecursiveBactracking()
         {
             //Get nexg empt cell, for all candidates 
             //Chnage 
@@ -111,9 +306,9 @@ namespace SudokuSetterAndSolver
 
                         foreach (var validNumber in validNumbers)
                         {
-                            ChangeGrid(i,j, validNumber);
+                            ChangeGrid(i, j, validNumber);
                             SolveUsingRecursiveBactracking();
-                            ReverseGrid(i,j, validNumber);
+                            ReverseGrid(i, j, validNumber);
                         }
                     }
                 }
@@ -123,7 +318,7 @@ namespace SudokuSetterAndSolver
 
         public void ChangeGrid(int rowNumber, int columnNumber, int validNumber)
         {
-            sudokuPuzzleMultiExample[rowNumber,columnNumber] = validNumber;
+            sudokuPuzzleMultiExample[rowNumber, columnNumber] = validNumber;
         }
 
         public void ReverseGrid(int rowNUmber, int columnNumber, int validNumber)
@@ -265,11 +460,11 @@ namespace SudokuSetterAndSolver
 
                     }
                 }
-                if (i == 0 || i == 1 || i==3 || i==4 || i==6 || i==7)
+                if (i == 0 || i == 1 || i == 3 || i == 4 || i == 6 || i == 7)
                 {
                     jStartPoint += 3;
                 }
-                else if (i == 2 ||i ==5 )
+                else if (i == 2 || i == 5)
                 {
                     jStartPoint = 0;
                     kStartPoint += 3;
