@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace SudokuSetterAndSolver
 {
+
+    //Things to do, test the naked values more, create a global candidates list, that is updated accordingly. 
     public class SudokuSolver
     {
         //Example puzzles. 
 
-        //Goes into infinite loop on examples 2,6 and 9. 
+        //Goes into infinite loop on examples 9 still doesnt work. the only one. 
         int[,] sudokuPuzzleMultiExample = new int[9, 9];
         int[] sudokuPuzzleExample = new int[] { 0, 0, 0, 2, 6, 0, 7, 0, 1, 6, 8, 0, 0, 7, 0, 0, 9, 0, 1, 9, 0, 0, 0, 4, 5, 0, 0, 8, 2, 0, 1, 0, 0, 0, 4, 0, 0, 0, 4, 6, 0, 2, 9, 0, 0, 0, 5, 0, 0, 0, 3, 0, 2, 8, 0, 0, 9, 3, 0, 0, 0, 7, 4, 0, 4, 0, 0, 5, 0, 0, 3, 6, 7, 0, 3, 0, 1, 8, 0, 0, 0 };
         int[] sudokuPuzzleExample2 = new int[] { 5, 3, 0, 0, 7, 0, 0, 0, 0, 6, 0, 0, 1, 9, 5, 0, 0, 0, 0, 9, 8, 0, 0, 0, 0, 6, 0, 8, 0, 0, 0, 6, 0, 0, 0, 3, 4, 0, 0, 8, 0, 3, 0, 0, 1, 7, 0, 0, 0, 2, 0, 0, 0, 6, 0, 6, 0, 0, 0, 0, 2, 8, 0, 0, 0, 0, 4, 1, 9, 0, 0, 5, 0, 0, 0, 0, 8, 0, 0, 7, 9 };
@@ -21,7 +23,7 @@ namespace SudokuSetterAndSolver
         int[] sudokuPuzzleExample7 = new int[] { 0, 0, 0, 0, 0, 0, 7, 0, 4, 3, 2, 0, 6, 1, 4, 9, 0, 5, 6, 0, 0, 8, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 7, 0, 2, 0, 0, 9, 0, 4, 8, 5, 0, 7, 0, 0, 8, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 3, 0, 0, 8, 8, 0, 2, 9, 5, 1, 0, 3, 7, 0, 0, 9, 0, 0, 0, 0, 0, 0 };
         int[] sudokuPuzzleExample8 = new int[] { 9, 0, 0, 0, 6, 0, 0, 0, 3, 1, 0, 5, 0, 9, 3, 2, 0, 6, 0, 4, 0, 0, 5, 0, 0, 0, 9, 8, 0, 0, 0, 0, 0, 4, 7, 1, 0, 0, 4, 8, 7, 0, 0, 0, 0, 7, 0, 2, 6, 0, 1, 0, 0, 8, 2, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 3, 2, 0, 9, 4, 0, 8, 7, 0, 1, 6, 3, 5, 0 };
         int[] sudokuPuzzleExample9 = new int[] { 0, 0, 5, 3, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 2, 0, 0, 7, 0, 0, 1, 0, 5, 0, 0, 4, 0, 0, 0, 0, 5, 3, 0, 0, 0, 1, 0, 0, 7, 0, 0, 0, 6, 0, 0, 3, 2, 0, 0, 0, 8, 0, 0, 6, 0, 5, 0, 0, 0, 0, 9, 0, 0, 4, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 9, 7, 0, 0 };
-
+        int[] sudokuPUzzleWithNakedTuple = new int[] { 4, 0, 0, 2, 7, 0, 6, 0, 0, 7, 9, 8, 1, 5, 6, 2, 3, 4, 0, 2, 0, 8, 4, 0, 0, 0, 7, 2, 3, 7, 4, 6, 8, 9, 5, 1, 8, 4, 9, 5, 3, 1, 7, 2, 6, 5, 6, 1, 7, 9, 2, 8, 4, 3, 0, 8, 2, 0, 1, 5, 4, 7, 9, 0, 7, 0, 0, 2, 4, 3, 0, 0, 0, 0, 4, 0, 8, 7, 0, 0, 2 };
 
         //array that stores the static numbers that are within the puzzle. 
         int[,] staticNumbers = new int[9, 9];
@@ -33,25 +35,26 @@ namespace SudokuSetterAndSolver
             {
                 validNumbersForRegion.Add(validValue);
             }
-
             //Generate the puzzle and then solve it. 
             GeneratePuzzle();
-            SolveSudokRuleBased();
-            SolveUsingRecursiveBactracking();
+            SolveSudokRuleBased(false);
+            //SolveUsingRecursiveBactracking();
             solve(sudokuPuzzleMultiExample, 0);
-            SolveConstraintsProblem(sudokuPuzzleMultiExample, validNumbersForRegion);
+            //SolveConstraintsProblem(sudokuPuzzleMultiExample, validNumbersForRegion);
         }
 
+        #region General Methods 
+        //Method that generates the example puzzle. 
         private void GeneratePuzzle()
         {
             int singleArrayValue = 0;
-            
+
             //Populating multi dimensionsal array. 
             for (int i = 0; i <= 8; i++)
             {
                 for (int j = 0; j <= 8; j++)
                 {
-                    sudokuPuzzleMultiExample[i, j] = sudokuPuzzleExample3[singleArrayValue];
+                    sudokuPuzzleMultiExample[i, j] = sudokuPUzzleWithNakedTuple[singleArrayValue];
                     if (sudokuPuzzleMultiExample[i, j] != 0)
                     {
                         staticNumbers[i, j] = sudokuPuzzleMultiExample[i, j];
@@ -59,9 +62,9 @@ namespace SudokuSetterAndSolver
                     singleArrayValue++;
                 }
             }
-
         }
 
+        //Method that checks whether the puzzle has been solved or not. 
         private bool CheckToSeeIfPuzzleIsSolved()
         {
             // Check to see if the puzzle is complete.
@@ -73,6 +76,7 @@ namespace SudokuSetterAndSolver
                     if (sudokuPuzzleMultiExample[i, j] == 0)
                     {
                         emptyCellCount++;
+                        break;
                     }
                 }
             }
@@ -80,35 +84,37 @@ namespace SudokuSetterAndSolver
             //If the puzzle is complete then a solution is found. 
             if (emptyCellCount == 0)
             {
-              
-                        return true;
-                
+                return true;
             }
             else
             {
-                return false; 
+                return false;
             }
         }
+        #endregion 
 
         #region Rule Based Algorithm 
 
         //Use human rules to check the puzzle out, inserting any possible values, then use bactrcking to solve the rest of the puzzle. 
 
+        //This is the global varibale to store the candidates list. This needs to be carefully 
+        //Mayve be there are more candidates in the new puzzle, remove them using the old method. This is just about to be implemtted.  THen should be tested on the example that i have created/ 
         List<List<int>> candidatesList = new List<List<int>>();
 
-        public void SolveSudokRuleBased()
-        {
+        int methodRunNumber = 0;
 
+        public void SolveSudokRuleBased(bool getValidNumbers)
+        {
             //Trying to implement hidde singles is not easy. 
             List<int> listOfCandidatesInRow = new List<int>();
             List<int> previousValidNumbersRow = new List<int>();
-            int nakedSinglesCount = 0; 
+            List<List<int>> tempCandiateList = new List<List<int>>();
 
+            tempCandiateList.Clear();
+            int nakedSinglesCount = 0;
 
             for (int rowNumber = 0; rowNumber <= 8; rowNumber++)
             {
-                listOfCandidatesInRow.Clear();
-
                 for (int columnNumber = 0; columnNumber <= 8; columnNumber++)
                 {
                     //All of the check to see what numbers are valid for that particular square. 
@@ -120,44 +126,111 @@ namespace SudokuSetterAndSolver
                     //Static numbers check 
                     if (staticNumbers[rowNumber, columnNumber] == 0)
                     {
-                        candidatesList.Add(validNumbers);
-                        if (validNumbers.Count == 1)
-                        {
-                            //Changing values and making them static 
-                            nakedSinglesCount ++;
-                            staticNumbers[rowNumber, columnNumber] = validNumbers[0];
-                            sudokuPuzzleMultiExample[rowNumber, columnNumber] = validNumbers[0];
-                        }
+                        tempCandiateList.Add(validNumbers);
+
                     }
                     else
                     {
-                        candidatesList.Add(null);
+                        tempCandiateList.Add(null);
                     }
-
-                    listOfCandidatesInRow.AddRange(validNumbers);
-                    //Naked singles 
-                   
-
-
                 }
-
-
+            }
+            //Check to see if its the first run of the method, and setting the orginal 
+            if (methodRunNumber == 0)
+            {
+                candidatesList = tempCandiateList;
+            }
+            else
+            {
+                CompareCandidateLists(tempCandiateList);
             }
 
-            if(nakedSinglesCount !=0)
+
+            int rowNumberCheck = 0;
+            int columnCheckNumber = 0;
+            for (int indexOfCandidateValue = 0; indexOfCandidateValue <= candidatesList.Count - 1; indexOfCandidateValue++)
+            {
+                if (candidatesList[indexOfCandidateValue] != null)
+                {
+                    if (candidatesList[indexOfCandidateValue].Count == 1)
+                    {
+                        nakedSinglesCount++;
+                        foreach (int nakedValue in candidatesList[indexOfCandidateValue])
+                        {
+                            staticNumbers[rowNumberCheck, columnCheckNumber] = nakedValue;
+                            sudokuPuzzleMultiExample[rowNumberCheck, columnCheckNumber] = nakedValue;
+                            candidatesList[indexOfCandidateValue] = null;
+                        }
+                    }
+                }
+
+                if (indexOfCandidateValue % 9 == 8 || indexOfCandidateValue == 8)
+                {
+                    columnCheckNumber = 0;
+                    rowNumberCheck++;
+                }
+                else
+                {
+                    columnCheckNumber++;
+                }
+            }
+
+            rowNumberCheck = 0;
+            columnCheckNumber = 0;
+
+            methodRunNumber++;
+
+            if (nakedSinglesCount != 0)
             {
                 bool solved = CheckToSeeIfPuzzleIsSolved();
 
-                if(solved)
+                if (solved)
                 {
-                    Console.WriteLine("Solved"); 
+                    Console.WriteLine("Solved");
                 }
-                candidatesList.Clear();
+
                 //Recursive call to see if there is any more naked singles. 
-                SolveSudokRuleBased();
+                SolveSudokRuleBased(false);
             }
 
+            CandidateHandling();
+            SolveSudokRuleBased(true);
+        }
 
+        private void GetValidNumber()
+        {
+
+        }
+
+        //Method that creates the correct candidate list. 
+        private void CompareCandidateLists(List<List<int>> tempCandidateList)
+        {
+            for (int indexValue = 0; indexValue <= 80; indexValue++)
+            {
+                List<int> finalCandidateList = new List<int>();
+                if (candidatesList[indexValue] == null || tempCandidateList[indexValue] == null)
+                {
+                    candidatesList[indexValue] = null;
+                }
+                //http://stackoverflow.com/questions/22173762/check-if-two-lists-are-equal
+                else if (Enumerable.SequenceEqual(candidatesList[indexValue].OrderBy(fList => fList),
+                    tempCandidateList[indexValue].OrderBy(sList => sList)) == true)
+                {
+                    //If the lists are equal, leave them as they are.
+                }
+                else //If they are noty equal create the new list of candidates, by combining 
+                {
+                    foreach (int candidateValue in candidatesList[indexValue])
+                    {
+                        if (tempCandidateList[indexValue].Contains(candidateValue))
+                        {
+                            finalCandidateList.Add(candidateValue);
+                        }
+                    }
+                    candidatesList[indexValue] = finalCandidateList;
+
+                }
+            }
         }
 
         private void CandidateHandling()
@@ -170,15 +243,22 @@ namespace SudokuSetterAndSolver
 
         private void NakedTuples()
         {
+            NakedTuplesRow("Row");
+            //NakedTuplesColumn();
+            NakedTuplesBlock();
+
+        }
+
+        private void NakedTuplesRow(string rowOrColumn)
+        {
             List<List<int>> cadidatesInSingleRow = new List<List<int>>();
-            List<int> previousCandidates = new List<int>();
             List<int> indexValue = new List<int>();
             for (int rowNumber = 0; rowNumber <= 80; rowNumber++)
             {
                 cadidatesInSingleRow.Add(candidatesList[rowNumber]);
 
                 //If the row is at an end. 
-                if (rowNumber % 8 == 0)
+                if (rowNumber % 9 == 8 || rowNumber == 8)
                 {
                     //Seeing of there are any naked tuples within the row. 
                     for (int firstIndexValue = rowNumber - 8; firstIndexValue <= rowNumber; firstIndexValue++)
@@ -186,58 +266,219 @@ namespace SudokuSetterAndSolver
                         //Gets all of the index values for the naked tuples, so candidates can be removed. 
                         for (int secondIndexValue = rowNumber - 8; secondIndexValue <= rowNumber; secondIndexValue++)
                         {
-                            //This comapres 2 lists to see if thet are equal 
-                            //http://stackoverflow.com/questions/22173762/check-if-two-lists-are-equal
-                            if (Enumerable.SequenceEqual(cadidatesInSingleRow[firstIndexValue].OrderBy(fList => fList),
-                                cadidatesInSingleRow[secondIndexValue].OrderBy(sList => sList)) == true)
+                            if (candidatesList[firstIndexValue] != null && candidatesList[secondIndexValue] != null)
                             {
-                                indexValue.Add(firstIndexValue);
-                                indexValue.Add(secondIndexValue);
-                                
+                                //This comapres 2 lists to see if thet are equal 
+                                //http://stackoverflow.com/questions/22173762/check-if-two-lists-are-equal
+                                if (Enumerable.SequenceEqual(candidatesList[firstIndexValue].OrderBy(fList => fList),
+                                    candidatesList[secondIndexValue].OrderBy(sList => sList)) == true && firstIndexValue != secondIndexValue)
+                                {
+                                    indexValue.Add(firstIndexValue);
+                                    indexValue.Add(secondIndexValue);
+                                }
                             }
                         }
 
+                        if (indexValue.Count != 0 && candidatesList[indexValue[0]].Count <= indexValue.Count)
+                        {
+                            //Getting all of the naked values. 
+                            List<int> nakedCandidates = candidatesList[firstIndexValue];
+                            bool isIndexNumber = false;
+
+                            //Removing naked values from other cells within the grid. 
+                            for (int indexValueOfListInRow = rowNumber - 8; indexValueOfListInRow <= rowNumber; indexValueOfListInRow++)
+                            {
+                                isIndexNumber = false;
+
+                                foreach (int nakedValueIndexNumber in indexValue)
+                                {
+                                    //If the cell is equal to one of the ones that have the naked tuples in, then do not remove the cnaidates from the cell. 
+                                    if (indexValueOfListInRow == nakedValueIndexNumber)
+                                    {
+                                        isIndexNumber = true;
+                                        break;
+                                    }
+                                }
+                                bool indexNumberBool = false;
+
+
+                                //If the cell is not part of the naked tuples, then removed the candidates, if any from the cell. 
+                                if (isIndexNumber != true && candidatesList[indexValueOfListInRow] != null)
+                                {
+                                    List<int> indexesNotNull = new List<int>();
+
+                                    //Removing null values from list 
+                                    for (int candidateIndexValue = 0; candidateIndexValue <= cadidatesInSingleRow.Count - 1; candidateIndexValue++)
+                                    {
+                                        if (cadidatesInSingleRow[candidateIndexValue] != null)
+                                        {
+                                            indexesNotNull.Add(candidateIndexValue);
+                                        }
+                                    }
+
+                                    foreach (int notNullIndexValue in indexesNotNull)
+                                    {
+                                        //Check to see if the currenetly handled cell contains the naked tuples, then it should not be changed. 
+                                        foreach (var indexValueCheck in indexValue)
+                                        {
+                                            if (rowNumber - indexValueCheck - 1 == notNullIndexValue)
+                                            {
+                                                indexNumberBool = true;
+                                            }
+                                        }
+                                        if (indexNumberBool == false)
+                                        {
+                                            foreach (int nakedCandidateNumber in nakedCandidates)
+                                            {
+                                                //This need to be a for loop. 
+                                                for (int indexNumberOfNotNakedCell = 0; indexNumberOfNotNakedCell <= cadidatesInSingleRow[notNullIndexValue].Count; indexNumberOfNotNakedCell++)
+                                                {
+                                                    foreach (var numberInList in cadidatesInSingleRow[notNullIndexValue])
+                                                    {
+                                                        if (numberInList == nakedCandidateNumber)
+                                                        {
+                                                            //Removing candidate from cell. 
+                                                            cadidatesInSingleRow[notNullIndexValue].RemoveAt(indexNumberOfNotNakedCell);
+                                                            candidatesList[rowNumber - 8 - notNullIndexValue] = cadidatesInSingleRow[notNullIndexValue];
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        indexNumberBool = false;
+                                    }
+                                }
+                            }
+
+                        }
+                        indexValue.Clear();
+                    } //Closing bracket when all comparing has been completed. 
+                    cadidatesInSingleRow.Clear();
+                }
+            }
+        }
+
+        //This method seems to be complete but need testing before use within the program. 
+        private void NakedTuplesColumn()
+        {
+            List<List<int>> cadidatesInSingleColumn = new List<List<int>>();
+            List<int> indexValue = new List<int>();
+
+            //Search through all of the columns. 
+            for (int columnNumber = 0; columnNumber <= 8; columnNumber++)
+            {
+                for (int candiateIndexNumber = 0; candiateIndexNumber <= 80; candiateIndexNumber++)
+                {
+                    if (columnNumber == candiateIndexNumber || candiateIndexNumber % 9 == columnNumber)
+                    {
+                        cadidatesInSingleColumn.Add(candidatesList[candiateIndexNumber]);
+                    }
+                }
+                //Seeing of there are any naked tuples within the row. 
+                for (int firstIndexValue = 0; firstIndexValue <= cadidatesInSingleColumn.Count - 1; firstIndexValue++)
+                {
+                    //Gets all of the index values for the naked tuples, so candidates can be removed. 
+                    for (int secondIndexValue = 0; secondIndexValue <= cadidatesInSingleColumn.Count - 1; secondIndexValue++)
+                    {
+                        if (cadidatesInSingleColumn[firstIndexValue] != null && cadidatesInSingleColumn[secondIndexValue] != null)
+                        {
+                            //This comapres 2 lists to see if thet are equal 
+                            //http://stackoverflow.com/questions/22173762/check-if-two-lists-are-equal
+                            if (Enumerable.SequenceEqual(cadidatesInSingleColumn[firstIndexValue].OrderBy(fList => fList),
+                                cadidatesInSingleColumn[secondIndexValue].OrderBy(sList => sList)) == true && firstIndexValue != secondIndexValue)
+                            {
+                                indexValue.Add(firstIndexValue);
+                                indexValue.Add(secondIndexValue);
+                            }
+                        }
+                    }
+
+                    //Not sure about this logic will have to test. 
+                    if (indexValue.Count != 0 && candidatesList[indexValue[0]].Count <= indexValue.Count)
+                    {
                         //Getting all of the naked values. 
-                        List<int> nakedCandidates = cadidatesInSingleRow[indexValue[0]];
+                        List<int> nakedCandidates = candidatesList[firstIndexValue];
                         bool isIndexNumber = false;
 
                         //Removing naked values from other cells within the grid. 
-                        for (int indexValueOfListInRow = rowNumber - 8; indexValueOfListInRow <= rowNumber; indexValueOfListInRow++)
+                        for (int indexValueOfListInColumn = 0; indexValueOfListInColumn <= cadidatesInSingleColumn.Count-1; indexValueOfListInColumn++)
                         {
+                            isIndexNumber = false;
+
                             foreach (int nakedValueIndexNumber in indexValue)
                             {
                                 //If the cell is equal to one of the ones that have the naked tuples in, then do not remove the cnaidates from the cell. 
-                                if (indexValueOfListInRow == nakedValueIndexNumber)
+                                if (indexValueOfListInColumn == nakedValueIndexNumber)
                                 {
                                     isIndexNumber = true;
                                     break;
                                 }
                             }
+                            bool indexNumberBool = false;
+
+
                             //If the cell is not part of the naked tuples, then removed the candidates, if any from the cell. 
-                            if (isIndexNumber != true)
+                            if (isIndexNumber != true && cadidatesInSingleColumn[indexValueOfListInColumn] != null)
                             {
-                                for (int candidateNumber = 0; candidateNumber <= cadidatesInSingleRow[rowNumber].Count; candidateNumber++)
+                                List<int> indexesNotNull = new List<int>();
+
+                                //Removing null values from list 
+                                for (int candidateIndexValue = 0; candidateIndexValue <= cadidatesInSingleColumn.Count - 1; candidateIndexValue++)
                                 {
-                                    foreach (int nakedCandidateNumber in nakedCandidates)
+                                    if (cadidatesInSingleColumn[candidateIndexValue] != null)
                                     {
-                                        foreach (int valueInRowCandiates in cadidatesInSingleRow[rowNumber])
+                                        indexesNotNull.Add(candidateIndexValue);
+                                    }
+                                }
+
+                                foreach (int notNullIndexValue in indexesNotNull)
+                                {
+                                    //Check to see if the currenetly handled cell contains the naked tuples, then it should not be changed. 
+                                    foreach (var indexValueCheck in indexValue)
+                                    {
+                                        if (indexValueOfListInColumn == notNullIndexValue)
                                         {
-                                            if (valueInRowCandiates == nakedCandidateNumber)
+                                            indexNumberBool = true;
+                                        }
+                                    }
+                                    if (indexNumberBool == false)
+                                    {
+                                        foreach (int nakedCandidateNumber in nakedCandidates)
+                                        {
+                                            //This need to be a for loop. 
+                                            for (int indexNumberOfNotNakedCell = 0; indexNumberOfNotNakedCell <= cadidatesInSingleColumn[notNullIndexValue].Count; indexNumberOfNotNakedCell++)
                                             {
-                                                //Removing candidate from cell. 
-                                                candidatesList[rowNumber].RemoveAt(candidateNumber);
+                                                foreach (var numberInList in cadidatesInSingleColumn[notNullIndexValue])
+                                                {
+                                                    if (numberInList == nakedCandidateNumber)
+                                                    {
+                                                        //Removing candidate from cell. 
+                                                        cadidatesInSingleColumn[notNullIndexValue].RemoveAt(indexNumberOfNotNakedCell);
+                                                        candidatesList[indexNumberOfNotNakedCell*9 + columnNumber] = cadidatesInSingleColumn[notNullIndexValue];
+                                                        break;
+                                                    }
+                                                }
                                             }
                                         }
                                     }
+                                    indexNumberBool = false;
                                 }
                             }
-                           
                         }
-                        indexValue.Clear();    
-                    } //Closing bracket when all comparing has been completed. 
-                    cadidatesInSingleRow.Clear();
-                }
+
+                    }
+                    indexValue.Clear();
+                } //Closing bracket when all comparing has been completed. 
+                cadidatesInSingleColumn.Clear();
             }
+
+
+        }
+
+        private void NakedTuplesBlock()
+        {
+
         }
 
         private void HiddenColumnSingles()
@@ -253,7 +494,7 @@ namespace SudokuSetterAndSolver
         {
 
         }
-        #endregion 
+        #endregion
 
         #region New Recursive backtracking algorithm 
 
@@ -326,7 +567,7 @@ namespace SudokuSetterAndSolver
             sudokuPuzzleMultiExample[rowNUmber, columnNumber] = 0;
         }
 
-        #endregion 
+        #endregion
 
         #region Constraint problem 
 
@@ -635,7 +876,9 @@ namespace SudokuSetterAndSolver
             }
         }
 
+        #endregion 
 
+        #region Methods to check valid values 
         private List<int> checkBlock(int[,] sudokuPuzzleExample, int squareRowNumber, int squareColumnNumber)
         {
             List<int> validNumbersInBlock = new List<int>();
@@ -786,9 +1029,7 @@ namespace SudokuSetterAndSolver
 
             for (int z = 0; z <= 8; z++)
             {
-
                 numbersInColumn.Add(sudokuPuzzleExample[z, squareColumnNumber]);
-
             }
 
             foreach (var value in numbersInColumn)
@@ -866,7 +1107,6 @@ namespace SudokuSetterAndSolver
             return validNumbers;
         }
 
-        #endregion 
-
+        #endregion
     }
 }
