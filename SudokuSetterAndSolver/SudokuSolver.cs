@@ -27,6 +27,9 @@ namespace SudokuSetterAndSolver
         int[] sudokuPuzzleExample9 = new int[] { 0, 0, 5, 3, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 2, 0, 0, 7, 0, 0, 1, 0, 5, 0, 0, 4, 0, 0, 0, 0, 5, 3, 0, 0, 0, 1, 0, 0, 7, 0, 0, 0, 6, 0, 0, 3, 2, 0, 0, 0, 8, 0, 0, 6, 0, 5, 0, 0, 0, 0, 9, 0, 0, 4, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 9, 7, 0, 0 };
         int[] sudokuPUzzleWithNakedTuple = new int[] { 4, 0, 0, 2, 7, 0, 6, 0, 0, 7, 9, 8, 1, 5, 6, 2, 3, 4, 0, 2, 0, 8, 4, 0, 0, 0, 7, 2, 3, 7, 4, 6, 8, 9, 5, 1, 8, 4, 9, 5, 3, 1, 7, 2, 6, 5, 6, 1, 7, 9, 2, 8, 4, 3, 0, 8, 2, 0, 1, 5, 4, 7, 9, 0, 7, 0, 0, 2, 4, 3, 0, 0, 0, 0, 4, 0, 8, 7, 0, 0, 2 };
         int[] sudokuHiddenSinglesExample = new int[] { 7, 0, 0, 2, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 6, 3, 0, 0, 0, 4, 0, 0, 9, 0, 0, 0, 6, 9, 1, 0, 0, 0, 0, 2, 3, 0, 0, 2, 1, 8, 0, 0, 0, 6, 0, 0, 0, 0, 6, 0, 5, 0, 0, 4, 0, 3, 0, 7, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1, 0, 5, 0, 8, 0, 0, 0, 0, 0 };
+        int[] sudokuBlockHiddenSingleExample = new int[] { 0, 0, 0, 0, 0, 0, 5, 0, 0, 1, 6, 0, 9, 0, 0, 0, 0, 0, 0, 0, 9, 0, 6, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 4, 0, 0, 0, 2, 0, 1, 0, 0, 0, 0, 0, 3, 0, 0, 0, 5, 0, 0, 0, 2, 0, 8, 9, 0, 0, 0, 0, 1, 0, 2, 5, 0, 0, 3, 0, 7, 0, 0, 1, 0, 0, 0, 0, 9 };
+
+
         #endregion
 
         //array that stores the static numbers that are within the puzzle. 
@@ -59,7 +62,7 @@ namespace SudokuSetterAndSolver
             {
                 for (int j = 0; j <= 8; j++)
                 {
-                    sudokuPuzzleMultiExample[i, j] = sudokuHiddenSinglesExample[singleArrayValue];
+                    sudokuPuzzleMultiExample[i, j] = sudokuBlockHiddenSingleExample[singleArrayValue];
                     if (sudokuPuzzleMultiExample[i, j] != 0)
                     {
                         staticNumbers[i, j] = sudokuPuzzleMultiExample[i, j];
@@ -239,6 +242,10 @@ namespace SudokuSetterAndSolver
             HiddenColumnSingles();
             HiddenBlockSingles();
         }
+
+        #endregion 
+
+        #region Nakeds
 
         private void NakedTuples()
         {
@@ -479,14 +486,15 @@ namespace SudokuSetterAndSolver
 
         }
 
+
         #endregion
 
         #region Hiddens 
         private void HiddenSingles()
         {
-            HiddenRowSingles();
-            HiddenColumnSingles();
-            //HiddenBlockSingles();
+            // HiddenRowSingles();
+            //HiddenColumnSingles();
+            HiddenBlockSingles();
         }
 
         private void HiddenColumnSingles()
@@ -572,9 +580,9 @@ namespace SudokuSetterAndSolver
                                 if (indivdualValue == valueInCell)
                                 {
                                     //Updating the grid and corresponding candidates. 
-                                    staticNumbers[notNullIndexList[candidateValues], columnNumber ] = indivdualValue;
+                                    staticNumbers[notNullIndexList[candidateValues], columnNumber] = indivdualValue;
                                     sudokuPuzzleMultiExample[notNullIndexList[candidateValues], columnNumber] = indivdualValue;
-                                    candidatesList[9 *notNullIndexList[candidateValues] +columnNumber] = null;
+                                    candidatesList[9 * notNullIndexList[candidateValues] + columnNumber] = null;
                                     break;
                                 }
                             }
@@ -591,7 +599,120 @@ namespace SudokuSetterAndSolver
 
         private void HiddenBlockSingles()
         {
+            List<List<int>> listOfCanidadtesForEachCellWithinTheBlock = new List<List<int>>();
+            List<int> notNullIndexList = new List<int>();
+            List<int> individualNumbers = new List<int>();
+            List<int> valuesUsed = new List<int>();
 
+            //Gets all the values from each block. 
+            for (int rowNumber = 2; rowNumber <= 8; rowNumber += 3)
+            {
+                for (int coulmnNumber = 2; coulmnNumber <= 8; coulmnNumber += 3)
+                {
+                    listOfCanidadtesForEachCellWithinTheBlock = getSudokuValuesInBox(rowNumber, coulmnNumber);
+
+                    //Removing all null values from the candidate lists in the column. 
+                    for (int indexValue = 0; indexValue <= listOfCanidadtesForEachCellWithinTheBlock.Count - 1; indexValue++)
+                    {
+                        if (listOfCanidadtesForEachCellWithinTheBlock[indexValue] != null)
+                        {
+                            notNullIndexList.Add(indexValue);
+                        }
+                    }
+
+                    //For each non null cell within the row. 
+                    foreach (var firstIndexNumber in notNullIndexList)
+                    {
+                        //Get all the candidates from tha cell. 
+                        foreach (var listValue in listOfCanidadtesForEachCellWithinTheBlock[firstIndexNumber])
+                        {
+                            //if the indivdual numbers list already contains 
+                            if (individualNumbers.Contains(listValue))
+                            {
+                                //Remove that value from the indivdual numbers list. 
+                                for (int valueToRemove = 0; valueToRemove <= individualNumbers.Count - 1; valueToRemove++)
+                                {
+                                    if (individualNumbers[valueToRemove] == listValue)
+                                    {
+                                        individualNumbers.RemoveAt(valueToRemove);
+                                        valuesUsed.Add(listValue); //Making sure it is not added back to the list. 
+                                    }
+                                }
+                            }
+                            else //If the list does not contain the number. 
+                            {
+                                bool valuesUsedBool = false; //Determines whether the number that is not in the list has been used before. 
+                                foreach (var alreadyUsed in valuesUsed)
+                                {
+                                    if (listValue == alreadyUsed)
+                                    {
+                                        valuesUsedBool = true;
+                                    }
+                                }
+                                //If the candidate has not be used before add it to the list. 
+                                if (valuesUsedBool == false)
+                                {
+                                    individualNumbers.Add(listValue);
+                                }
+                                else
+                                {
+                                    valuesUsedBool = false;
+                                }
+                            }
+                        }
+                    }
+
+                    if (individualNumbers.Count >= 1)
+                    {
+                        //search all of the candidates in each cell within the row, if a candidate value matched then the value must be that within the cell, as it is a single hidden value. 
+                        for (int candidateValues = 0; candidateValues <= notNullIndexList.Count - 1; candidateValues++)
+                        {
+                            //Going through any of the hidden values within the row. 
+                            foreach (var indivdualValue in individualNumbers)
+                            {
+                                foreach (var valueInCell in listOfCanidadtesForEachCellWithinTheBlock[notNullIndexList[candidateValues]])
+                                {
+                                    //If the hidden value i contained within that cell, then that must be its value. 
+                                    if (indivdualValue == valueInCell)
+                                    {
+                                        //Method to get the row and column number, using the row number, the index number and the column number 
+                                        int coordinateValue = 0; 
+                                        int startRowNumber = rowNumber - 2;
+                                        int startCoulmnNumber = coulmnNumber - 2;
+                                        int actualRowNumber = 0;
+                                        int actualColumnNumber = 0; 
+
+                                        for (; startRowNumber <= rowNumber; startRowNumber++)
+                                        {
+                                            for ( ; startCoulmnNumber <= coulmnNumber; startCoulmnNumber++)
+                                            {
+                                                if (notNullIndexList[candidateValues] == coordinateValue)
+                                                {
+                                                    actualRowNumber = startRowNumber;
+                                                    actualColumnNumber = startCoulmnNumber;
+                                                    break;
+                                                }
+                                                coordinateValue++;
+                                            }
+                                            coordinateValue++;
+                                        }
+                                        //Updating the grid and corresponding candidates. 
+                                        staticNumbers[actualRowNumber,actualColumnNumber] = indivdualValue;
+                                        sudokuPuzzleMultiExample[actualRowNumber, actualColumnNumber] = indivdualValue;
+                                        candidatesList[9 * actualRowNumber + actualColumnNumber] = null;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    //Clearning the ready for the new list to be inserted and that to be handled. 
+                    //If there is hidden singles, insert them into the grid. 
+                    listOfCanidadtesForEachCellWithinTheBlock.Clear(); //Clearning the ready for the new list to be inserted and that to be handled. 
+                    notNullIndexList.Clear();
+                    valuesUsed.Clear();
+                }
+            }
         }
 
         private void HiddenRowSingles()
@@ -660,13 +781,13 @@ namespace SudokuSetterAndSolver
                             }
                         }
                     }
-                   
-                   
+
+
                     //If there is hidden singles, insert them into the grid. 
                     if (individualNumbers.Count >= 1)
                     {
                         //search all of the candidates in each cell within the row, if a candidate value matched then the value must be that within the cell, as it is a single hidden value. 
-                        for (int candidateValues = 0; candidateValues <= notNullIndexList.Count-1; candidateValues++)
+                        for (int candidateValues = 0; candidateValues <= notNullIndexList.Count - 1; candidateValues++)
                         {
 
                             //Going through any of the hidden values within the row. 
@@ -694,7 +815,7 @@ namespace SudokuSetterAndSolver
                 }
             }
         }
-  
+
         #endregion
 
         #region New Recursive backtracking algorithm 
@@ -1194,6 +1315,31 @@ namespace SudokuSetterAndSolver
                 //        remove value from next_square (i.e.backtrack to a previous state)
                 //return FAILURE
             }
+        }
+
+        #endregion
+
+        #region Methods for getting values out of blocks, rows and columns, by passing values. 
+
+        private List<List<int>> getSudokuValuesInBox(int rowNumber, int columnNumber)
+        {
+            List<List<int>> numbersPositionsInBlock = new List<List<int>>();
+
+            int candidateValueNumber = 9 * rowNumber + columnNumber;
+            for (int rowRemove = 0; rowRemove <= 2; rowRemove++)
+            {
+                for (int columnRemove = 0; columnRemove <= 2; columnRemove++)
+                {
+                    numbersPositionsInBlock.Add(candidatesList[candidateValueNumber - (columnRemove + rowRemove * 9)]);
+                }
+
+            }
+           
+            //Reversing the list so it is in the correct order. 
+            numbersPositionsInBlock.Reverse();
+
+            return numbersPositionsInBlock;
+
         }
 
         #endregion
