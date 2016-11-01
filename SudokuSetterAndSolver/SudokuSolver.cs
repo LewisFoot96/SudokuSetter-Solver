@@ -11,6 +11,7 @@ namespace SudokuSetterAndSolver
     //Refactoring needs to be done between the columns and rows, with the hidden singles and also the naked rows and columns.
     public class SudokuSolver
     {
+        #region Example Puzzles
         //Example puzzles. 
 
         //Goes into infinite loop on examples 9 still doesnt work. the only one. 
@@ -25,6 +26,8 @@ namespace SudokuSetterAndSolver
         int[] sudokuPuzzleExample8 = new int[] { 9, 0, 0, 0, 6, 0, 0, 0, 3, 1, 0, 5, 0, 9, 3, 2, 0, 6, 0, 4, 0, 0, 5, 0, 0, 0, 9, 8, 0, 0, 0, 0, 0, 4, 7, 1, 0, 0, 4, 8, 7, 0, 0, 0, 0, 7, 0, 2, 6, 0, 1, 0, 0, 8, 2, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 3, 2, 0, 9, 4, 0, 8, 7, 0, 1, 6, 3, 5, 0 };
         int[] sudokuPuzzleExample9 = new int[] { 0, 0, 5, 3, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 2, 0, 0, 7, 0, 0, 1, 0, 5, 0, 0, 4, 0, 0, 0, 0, 5, 3, 0, 0, 0, 1, 0, 0, 7, 0, 0, 0, 6, 0, 0, 3, 2, 0, 0, 0, 8, 0, 0, 6, 0, 5, 0, 0, 0, 0, 9, 0, 0, 4, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 9, 7, 0, 0 };
         int[] sudokuPUzzleWithNakedTuple = new int[] { 4, 0, 0, 2, 7, 0, 6, 0, 0, 7, 9, 8, 1, 5, 6, 2, 3, 4, 0, 2, 0, 8, 4, 0, 0, 0, 7, 2, 3, 7, 4, 6, 8, 9, 5, 1, 8, 4, 9, 5, 3, 1, 7, 2, 6, 5, 6, 1, 7, 9, 2, 8, 4, 3, 0, 8, 2, 0, 1, 5, 4, 7, 9, 0, 7, 0, 0, 2, 4, 3, 0, 0, 0, 0, 4, 0, 8, 7, 0, 0, 2 };
+        int[] sudokuHiddenSinglesExample = new int[] { 7, 0, 0, 2, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 6, 3, 0, 0, 0, 4, 0, 0, 9, 0, 0, 0, 6, 9, 1, 0, 0, 0, 0, 2, 3, 0, 0, 2, 1, 8, 0, 0, 0, 6, 0, 0, 0, 0, 6, 0, 5, 0, 0, 4, 0, 3, 0, 7, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1, 0, 5, 0, 8, 0, 0, 0, 0, 0 };
+        #endregion
 
         //array that stores the static numbers that are within the puzzle. 
         int[,] staticNumbers = new int[9, 9];
@@ -40,7 +43,8 @@ namespace SudokuSetterAndSolver
             GeneratePuzzle();
             SolveSudokRuleBased(false);
             //SolveUsingRecursiveBactracking();
-            solve(sudokuPuzzleMultiExample, 0);
+            //BacktrackingSolve(0);
+            //solve(sudokuPuzzleMultiExample, 0);
             //SolveConstraintsProblem(sudokuPuzzleMultiExample, validNumbersForRegion);
         }
 
@@ -55,7 +59,7 @@ namespace SudokuSetterAndSolver
             {
                 for (int j = 0; j <= 8; j++)
                 {
-                    sudokuPuzzleMultiExample[i, j] = sudokuPUzzleWithNakedTuple[singleArrayValue];
+                    sudokuPuzzleMultiExample[i, j] = sudokuHiddenSinglesExample[singleArrayValue];
                     if (sudokuPuzzleMultiExample[i, j] != 0)
                     {
                         staticNumbers[i, j] = sudokuPuzzleMultiExample[i, j];
@@ -194,7 +198,7 @@ namespace SudokuSetterAndSolver
                 SolveSudokRuleBased(false);
             }
             HiddenSingles();
-            CandidateHandling();
+            //CandidateHandling();
             SolveSudokRuleBased(true);
         }
 
@@ -562,7 +566,7 @@ namespace SudokuSetterAndSolver
                                     //Updating the grid and corresponding candidates wihtin the column. 
                                     staticNumbers[candidateValues, columnNumber] = indivdualValue;
                                     sudokuPuzzleMultiExample[candidateValues, columnNumber] = indivdualValue;
-                                    candidatesList[9 *candidateValues + columnNumber] = null;
+                                    candidatesList[9 * candidateValues + columnNumber] = null;
                                     break;
                                 }
                             }
@@ -617,7 +621,7 @@ namespace SudokuSetterAndSolver
                                     if (individualNumbers[valueToRemove] == listValue)
                                     {
                                         individualNumbers.RemoveAt(valueToRemove);
-                                        valuesUsed.Add(valueToRemove); //Making sure it is not added back to the list. 
+                                        valuesUsed.Add(listValue); //Making sure it is not added back to the list. 
                                     }
                                 }
                             }
@@ -643,31 +647,36 @@ namespace SudokuSetterAndSolver
                             }
                         }
                     }
-                    listOfCanidadtesForEachCellWithinTheRow.Clear(); //Clearning the ready for the new list to be inserted and that to be handled. 
+                   
+                   
                     //If there is hidden singles, insert them into the grid. 
                     if (individualNumbers.Count >= 1)
                     {
                         //search all of the candidates in each cell within the row, if a candidate value matched then the value must be that within the cell, as it is a single hidden value. 
-                        for (int candidateValues = 0; candidateValues <= listOfCanidadtesForEachCellWithinTheRow.Count - 1; candidateValues++)
+                        for (int candidateValues = 0; candidateValues <= notNullIndexList.Count-1; candidateValues++)
                         {
+
                             //Going through any of the hidden values within the row. 
                             foreach (var indivdualValue in individualNumbers)
                             {
-                                foreach (var valueInCell in listOfCanidadtesForEachCellWithinTheRow[candidateValues])
+                                foreach (var valueInCell in listOfCanidadtesForEachCellWithinTheRow[notNullIndexList[candidateValues]])
                                 {
                                     //If the hidden value i contained within that cell, then that must be its value. 
                                     if (indivdualValue == valueInCell)
                                     {
                                         //Updating the grid and corresponding candidates. 
-                                        staticNumbers[rowNumber, candidateValues] = indivdualValue;
-                                        sudokuPuzzleMultiExample[rowNumber, candidateValues] = indivdualValue;
-                                        candidatesList[9 * rowNumber + candidateValues] = null;
+                                        staticNumbers[rowNumber, notNullIndexList[candidateValues]] = indivdualValue;
+                                        sudokuPuzzleMultiExample[rowNumber, notNullIndexList[candidateValues]] = indivdualValue;
+                                        candidatesList[9 * rowNumber + notNullIndexList[candidateValues]] = null;
                                         break;
                                     }
                                 }
                             }
                         }
                     }
+                    listOfCanidadtesForEachCellWithinTheRow.Clear(); //Clearning the ready for the new list to be inserted and that to be handled. 
+                    notNullIndexList.Clear();
+                    valuesUsed.Clear();
                     rowNumber++; //Increasing the row number
                 }
             }
@@ -676,8 +685,8 @@ namespace SudokuSetterAndSolver
         private void HiddenSingles()
         {
             HiddenRowSingles();
-            HiddenColumnSingles();
-            HiddenBlockSingles();
+            //HiddenColumnSingles();
+            //HiddenBlockSingles();
         }
         #endregion
 
@@ -716,6 +725,7 @@ namespace SudokuSetterAndSolver
                 }
             }
 
+            //Get the next blank cell. 
             //Cycle through all of the cells until an empty one. 
             for (int i = 0; i <= 8; i++)
             {
@@ -732,10 +742,16 @@ namespace SudokuSetterAndSolver
 
                         foreach (var validNumber in validNumbers)
                         {
-                            ChangeGrid(i, j, validNumber);
-                            SolveUsingRecursiveBactracking();
-                            ReverseGrid(i, j, validNumber);
+                            if (validNumbers.Count != 0)
+                            {
+                                ChangeGrid(i, j, validNumber);
+                                SolveUsingRecursiveBactracking();
+                            }
+
+
+
                         }
+                        ReverseGrid(i, j, 0);
                     }
                 }
             }
@@ -909,9 +925,121 @@ namespace SudokuSetterAndSolver
         }
         #endregion
 
+        #region Backtracking Second Attempt
+
+        private void BacktrackingSolve(int previousNumber)
+        {
+            //Check to see if the puzzle is complete. 
+            int emptyCellCount = 0;
+            for (int rowNumber = 0; rowNumber <= 8; rowNumber++)
+            {
+                for (int columnNumber = 0; columnNumber <= 8; columnNumber++)
+                {
+                    if (sudokuPuzzleMultiExample[rowNumber, columnNumber] == 0)
+                    {
+                        //All of the check to see what numbers are valid for that particular square. 
+                        List<int> validNUmbersInRow = checkRow(sudokuPuzzleMultiExample, rowNumber, columnNumber);
+                        List<int> validNumbersInColumn = checkColumn(sudokuPuzzleMultiExample, rowNumber, columnNumber);
+                        List<int> validNumbersInBlock = checkBlock(sudokuPuzzleMultiExample, rowNumber, columnNumber);
+                        List<int> validNumbers = GetValidNumbers(validNumbersInColumn, validNUmbersInRow, validNumbersInBlock);
+                        Console.WriteLine(rowNumber);
+                        if (rowNumber == 1 && columnNumber == 5)
+                        {
+
+                        }
+
+                        if (validNumbers.Count == 0)
+                        {
+                            //Get the previous value that is not a static number 
+
+                            if (columnNumber == 0)
+                            {
+                                rowNumber = rowNumber - 1;
+                                columnNumber = 8;
+                            }
+                            else
+                            {
+                                columnNumber = columnNumber - 1;
+                            }
+
+                            for (int i = rowNumber; i >= 0; i--)
+                            {
+                                for (int j = columnNumber; j >= 0; j--)
+                                {
+                                    int tempPreviousNumber = 0;
+                                    if (staticNumbers[i, j] == 0)
+                                    {
+                                        tempPreviousNumber = sudokuPuzzleMultiExample[i, j];
+                                        sudokuPuzzleMultiExample[i, j] = 0;
+                                        BacktrackingSolve(tempPreviousNumber);
+                                    }
+                                }
+                                rowNumber = rowNumber - 1;
+                                columnNumber = 8;
+                            }
+                        }
+                        else
+                        {
+                            foreach (var validNumber in validNumbers)
+                            {
+                                //If the valid number has already been used in the cell, then the next number will need to be inserted or the backtracking will need to go back further. 
+                                if (validNumber == previousNumber || validNumber < previousNumber)
+                                {
+
+                                }
+                                else //Set the valid number to the cell, and submit the new grid. 
+                                {
+                                    sudokuPuzzleMultiExample[rowNumber, columnNumber] = validNumber;
+                                    previousNumber = 0;
+                                    break;
+                                }
+
+                            }
+                            if (previousNumber != 0)
+                            {
+                                if (columnNumber == 0)
+                                {
+                                    rowNumber = rowNumber - 1;
+                                    columnNumber = 8;
+                                }
+                                else
+                                {
+                                    columnNumber = columnNumber - 1;
+                                }
+
+                                for (int i = rowNumber; i >= 0; i--)
+                                {
+                                    for (int j = columnNumber; j >= 0; j--)
+                                    {
+                                        int tempPreviousNumber = 0;
+                                        if (staticNumbers[i, j] == 0)
+                                        {
+                                            tempPreviousNumber = sudokuPuzzleMultiExample[i, j];
+                                            sudokuPuzzleMultiExample[i, j] = 0;
+                                            if (tempPreviousNumber == 0)
+                                            {
+
+                                            }
+                                            BacktrackingSolve(tempPreviousNumber);
+                                        }
+                                    }
+                                    rowNumber = rowNumber - 1;
+                                    columnNumber = 8;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            bool solved = true;
+        }
+
+        #endregion 
+
         #region Backtracking
 
-        public void solve(int[,] sudokuGrid, int previousNumber)
+        public void solve(int previousNumber)
         {
             //Check to see if the puzzle is complete. 
             int emptyCellCount = 0;
@@ -994,7 +1122,7 @@ namespace SudokuSetterAndSolver
                                     }
                                 }
                                 //recusre the new grid with the backtacking added. 
-                                solve(sudokuPuzzleMultiExample, previousNumber);
+                                solve(previousNumber);
                             }
                             //If there is valid numbers, then one need to be set. 
                             else
@@ -1010,7 +1138,7 @@ namespace SudokuSetterAndSolver
                                     else //Set the valid number to the cell, and submit the new grid. 
                                     {
                                         sudokuPuzzleMultiExample[i, j] = validNumber;
-                                        solve(sudokuPuzzleMultiExample, 0);
+                                        solve(0);
                                     }
                                 }
                                 //Further backtracing, smae method as before to backtrack further
@@ -1043,7 +1171,7 @@ namespace SudokuSetterAndSolver
                                         break;
                                     }
                                 }
-                                solve(sudokuPuzzleMultiExample, previousNumber);
+                                solve(previousNumber);
                             }
                         }
                     }
