@@ -479,13 +479,22 @@ namespace SudokuSetterAndSolver
 
         }
 
+        #endregion
+
+        #region Hiddens 
+        private void HiddenSingles()
+        {
+            HiddenRowSingles();
+            HiddenColumnSingles();
+            //HiddenBlockSingles();
+        }
+
         private void HiddenColumnSingles()
         {
             List<List<int>> listOfCanidadtesForEachCellWithinTheColumn = new List<List<int>>();
             List<int> notNullIndexList = new List<int>();
             List<int> individualNumbers = new List<int>();
             List<int> valuesUsed = new List<int>();
-            int rowNumber = 0;
 
             //Search through all of the columns. 
             for (int columnNumber = 0; columnNumber <= 8; columnNumber++)
@@ -522,7 +531,7 @@ namespace SudokuSetterAndSolver
                                 if (individualNumbers[valueToRemove] == listValue)
                                 {
                                     individualNumbers.RemoveAt(valueToRemove);
-                                    valuesUsed.Add(valueToRemove); //Making sure it is not added back to the list. 
+                                    valuesUsed.Add(listValue); //Making sure it is not added back to the list. 
                                 }
                             }
                         }
@@ -548,31 +557,35 @@ namespace SudokuSetterAndSolver
                         }
                     }
                 }
-                listOfCanidadtesForEachCellWithinTheColumn.Clear(); //Clearning the ready for the new list to be inserted and that to be handled. 
-                                                                    //If there is hidden singles, insert them into the grid. 
+
                 if (individualNumbers.Count >= 1)
                 {
                     //search all of the candidates in each cell within the row, if a candidate value matched then the value must be that within the cell, as it is a single hidden value. 
-                    for (int candidateValues = 0; candidateValues <= listOfCanidadtesForEachCellWithinTheColumn.Count - 1; candidateValues++)
+                    for (int candidateValues = 0; candidateValues <= notNullIndexList.Count - 1; candidateValues++)
                     {
                         //Going through any of the hidden values within the row. 
                         foreach (var indivdualValue in individualNumbers)
                         {
-                            foreach (var valueInCell in listOfCanidadtesForEachCellWithinTheColumn[candidateValues])
+                            foreach (var valueInCell in listOfCanidadtesForEachCellWithinTheColumn[notNullIndexList[candidateValues]])
                             {
                                 //If the hidden value i contained within that cell, then that must be its value. 
                                 if (indivdualValue == valueInCell)
                                 {
-                                    //Updating the grid and corresponding candidates wihtin the column. 
-                                    staticNumbers[candidateValues, columnNumber] = indivdualValue;
-                                    sudokuPuzzleMultiExample[candidateValues, columnNumber] = indivdualValue;
-                                    candidatesList[9 * candidateValues + columnNumber] = null;
+                                    //Updating the grid and corresponding candidates. 
+                                    staticNumbers[notNullIndexList[candidateValues], columnNumber ] = indivdualValue;
+                                    sudokuPuzzleMultiExample[notNullIndexList[candidateValues], columnNumber] = indivdualValue;
+                                    candidatesList[9 *notNullIndexList[candidateValues] +columnNumber] = null;
                                     break;
                                 }
                             }
                         }
                     }
                 }
+                //Clearning the ready for the new list to be inserted and that to be handled. 
+                //If there is hidden singles, insert them into the grid. 
+                listOfCanidadtesForEachCellWithinTheColumn.Clear(); //Clearning the ready for the new list to be inserted and that to be handled. 
+                notNullIndexList.Clear();
+                valuesUsed.Clear();
             }
         }
 
@@ -681,13 +694,7 @@ namespace SudokuSetterAndSolver
                 }
             }
         }
-
-        private void HiddenSingles()
-        {
-            HiddenRowSingles();
-            //HiddenColumnSingles();
-            //HiddenBlockSingles();
-        }
+  
         #endregion
 
         #region New Recursive backtracking algorithm 
