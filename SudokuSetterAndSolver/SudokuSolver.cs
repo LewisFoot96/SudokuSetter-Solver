@@ -75,7 +75,7 @@ namespace SudokuSetterAndSolver
             {
                 for (int j = 0; j <= 8; j++)
                 {
-                    sudokuPuzzleMultiExample[i, j] = sudokuNakedDoublesColumnBlockExample[singleArrayValue];
+                    sudokuPuzzleMultiExample[i, j] = sudokuHiddenSinglesExample[singleArrayValue];
                     if (sudokuPuzzleMultiExample[i, j] != 0)
                     {
                         staticNumbers[i, j] = sudokuPuzzleMultiExample[i, j];
@@ -213,8 +213,8 @@ namespace SudokuSetterAndSolver
                 //Recursive call to see if there is any more naked singles. 
                 SolveSudokRuleBased();
             }
-            //HiddenSingles();
-            CandidateHandling();
+            HiddenSingles();
+            //CandidateHandling();
 
             //SolveUsingRecursiveBactracking();
         }
@@ -266,7 +266,7 @@ namespace SudokuSetterAndSolver
             
            // NakedTuplesRow("Row");
             //NakedTuplesColumn();
-           NakedTuplesBlock();
+           //NakedTuplesBlock();
         }
 
         private void NakedTuplesRow(string rowOrColumn)
@@ -596,8 +596,7 @@ namespace SudokuSetterAndSolver
                                                                 }
                                                                 coordinateValue++;
                                                             }
-                                                            startCoulmnNumber = 0;
-                                                           
+                                                            startCoulmnNumber = coulmnNumber-2;                                    
                                                         }
                                                         //Removing candidate from cell. 
                                                         listOfCanidadtesForEachCellWithinTheBlock[notNullIndexValue].RemoveAt(indexNumberOfNotNakedCell);
@@ -630,8 +629,8 @@ namespace SudokuSetterAndSolver
             bool hiddenColumnBool = false;
             bool hiddenBlockBool = false;
             hiddenRowBool = HiddenRowSingles();
-            hiddenColumnBool = HiddenColumnSingles();
-            hiddenBlockBool = HiddenBlockSingles();
+            //hiddenColumnBool = HiddenColumnSingles();
+           //hiddenBlockBool = HiddenBlockSingles();
 
             //If there is hidden values, then recurse and try the naked singles method. 
             if (hiddenBlockBool == true || hiddenColumnBool == true || hiddenRowBool == true)
@@ -643,9 +642,6 @@ namespace SudokuSetterAndSolver
         private bool HiddenColumnSingles()
         {
             List<List<int>> listOfCanidadtesForEachCellWithinTheColumn = new List<List<int>>();
-            List<int> notNullIndexList = new List<int>();
-            List<int> individualNumbers = new List<int>();
-            List<int> valuesUsed = new List<int>();
             bool hiddenColumnBool = false;
 
             //Search through all of the columns. 
@@ -659,86 +655,9 @@ namespace SudokuSetterAndSolver
                         listOfCanidadtesForEachCellWithinTheColumn.Add(candidatesList[candiateIndexNumber]);
                     }
                 }
-                //Removing all null values from the candidate lists in the column. 
-                for (int indexValue = 0; indexValue <= listOfCanidadtesForEachCellWithinTheColumn.Count - 1; indexValue++)
-                {
-                    if (listOfCanidadtesForEachCellWithinTheColumn[indexValue] != null)
-                    {
-                        notNullIndexList.Add(indexValue);
-                    }
-                }
-
-                //For each non null cell within the row. 
-                foreach (var firstIndexNumber in notNullIndexList)
-                {
-                    //Get all the candidates from tha cell. 
-                    foreach (var listValue in listOfCanidadtesForEachCellWithinTheColumn[firstIndexNumber])
-                    {
-                        //if the indivdual numbers list already contains 
-                        if (individualNumbers.Contains(listValue))
-                        {
-                            //Remove that value from the indivdual numbers list. 
-                            for (int valueToRemove = 0; valueToRemove <= individualNumbers.Count - 1; valueToRemove++)
-                            {
-                                if (individualNumbers[valueToRemove] == listValue)
-                                {
-                                    individualNumbers.RemoveAt(valueToRemove);
-                                    valuesUsed.Add(listValue); //Making sure it is not added back to the list. 
-                                }
-                            }
-                        }
-                        else //If the list does not contain the number. 
-                        {
-                            bool valuesUsedBool = false; //Determines whether the number that is not in the list has been used before. 
-                            foreach (var alreadyUsed in valuesUsed)
-                            {
-                                if (listValue == alreadyUsed)
-                                {
-                                    valuesUsedBool = true;
-                                }
-                            }
-                            //If the candidate has not be used before add it to the list. 
-                            if (valuesUsedBool == false)
-                            {
-                                individualNumbers.Add(listValue);
-                            }
-                            else
-                            {
-                                valuesUsedBool = false;
-                            }
-                        }
-                    }
-                }
-
-                if (individualNumbers.Count >= 1)
-                {
-                    //search all of the candidates in each cell within the row, if a candidate value matched then the value must be that within the cell, as it is a single hidden value. 
-                    for (int candidateValues = 0; candidateValues <= notNullIndexList.Count - 1; candidateValues++)
-                    {
-                        //Going through any of the hidden values within the row. 
-                        foreach (var indivdualValue in individualNumbers)
-                        {
-                            foreach (var valueInCell in listOfCanidadtesForEachCellWithinTheColumn[notNullIndexList[candidateValues]])
-                            {
-                                //If the hidden value i contained within that cell, then that must be its value. 
-                                if (indivdualValue == valueInCell)
-                                {
-                                    hiddenColumnBool = true;
-                                    //Updating the grid and corresponding candidates. 
-                                    staticNumbers[notNullIndexList[candidateValues], columnNumber] = indivdualValue;
-                                    sudokuPuzzleMultiExample[notNullIndexList[candidateValues], columnNumber] = indivdualValue;
-                                    candidatesList[9 * notNullIndexList[candidateValues] + columnNumber] = null;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-                //Clearning the ready for the new list to be inserted and that to be handled. 
-                //If there is hidden singles, insert them into the grid. 
+                //Seeing if there is any hidden column singles, if there is input them into the grid and return as true; 
+                hiddenColumnBool = HiddenSinglesGeneric("column", listOfCanidadtesForEachCellWithinTheColumn, 0, columnNumber);
                 listOfCanidadtesForEachCellWithinTheColumn.Clear(); //Clearning the ready for the new list to be inserted and that to be handled. 
-                notNullIndexList.Clear();
-                valuesUsed.Clear();
             }
             return hiddenColumnBool;
         }
@@ -746,9 +665,6 @@ namespace SudokuSetterAndSolver
         private bool HiddenBlockSingles()
         {
             List<List<int>> listOfCanidadtesForEachCellWithinTheBlock = new List<List<int>>();
-            List<int> notNullIndexList = new List<int>();
-            List<int> individualNumbers = new List<int>();
-            List<int> valuesUsed = new List<int>();
             bool hiddenBlockBool = false;
 
             //Gets all the values from each block. 
@@ -758,107 +674,9 @@ namespace SudokuSetterAndSolver
                 {
                     listOfCanidadtesForEachCellWithinTheBlock = getSudokuValuesInBox(rowNumber, coulmnNumber);
 
-                    //Removing all null values from the candidate lists in the column. 
-                    for (int indexValue = 0; indexValue <= listOfCanidadtesForEachCellWithinTheBlock.Count - 1; indexValue++)
-                    {
-                        if (listOfCanidadtesForEachCellWithinTheBlock[indexValue] != null)
-                        {
-                            notNullIndexList.Add(indexValue);
-                        }
-                    }
-
-                    //For each non null cell within the row. 
-                    foreach (var firstIndexNumber in notNullIndexList)
-                    {
-                        //Get all the candidates from tha cell. 
-                        foreach (var listValue in listOfCanidadtesForEachCellWithinTheBlock[firstIndexNumber])
-                        {
-                            //if the indivdual numbers list already contains 
-                            if (individualNumbers.Contains(listValue))
-                            {
-                                //Remove that value from the indivdual numbers list. 
-                                for (int valueToRemove = 0; valueToRemove <= individualNumbers.Count - 1; valueToRemove++)
-                                {
-                                    if (individualNumbers[valueToRemove] == listValue)
-                                    {
-                                        individualNumbers.RemoveAt(valueToRemove);
-                                        valuesUsed.Add(listValue); //Making sure it is not added back to the list. 
-                                    }
-                                }
-                            }
-                            else //If the list does not contain the number. 
-                            {
-                                bool valuesUsedBool = false; //Determines whether the number that is not in the list has been used before. 
-                                foreach (var alreadyUsed in valuesUsed)
-                                {
-                                    if (listValue == alreadyUsed)
-                                    {
-                                        valuesUsedBool = true;
-                                    }
-                                }
-                                //If the candidate has not be used before add it to the list. 
-                                if (valuesUsedBool == false)
-                                {
-                                    individualNumbers.Add(listValue);
-                                }
-                                else
-                                {
-                                    valuesUsedBool = false;
-                                }
-                            }
-                        }
-                    }
-
-                    if (individualNumbers.Count >= 1)
-                    {
-                        //search all of the candidates in each cell within the row, if a candidate value matched then the value must be that within the cell, as it is a single hidden value. 
-                        for (int candidateValues = 0; candidateValues <= notNullIndexList.Count - 1; candidateValues++)
-                        {
-                            //Going through any of the hidden values within the row. 
-                            foreach (var indivdualValue in individualNumbers)
-                            {
-                                foreach (var valueInCell in listOfCanidadtesForEachCellWithinTheBlock[notNullIndexList[candidateValues]])
-                                {
-                                    //If the hidden value i contained within that cell, then that must be its value. 
-                                    if (indivdualValue == valueInCell)
-                                    {
-                                        //Method to get the row and column number, using the row number, the index number and the column number 
-                                        int coordinateValue = 1;
-                                        int startRowNumber = rowNumber - 2;
-                                        int startCoulmnNumber = coulmnNumber - 2;
-                                        int actualRowNumber = 0;
-                                        int actualColumnNumber = 0;
-
-                                        for (; startRowNumber <= rowNumber; startRowNumber++)
-                                        {
-                                            for (; startCoulmnNumber <= coulmnNumber; startCoulmnNumber++)
-                                            {
-                                                if (notNullIndexList[candidateValues] + 1 == coordinateValue)
-                                                {
-                                                    actualRowNumber = startRowNumber;
-                                                    actualColumnNumber = startCoulmnNumber;
-                                                }
-                                                coordinateValue++;
-                                            }
-                                            startCoulmnNumber = 0;
-
-                                        }
-                                        hiddenBlockBool = true;
-                                        //Updating the grid and corresponding candidates. 
-                                        staticNumbers[actualRowNumber, actualColumnNumber] = indivdualValue;
-                                        sudokuPuzzleMultiExample[actualRowNumber, actualColumnNumber] = indivdualValue;
-                                        candidatesList[9 * actualRowNumber + actualColumnNumber] = null;
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    //Clearning the ready for the new list to be inserted and that to be handled. 
-                    //If there is hidden singles, insert them into the grid. 
+                    hiddenBlockBool = HiddenSinglesGeneric("block", listOfCanidadtesForEachCellWithinTheBlock, rowNumber, coulmnNumber);
+                   
                     listOfCanidadtesForEachCellWithinTheBlock.Clear(); //Clearning the ready for the new list to be inserted and that to be handled. 
-                    notNullIndexList.Clear();
-                    valuesUsed.Clear();
                 }
             }
             return hiddenBlockBool;
@@ -867,9 +685,7 @@ namespace SudokuSetterAndSolver
         private bool HiddenRowSingles()
         {
             List<List<int>> listOfCanidadtesForEachCellWithinTheRow = new List<List<int>>();
-            List<int> notNullIndexList = new List<int>();
-            List<int> individualNumbers = new List<int>();
-            List<int> valuesUsed = new List<int>();
+
             int rowNumber = 0;
             bool hiddenRowBool = false;
 
@@ -881,86 +697,8 @@ namespace SudokuSetterAndSolver
                 //When the end of a row has been reached. 
                 if (candidateIndexNumber % 9 == 8 || candidateIndexNumber == 8)
                 {
-                    //Removing all null values from the candidate lists in the row. 
-                    for (int indexValue = 0; indexValue <= listOfCanidadtesForEachCellWithinTheRow.Count - 1; indexValue++)
-                    {
-                        if (listOfCanidadtesForEachCellWithinTheRow[indexValue] != null)
-                        {
-                            notNullIndexList.Add(indexValue);
-                        }
-                    }
-
-                    //For each non null cell within the row. 
-                    foreach (var firstIndexNumber in notNullIndexList)
-                    {
-                        //Get all the candidates from tha cell. 
-                        foreach (var listValue in listOfCanidadtesForEachCellWithinTheRow[firstIndexNumber])
-                        {
-                            //if the indivdual numbers list already contains 
-                            if (individualNumbers.Contains(listValue))
-                            {
-                                //Remove that value from the indivdual numbers list. 
-                                for (int valueToRemove = 0; valueToRemove <= individualNumbers.Count - 1; valueToRemove++)
-                                {
-                                    if (individualNumbers[valueToRemove] == listValue)
-                                    {
-                                        individualNumbers.RemoveAt(valueToRemove);
-                                        valuesUsed.Add(listValue); //Making sure it is not added back to the list. 
-                                    }
-                                }
-                            }
-                            else //If the list does not contain the number. 
-                            {
-                                bool valuesUsedBool = false; //Determines whether the number that is not in the list has been used before. 
-                                foreach (var alreadyUsed in valuesUsed)
-                                {
-                                    if (listValue == alreadyUsed)
-                                    {
-                                        valuesUsedBool = true;
-                                    }
-                                }
-                                //If the candidate has not be used before add it to the list. 
-                                if (valuesUsedBool == false)
-                                {
-                                    individualNumbers.Add(listValue);
-                                }
-                                else
-                                {
-                                    valuesUsedBool = false;
-                                }
-                            }
-                        }
-                    }
-
-                    //If there is hidden singles, insert them into the grid. 
-                    if (individualNumbers.Count >= 1)
-                    {
-                        //search all of the candidates in each cell within the row, if a candidate value matched then the value must be that within the cell, as it is a single hidden value. 
-                        for (int candidateValues = 0; candidateValues <= notNullIndexList.Count - 1; candidateValues++)
-                        {
-
-                            //Going through any of the hidden values within the row. 
-                            foreach (var indivdualValue in individualNumbers)
-                            {
-                                foreach (var valueInCell in listOfCanidadtesForEachCellWithinTheRow[notNullIndexList[candidateValues]])
-                                {
-                                    //If the hidden value i contained within that cell, then that must be its value. 
-                                    if (indivdualValue == valueInCell)
-                                    {
-                                        hiddenRowBool = true;
-                                        //Updating the grid and corresponding candidates. 
-                                        staticNumbers[rowNumber, notNullIndexList[candidateValues]] = indivdualValue;
-                                        sudokuPuzzleMultiExample[rowNumber, notNullIndexList[candidateValues]] = indivdualValue;
-                                        candidatesList[9 * rowNumber + notNullIndexList[candidateValues]] = null;
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    hiddenRowBool = HiddenSinglesGeneric("row", listOfCanidadtesForEachCellWithinTheRow, rowNumber, 0);
                     listOfCanidadtesForEachCellWithinTheRow.Clear(); //Clearning the ready for the new list to be inserted and that to be handled. 
-                    notNullIndexList.Clear();
-                    valuesUsed.Clear();
                     rowNumber++; //Increasing the row number
                 }
             }
@@ -968,9 +706,135 @@ namespace SudokuSetterAndSolver
         }
 
         //May need to implement this method at somepoint. 
-        private void HiddenSinglesGeneric(string region, List<List<int>> listOfCells)
+        private bool HiddenSinglesGeneric(string region, List<List<int>> listOfCells, int rowNumber, int columnNumber)
         {
+            List<int> notNullIndexList = new List<int>();
+            List<int> individualNumbers = new List<int>();
+            List<int> valuesUsed = new List<int>();
+            bool hiddenBool = false;
+            //Removing all null values from the candidate lists in the column. 
+            for (int indexValue = 0; indexValue <= listOfCells.Count - 1; indexValue++)
+            {
+                if (listOfCells[indexValue] != null)
+                {
+                    notNullIndexList.Add(indexValue);
+                }
+            }
 
+            //For each non null cell within the row. 
+            foreach (var firstIndexNumber in notNullIndexList)
+            {
+                //Get all the candidates from tha cell. 
+                foreach (var listValue in listOfCells[firstIndexNumber])
+                {
+                    //if the indivdual numbers list already contains 
+                    if (individualNumbers.Contains(listValue))
+                    {
+                        //Remove that value from the indivdual numbers list. 
+                        for (int valueToRemove = 0; valueToRemove <= individualNumbers.Count - 1; valueToRemove++)
+                        {
+                            if (individualNumbers[valueToRemove] == listValue)
+                            {
+                                individualNumbers.RemoveAt(valueToRemove);
+                                valuesUsed.Add(listValue); //Making sure it is not added back to the list. 
+                            }
+                        }
+                    }
+                    else //If the list does not contain the number. 
+                    {
+                        bool valuesUsedBool = false; //Determines whether the number that is not in the list has been used before. 
+                        foreach (var alreadyUsed in valuesUsed)
+                        {
+                            if (listValue == alreadyUsed)
+                            {
+                                valuesUsedBool = true;
+                            }
+                        }
+                        //If the candidate has not be used before add it to the list. 
+                        if (valuesUsedBool == false)
+                        {
+                            individualNumbers.Add(listValue);
+                        }
+                        else
+                        {
+                            valuesUsedBool = false;
+                        }
+                    }
+                }
+            }
+
+            if (individualNumbers.Count >= 1)
+            {
+                //search all of the candidates in each cell within the row, if a candidate value matched then the value must be that within the cell, as it is a single hidden value. 
+                for (int candidateValues = 0; candidateValues <= notNullIndexList.Count - 1; candidateValues++)
+                {
+                    //Going through any of the hidden values within the row. 
+                    foreach (var indivdualValue in individualNumbers)
+                    {
+                        foreach (var valueInCell in listOfCells[notNullIndexList[candidateValues]])
+                        {
+                            //If the hidden value i contained within that cell, then that must be its value. 
+                            if (indivdualValue == valueInCell)
+                            {
+                                if (region == "block")
+                                {
+                                    //Method to get the row and column number, using the row number, the index number and the column number 
+                                    int coordinateValue = 1;
+                                    int startRowNumber = rowNumber - 2;
+                                    int startCoulmnNumber = columnNumber - 2;
+                                    int actualRowNumber = 0;
+                                    int actualColumnNumber = 0;
+
+                                    for (; startRowNumber <= rowNumber; startRowNumber++)
+                                    {
+                                        for (; startCoulmnNumber <= columnNumber; startCoulmnNumber++)
+                                        {
+                                            if (notNullIndexList[candidateValues] + 1 == coordinateValue)
+                                            {
+                                                actualRowNumber = startRowNumber;
+                                                actualColumnNumber = startCoulmnNumber;
+                                            }
+                                            coordinateValue++;
+                                        }
+                                        startCoulmnNumber = columnNumber -2;
+
+                                    }
+                                    hiddenBool = true;
+                                    //Updating the grid and corresponding candidates. 
+                                    staticNumbers[actualRowNumber, actualColumnNumber] = indivdualValue;
+                                    sudokuPuzzleMultiExample[actualRowNumber, actualColumnNumber] = indivdualValue;
+                                    candidatesList[9 * actualRowNumber + actualColumnNumber] = null;
+                                    break;
+                                }
+                                else if(region == "column")
+                                {
+                                    hiddenBool = true;
+                                    //Updating the grid and corresponding candidates. 
+                                    staticNumbers[notNullIndexList[candidateValues], columnNumber] = indivdualValue;
+                                    sudokuPuzzleMultiExample[notNullIndexList[candidateValues], columnNumber] = indivdualValue;
+                                    candidatesList[9 * notNullIndexList[candidateValues] + columnNumber] = null;
+                                    break;
+                                }
+                                else
+                                {
+                                    hiddenBool = true;
+                                    //Updating the grid and corresponding candidates. 
+                                    staticNumbers[rowNumber, notNullIndexList[candidateValues]] = indivdualValue;
+                                    sudokuPuzzleMultiExample[rowNumber, notNullIndexList[candidateValues]] = indivdualValue;
+                                    candidatesList[9 * rowNumber + notNullIndexList[candidateValues]] = null;
+                                    break;
+                                }
+
+                            }
+                        }
+                    }
+                }
+
+            }
+            listOfCells.Clear(); //Clearning the ready for the new list to be inserted and that to be handled. 
+            notNullIndexList.Clear();
+            valuesUsed.Clear();
+            return hiddenBool;
         }
 
         #endregion
