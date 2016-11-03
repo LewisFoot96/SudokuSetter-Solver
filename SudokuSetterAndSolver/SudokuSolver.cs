@@ -55,8 +55,8 @@ namespace SudokuSetterAndSolver
 
             //Generate the puzzle and then solve it. 
             GeneratePuzzle();
-            SolveSudokRuleBased();
-            //SolveUsingRecursiveBactracking();
+            //SolveSudokRuleBased();
+            SolveUsingRecursiveBactracking();
             //BacktrackingSolve(0);
             //solve(sudokuPuzzleMultiExample, 0);
             //SolveConstraintsProblem(sudokuPuzzleMultiExample, validNumbersForRegion);
@@ -75,7 +75,7 @@ namespace SudokuSetterAndSolver
             {
                 for (int j = 0; j <= 8; j++)
                 {
-                    sudokuPuzzleMultiExample[i, j] = sudokuHiddenSinglesExample[singleArrayValue];
+                    sudokuPuzzleMultiExample[i, j] = sudokuPuzzleExample[singleArrayValue];
                     if (sudokuPuzzleMultiExample[i, j] != 0)
                     {
                         staticNumbers[i, j] = sudokuPuzzleMultiExample[i, j];
@@ -213,10 +213,11 @@ namespace SudokuSetterAndSolver
                 //Recursive call to see if there is any more naked singles. 
                 SolveSudokRuleBased();
             }
-            HiddenSingles();
+            //HiddenSingles();
             //CandidateHandling();
+            //solve(0);
 
-            //SolveUsingRecursiveBactracking();
+            SolveUsingRecursiveBactracking();
         }
 
         //Method that creates the correct candidate list. 
@@ -263,23 +264,50 @@ namespace SudokuSetterAndSolver
 
         private void NakedTuples()
         {
-            
-           // NakedTuplesRow("Row");
+
+            NakedTuplesRow("Row");
             //NakedTuplesColumn();
-           //NakedTuplesBlock();
+            //NakedTuplesBlock();
         }
 
         private void NakedTuplesRow(string rowOrColumn)
         {
             List<List<int>> cadidatesInSingleRow = new List<List<int>>();
             List<int> indexValue = new List<int>();
+            List<int> notNullIndexValuesCellsInRow = new List<int>(); 
             for (int rowNumber = 0; rowNumber <= 80; rowNumber++)
             {
                 cadidatesInSingleRow.Add(candidatesList[rowNumber]);
-
+                
+               
                 //If the row is at an end. 
                 if (rowNumber % 9 == 8 || rowNumber == 8)
                 {
+                    //Gets all the none null cells within the row. 
+                    for (int cellIndexValue = 0; cellIndexValue <= cadidatesInSingleRow.Count - 1; cellIndexValue++)
+                    {
+                        if (cadidatesInSingleRow[cellIndexValue] != null)
+                        {
+                            notNullIndexValuesCellsInRow.Add(cellIndexValue);
+                        }
+                    }
+
+                    //Loop thay compares all of the cells within the row. 
+                    for(int firstIndexValueOfValidCell = 0; firstIndexValueOfValidCell<=notNullIndexValuesCellsInRow.Count-1;firstIndexValueOfValidCell++)
+                    {
+                        for (int secondIndexValueOfValidCell = 0; secondIndexValueOfValidCell <= cadidatesInSingleRow.Count - 1; secondIndexValueOfValidCell++)
+                        {
+                            //Need to test this. 
+                            //http://stackoverflow.com/questions/12376437/how-to-check-list-a-contains-any-value-from-list-b
+                           //if( cadidatesInSingleRow[notNullIndexValuesCellsInRow[firstIndexValueOfValidCell]].Intersect(cadidatesInSingleRow[notNullIndexValuesCellsInRow[secondIndexValueOfValidCell]]).Any() && firstIndexValueOfValidCell !=secondIndexValueOfValidCell)
+                            //{
+
+                            //}
+                        }
+                    }
+
+
+                    //This all should be using the list within the method, not the actual candidate list, as this adds complictions. 
                     //Seeing of there are any naked tuples within the row. 
                     for (int firstIndexValue = rowNumber - 8; firstIndexValue <= rowNumber; firstIndexValue++)
                     {
@@ -586,17 +614,17 @@ namespace SudokuSetterAndSolver
                                                         int actualColumnNumber = 0;
 
                                                         for (; startRowNumber <= rowNumber; startRowNumber++)
-                                                        {                                                        
+                                                        {
                                                             for (; startCoulmnNumber <= coulmnNumber; startCoulmnNumber++)
-                                                            {                                                              
-                                                                if (notNullIndexValue+1 == coordinateValue)
+                                                            {
+                                                                if (notNullIndexValue + 1 == coordinateValue)
                                                                 {
                                                                     actualRowNumber = startRowNumber;
-                                                                    actualColumnNumber = startCoulmnNumber;                                                    
+                                                                    actualColumnNumber = startCoulmnNumber;
                                                                 }
                                                                 coordinateValue++;
                                                             }
-                                                            startCoulmnNumber = coulmnNumber-2;                                    
+                                                            startCoulmnNumber = coulmnNumber - 2;
                                                         }
                                                         //Removing candidate from cell. 
                                                         listOfCanidadtesForEachCellWithinTheBlock[notNullIndexValue].RemoveAt(indexNumberOfNotNakedCell);
@@ -622,137 +650,8 @@ namespace SudokuSetterAndSolver
         private void NakedTupleGeneric(string region, int rowNumber, int columnNumber, List<List<int>> listOfCells)
         {
             List<int> indexValue = new List<int>();
-            
-            //Seeing of there are any naked tuples within the row. 
-            for (int firstIndexValue = rowNumber - 8; firstIndexValue <= rowNumber; firstIndexValue++)
-            {
-                //Gets all of the index values for the naked tuples, so candidates can be removed. 
-                for (int secondIndexValue = rowNumber - 8; secondIndexValue <= rowNumber; secondIndexValue++)
-                {
-                    if (candidatesList[firstIndexValue] != null && candidatesList[secondIndexValue] != null)
-                    {
-                        //This comapres 2 lists to see if thet are equal 
-                        //http://stackoverflow.com/questions/22173762/check-if-two-lists-are-equal
-                        if (Enumerable.SequenceEqual(candidatesList[firstIndexValue].OrderBy(fList => fList),
-                            candidatesList[secondIndexValue].OrderBy(sList => sList)) == true && firstIndexValue != secondIndexValue)
-                        {
-                            indexValue.Add(firstIndexValue);
-                            indexValue.Add(secondIndexValue);
-                        }
-                    }
-                }
-
-                if (indexValue.Count != 0 && candidatesList[indexValue[0]].Count <= indexValue.Count)
-                {
-                    //Getting all of the naked values. 
-                    List<int> nakedCandidates = candidatesList[firstIndexValue];
-                    bool isIndexNumber = false;
-
-                    //Removing naked values from other cells within the grid. 
-                    for (int indexValueOfListInRow = rowNumber - 8; indexValueOfListInRow <= rowNumber; indexValueOfListInRow++)
-                    {
-                        isIndexNumber = false;
-
-                        foreach (int nakedValueIndexNumber in indexValue)
-                        {
-                            //If the cell is equal to one of the ones that have the naked tuples in, then do not remove the cnaidates from the cell. 
-                            if (indexValueOfListInRow == nakedValueIndexNumber)
-                            {
-                                isIndexNumber = true;
-                                break;
-                            }
-                        }
-                        bool indexNumberBool = false;
 
 
-                        //If the cell is not part of the naked tuples, then removed the candidates, if any from the cell. 
-                        if (isIndexNumber != true && candidatesList[indexValueOfListInRow] != null)
-                        {
-                            List<int> indexesNotNull = new List<int>();
-
-                            //Removing null values from list 
-                            for (int candidateIndexValue = 0; candidateIndexValue <= listOfCells.Count - 1; candidateIndexValue++)
-                            {
-                                if (listOfCells[candidateIndexValue] != null)
-                                {
-                                    indexesNotNull.Add(candidateIndexValue);
-                                }
-                            }
-
-                            foreach (int notNullIndexValue in indexesNotNull)
-                            {
-                                //Check to see if the currenetly handled cell contains the naked tuples, then it should not be changed. 
-                                foreach (var indexValueCheck in indexValue)
-                                {
-                                    if (rowNumber - indexValueCheck - 1 == notNullIndexValue)
-                                    {
-                                        indexNumberBool = true;
-                                    }
-                                }
-                                if (indexNumberBool == false)
-                                {
-                                    foreach (int nakedCandidateNumber in nakedCandidates)
-                                    {
-                                        //This need to be a for loop. 
-                                        for (int indexNumberOfNotNakedCell = 0; indexNumberOfNotNakedCell <= listOfCells[notNullIndexValue].Count - 1; indexNumberOfNotNakedCell++)
-                                        {
-                                            if (listOfCells[notNullIndexValue][indexNumberOfNotNakedCell] == nakedCandidateNumber)
-                                            {
-                                                if (region == "block")
-                                                {
-                                                    //Method to get the row and column number, using the row number, the index number and the column number 
-                                                    int coordinateValue = 1;
-                                                    int startRowNumber = rowNumber - 2;
-                                                    int startCoulmnNumber = columnNumber - 2;
-                                                    int actualRowNumber = 0;
-                                                    int actualColumnNumber = 0;
-
-                                                    for (; startRowNumber <= rowNumber; startRowNumber++)
-                                                    {
-                                                        for (; startCoulmnNumber <= columnNumber; startCoulmnNumber++)
-                                                        {
-                                                            if (notNullIndexValue + 1 == coordinateValue)
-                                                            {
-                                                                actualRowNumber = startRowNumber;
-                                                                actualColumnNumber = startCoulmnNumber;
-                                                            }
-                                                            coordinateValue++;
-                                                        }
-                                                        startCoulmnNumber = columnNumber - 2;
-                                                    }
-                                                    //Removing candidate from cell. 
-                                                    listOfCells[notNullIndexValue].RemoveAt(indexNumberOfNotNakedCell);
-                                                    candidatesList[9 * actualRowNumber + actualColumnNumber] = listOfCells[notNullIndexValue];
-                                                    break;
-                                                }
-                                                else if(region == "column")
-                                                {
-                                                    //Removing candidate from cell. 
-                                                    listOfCells[notNullIndexValue].RemoveAt(indexNumberOfNotNakedCell);
-                                                    candidatesList[notNullIndexValue * 9 + columnNumber] = listOfCells[notNullIndexValue];
-                                                    break;
-                                                }
-                                                else
-                                                {
-                                                    //Removing candidate from cell. 
-                                                    listOfCells[notNullIndexValue].RemoveAt(indexNumberOfNotNakedCell);
-                                                    candidatesList[rowNumber - 8 - notNullIndexValue] = listOfCells[notNullIndexValue];
-                                                    break;
-                                                }
-                                            }
-
-                                        }
-                                    }
-                                }
-                                indexNumberBool = false;
-                            }
-                        }
-                    }
-
-                }
-                indexValue.Clear();
-            } //Closing bracket when all comparing has been completed. 
-            listOfCells.Clear();
         }
 
         #endregion
@@ -766,7 +665,7 @@ namespace SudokuSetterAndSolver
             bool hiddenBlockBool = false;
             hiddenRowBool = HiddenRowSingles();
             //hiddenColumnBool = HiddenColumnSingles();
-           //hiddenBlockBool = HiddenBlockSingles();
+            //hiddenBlockBool = HiddenBlockSingles();
 
             //If there is hidden values, then recurse and try the naked singles method. 
             if (hiddenBlockBool == true || hiddenColumnBool == true || hiddenRowBool == true)
@@ -811,7 +710,7 @@ namespace SudokuSetterAndSolver
                     listOfCanidadtesForEachCellWithinTheBlock = getSudokuValuesInBox(rowNumber, coulmnNumber);
 
                     hiddenBlockBool = HiddenSinglesGeneric("block", listOfCanidadtesForEachCellWithinTheBlock, rowNumber, coulmnNumber);
-                   
+
                     listOfCanidadtesForEachCellWithinTheBlock.Clear(); //Clearning the ready for the new list to be inserted and that to be handled. 
                 }
             }
@@ -932,7 +831,7 @@ namespace SudokuSetterAndSolver
                                             }
                                             coordinateValue++;
                                         }
-                                        startCoulmnNumber = columnNumber -2;
+                                        startCoulmnNumber = columnNumber - 2;
 
                                     }
                                     hiddenBool = true;
@@ -942,7 +841,7 @@ namespace SudokuSetterAndSolver
                                     candidatesList[9 * actualRowNumber + actualColumnNumber] = null;
                                     break;
                                 }
-                                else if(region == "column")
+                                else if (region == "column")
                                 {
                                     hiddenBool = true;
                                     //Updating the grid and corresponding candidates. 
@@ -999,17 +898,18 @@ namespace SudokuSetterAndSolver
             }
 
             //If the puzzle is complete then a solution is found. 
-            if (emptyCellCount == 0)
-            {
+            //if (emptyCellCount == 0)
+            //{
                 for (int i = 0; i <= 8; i++)
                 {
                     for (int j = 0; j <= 8; j++)
                     {
-                        Console.WriteLine(sudokuPuzzleMultiExample[i, j]);
+                        Console.Write(sudokuPuzzleMultiExample[i, j]);
                     }
                 }
-            }
-
+                Console.WriteLine();
+            //}
+            
             //Get the next blank cell. 
             //Cycle through all of the cells until an empty one. 
             for (int i = 0; i <= 8; i++)
@@ -1027,14 +927,8 @@ namespace SudokuSetterAndSolver
 
                         foreach (var validNumber in validNumbers)
                         {
-                            if (validNumbers.Count != 0)
-                            {
-                                ChangeGrid(i, j, validNumber);
-                                SolveUsingRecursiveBactracking();
-                            }
-
-
-
+                            ChangeGrid(i, j, validNumber);
+                            SolveUsingRecursiveBactracking();
                         }
                         ReverseGrid(i, j, 0);
                     }

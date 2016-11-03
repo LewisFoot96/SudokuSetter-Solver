@@ -51,10 +51,11 @@
             // 
             // gameBanner
             // 
-            this.gameBanner.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("gameBanner.BackgroundImage")));
-            this.gameBanner.Location = new System.Drawing.Point(0, 0);
+            this.gameBanner.Image = global::SudokuSetterAndSolver.Properties.Resources.SSSGameScreenFullBanner_fw;
+            this.gameBanner.Location = new System.Drawing.Point(0, -1);
             this.gameBanner.Name = "gameBanner";
             this.gameBanner.Size = new System.Drawing.Size(1467, 250);
+            this.gameBanner.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.gameBanner.TabIndex = 7;
             this.gameBanner.TabStop = false;
             // 
@@ -220,10 +221,12 @@
             // 
             // PlayLevelsScreen
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(240F, 240F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.ClientSize = new System.Drawing.Size(1468, 1112);
+            this.ClientSize = new System.Drawing.Size(1468, 1012);
             this.Controls.Add(this.level14);
             this.Controls.Add(this.level15);
             this.Controls.Add(this.level16);

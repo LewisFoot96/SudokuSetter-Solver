@@ -90,10 +90,11 @@
             // 
             // gameBanner
             // 
-            this.gameBanner.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("gameBanner.BackgroundImage")));
-            this.gameBanner.Location = new System.Drawing.Point(1, 0);
+            this.gameBanner.Image = ((System.Drawing.Image)(resources.GetObject("gameBanner.Image")));
+            this.gameBanner.Location = new System.Drawing.Point(1, -2);
             this.gameBanner.Name = "gameBanner";
             this.gameBanner.Size = new System.Drawing.Size(1467, 250);
+            this.gameBanner.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.gameBanner.TabIndex = 6;
             this.gameBanner.TabStop = false;
             // 

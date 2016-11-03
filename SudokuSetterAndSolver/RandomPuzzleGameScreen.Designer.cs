@@ -38,7 +38,7 @@ namespace SudokuSetterAndSolver
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(1272, 432);
+            this.button1.Location = new System.Drawing.Point(676, 768);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(171, 141);
             this.button1.TabIndex = 85;
@@ -48,21 +48,25 @@ namespace SudokuSetterAndSolver
             // 
             // gameBanner
             // 
-            this.gameBanner.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("gameBanner.BackgroundImage")));
-            this.gameBanner.Location = new System.Drawing.Point(1, 0);
+            this.gameBanner.Image = global::SudokuSetterAndSolver.Properties.Resources.SSSGameScreenFullBanner_fw;
+            this.gameBanner.Location = new System.Drawing.Point(0, -2);
             this.gameBanner.Name = "gameBanner";
-            this.gameBanner.Size = new System.Drawing.Size(1467, 250);
+            this.gameBanner.Size = new System.Drawing.Size(1500, 250);
+            this.gameBanner.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.gameBanner.TabIndex = 86;
             this.gameBanner.TabStop = false;
             // 
             // RandomPuzzleGameScreen
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(240F, 240F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.ClientSize = new System.Drawing.Size(1468, 912);
+            this.ClientSize = new System.Drawing.Size(1500, 912);
             this.Controls.Add(this.gameBanner);
             this.Controls.Add(this.button1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "RandomPuzzleGameScreen";
             this.Text = "RandomPuzzleGameScreen";
@@ -90,7 +94,7 @@ namespace SudokuSetterAndSolver
                     this.Controls.Add(txtBox);
                     txtBox.Name = i.ToString() + j.ToString();
                     txtBox.ReadOnly = true;
-                    txtBox.Size = new System.Drawing.Size(70, 38);
+                    txtBox.Size = new System.Drawing.Size(45, 38);
                     txtBox.TabIndex = 0;
                     txtBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
                     txtBox.Click += new System.EventHandler(this.puzzleSquareClick);
@@ -113,17 +117,17 @@ namespace SudokuSetterAndSolver
                     //Position logic
                     if (i == 0 && j == 0)
                     {
-                        rowLocation = rowLocation + 70;
-                        columnLocation = columnLocation + 100;              
+                        rowLocation = rowLocation + 45;
+                        columnLocation = columnLocation + 120;              
                     }
                     else
                     {
-                        rowLocation = rowLocation + 70;
+                        rowLocation = rowLocation + 45;
                     }
                     txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
                 }
                 rowLocation = 0;
-                columnLocation = columnLocation + 45;
+                columnLocation = columnLocation + 17;
             }
         }
 
