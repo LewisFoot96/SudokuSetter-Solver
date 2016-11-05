@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Drawing;
+using System.Windows.Forms;
 
 namespace SudokuSetterAndSolver
 {
@@ -51,7 +52,7 @@ namespace SudokuSetterAndSolver
             this.gameBanner.Image = global::SudokuSetterAndSolver.Properties.Resources.SSSGameScreenFullBanner_fw;
             this.gameBanner.Location = new System.Drawing.Point(0, -2);
             this.gameBanner.Name = "gameBanner";
-            this.gameBanner.Size = new System.Drawing.Size(1500, 250);
+            this.gameBanner.Size = new System.Drawing.Size(1467, 250);
             this.gameBanner.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.gameBanner.TabIndex = 86;
             this.gameBanner.TabStop = false;
@@ -63,7 +64,7 @@ namespace SudokuSetterAndSolver
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.ClientSize = new System.Drawing.Size(1500, 912);
+            this.ClientSize = new System.Drawing.Size(1464, 912);
             this.Controls.Add(this.gameBanner);
             this.Controls.Add(this.button1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -80,13 +81,13 @@ namespace SudokuSetterAndSolver
             //Creating the sudoku grid values. 
             int[,] sudokuGrid = new int[gridSize, gridSize];
             SudokuPuzzleGenerator sudokuGridGenerator = new SudokuPuzzleGenerator(9);
-            sudokuGrid= sudokuGridGenerator.CreateSudokuGrid();
+            sudokuGrid = sudokuGridGenerator.CreateSudokuGrid();
 
             //Creating and popualting the grid with the values attained. 
             int[,] gridMultiDimensionalArray = new int[gridSize, gridSize];
             int rowLocation = 0, columnLocation = 0;
             for (int i = 0; i < gridSize; i++)
-            {          
+            {
                 for (int j = 0; j < gridSize; j++)
                 {
                     //Creating a textbox for the each cell, with the valid details. 
@@ -94,7 +95,7 @@ namespace SudokuSetterAndSolver
                     this.Controls.Add(txtBox);
                     txtBox.Name = i.ToString() + j.ToString();
                     txtBox.ReadOnly = true;
-                    txtBox.Size = new System.Drawing.Size(45, 38);
+                    txtBox.Size = new System.Drawing.Size(38, 38);
                     txtBox.TabIndex = 0;
                     txtBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
                     txtBox.Click += new System.EventHandler(this.puzzleSquareClick);
@@ -105,8 +106,34 @@ namespace SudokuSetterAndSolver
                     txtBox.MaxLength = 1;
                     //Setting the value in the grid text box. 
                     txtBox.Text = sudokuGrid[i, j].ToString();
+
+                    //Clouring 
+                    txtBox.Font = new Font(txtBox.Font, FontStyle.Bold);
+                    txtBox.ForeColor = Color.Black;
+                    if ((i <= 2 && j <= 2) || (i >= 6 && j >= 6))
+                    {
+                        txtBox.BackColor = Color.LightGreen;
+                    }
+                    else if ((i <= 2 && (j>=3 && j <= 5)) || (i >= 6 && (j >= 3 && j <= 5)))
+                    {
+                        txtBox.BackColor = Color.Pink;
+                    }
+                    else if ((i <= 2 && j >= 6) || (i >= 6 && j <= 2))
+                    {
+                        txtBox.BackColor = Color.LightCyan;
+                    }
+                    else if(((i>=3 && i<=5) && j<=2) || ((i >= 3 && i <= 5) && j>=6))
+                    {
+                        txtBox.BackColor = Color.LightYellow;
+                    }
+                    else
+                    {
+                        txtBox.BackColor = Color.LightBlue;
+                    }
+
+
                     //Ensuring static numbers can not be edited. 
-                    if(sudokuGrid[i, j] !=0)
+                    if (sudokuGrid[i, j] != 0)
                     {
                         txtBox.Enabled = false;
                     }
@@ -117,16 +144,16 @@ namespace SudokuSetterAndSolver
                     //Position logic
                     if (i == 0 && j == 0)
                     {
-                        rowLocation = rowLocation + 45;
-                        columnLocation = columnLocation + 120;              
+                        rowLocation = rowLocation + 118;
+                        columnLocation = columnLocation + 120;
                     }
                     else
                     {
-                        rowLocation = rowLocation + 45;
+                        rowLocation = rowLocation + 38;
                     }
                     txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
                 }
-                rowLocation = 0;
+                rowLocation = 80;
                 columnLocation = columnLocation + 17;
             }
         }
