@@ -12,12 +12,23 @@ namespace SudokuSetterAndSolver
 {
     public partial class SolveSudokuScreen : Form
     {
+        #region Field Variables 
         TextBox currentSelectedTextBox = new TextBox();
+        SudokuSolver sudokuSolver = new SudokuSolver();
+        int[,] sudokuGrid; 
+        #endregion
+
+
+        #region Constructor 
         public SolveSudokuScreen()
         {
             InitializeComponent();
             CreateGrid(9);
+            sudokuGrid = new int[9, 9];
         }
+        #endregion
+
+        #region Event Handlers Methods 
 
         private void puzzleTextChange(object sender, EventArgs e)
         {
@@ -54,5 +65,41 @@ namespace SudokuSetterAndSolver
             MainMenu mainMenu = new MainMenu();
             mainMenu.Show();
         }
+
+        /// <summary>
+        /// If the users wish to try and solve the puzzle they have entered. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void solveBtn_Click(object sender, EventArgs e)
+        {
+            //In here need to make a call to the recursive backtracking algorithm, to solve the puzzle that the user has entered.
+            //The puzzle solving should have a time out on it, if this time out is past, the puzzle is deemed unsolavable. 
+
+            //Creating the grid from the entered numbers. 
+            for (int rowNumber =0;rowNumber<=8;rowNumber++)
+            {
+                for(int columnNumber =0;columnNumber<=8;columnNumber++)
+                {
+                    string cellName = rowNumber.ToString() + columnNumber.ToString();
+                    foreach (var textBox in listOfTextBoxes)
+                    {                
+                        if(cellName == textBox.Name)
+                        {
+                            if (textBox.Text == "")
+                            {
+                                textBox.Text = "0";
+                            }
+                            sudokuGrid[rowNumber, columnNumber] =Int32.Parse(textBox.Text);
+                        }
+                    }
+                    
+                }
+            }
+            //GOt the grid, then need to solve it. 
+            //sudokuSolver.solvePuzzle();
+        }
+
+        #endregion 
     }
 }

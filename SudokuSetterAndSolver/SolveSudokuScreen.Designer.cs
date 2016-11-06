@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace SudokuSetterAndSolver
@@ -9,6 +10,8 @@ namespace SudokuSetterAndSolver
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
+
+        public List<TextBox> listOfTextBoxes = new List<TextBox>();
 
         /// <summary>
         /// Clean up any resources being used.
@@ -68,6 +71,7 @@ namespace SudokuSetterAndSolver
             this.solveBtn.TabIndex = 10;
             this.solveBtn.Text = "Solve";
             this.solveBtn.UseVisualStyleBackColor = true;
+            this.solveBtn.Click += new System.EventHandler(this.solveBtn_Click);
             // 
             // SolveSudokuScreen
             // 
@@ -91,6 +95,7 @@ namespace SudokuSetterAndSolver
 
         private void CreateGrid(int gridSize)
         {
+            listOfTextBoxes.Clear();
             //Creating the sudoku grid values. 
             int[,] sudokuGrid = new int[gridSize, gridSize];
 
@@ -139,10 +144,7 @@ namespace SudokuSetterAndSolver
                     else
                     {
                         txtBox.BackColor = Color.LightBlue;
-                    }
-
-
-                    
+                    }                  
                     //Position logic
                     if (i == 0 && j == 0)
                     {
@@ -154,6 +156,8 @@ namespace SudokuSetterAndSolver
                         rowLocation = rowLocation + 38;
                     }
                     txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
+
+                    listOfTextBoxes.Add(txtBox);
                 }
                 rowLocation = 80;
                 columnLocation = columnLocation + 17;
