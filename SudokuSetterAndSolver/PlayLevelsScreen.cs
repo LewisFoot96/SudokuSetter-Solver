@@ -24,5 +24,12 @@ namespace SudokuSetterAndSolver
             PlaySudokuScreen playSudokuScreen = new PlaySudokuScreen(button.Name);
             playSudokuScreen.Show();
         }
+
+        private void mainMenuBtn_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            MainMenu mainMenu = new MainMenu();
+            mainMenu.Show();
+        }
     }
 }

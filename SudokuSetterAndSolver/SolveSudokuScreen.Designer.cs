@@ -34,6 +34,7 @@ namespace SudokuSetterAndSolver
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SolveSudokuScreen));
             this.gameBanner = new System.Windows.Forms.PictureBox();
             this.mainMenuBtn = new System.Windows.Forms.Button();
+            this.solveBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.gameBanner)).BeginInit();
             this.SuspendLayout();
             // 
@@ -56,6 +57,17 @@ namespace SudokuSetterAndSolver
             this.mainMenuBtn.TabIndex = 9;
             this.mainMenuBtn.Text = "Main Menu";
             this.mainMenuBtn.UseVisualStyleBackColor = true;
+            this.mainMenuBtn.Click += new System.EventHandler(this.mainMenuBtn_Click);
+            // 
+            // solveBtn
+            // 
+            this.solveBtn.ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.solveBtn.Location = new System.Drawing.Point(652, 787);
+            this.solveBtn.Name = "solveBtn";
+            this.solveBtn.Size = new System.Drawing.Size(171, 93);
+            this.solveBtn.TabIndex = 10;
+            this.solveBtn.Text = "Solve";
+            this.solveBtn.UseVisualStyleBackColor = true;
             // 
             // SolveSudokuScreen
             // 
@@ -65,6 +77,7 @@ namespace SudokuSetterAndSolver
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.ClientSize = new System.Drawing.Size(1468, 1012);
+            this.Controls.Add(this.solveBtn);
             this.Controls.Add(this.mainMenuBtn);
             this.Controls.Add(this.gameBanner);
             this.ForeColor = System.Drawing.SystemColors.MenuHighlight;
@@ -151,5 +164,6 @@ namespace SudokuSetterAndSolver
 
         private System.Windows.Forms.PictureBox gameBanner;
         private System.Windows.Forms.Button mainMenuBtn;
+        private Button solveBtn;
     }
 }

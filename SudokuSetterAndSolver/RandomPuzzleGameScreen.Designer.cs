@@ -34,14 +34,15 @@ namespace SudokuSetterAndSolver
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RandomPuzzleGameScreen));
             this.button1 = new System.Windows.Forms.Button();
             this.gameBanner = new System.Windows.Forms.PictureBox();
+            this.submitPuzzleBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.gameBanner)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(676, 768);
+            this.button1.Location = new System.Drawing.Point(672, 800);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(171, 141);
+            this.button1.Size = new System.Drawing.Size(167, 100);
             this.button1.TabIndex = 85;
             this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
@@ -57,6 +58,15 @@ namespace SudokuSetterAndSolver
             this.gameBanner.TabIndex = 86;
             this.gameBanner.TabStop = false;
             // 
+            // submitPuzzleBtn
+            // 
+            this.submitPuzzleBtn.Location = new System.Drawing.Point(672, 674);
+            this.submitPuzzleBtn.Name = "submitPuzzleBtn";
+            this.submitPuzzleBtn.Size = new System.Drawing.Size(167, 100);
+            this.submitPuzzleBtn.TabIndex = 87;
+            this.submitPuzzleBtn.Text = "Submit Puzzle";
+            this.submitPuzzleBtn.UseVisualStyleBackColor = true;
+            // 
             // RandomPuzzleGameScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(240F, 240F);
@@ -65,6 +75,7 @@ namespace SudokuSetterAndSolver
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.ClientSize = new System.Drawing.Size(1464, 912);
+            this.Controls.Add(this.submitPuzzleBtn);
             this.Controls.Add(this.gameBanner);
             this.Controls.Add(this.button1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -161,5 +172,6 @@ namespace SudokuSetterAndSolver
         #endregion
         private System.Windows.Forms.Button button1;
         private PictureBox gameBanner;
+        private Button submitPuzzleBtn;
     }
 }

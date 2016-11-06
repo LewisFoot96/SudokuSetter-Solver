@@ -60,5 +60,6 @@ namespace SudokuSetterAndSolver
             else
                 e.Handled = true;
         }
+
     }
 }

@@ -46,6 +46,7 @@
             this.level15 = new System.Windows.Forms.Button();
             this.level16 = new System.Windows.Forms.Button();
             this.level13 = new System.Windows.Forms.Button();
+            this.mainMenuBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.gameBanner)).BeginInit();
             this.SuspendLayout();
             // 
@@ -61,7 +62,7 @@
             // 
             // level1
             // 
-            this.level1.Location = new System.Drawing.Point(228, 328);
+            this.level1.Location = new System.Drawing.Point(230, 261);
             this.level1.Name = "level1";
             this.level1.Size = new System.Drawing.Size(156, 111);
             this.level1.TabIndex = 8;
@@ -71,7 +72,7 @@
             // 
             // level4
             // 
-            this.level4.Location = new System.Drawing.Point(1076, 328);
+            this.level4.Location = new System.Drawing.Point(1076, 261);
             this.level4.Name = "level4";
             this.level4.Size = new System.Drawing.Size(156, 111);
             this.level4.TabIndex = 10;
@@ -81,7 +82,7 @@
             // 
             // level3
             // 
-            this.level3.Location = new System.Drawing.Point(802, 328);
+            this.level3.Location = new System.Drawing.Point(802, 261);
             this.level3.Name = "level3";
             this.level3.Size = new System.Drawing.Size(156, 111);
             this.level3.TabIndex = 11;
@@ -91,7 +92,7 @@
             // 
             // level2
             // 
-            this.level2.Location = new System.Drawing.Point(523, 328);
+            this.level2.Location = new System.Drawing.Point(523, 261);
             this.level2.Name = "level2";
             this.level2.Size = new System.Drawing.Size(156, 111);
             this.level2.TabIndex = 12;
@@ -101,7 +102,7 @@
             // 
             // level6
             // 
-            this.level6.Location = new System.Drawing.Point(527, 501);
+            this.level6.Location = new System.Drawing.Point(527, 411);
             this.level6.Name = "level6";
             this.level6.Size = new System.Drawing.Size(156, 111);
             this.level6.TabIndex = 16;
@@ -111,7 +112,7 @@
             // 
             // level7
             // 
-            this.level7.Location = new System.Drawing.Point(806, 501);
+            this.level7.Location = new System.Drawing.Point(806, 411);
             this.level7.Name = "level7";
             this.level7.Size = new System.Drawing.Size(156, 111);
             this.level7.TabIndex = 15;
@@ -121,7 +122,7 @@
             // 
             // level8
             // 
-            this.level8.Location = new System.Drawing.Point(1080, 501);
+            this.level8.Location = new System.Drawing.Point(1080, 411);
             this.level8.Name = "level8";
             this.level8.Size = new System.Drawing.Size(156, 111);
             this.level8.TabIndex = 14;
@@ -131,7 +132,7 @@
             // 
             // level5
             // 
-            this.level5.Location = new System.Drawing.Point(232, 501);
+            this.level5.Location = new System.Drawing.Point(232, 411);
             this.level5.Name = "level5";
             this.level5.Size = new System.Drawing.Size(156, 111);
             this.level5.TabIndex = 13;
@@ -141,7 +142,7 @@
             // 
             // level10
             // 
-            this.level10.Location = new System.Drawing.Point(523, 679);
+            this.level10.Location = new System.Drawing.Point(523, 571);
             this.level10.Name = "level10";
             this.level10.Size = new System.Drawing.Size(156, 111);
             this.level10.TabIndex = 20;
@@ -151,7 +152,7 @@
             // 
             // level11
             // 
-            this.level11.Location = new System.Drawing.Point(802, 679);
+            this.level11.Location = new System.Drawing.Point(802, 571);
             this.level11.Name = "level11";
             this.level11.Size = new System.Drawing.Size(156, 111);
             this.level11.TabIndex = 19;
@@ -161,7 +162,7 @@
             // 
             // level12
             // 
-            this.level12.Location = new System.Drawing.Point(1076, 679);
+            this.level12.Location = new System.Drawing.Point(1076, 571);
             this.level12.Name = "level12";
             this.level12.Size = new System.Drawing.Size(156, 111);
             this.level12.TabIndex = 18;
@@ -171,7 +172,7 @@
             // 
             // level9
             // 
-            this.level9.Location = new System.Drawing.Point(228, 679);
+            this.level9.Location = new System.Drawing.Point(228, 571);
             this.level9.Name = "level9";
             this.level9.Size = new System.Drawing.Size(156, 111);
             this.level9.TabIndex = 17;
@@ -181,7 +182,7 @@
             // 
             // level14
             // 
-            this.level14.Location = new System.Drawing.Point(527, 878);
+            this.level14.Location = new System.Drawing.Point(525, 723);
             this.level14.Name = "level14";
             this.level14.Size = new System.Drawing.Size(156, 111);
             this.level14.TabIndex = 24;
@@ -191,7 +192,7 @@
             // 
             // level15
             // 
-            this.level15.Location = new System.Drawing.Point(806, 878);
+            this.level15.Location = new System.Drawing.Point(804, 723);
             this.level15.Name = "level15";
             this.level15.Size = new System.Drawing.Size(156, 111);
             this.level15.TabIndex = 23;
@@ -201,7 +202,7 @@
             // 
             // level16
             // 
-            this.level16.Location = new System.Drawing.Point(1080, 878);
+            this.level16.Location = new System.Drawing.Point(1078, 723);
             this.level16.Name = "level16";
             this.level16.Size = new System.Drawing.Size(156, 111);
             this.level16.TabIndex = 22;
@@ -211,13 +212,23 @@
             // 
             // level13
             // 
-            this.level13.Location = new System.Drawing.Point(232, 878);
+            this.level13.Location = new System.Drawing.Point(230, 723);
             this.level13.Name = "level13";
             this.level13.Size = new System.Drawing.Size(156, 111);
             this.level13.TabIndex = 21;
             this.level13.Text = "Level 13";
             this.level13.UseVisualStyleBackColor = true;
             this.level13.Click += new System.EventHandler(this.levelButtonClick);
+            // 
+            // mainMenuBtn
+            // 
+            this.mainMenuBtn.Location = new System.Drawing.Point(650, 892);
+            this.mainMenuBtn.Name = "mainMenuBtn";
+            this.mainMenuBtn.Size = new System.Drawing.Size(186, 90);
+            this.mainMenuBtn.TabIndex = 25;
+            this.mainMenuBtn.Text = "Main Menu ";
+            this.mainMenuBtn.UseVisualStyleBackColor = true;
+            this.mainMenuBtn.Click += new System.EventHandler(this.mainMenuBtn_Click);
             // 
             // PlayLevelsScreen
             // 
@@ -227,6 +238,7 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.ClientSize = new System.Drawing.Size(1468, 1012);
+            this.Controls.Add(this.mainMenuBtn);
             this.Controls.Add(this.level14);
             this.Controls.Add(this.level15);
             this.Controls.Add(this.level16);
@@ -272,5 +284,6 @@
         private System.Windows.Forms.Button level15;
         private System.Windows.Forms.Button level16;
         private System.Windows.Forms.Button level13;
+        private System.Windows.Forms.Button mainMenuBtn;
     }
 }

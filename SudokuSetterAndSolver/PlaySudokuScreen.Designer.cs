@@ -31,16 +31,21 @@ namespace SudokuSetterAndSolver
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PlaySudokuScreen));
             this.gameBanner = new System.Windows.Forms.PictureBox();
             this.mainMenuBtn = new System.Windows.Forms.Button();
+            this.submitPuzzleBtn = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.timer3 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.gameBanner)).BeginInit();
             this.SuspendLayout();
             // 
             // gameBanner
             // 
             this.gameBanner.Image = global::SudokuSetterAndSolver.Properties.Resources.SSSGameScreenFullBanner_fw;
-            this.gameBanner.Location = new System.Drawing.Point(0, -1);
+            this.gameBanner.Location = new System.Drawing.Point(0, -2);
             this.gameBanner.Name = "gameBanner";
             this.gameBanner.Size = new System.Drawing.Size(1467, 250);
             this.gameBanner.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -49,13 +54,26 @@ namespace SudokuSetterAndSolver
             // 
             // mainMenuBtn
             // 
-            this.mainMenuBtn.Location = new System.Drawing.Point(661, 907);
+            this.mainMenuBtn.Location = new System.Drawing.Point(663, 896);
             this.mainMenuBtn.Name = "mainMenuBtn";
             this.mainMenuBtn.Size = new System.Drawing.Size(171, 93);
             this.mainMenuBtn.TabIndex = 8;
             this.mainMenuBtn.Text = "Main Menu";
             this.mainMenuBtn.UseVisualStyleBackColor = true;
             this.mainMenuBtn.Click += new System.EventHandler(this.mainMenuBtn_Click);
+            // 
+            // submitPuzzleBtn
+            // 
+            this.submitPuzzleBtn.Location = new System.Drawing.Point(663, 762);
+            this.submitPuzzleBtn.Name = "submitPuzzleBtn";
+            this.submitPuzzleBtn.Size = new System.Drawing.Size(171, 93);
+            this.submitPuzzleBtn.TabIndex = 9;
+            this.submitPuzzleBtn.Text = "Submit Puzzle";
+            this.submitPuzzleBtn.UseVisualStyleBackColor = true;
+            // 
+            // timer3
+            // 
+            this.timer3.Enabled = true;
             // 
             // PlaySudokuScreen
             // 
@@ -65,6 +83,7 @@ namespace SudokuSetterAndSolver
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.ClientSize = new System.Drawing.Size(1468, 1012);
+            this.Controls.Add(this.submitPuzzleBtn);
             this.Controls.Add(this.mainMenuBtn);
             this.Controls.Add(this.gameBanner);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -73,8 +92,6 @@ namespace SudokuSetterAndSolver
             this.Text = "PlaySudokuScreen";
             ((System.ComponentModel.ISupportInitialize)(this.gameBanner)).EndInit();
             this.ResumeLayout(false);
-
-
 
         }
 
@@ -164,5 +181,9 @@ namespace SudokuSetterAndSolver
 
         private System.Windows.Forms.PictureBox gameBanner;
         private System.Windows.Forms.Button mainMenuBtn;
+        private Button submitPuzzleBtn;
+        private Timer timer1;
+        private Timer timer2;
+        private Timer timer3;
     }
 }

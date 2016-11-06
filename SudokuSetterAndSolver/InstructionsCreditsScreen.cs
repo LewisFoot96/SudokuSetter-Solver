@@ -16,5 +16,12 @@ namespace SudokuSetterAndSolver
         {
             InitializeComponent();
         }
+
+        private void mainMenuBtn_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            MainMenu mainMenu = new MainMenu();
+            mainMenu.Show();
+        }
     }
 }
