@@ -40,7 +40,7 @@ namespace SudokuSetterAndSolver
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(672, 800);
+            this.button1.Location = new System.Drawing.Point(672, 896);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(167, 100);
             this.button1.TabIndex = 85;
@@ -60,7 +60,7 @@ namespace SudokuSetterAndSolver
             // 
             // submitPuzzleBtn
             // 
-            this.submitPuzzleBtn.Location = new System.Drawing.Point(672, 674);
+            this.submitPuzzleBtn.Location = new System.Drawing.Point(672, 770);
             this.submitPuzzleBtn.Name = "submitPuzzleBtn";
             this.submitPuzzleBtn.Size = new System.Drawing.Size(167, 100);
             this.submitPuzzleBtn.TabIndex = 87;
@@ -74,7 +74,7 @@ namespace SudokuSetterAndSolver
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.ClientSize = new System.Drawing.Size(1464, 912);
+            this.ClientSize = new System.Drawing.Size(1464, 1012);
             this.Controls.Add(this.submitPuzzleBtn);
             this.Controls.Add(this.gameBanner);
             this.Controls.Add(this.button1);
