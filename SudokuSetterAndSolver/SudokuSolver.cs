@@ -16,7 +16,7 @@ namespace SudokuSetterAndSolver
         #region Example Puzzles
         //Example puzzles. 
 
-        //Goes into infinite loop on examples 2 and 9 on backtracking algorith, sudokuBlockHiddenSingleExample
+        //Goes into infinite loop on examples 2 and 9 on backtracking algorith, sudokuBlockHiddenSingleExample sudokuHiddenSinglesExample
         public int[,] sudokuPuzzleMultiExample = new int[9, 9];
         int[] sudokuPuzzleExample = new int[] { 0, 0, 0, 2, 6, 0, 7, 0, 1, 6, 8, 0, 0, 7, 0, 0, 9, 0, 1, 9, 0, 0, 0, 4, 5, 0, 0, 8, 2, 0, 1, 0, 0, 0, 4, 0, 0, 0, 4, 6, 0, 2, 9, 0, 0, 0, 5, 0, 0, 0, 3, 0, 2, 8, 0, 0, 9, 3, 0, 0, 0, 7, 4, 0, 4, 0, 0, 5, 0, 0, 3, 6, 7, 0, 3, 0, 1, 8, 0, 0, 0 };
         int[] sudokuPuzzleExample2 = new int[] { 5, 3, 0, 0, 7, 0, 0, 0, 0, 6, 0, 0, 1, 9, 5, 0, 0, 0, 0, 9, 8, 0, 0, 0, 0, 6, 0, 8, 0, 0, 0, 6, 0, 0, 0, 3, 4, 0, 0, 8, 0, 3, 0, 0, 1, 7, 0, 0, 0, 2, 0, 0, 0, 6, 0, 6, 0, 0, 0, 0, 2, 8, 0, 0, 0, 0, 4, 1, 9, 0, 0, 5, 0, 0, 0, 0, 8, 0, 0, 7, 9 };
@@ -36,6 +36,14 @@ namespace SudokuSetterAndSolver
         int[] nakedBlockExample = new int[] { 2, 9, 4, 5, 1, 3, 0, 0, 6, 6, 0, 0, 8, 4, 2, 3, 1, 9, 3, 0, 0, 6, 9, 7, 2, 5, 4, 0, 0, 0, 0, 5, 6, 0, 0, 0, 0, 4, 0, 0, 8, 0, 0, 6, 0, 0, 0, 0, 4, 7, 0, 0, 0, 0, 7, 3, 0, 1, 6, 4, 0, 0, 5, 9, 0, 0, 7, 3, 5, 0, 0, 1, 4, 0, 0, 9, 2, 8, 6, 3, 7 };
         int[] nakedColumnExample = new int[] { 6, 0, 0, 8, 0, 2, 7, 3, 5, 7, 0, 2, 3, 5, 6, 9, 4, 0, 3, 0, 0, 4, 0, 7, 0, 6, 2, 1, 0, 0, 9, 7, 5, 0, 2, 4, 2, 0, 0, 1, 8, 3, 0, 7, 9, 0, 7, 9, 6, 2, 4, 0, 0, 3, 4, 0, 0, 5, 6, 0, 2, 0, 7, 0, 6, 7, 2, 4, 0, 3, 0, 0, 9, 2, 0, 7, 3, 8, 4, 0, 6 };
         int[] hiddenDoublesAll = new int[] { 7, 2, 0, 4, 0, 8, 0, 3, 0, 0, 8, 0, 0, 0, 0, 0, 4, 7, 4, 0, 1, 0, 7, 6, 8, 0, 2, 8, 1, 0, 7, 3, 9, 0, 0, 0, 0, 0, 0, 8, 5, 1, 0, 0, 0, 0, 0, 0, 2, 6, 4, 0, 8, 0, 2, 0, 9, 6, 8, 0, 4, 1, 3, 3, 4, 0, 0, 0, 0, 0, 0, 8, 1, 6, 8, 9, 4, 3, 2, 7, 5 };
+        int[] hiddenTreplesRowColumn = new int[] { 0, 0, 0, 0, 0, 1, 0, 3, 0, 2, 3, 1, 0, 9, 0, 0, 0, 0, 0, 6, 5, 0, 0, 3, 1, 0, 0, 6, 7, 8, 9, 2, 4, 3, 0, 0, 1, 0, 3, 0, 5, 0, 0, 0, 6, 0, 0, 0, 1, 3, 6, 7, 0, 0, 0, 0, 9, 3, 6, 0, 5, 7, 0, 0, 0, 6, 0, 1, 9, 8, 4, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0 };
+
+        //All of the check to see what numbers are valid for that particular square. 
+        List<int> validNUmbersInRow;
+        List<int> validNumbersInColumn;
+        List<int> validNumbersInBlock;
+        List<int> validNumbersInCell;
+
 
         #endregion
 
@@ -58,12 +66,13 @@ namespace SudokuSetterAndSolver
 
             //Generate the puzzle and then solve it. 
             GeneratePuzzle();
-            SolveSudokRuleBased();
+            //SolveSudokRuleBased();
             // SolveUsingRecursiveBactracking();
             //BacktrackingSolve(0);
             //solve(sudokuPuzzleMultiExample, 0);
             //SolveConstraintsProblem(sudokuPuzzleMultiExample, validNumbersForRegion);
             //SolveStoaticSearch(sudokuPuzzleMultiExample, validNumbersForRegion);
+            BacktrackingSolve(0);
         }
 
         #endregion 
@@ -79,7 +88,7 @@ namespace SudokuSetterAndSolver
             {
                 for (int j = 0; j <= 8; j++)
                 {
-                    sudokuPuzzleMultiExample[i, j] = hiddenDoublesAll[singleArrayValue];
+                    sudokuPuzzleMultiExample[i, j] = sudokuPuzzleExample2[singleArrayValue];
                     if (sudokuPuzzleMultiExample[i, j] != 0)
                     {
                         staticNumbers[i, j] = sudokuPuzzleMultiExample[i, j];
@@ -273,7 +282,7 @@ namespace SudokuSetterAndSolver
             //NakedTuplesColumn();
             //NakedTuplesBlock();
             //NakedTriplesColumn();
-            HiddenDoublesColumn();
+            //HiddenTriplesColumn();
         }
 
         private void NakedTriplesRow()
@@ -645,6 +654,56 @@ namespace SudokuSetterAndSolver
             }
         }
 
+        private void HiddenTriplesRow()
+        {
+            //Getting all of the naked doubles for that row. 
+            List<List<int>> cadidatesInSingleRow = new List<List<int>>();
+            for (int rowNumber = 0; rowNumber <= 80; rowNumber++)
+            {
+                cadidatesInSingleRow.Add(candidatesList[rowNumber]);
+
+                //If the row is at an end. 
+                if (rowNumber % 9 == 8 || rowNumber == 8)
+                {
+                    GetHiddenTriples(cadidatesInSingleRow, rowNumber, 0, "row");
+                    cadidatesInSingleRow.Clear();
+                }
+            }
+        }
+
+        private void HiddenTriplesColumn()
+        {
+            List<List<int>> cadidatesInSingleColumn = new List<List<int>>();
+            //Search through all of the columns. 
+            for (int columnNumber = 0; columnNumber <= 8; columnNumber++)
+            {
+                for (int candiateIndexNumber = 0; candiateIndexNumber <= 80; candiateIndexNumber++)
+                {
+                    if (columnNumber == candiateIndexNumber || candiateIndexNumber % 9 == columnNumber)
+                    {
+                        cadidatesInSingleColumn.Add(candidatesList[candiateIndexNumber]);
+                    }
+                }
+                GetHiddenTriples(cadidatesInSingleColumn, 0, columnNumber, "column");
+                cadidatesInSingleColumn.Clear();
+            }
+        }
+
+        private void HiddenTriplesBlock()
+        {
+            List<List<int>> listOfCanidadtesForEachCellWithinTheBlock = new List<List<int>>();
+            //Gets all the values from each block. 
+            for (int rowNumber = 2; rowNumber <= 8; rowNumber += 3)
+            {
+                for (int coulmnNumber = 2; coulmnNumber <= 8; coulmnNumber += 3)
+                {
+                    listOfCanidadtesForEachCellWithinTheBlock = getSudokuValuesInBox(rowNumber, coulmnNumber); //Get cell values for that block. 
+                    GetHiddenTriples(listOfCanidadtesForEachCellWithinTheBlock, rowNumber, coulmnNumber, "block");
+                    listOfCanidadtesForEachCellWithinTheBlock.Clear();
+                }
+            }
+        }
+
         //The logic for this method is worng. 
         private void GetHiddenDoubles(List<List<int>> cells, int rowNumber, int columnNumber, string regionTitle)
         {
@@ -666,7 +725,7 @@ namespace SudokuSetterAndSolver
                 {
                     //List that contains all of the matches. 
                     List<int> matchList = new List<int>();
-                    List<int> matchDoubleList = new List<int>(); 
+                    List<int> matchDoubleList = new List<int>();
                     for (int indexValueForMatch = 0; indexValueForMatch <= notNullIndexValuesCellsInRow.Count - 1; indexValueForMatch++)
                     {
                         // Making sure all numbers within the combination are unique. 
@@ -687,13 +746,12 @@ namespace SudokuSetterAndSolver
                                 //if there is a match, add it to the match list, the match provides the index of the matched cell. 
                                 matchList.Add(notNullIndexValuesCellsInRow[indexValueForMatch]);
                             }
-                            
                         }
                     }
-                    //A naked double has been found. 
-                    if (matchList.Count == 0 && matchDoubleList.Count ==2)
+                    //A hidden double has been found. 
+                    if (matchList.Count == 0 && matchDoubleList.Count == 2)
                     {
-                        List < List < int >> test = candidatesList;
+                        List<List<int>> test = candidatesList;
                         //Going through all of fhe none null cells.
                         for (int candidatesIndexValues = 0; candidatesIndexValues <= notNullIndexValuesCellsInRow.Count - 1; candidatesIndexValues++)
                         {
@@ -707,9 +765,9 @@ namespace SudokuSetterAndSolver
                                     break;
                                 }
                             }
-                           
+
                             //Removing all of the other candidates in the cells that are  double or triple. 
-                            if(doubleCell == true)
+                            if (doubleCell == true)
                             {
                                 for (int candidateValueIndex = 0; candidateValueIndex <= cells[notNullIndexValuesCellsInRow[candidatesIndexValues]].Count - 1; candidateValueIndex++)
                                 {
@@ -757,6 +815,7 @@ namespace SudokuSetterAndSolver
 
                         }
                         matchList.Clear();
+                        matchDoubleList.Clear();
                     }
                 }
             }
@@ -764,9 +823,117 @@ namespace SudokuSetterAndSolver
             cells.Clear();
         }
 
+        //The logic is wrong, it is picking up values that should not be there. It is picking up, things with 2 items in each which is not correct. May need to 
         private void GetHiddenTriples(List<List<int>> cells, int rowNumber, int columnNumber, string regionTitle)
         {
-
+            List<int> notNullIndexValuesCellsInRow = new List<int>();
+            //Gets all the none null cells within the row. 
+            for (int cellIndexValue = 0; cellIndexValue <= cells.Count - 1; cellIndexValue++)
+            {
+                if (cells[cellIndexValue] != null)
+                {
+                    notNullIndexValuesCellsInRow.Add(cellIndexValue);
+                }
+            }
+            //Going through all of the possible triple combinations. 
+            for (int firstNumber = 1; firstNumber <= 9; firstNumber++)
+            {
+                for (int secondNumber = 1; secondNumber <= 9; secondNumber++)
+                {
+                    List<int> matchList = new List<int>();
+                    List<int> tripleMatchList = new List<int>();
+                    for (int thirdNumber = 1; thirdNumber <= 9; thirdNumber++)
+                    {
+                        for (int indexValueForMatch = 0; indexValueForMatch <= notNullIndexValuesCellsInRow.Count - 1; indexValueForMatch++)
+                        {
+                            //Making sure all numbers within the combination are unique. 
+                            if (firstNumber != secondNumber && firstNumber != thirdNumber && secondNumber != thirdNumber)
+                            {
+                                int containsCount = 0;
+                                if (cells[notNullIndexValuesCellsInRow[indexValueForMatch]].Contains(firstNumber)) { containsCount++; }
+                                if (cells[notNullIndexValuesCellsInRow[indexValueForMatch]].Contains(secondNumber)) { containsCount++; }
+                                if (cells[notNullIndexValuesCellsInRow[indexValueForMatch]].Contains(thirdNumber)) { containsCount++; }
+                                //This will also match for hidden triples. 
+                                if (containsCount >= 2)
+                                {
+                                    //if there is a match, add it to the match list, the match provides the index of the matched cell. 
+                                    tripleMatchList.Add(notNullIndexValuesCellsInRow[indexValueForMatch]);
+                                }
+                                else if (containsCount >= 1)
+                                {
+                                    matchList.Add(notNullIndexValuesCellsInRow[indexValueForMatch]);
+                                }
+                            }
+                        }
+                        //A naked treble has been found. Need to tes this in isolation. To see if it pics up the naked triple in the 5 row. 
+                        if (tripleMatchList.Count == 3 && matchList.Count == 0)
+                        {
+                            //Removing the candidates from the other cells apart from the naked triple cells. 
+                            for (int candidatesIndexValues = 0; candidatesIndexValues <= notNullIndexValuesCellsInRow.Count - 1; candidatesIndexValues++)
+                            {
+                                bool tripleCell = false;
+                                foreach (var value in tripleMatchList)
+                                {
+                                    if (value == notNullIndexValuesCellsInRow[candidatesIndexValues])
+                                    {
+                                        tripleCell = true;
+                                        break;
+                                    }
+                                }
+                                if (tripleCell == true)
+                                {
+                                    for (int candidateValueIndex = 0; candidateValueIndex <= cells[notNullIndexValuesCellsInRow[candidatesIndexValues]].Count - 1; candidateValueIndex++)
+                                    {
+                                        if (cells[notNullIndexValuesCellsInRow[candidatesIndexValues]][candidateValueIndex] != firstNumber && cells[notNullIndexValuesCellsInRow[candidatesIndexValues]][candidateValueIndex] != secondNumber && cells[notNullIndexValuesCellsInRow[candidatesIndexValues]][candidateValueIndex] != thirdNumber)
+                                        {
+                                            cells[notNullIndexValuesCellsInRow[candidatesIndexValues]].RemoveAt(candidateValueIndex);
+                                            if (regionTitle == "row")
+                                            {
+                                                candidatesList[rowNumber - 8 + notNullIndexValuesCellsInRow[candidatesIndexValues]] = cells[notNullIndexValuesCellsInRow[candidatesIndexValues]];
+                                            }
+                                            else if (regionTitle == "column")
+                                            {
+                                                candidatesList[notNullIndexValuesCellsInRow[candidatesIndexValues] * 9 + columnNumber] = cells[notNullIndexValuesCellsInRow[candidatesIndexValues]];
+                                            }
+                                            //If the region is a block, then further handling. 
+                                            else
+                                            {
+                                                //Method to get the row and column number, using the row number, the index number and the column number 
+                                                int coordinateValue = 1;
+                                                int startRowNumber = rowNumber - 2;
+                                                int startCoulmnNumber = columnNumber - 2;
+                                                int actualRowNumber = 0;
+                                                int actualColumnNumber = 0;
+                                                //Getting row number and column of the current cell. 
+                                                for (; startRowNumber <= rowNumber; startRowNumber++)
+                                                {
+                                                    for (; startCoulmnNumber <= columnNumber; startCoulmnNumber++)
+                                                    {
+                                                        if (notNullIndexValuesCellsInRow[candidatesIndexValues] + 1 == coordinateValue)
+                                                        {
+                                                            actualRowNumber = startRowNumber;
+                                                            actualColumnNumber = startCoulmnNumber;
+                                                        }
+                                                        coordinateValue++;
+                                                    }
+                                                    startCoulmnNumber = columnNumber - 2;
+                                                }
+                                                //Removing candidate from cell. 
+                                                candidatesList[9 * actualRowNumber + actualColumnNumber] = cells[notNullIndexValuesCellsInRow[candidatesIndexValues]];
+                                            }
+                                            candidateValueIndex = 0;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        matchList.Clear();
+                        tripleMatchList.Clear();
+                    }
+                }
+            }
+            notNullIndexValuesCellsInRow.Clear();
+            cells.Clear();
         }
 
         private void RemoveCandidates(List<int> notNullIndexValuesCellsInRow, List<int> matchList, List<List<int>> cells, int rowNumber, int columnNumber, string regionTitle, int firstNumber, int secondNumber, int thirdNumber)
@@ -1100,9 +1267,9 @@ namespace SudokuSetterAndSolver
                     if (sudokuPuzzleMultiExample[i, j] == 0 && staticNumbers[i, j] == 0)
                     {
                         //All of the check to see what numbers are valid for that particular square. 
-                        List<int> validNUmbersInRow = checkRow(sudokuPuzzleMultiExample, i, j);
-                        List<int> validNumbersInColumn = checkColumn(sudokuPuzzleMultiExample, i, j);
-                        List<int> validNumbersInBlock = checkBlock(sudokuPuzzleMultiExample, i, j);
+                        validNUmbersInRow = checkRow(sudokuPuzzleMultiExample, i, j);
+                        validNumbersInColumn = checkColumn(sudokuPuzzleMultiExample, i, j);
+                        validNumbersInBlock = checkBlock(sudokuPuzzleMultiExample, i, j);
                         List<int> validNumbers = GetValidNumbers(validNumbersInColumn, validNUmbersInRow, validNumbersInBlock);
 
                         foreach (var validNumber in validNumbers)
@@ -1334,6 +1501,7 @@ namespace SudokuSetterAndSolver
 
         public void BacktrackingSolve(int previousNumber)
         {
+            //Remove ints and change to statics, general fields not in local variables. Create evetything outside of the recursive call. Not using memory ineffinctly. 
             for (int rowNumber = 0; rowNumber <= 8; rowNumber++)
             {
                 for (int columnNumber = 0; columnNumber <= 8; columnNumber++)
@@ -1341,10 +1509,10 @@ namespace SudokuSetterAndSolver
                     if (sudokuPuzzleMultiExample[rowNumber, columnNumber] == 0)
                     {
                         //All of the check to see what numbers are valid for that particular square. 
-                        List<int> validNUmbersInRow = checkRow(sudokuPuzzleMultiExample, rowNumber, columnNumber);
-                        List<int> validNumbersInColumn = checkColumn(sudokuPuzzleMultiExample, rowNumber, columnNumber);
-                        List<int> validNumbersInBlock = checkBlock(sudokuPuzzleMultiExample, rowNumber, columnNumber);
-                        List<int> validNumbers = GetValidNumbers(validNumbersInColumn, validNUmbersInRow, validNumbersInBlock);
+                        validNUmbersInRow = checkRow(sudokuPuzzleMultiExample, rowNumber, columnNumber);
+                        validNumbersInColumn = checkColumn(sudokuPuzzleMultiExample, rowNumber, columnNumber);
+                        validNumbersInBlock = checkBlock(sudokuPuzzleMultiExample, rowNumber, columnNumber);
+                        validNumbersInCell = GetValidNumbers(validNumbersInColumn, validNUmbersInRow, validNumbersInBlock);
 
                         //if(sudokuPuzzleMultiExample[0,6]==9 && sudokuPuzzleMultiExample[0,2]==4 && sudokuPuzzleMultiExample[0,3]==6  )
                         //{
@@ -1360,7 +1528,7 @@ namespace SudokuSetterAndSolver
                         //}
 
 
-                        if (validNumbers.Count == 0)
+                        if (validNumbersInCell.Count == 0)
                         {
                             //for (int i = 0; i <= 8; i++)
                             //{
@@ -1370,7 +1538,7 @@ namespace SudokuSetterAndSolver
                             //    }
                             //}
                             //Console.WriteLine();
-                            //Get the previous value that is not a static number 
+                            // Get the previous value that is not a static number
 
                             if (columnNumber == 0)
                             {
@@ -1408,7 +1576,7 @@ namespace SudokuSetterAndSolver
                             else
                             {
                                 //Need to back track further. 
-                                if (previousNumber == validNumbers[validNumbers.Count - 1])
+                                if (previousNumber == validNumbers[validNumbersInCell.Count - 1])
                                 {
                                     if (columnNumber == 0)
                                     {
@@ -1872,6 +2040,147 @@ namespace SudokuSetterAndSolver
             }
 
             return validNumbers;
+        }
+
+        #endregion
+
+        #region Iterative Method 
+
+        public void IterativeMethod(int previousNumber)
+        {
+            for (int rowNumber = 0; rowNumber <= 8; rowNumber++)
+            {
+                for (int columnNumber = 0; columnNumber <= 8; columnNumber++)
+                {
+                    if (sudokuPuzzleMultiExample[rowNumber, columnNumber] == 0)
+                    {
+                        //All of the check to see what numbers are valid for that particular square. 
+                        List<int> validNUmbersInRow = checkRow(sudokuPuzzleMultiExample, rowNumber, columnNumber);
+                        List<int> validNumbersInColumn = checkColumn(sudokuPuzzleMultiExample, rowNumber, columnNumber);
+                        List<int> validNumbersInBlock = checkBlock(sudokuPuzzleMultiExample, rowNumber, columnNumber);
+                        List<int> validNumbers = GetValidNumbers(validNumbersInColumn, validNUmbersInRow, validNumbersInBlock);
+
+                        //if(sudokuPuzzleMultiExample[0,6]==9 && sudokuPuzzleMultiExample[0,2]==4 && sudokuPuzzleMultiExample[0,3]==6  )
+                        //{
+
+                        //}
+                        //if(sudokuPuzzleMultiExample[0,5]==0)
+                        //{
+
+                        //}
+                        //if(rowNumber ==0)
+                        //{
+
+                        //}
+
+
+                        if (validNumbers.Count == 0)
+                        {
+                            //for (int i = 0; i <= 8; i++)
+                            //{
+                            //    for (int j = 0; j <= 8; j++)
+                            //    {
+                            //        Console.Write(sudokuPuzzleMultiExample[i, j]);
+                            //    }
+                            //}
+                            //Console.WriteLine();
+                            //Get the previous value that is not a static number 
+
+                            if (columnNumber == 0)
+                            {
+                                rowNumber = rowNumber - 1;
+                                columnNumber = 8;
+                            }
+                            else
+                            {
+                                columnNumber = columnNumber - 1;
+                            }
+
+                            for (int i = rowNumber; i >= 0; i--)
+                            {
+                                for (int j = columnNumber; j >= 0; j--)
+                                {
+                                    int tempPreviousNumber = 0;
+                                    if (staticNumbers[i, j] == 0)
+                                    {
+                                        tempPreviousNumber = sudokuPuzzleMultiExample[i, j];
+                                        sudokuPuzzleMultiExample[i, j] = 0;
+                                        i = 0;
+                                        j = 0;
+                                        return;
+                                    }
+                                }
+                                rowNumber = rowNumber - 1;
+                                columnNumber = 8;
+                            }
+                        }
+                        else
+                        {
+                            if (previousNumber == 0)
+                            {
+                                sudokuPuzzleMultiExample[rowNumber, columnNumber] = validNumbers[0];
+                            }
+
+                            else
+                            {
+                                //Need to back track further. 
+                                if (previousNumber == validNumbers[validNumbers.Count - 1])
+                                {
+                                    if (columnNumber == 0)
+                                    {
+                                        rowNumber = rowNumber - 1;
+                                        columnNumber = 8;
+                                    }
+                                    else
+                                    {
+                                        columnNumber = columnNumber - 1;
+                                    }
+
+                                    for (int i = rowNumber; i >= 0; i--)
+                                    {
+                                        for (int j = columnNumber; j >= 0; j--)
+                                        {
+                                            int tempPreviousNumber = 0;
+                                            if (staticNumbers[i, j] == 0)
+                                            {
+                                                tempPreviousNumber = sudokuPuzzleMultiExample[i, j];
+                                                sudokuPuzzleMultiExample[i, j] = 0;
+
+                                                i = 0;
+                                                j = 0;
+                                                return;
+                                            }
+                                        }
+                                        rowNumber = rowNumber - 1;
+                                        columnNumber = 8;
+                                    }
+                                }
+                                else
+                                {
+                                    //Maybe  something wrong with this statement 
+                                    foreach (var validNumber in validNumbers)
+                                    {
+                                        //If the valid number has already been used in the cell, then the next number will need to be inserted or the backtracking will need to go back further. 
+                                        if (validNumber == previousNumber || validNumber < previousNumber)
+                                        {
+
+                                        }
+                                        else //Set the valid number to the cell, and submit the new grid. 
+                                        {
+                                            sudokuPuzzleMultiExample[rowNumber, columnNumber] = validNumber;
+                                            previousNumber = 0;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+
+            bool solved = true;
         }
 
         #endregion
