@@ -18,6 +18,8 @@ namespace SudokuSetterAndSolver
     //removed iterative and backtrackong first attempt methods. 
     //Tried to remove local variables. 
 
+        //May need to add random element, to ensure puzzle creation is correct. 
+
     public class SudokuSolver
     {
         #region Example Puzzles
@@ -1531,9 +1533,9 @@ namespace SudokuSetterAndSolver
         }
         #endregion
 
+        //New backtracking no recursion, works, needs to be tested with harder puzzles. 
+
         #region Backtracking More Efficient Test 
-
-
         //Starting creaiting this method needs finishing off and testing, try and get done today. 
         private void BacktrackinEffcient()
         {
