@@ -9,29 +9,18 @@ namespace SudokuSetterAndSolver
     //Things to do, test the naked values more, create a global candidates list, that is updated accordingly. 
     //Refactoring needs to be done between the columns and rows, with the hidden singles and also the naked rows and columns.
 
-    //BY this week want to get all the nakeds done, have a look at hidden tuples and also try and sort out recursive bactracking with David. 
-
-    //It is not wrorking but may be down to the stack being full therfore need to change all varibales to static within the method. 
-
-    //Need to remove stack vaalues, makes static. in the pricess. 
-
-    //removed iterative and backtrackong first attempt methods. 
-    //Tried to remove local variables. 
-
-    //May need to add random element, to ensure puzzle creation is correct. 
-
     public class SudokuSolver
     {
+        #region Objects 
         PuzzleManager puzzleManager = new PuzzleManager();
-        puzzle puzzleDetails; 
+        //Details of the current 
+        puzzle puzzleDetails;
+        #endregion
 
-        #region Example Puzzles
-        //Example puzzles. 
-
+        #region Global Variables 
         //Goes into infinite loop on examples 2 and 9 on backtracking algorith, sudokuBlockHiddenSingleExample sudokuHiddenSinglesExample
         public int[,] sudokuPuzzleMultiExample = new int[9, 9];
     
-
         //Variales for checking the values for the cell. 
         List<int> nonValidumbersInRegion = new List<int>();
         List<int> numberPositionsInRegion = new List<int>();
@@ -55,9 +44,6 @@ namespace SudokuSetterAndSolver
 
         int currentCellNumberHandled = 0;
 
-        #endregion
-
-        #region Gloabl Variables 
         //array that stores the static numbers that are within the puzzle. 
         public int[,] staticNumbers = new int[9, 9];
         int[] validNumbers = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
@@ -241,7 +227,6 @@ namespace SudokuSetterAndSolver
             CandidateHandling();
             //solve(0);
 
-            SolveUsingRecursiveBactracking();
         }
 
         //Method that creates the correct candidate list. 
@@ -1232,9 +1217,6 @@ namespace SudokuSetterAndSolver
 
         #endregion
 
-
-
-
         //New backtracking no recursion, works, needs to be tested with harder puzzles. 
         #region Backtracking More Efficient Test 
         //Starting creaiting this method needs finishing off and testing, try and get done today. 
@@ -1352,7 +1334,6 @@ namespace SudokuSetterAndSolver
 
 
         #endregion
-
 
         #region Methods for getting values out of blocks, rows and columns, by passing values. 
 
