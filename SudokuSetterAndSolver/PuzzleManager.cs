@@ -4,93 +4,102 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace SudokuSetterAndSolver
 {
+
     //THis class maanages the puzzles that will be saved and loaded into the game when required. 
-    class PuzzleManager
+    public class PuzzleManager
     {
-        string testFilePath;
-        public void SavePuzzleToFile(int[,] puzzleArray)
+        #region Methods 
+        /// <summary>
+        /// Method to convert an arry into a multi dimensional array, that will contain the puzzle. 
+        /// </summary>
+        /// <param name="puzzleArray"></param>
+        /// <returns></returns>
+        public int[,] ConvertArrayToMultiDimensionalArray(int[] puzzleArray)
         {
-            List<string> puzzleStringList = CreateStringList(puzzleArray);
-            string filePath = Path.GetDirectoryName(Path.GetDirectoryName(Directory.GetCurrentDirectory()));
-            filePath += @"\Puzzles\TestPuzzle.txt";
+            //Method variables 
+            int[,] sudokuPuzzleMultiDimensionalArray = new int[9,9];
+            int rowNumber = 0;
+            int columnNumber = 0;
 
-            testFilePath = filePath;
-
-            StreamWriter file = new StreamWriter(testFilePath);
-            foreach (string puzzleStringElement in puzzleStringList)
+            //creating the multi dimensional array. 
+            for (int cellNumber =0;cellNumber<=80;cellNumber++)
             {
-                if (puzzleStringElement != "")
+                sudokuPuzzleMultiDimensionalArray[rowNumber, columnNumber] = puzzleArray[cellNumber];
+                if (cellNumber == 8 || cellNumber % 9 == 8)
                 {
-                    file.Write(puzzleStringElement);
+                    columnNumber = 0;
+                    rowNumber++;
+                }
+                else
+                {
+                    columnNumber++;
                 }
             }
-            file.Close();
-
-            int[,] puzzleValues =LoadPuzzleFromFile(testFilePath);
-
+            return sudokuPuzzleMultiDimensionalArray;
         }
 
-        public int[,] LoadPuzzleFromFile(string fileLocation)
+        /// <summary>
+        /// Converting the multi dimensional array into a single array, so that it can be written into the xml file. 
+        /// </summary>
+        /// <param name="puzzleMultiDimensionalArray"></param>
+        /// <returns></returns>
+        public int[] ConvertMultiDimensional(int[,] puzzleMultiDimensionalArray)
         {
-            System.IO.StreamReader myFile = new System.IO.StreamReader(fileLocation);
-            string fileData = myFile.ReadToEnd();
+            int[] puzzleArray = new int[81];
+            int cellNumber = 0;
 
-            string[] words = fileData.Split(',');
-
-            List<string> listOfNumbers = words.ToList();
-
-            listOfNumbers.RemoveAt(listOfNumbers.Count - 1);
-
-             int[,] puzzleValues = ConveryArrayToMultiDimensionalArray(listOfNumbers);
-            return puzzleValues;
-        }
-
-
-        private List<string> CreateStringList(int[,] puzzleValues)
-        {
-            List<string> puzzleStringList = new List<string>();
-
-            for (int i = 0; i <= 8; i++)
+            for(int rowNumber = 0;rowNumber<=8;rowNumber++)
             {
-                for (int j = 0; j <= 8; j++)
+                for(int columnNumber=0;columnNumber<=8;columnNumber++)
                 {
-                    puzzleStringList.Add(puzzleValues[i, j].ToString());
-                    puzzleStringList.Add(",");
+                    puzzleArray[cellNumber] = puzzleMultiDimensionalArray[rowNumber, columnNumber];
+                    cellNumber++;
                 }
             }
 
-
-            return puzzleStringList;
+            return puzzleArray;
         }
 
-        private int[,] ConveryArrayToMultiDimensionalArray(List<string> listOfStringValues)
+        /// <summary>
+        /// Method that writes a puzzle to an xml file, based on the class created from the xml schema. 
+        /// </summary>
+        /// <param name="puzzleArray"></param>
+        /// <param name="path"></param>
+        public void WriteToXmlFile(int[] puzzleArray, string path)
         {
-            int gridSize = (int)Math.Sqrt(listOfStringValues.Count);
-            string[] puzzlesValuesStringArray = new string[listOfStringValues.Count];
-            int[] puzzlesValuesIntArray = new int[listOfStringValues.Count];
+            //creating an array of objects from the arrat that the puzzle is stored int. 
+            object[] objectArray;
+            objectArray = puzzleArray.Cast<object>().ToArray();
 
-            int[,] puzzleValues = new int[gridSize, gridSize];
+            //Writing the array and the difficulty to the xml file. 
+            var data = new puzzle { difficulty="easy", puzzlecells = objectArray};
+            var serializer = new XmlSerializer(typeof(puzzle));
+            using (var stream = new StreamWriter(path))
+                serializer.Serialize(stream, data);
+        }
 
-            puzzlesValuesStringArray = listOfStringValues.ToArray();
-
-            puzzlesValuesIntArray = Array.ConvertAll(puzzlesValuesStringArray, s => int.Parse(s));
-
-            int singleArrayValue = 0; 
-
-            for (int i = 0; i <= 8; i++)
+       /// <summary>
+       /// Method that reads in a sudoku puzzle that is stored within a file, using the xsd that was created. 
+       /// </summary>
+       /// <param name="path"></param>
+       /// <returns></returns>
+        public puzzle ReadFromXMlFile(string path)
+        {
+            puzzle type;
+            var serializer = new XmlSerializer(typeof(puzzle));
+            using (var reader = XmlReader.Create(path))
             {
-                for (int j = 0; j <= 8; j++)
-                {
-                    puzzleValues[i, j] = puzzlesValuesIntArray[singleArrayValue];
-                   
-                    singleArrayValue++;
-                }
+                type = serializer.Deserialize(reader) as puzzle;
             }
+            return type;
 
-            return puzzleValues;
         }
     }
+
+    #endregion
 }

@@ -81,6 +81,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="PuzzleManager.cs" />
+    <Compile Include="puzzleschema.cs" />
     <Compile Include="RandomPuzzleGameScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -142,10 +143,14 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\" />
+    <Folder Include="Puzzles\TestPuzzles\" />
     <Folder Include="Screens\" />
     <Folder Include="SudokuPuzzles\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Puzzles\PuzzleSchema.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Resources\SSSGameScreenFullBanner.fw.png" />
   </ItemGroup>
   <ItemGroup>

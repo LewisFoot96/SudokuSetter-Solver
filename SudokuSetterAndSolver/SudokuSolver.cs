@@ -18,35 +18,19 @@ namespace SudokuSetterAndSolver
     //removed iterative and backtrackong first attempt methods. 
     //Tried to remove local variables. 
 
-        //May need to add random element, to ensure puzzle creation is correct. 
+    //May need to add random element, to ensure puzzle creation is correct. 
 
     public class SudokuSolver
     {
+        PuzzleManager puzzleManager = new PuzzleManager();
+        puzzle puzzleDetails; 
+
         #region Example Puzzles
         //Example puzzles. 
 
         //Goes into infinite loop on examples 2 and 9 on backtracking algorith, sudokuBlockHiddenSingleExample sudokuHiddenSinglesExample
         public int[,] sudokuPuzzleMultiExample = new int[9, 9];
-        int[] sudokuPuzzleExample = new int[] { 0, 0, 0, 2, 6, 0, 7, 0, 1, 6, 8, 0, 0, 7, 0, 0, 9, 0, 1, 9, 0, 0, 0, 4, 5, 0, 0, 8, 2, 0, 1, 0, 0, 0, 4, 0, 0, 0, 4, 6, 0, 2, 9, 0, 0, 0, 5, 0, 0, 0, 3, 0, 2, 8, 0, 0, 9, 3, 0, 0, 0, 7, 4, 0, 4, 0, 0, 5, 0, 0, 3, 6, 7, 0, 3, 0, 1, 8, 0, 0, 0 };
-        int[] sudokuPuzzleExample2 = new int[] { 5, 3, 0, 0, 7, 0, 0, 0, 0, 6, 0, 0, 1, 9, 5, 0, 0, 0, 0, 9, 8, 0, 0, 0, 0, 6, 0, 8, 0, 0, 0, 6, 0, 0, 0, 3, 4, 0, 0, 8, 0, 3, 0, 0, 1, 7, 0, 0, 0, 2, 0, 0, 0, 6, 0, 6, 0, 0, 0, 0, 2, 8, 0, 0, 0, 0, 4, 1, 9, 0, 0, 5, 0, 0, 0, 0, 8, 0, 0, 7, 9 };
-        int[] sudokuPuzzleExample3 = new int[] { 0, 0, 8, 0, 5, 0, 4, 9, 0, 4, 6, 5, 7, 0, 0, 0, 0, 2, 0, 9, 0, 4, 3, 0, 1, 6, 5, 6, 4, 9, 1, 0, 0, 5, 3, 0, 0, 0, 2, 0, 9, 0, 0, 0, 0, 0, 0, 3, 6, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 1, 0, 5, 0, 9, 0, 0, 0, 7, 0, 0, 2, 0, 3, 7, 1, 0, 0, 2, 9, 0, 0 };
-        int[] sudokuPuzzleExample4 = new int[] { 0, 1, 0, 7, 3, 0, 8, 0, 0, 6, 0, 0, 8, 2, 0, 0, 1, 3, 0, 8, 0, 0, 9, 0, 7, 0, 0, 0, 4, 9, 0, 0, 2, 0, 0, 8, 0, 0, 6, 0, 0, 0, 3, 0, 0, 7, 0, 0, 4, 0, 0, 2, 6, 0, 0, 0, 5, 0, 4, 0, 0, 2, 0, 4, 7, 0, 0, 6, 9, 0, 0, 1, 0, 0, 2, 0, 7, 1, 0, 8, 0 };
-        int[] sudokuPuzzleExample5 = new int[] { 5, 0, 0, 1, 0, 0, 7, 0, 0, 0, 2, 0, 0, 0, 7, 1, 0, 0, 3, 0, 1, 4, 0, 0, 8, 5, 2, 6, 1, 0, 5, 7, 2, 4, 0, 8, 0, 0, 2, 9, 6, 0, 0, 0, 0, 0, 4, 0, 0, 3, 0, 6, 2, 7, 4, 5, 9, 0, 8, 0, 0, 7, 0, 1, 3, 0, 0, 0, 0, 9, 8, 6, 2, 0, 0, 0, 1, 0, 0, 4, 3 };
-        int[] sudokuPuzzleExample6 = new int[] { 4, 1, 0, 0, 7, 0, 0, 0, 5, 0, 8, 0, 0, 0, 6, 0, 9, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 7, 4, 0, 1, 3, 0, 0, 5, 3, 0, 0, 0, 0, 0, 1, 2, 0, 0, 4, 3, 0, 8, 7, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 9, 0, 8, 0, 0, 0, 7, 0, 7, 0, 0, 0, 6, 0, 0, 2, 8 };
-        int[] sudokuPuzzleExample7 = new int[] { 0, 0, 0, 0, 0, 0, 7, 0, 4, 3, 2, 0, 6, 1, 4, 9, 0, 5, 6, 0, 0, 8, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 7, 0, 2, 0, 0, 9, 0, 4, 8, 5, 0, 7, 0, 0, 8, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 3, 0, 0, 8, 8, 0, 2, 9, 5, 1, 0, 3, 7, 0, 0, 9, 0, 0, 0, 0, 0, 0 };
-        int[] sudokuPuzzleExample8 = new int[] { 9, 0, 0, 0, 6, 0, 0, 0, 3, 1, 0, 5, 0, 9, 3, 2, 0, 6, 0, 4, 0, 0, 5, 0, 0, 0, 9, 8, 0, 0, 0, 0, 0, 4, 7, 1, 0, 0, 4, 8, 7, 0, 0, 0, 0, 7, 0, 2, 6, 0, 1, 0, 0, 8, 2, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 3, 2, 0, 9, 4, 0, 8, 7, 0, 1, 6, 3, 5, 0 };
-        int[] sudokuPuzzleExample9 = new int[] { 0, 0, 5, 3, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 2, 0, 0, 7, 0, 0, 1, 0, 5, 0, 0, 4, 0, 0, 0, 0, 5, 3, 0, 0, 0, 1, 0, 0, 7, 0, 0, 0, 6, 0, 0, 3, 2, 0, 0, 0, 8, 0, 0, 6, 0, 5, 0, 0, 0, 0, 9, 0, 0, 4, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 9, 7, 0, 0 };
-        int[] sudokuPUzzleWithNakedTuple = new int[] { 4, 0, 0, 2, 7, 0, 6, 0, 0, 7, 9, 8, 1, 5, 6, 2, 3, 4, 0, 2, 0, 8, 4, 0, 0, 0, 7, 2, 3, 7, 4, 6, 8, 9, 5, 1, 8, 4, 9, 5, 3, 1, 7, 2, 6, 5, 6, 1, 7, 9, 2, 8, 4, 3, 0, 8, 2, 0, 1, 5, 4, 7, 9, 0, 7, 0, 0, 2, 4, 3, 0, 0, 0, 0, 4, 0, 8, 7, 0, 0, 2 };
-        int[] sudokuHiddenSinglesExample = new int[] { 7, 0, 0, 2, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 6, 3, 0, 0, 0, 4, 0, 0, 9, 0, 0, 0, 6, 9, 1, 0, 0, 0, 0, 2, 3, 0, 0, 2, 1, 8, 0, 0, 0, 6, 0, 0, 0, 0, 6, 0, 5, 0, 0, 4, 0, 3, 0, 7, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1, 0, 5, 0, 8, 0, 0, 0, 0, 0 };
-        int[] sudokuBlockHiddenSingleExample = new int[] { 0, 0, 0, 0, 0, 0, 5, 0, 0, 1, 6, 0, 9, 0, 0, 0, 0, 0, 0, 0, 9, 0, 6, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 4, 0, 0, 0, 2, 0, 1, 0, 0, 0, 0, 0, 3, 0, 0, 0, 5, 0, 0, 0, 2, 0, 8, 9, 0, 0, 0, 0, 1, 0, 2, 5, 0, 0, 3, 0, 7, 0, 0, 1, 0, 0, 0, 0, 9 };
-        int[] sudokuNakedDoublesColumnBlockExample = new int[] { 0, 8, 0, 0, 9, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 6, 9, 9, 0, 2, 0, 6, 3, 1, 5, 8, 0, 2, 0, 8, 0, 4, 5, 9, 0, 8, 5, 1, 9, 0, 7, 0, 4, 6, 3, 9, 4, 6, 0, 5, 8, 7, 0, 5, 6, 3, 0, 4, 0, 9, 8, 7, 2, 0, 0, 0, 0, 0, 0, 1, 5, 0, 1, 0, 0, 5, 0, 0, 2, 0 };
-        int[] nakedTripleRowExample = new int[] { 0, 7, 0, 4, 0, 8, 0, 2, 9, 0, 0, 2, 0, 0, 0, 0, 0, 4, 8, 5, 4, 0, 2, 0, 0, 0, 7, 0, 0, 8, 3, 7, 4, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 2, 6, 1, 7, 0, 0, 0, 0, 0, 0, 9, 3, 6, 1, 2, 2, 0, 0, 0, 0, 0, 4, 0, 3, 1, 3, 0, 6, 4, 2, 0, 7, 0 };
-        int[] nakedDoubleRowExample = new int[] { 4, 0, 0, 0, 0, 0, 9, 3, 8, 0, 3, 2, 0, 9, 4, 1, 0, 0, 0, 9, 5, 3, 0, 0, 2, 4, 0, 3, 7, 0, 6, 0, 9, 0, 0, 4, 5, 2, 9, 0, 0, 1, 6, 7, 3, 6, 0, 4, 7, 0, 3, 0, 9, 0, 9, 5, 7, 0, 0, 8, 3, 0, 0, 0, 0, 3, 9, 0, 0, 4, 0, 0, 2, 4, 0, 0, 3, 0, 7, 0, 9 };
-        int[] nakedBlockExample = new int[] { 2, 9, 4, 5, 1, 3, 0, 0, 6, 6, 0, 0, 8, 4, 2, 3, 1, 9, 3, 0, 0, 6, 9, 7, 2, 5, 4, 0, 0, 0, 0, 5, 6, 0, 0, 0, 0, 4, 0, 0, 8, 0, 0, 6, 0, 0, 0, 0, 4, 7, 0, 0, 0, 0, 7, 3, 0, 1, 6, 4, 0, 0, 5, 9, 0, 0, 7, 3, 5, 0, 0, 1, 4, 0, 0, 9, 2, 8, 6, 3, 7 };
-        int[] nakedColumnExample = new int[] { 6, 0, 0, 8, 0, 2, 7, 3, 5, 7, 0, 2, 3, 5, 6, 9, 4, 0, 3, 0, 0, 4, 0, 7, 0, 6, 2, 1, 0, 0, 9, 7, 5, 0, 2, 4, 2, 0, 0, 1, 8, 3, 0, 7, 9, 0, 7, 9, 6, 2, 4, 0, 0, 3, 4, 0, 0, 5, 6, 0, 2, 0, 7, 0, 6, 7, 2, 4, 0, 3, 0, 0, 9, 2, 0, 7, 3, 8, 4, 0, 6 };
-        int[] hiddenDoublesAll = new int[] { 7, 2, 0, 4, 0, 8, 0, 3, 0, 0, 8, 0, 0, 0, 0, 0, 4, 7, 4, 0, 1, 0, 7, 6, 8, 0, 2, 8, 1, 0, 7, 3, 9, 0, 0, 0, 0, 0, 0, 8, 5, 1, 0, 0, 0, 0, 0, 0, 2, 6, 4, 0, 8, 0, 2, 0, 9, 6, 8, 0, 4, 1, 3, 3, 4, 0, 0, 0, 0, 0, 0, 8, 1, 6, 8, 9, 4, 3, 2, 7, 5 };
-        int[] hiddenTreplesRowColumn = new int[] { 0, 0, 0, 0, 0, 1, 0, 3, 0, 2, 3, 1, 0, 9, 0, 0, 0, 0, 0, 6, 5, 0, 0, 3, 1, 0, 0, 6, 7, 8, 9, 2, 4, 3, 0, 0, 1, 0, 3, 0, 5, 0, 0, 0, 6, 0, 0, 0, 1, 3, 6, 7, 0, 0, 0, 0, 9, 3, 6, 0, 5, 7, 0, 0, 0, 6, 0, 1, 9, 8, 4, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0 };
-        int[] veryHardPuzzleTest = new int[] { 0, 5, 0, 0, 0, 6, 0, 0, 0, 2, 0, 0, 0, 7, 0, 0, 0, 1, 0, 1, 9, 0, 0, 0, 0, 8, 0, 0, 9, 0, 6, 0, 0, 8, 0, 0, 0, 0, 2, 0, 0, 0, 6, 0, 0, 0, 0, 3, 0, 0, 9, 0, 7, 0, 0, 3, 0, 0, 0, 0, 7, 1, 0, 9, 0, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 4, 0, 0, 0, 6, 0 };
+    
 
         //Variales for checking the values for the cell. 
         List<int> nonValidumbersInRegion = new List<int>();
@@ -98,6 +82,9 @@ namespace SudokuSetterAndSolver
 
             //Generate the puzzle and then solve it. 
             GeneratePuzzle();
+            
+            int[] puzzleArray = puzzleManager.ConvertMultiDimensional(sudokuPuzzleMultiExample);
+            puzzleManager.WriteToXmlFile(puzzleArray, "C:\\Users\\New\\Documents\\Sudoku\\Application\\SudokuSetterAndSolver\\SudokuSetterAndSolver\\Puzzles\\TestPuzzles\\test20.xml");
             //SolveSudokRuleBased();
             // SolveUsingRecursiveBactracking();
             //BacktrackingSolve(0);
@@ -114,21 +101,9 @@ namespace SudokuSetterAndSolver
         //Method that generates the example puzzle. 
         private void GeneratePuzzle()
         {
-            int singleArrayValue = 0;
-
-            //Populating multi dimensionsal array. 
-            for (int i = 0; i <= 8; i++)
-            {
-                for (int j = 0; j <= 8; j++)
-                {
-                    sudokuPuzzleMultiExample[i, j] = veryHardPuzzleTest[singleArrayValue];
-                    if (sudokuPuzzleMultiExample[i, j] != 0)
-                    {
-                        staticNumbers[i, j] = sudokuPuzzleMultiExample[i, j];
-                    }
-                    singleArrayValue++;
-                }
-            }
+            puzzleDetails = puzzleManager.ReadFromXMlFile("C:\\Users\\New\\Documents\\Sudoku\\Application\\SudokuSetterAndSolver\\SudokuSetterAndSolver\\Puzzles\\TestPuzzles\\test1.xml");
+            int[] puzzleArray = puzzleDetails.puzzlecells.Cast<int>().ToArray();
+            sudokuPuzzleMultiExample = puzzleManager.ConvertArrayToMultiDimensionalArray(puzzleArray);
         }
 
         //Method that checks whether the puzzle has been solved or not. 
@@ -1534,7 +1509,6 @@ namespace SudokuSetterAndSolver
         #endregion
 
         //New backtracking no recursion, works, needs to be tested with harder puzzles. 
-
         #region Backtracking More Efficient Test 
         //Starting creaiting this method needs finishing off and testing, try and get done today. 
         private void BacktrackinEffcient()
@@ -1572,7 +1546,6 @@ namespace SudokuSetterAndSolver
                                 validNumbersInCell.Clear();
                             }
                         }
-
                     }
                     candidateTotalNumber++;
                 }

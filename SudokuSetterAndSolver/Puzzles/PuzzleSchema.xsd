@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="PuzzleSchema"
+    targetNamespace="http://tempuri.org/PuzzleSchema.xsd"
+    elementFormDefault="qualified"
+    xmlns="http://tempuri.org/PuzzleSchema.xsd"
+    xmlns:mstns="http://tempuri.org/PuzzleSchema.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+
+  <xs:element name ="puzzle">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name ="difficulty"/>     
+        <xs:element name ="puzzlecells">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="cell" minOccurs="81" maxOccurs="unbounded"/>          
+            </xs:sequence>     
+          </xs:complexType>
+        </xs:element>      
+      </xs:sequence>    
+    </xs:complexType> 
+  </xs:element>
+</xs:schema>
