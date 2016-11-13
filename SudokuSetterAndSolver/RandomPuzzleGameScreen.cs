@@ -53,9 +53,6 @@ namespace SudokuSetterAndSolver
 
         private void button1_Click(object sender, EventArgs e)
         {
-            SudokuSolver sudokuSolverTest = new SudokuSolver();
-
-            sudokuSolverTest.solvePuzzle();
         }
     }
 }

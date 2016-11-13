@@ -35,7 +35,7 @@ namespace SudokuSetterAndSolver
                 }
             }
 
-            puzzleManager.SavePuzzleToFile(gridValue);
+            //puzzleManager.SavePuzzleToFile(gridValue);
 
             GenerateExampleSudokuGrid();
 

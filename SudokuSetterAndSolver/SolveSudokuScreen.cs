@@ -15,7 +15,8 @@ namespace SudokuSetterAndSolver
         #region Field Variables 
         TextBox currentSelectedTextBox = new TextBox();
         SudokuSolver sudokuSolver = new SudokuSolver();
-        int[,] sudokuGrid; 
+        int[,] sudokuGrid;
+
         #endregion
 
 
@@ -96,6 +97,9 @@ namespace SudokuSetterAndSolver
                     
                 }
             }
+
+
+            sudokuSolver.solvePuzzle();
             //GOt the grid, then need to solve it. 
             //sudokuSolver.solvePuzzle();
         }
