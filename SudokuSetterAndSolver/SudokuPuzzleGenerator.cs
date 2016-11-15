@@ -47,6 +47,10 @@ namespace SudokuSetterAndSolver
 
         private void GenerateExampleSudokuGrid()
         {
+            solver.sudokuPuzzleMultiExample = sudokuGrid;
+            solver.SolveSudokRuleBased();
+
+
             int staticNumberLimit = 55; 
             for(int i =0;i<=staticNumberLimit;i++)
             {
@@ -79,8 +83,6 @@ namespace SudokuSetterAndSolver
         {
 
         }
-
-
-        
+      
     }
 }
