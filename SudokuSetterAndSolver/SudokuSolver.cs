@@ -1,34 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SudokuSetterAndSolver
 {
-    //Things to do, test the naked values more, create a global candidates list, that is updated accordingly. 
     //Refactoring needs to be done between the columns and rows, with the hidden singles and also the naked rows and columns.
 
-
-
-    //something is wrong with the rule based algorithm, need to have a look at this after ive got the 
     public class SudokuSolver
     {
         #region Objects 
+        //Puzzle manager, that handles the loading and wiritng to xml files for the game. 
         PuzzleManager puzzleManager = new PuzzleManager();
         //Details of the current 
         puzzle puzzleDetails;
         #endregion
 
         #region Global Variables 
-        //Goes into infinite loop on examples 2 and 9 on backtracking algorith, sudokuBlockHiddenSingleExample sudokuHiddenSinglesExample
+        //Contains the puzzle. 
         public int[,] sudokuPuzzleMultiExample = new int[9, 9];
+        //array that stores the static numbers that are within the puzzle. 
+        public int[,] staticNumbers = new int[9, 9];
 
-        Random randomNumberGenerator = new Random();
-    
-        //Variales for checking the values for the cell. 
-        List<int> nonValidumbersInRegion = new List<int>();
-        List<int> numberPositionsInRegion = new List<int>();
+        //Row and column number of the current cell being handled. 
+        int rowNumber = 0;
+        int columnNumber = 0;
 
         //All of the check to see what numbers are valid for that particular square. 
         List<int> validNUmbersInRow = new List<int>();
@@ -36,43 +34,41 @@ namespace SudokuSetterAndSolver
         List<int> validNumbersInBlock = new List<int>();
         List<int> validNumbersInCell = new List<int>();
         List<int> validNumbersInRegion = new List<int>();
-        int rowNumber = 0;
-        int columnNumber = 0;
+        List<int> nonValidumbersInRegion = new List<int>();
+        List<int> numberPositionsInRegion = new List<int>();
+
+        //Random number generate, used where necessary.
+        Random randomNumberGenerator = new Random();
+        //Counter that is used for counting loops within the program. 
         int counter = 0;
-        int rowTempValue = 0;
-        int columnTempValue = 0;
+
+        //List of the cell coordinates that will be used for solving, the order of cells to be handled. 
+        List<List<int>> cellNumbersForLogicalEffcientOrder = new List<List<int>>();
+        //Used to store the number in the cell that is being bactracked to, beofore clearing that cell. 
         int previousNumberInCell = 0;
+        //The number of the cell being handled within the ordered list. 
         int numberOfCellToBeHandled = 0;
 
-        List<List<int>> cellNumbersForLogicalEffcientOrder = new List<List<int>>();
+        //The number of candidates that are in a cell. 
         int candidateTotalNumber = 1;
-
+        //current cell being handled 
         int currentCellNumberHandled = 0;
 
-        //array that stores the static numbers that are within the puzzle. 
-        public int[,] staticNumbers = new int[9, 9];
-        int[] validNumbers = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-        List<int> validNumbersForRegion = new List<int>();
+        //Stop watch that will time the algorithm. 
+        Stopwatch stopWatch = new Stopwatch();
+
+        //List that contains all of the candidates for each cell this should be used for candidate reference within the program. 
+        List<List<int>> candidatesList = new List<List<int>>();
+        //counts the number of times the rules based algorithm has been exectuted. 
+        int methodRunNumber = 0;
+
         #endregion 
 
         #region Main Method 
         public void solvePuzzle()
         {
-            for (int validValue = 1; validValue <= 9; validValue++)
-            {
-                validNumbersForRegion.Add(validValue);
-            }
-
-            for (int empty = 0; empty <= 80; empty++)
-            {
-                List<int> blankList = new List<int>();
-                cellNumbersForLogicalEffcientOrder.Add(blankList);
-            }
-            //Need to anlayse the way in which the puzzle will be solved, need to go to the next step if there where no hiddens added for example. 
-
             //Generate the puzzle and then solve it. 
             GeneratePuzzle();
-
             //Solving the puzzle. 
             SolveSudokRuleBased();
         }
@@ -83,10 +79,10 @@ namespace SudokuSetterAndSolver
         //Method that generates the example puzzle. 
         private void GeneratePuzzle()
         {
+            //Loaing in a puzzle from a test file and creating the puzzle, along with static numbers. 
             puzzleDetails = puzzleManager.ReadFromXMlFile("C:\\Users\\New\\Documents\\Sudoku\\Application\\SudokuSetterAndSolver\\SudokuSetterAndSolver\\Puzzles\\TestPuzzles\\test16.xml");
             int[] puzzleArray = puzzleDetails.puzzlecells.Cast<int>().ToArray();
             sudokuPuzzleMultiExample = puzzleManager.ConvertArrayToMultiDimensionalArray(puzzleArray);
-            //static numbvers where not getting removed since i changed to the file loading system. 
             staticNumbers = sudokuPuzzleMultiExample;
         }
 
@@ -120,28 +116,19 @@ namespace SudokuSetterAndSolver
         #endregion 
 
         #region Rule Based Algorithm 
-
-        //Use human rules to check the puzzle out, inserting any possible values, then use bactrcking to solve the rest of the puzzle. 
-
-        //This is the global varibale to store the candidates list. This needs to be carefully 
-        //Mayve be there are more candidates in the new puzzle, remove them using the old method. This is just about to be implemtted.  THen should be tested on the example that i have created/ 
-        List<List<int>> candidatesList = new List<List<int>>();
-
-        int methodRunNumber = 0;
-
         public void SolveSudokRuleBased()
         {
-            //Trying to implement hidde singles is not easy. 
+            //Contains the list of candiates in each cell from simple analysis, not including human solvint methods procesing. 
             List<List<int>> tempCandiateList = new List<List<int>>();
-
             tempCandiateList.Clear();
+            //Number of naked singles within the puzzle, reset everytime this method is executed. 
             int nakedSinglesCount = 0;
 
+            ///Going through all of the cells. 
             for (rowNumber = 0; rowNumber <= 8; rowNumber++)
             {
                 for (columnNumber = 0; columnNumber <= 8; columnNumber++)
-                {
-                   
+                {            
                     //Static numbers check 
                     if (staticNumbers[rowNumber, columnNumber] == 0)
                     {
@@ -170,20 +157,21 @@ namespace SudokuSetterAndSolver
             }
             else
             {
-                CompareCandidateLists(tempCandiateList);
+                CompareCandidateLists(tempCandiateList); //comparing the candidate list and the temp, to get the current values.
             }
             //The correct candidate list is now in place. 
 
+            //Gets all the naked singles witin the puzzle. 
             int rowNumberCheck = 0;
             int columnCheckNumber = 0;
             for (int indexOfCandidateValue = 0; indexOfCandidateValue <= candidatesList.Count - 1; indexOfCandidateValue++)
             {
                 if (candidatesList[indexOfCandidateValue] != null)
                 {
-                    if (candidatesList[indexOfCandidateValue].Count == 1)
+                    if (candidatesList[indexOfCandidateValue].Count == 1) //Naked singles 
                     {
                         nakedSinglesCount++;
-                        foreach (int nakedValue in candidatesList[indexOfCandidateValue])
+                        foreach (int nakedValue in candidatesList[indexOfCandidateValue]) //Insert naked single. 
                         {
                             staticNumbers[rowNumberCheck, columnCheckNumber] = nakedValue;
                             sudokuPuzzleMultiExample[rowNumberCheck, columnCheckNumber] = nakedValue;
@@ -191,7 +179,7 @@ namespace SudokuSetterAndSolver
                         }
                     }
                 }
-
+                //Row and column logic to determine current cell. 
                 if (indexOfCandidateValue % 9 == 8 || indexOfCandidateValue == 8)
                 {
                     columnCheckNumber = 0;
@@ -202,26 +190,25 @@ namespace SudokuSetterAndSolver
                     columnCheckNumber++;
                 }
             }
-
+            //Resetting values and increasing method count. 
             rowNumberCheck = 0;
             columnCheckNumber = 0;
-
             methodRunNumber++;
 
+            //If there were naked singles, then see if puzzle is solved, if not then recurse. 
             if (nakedSinglesCount != 0)
             {
                 bool solved = CheckToSeeIfPuzzleIsSolved();
-
                 if (solved)
                 {
                     Console.WriteLine("Solved");
                 }
-
-                //Recursive call to see if there is any more naked singles. 
-                SolveSudokRuleBased();
+                else
+                { SolveSudokRuleBased(); }
+                
             }
+            //Checks to see if puzzle is solved. 
             bool checkSolved = CheckToSeeIfPuzzleIsSolved();
-
             if (checkSolved)
             {
                 Console.WriteLine("Solved");
@@ -234,8 +221,8 @@ namespace SudokuSetterAndSolver
                 Console.WriteLine("Solved");
             }
             //CandidateHandling();
-            BacktrackinEffcient();
-
+            //Backtracking
+            BacktrackinEffcient(false);
         }
 
         //Method that creates the correct candidate list. 
@@ -264,7 +251,6 @@ namespace SudokuSetterAndSolver
                         }
                     }
                     candidatesList[indexValue] = finalCandidateList;
-
                 }
             }
         }
@@ -1226,14 +1212,24 @@ namespace SudokuSetterAndSolver
 
         //New backtracking no recursion, works, needs to be tested with harder puzzles. 
         #region Backtracking More Efficient Test 
-        //Starting creaiting this method needs finishing off and testing, try and get done today. 
-        private void BacktrackinEffcient()
+        public void BacktrackinEffcient(bool generating)
         {
+            //Starting the timer
+            stopWatch.Start();
+            //setting the starting candidate number value. 
+            candidateTotalNumber = 1;
+
+            //Creating 81 blank lists. 
+            for (int empty = 0; empty <= 80; empty++)
+            {
+                List<int> blankList = new List<int>();
+                cellNumbersForLogicalEffcientOrder.Add(blankList);
+            }
             bool solved = false;
             int startingValue = 0;
 
             //This process get the valid cells, in the order they should be handled based on the number of candidtates in the cell. 
-            while (candidateTotalNumber <= 8 || solved == true)
+            while (candidateTotalNumber <= 9 || solved == true)
             {
                 for (currentCellNumberHandled = startingValue; currentCellNumberHandled <= 80; currentCellNumberHandled++)
                 {
@@ -1266,6 +1262,10 @@ namespace SudokuSetterAndSolver
                     candidateTotalNumber++;
                 }
             }
+
+            //Resetting the starting value, so it cycles through all of the cells. 
+            startingValue = 0;
+            numberOfCellToBeHandled = 0;
 
             for (startingValue = numberOfCellToBeHandled; startingValue <= cellNumbersForLogicalEffcientOrder.Count - 1; startingValue++)
             {
@@ -1340,6 +1340,7 @@ namespace SudokuSetterAndSolver
                 }
                 validNumbersInCell.Clear();
             }
+            cellNumbersForLogicalEffcientOrder.Clear();
             bool puzzleSolved = false; 
 
         }

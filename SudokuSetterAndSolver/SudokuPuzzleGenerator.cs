@@ -9,9 +9,13 @@ namespace SudokuSetterAndSolver
     class SudokuPuzzleGenerator
     {
         int[,] sudokuGrid = new int[9, 9];
+        int[,] finalGenenratedPuzzle = new int[9, 9];
         int _gridSize = 0;
         PuzzleManager puzzleManager = new PuzzleManager();
         SudokuSolver solver = new SudokuSolver();
+        Random randomNumber = new Random();
+        int rowNumber = 0;
+        int columnNumber = 0;
 
         Random randomNumberGenerator = new Random();
 
@@ -45,42 +49,40 @@ namespace SudokuSetterAndSolver
 
         //Create 2 methods, one which diggies holes from a grid and the other one inserts radnom givens in the puzzle. 
 
+        /// <summary>
+        /// This method creates a completed grid. 
+        /// </summary>
         private void GenerateExampleSudokuGrid()
         {
-            solver.sudokuPuzzleMultiExample = sudokuGrid;
-            solver.SolveSudokRuleBased();
-
-
-            int staticNumberLimit = 55; 
-            for(int i =0;i<=staticNumberLimit;i++)
-            {
-                int rowNumber = randomNumberGenerator.Next(0, 9);
-                int columnNumber = randomNumberGenerator.Next(0, 9);
-                List<int> blockNumbers = CheckValidNumbersForRegions.checkBlock(sudokuGrid, rowNumber, columnNumber);
-                List<int> columnNumbers = CheckValidNumbersForRegions.checkColumn(sudokuGrid, rowNumber, columnNumber);
-                List<int> rowNumbers = CheckValidNumbersForRegions.checkRow(sudokuGrid, rowNumber, columnNumber);
-                List<int> validNumbers = CheckValidNumbersForRegions.GetValidNumbers(columnNumbers, rowNumbers, blockNumbers);
-
-                if(validNumbers.Count !=0 && sudokuGrid[rowNumber,columnNumber]==0)
-                {
-                    int indexForNumber = randomNumberGenerator.Next(validNumbers.Count);
-                    sudokuGrid[rowNumber, columnNumber] = validNumbers[indexForNumber];
-                }
-                else
-                {
-                    staticNumberLimit++;
-                }
-            }
-            //THis is how it should be done but needs more work. 
-            solver.sudokuPuzzleMultiExample = sudokuGrid;
-            solver.staticNumbers = sudokuGrid;
-        
-            //solver.BacktrackingSolve(0);
-
+            solver.sudokuPuzzleMultiExample = sudokuGrid;          
+            solver.BacktrackinEffcient(true);
+            sudokuGrid = solver.sudokuPuzzleMultiExample;
+            DigHoles();
         }
 
         private void DigHoles()
         {
+            bool onlyOneSolution = false;
+            //Initially remove 10 candidates from the cells. 
+            for (int initialHolesRemoved = 0; initialHolesRemoved <= 40; initialHolesRemoved++)
+            {
+                while (sudokuGrid[rowNumber, columnNumber] == 0)
+                {
+                    rowNumber = randomNumber.Next(0, 8);
+                    columnNumber = randomNumber.Next(0, 8);
+                }         
+                sudokuGrid[rowNumber, columnNumber] = 0;
+            }
+
+            while (onlyOneSolution == false)
+            {
+                onlyOneSolution = true; 
+            }
+            //check to see if the puzzle is solvable. 
+            //finalGenenratedPuzzle = sudokuGrid;
+            solver.sudokuPuzzleMultiExample = sudokuGrid;
+            solver.BacktrackinEffcient(false);
+            //Need to then check if there is another solution. 
 
         }
       

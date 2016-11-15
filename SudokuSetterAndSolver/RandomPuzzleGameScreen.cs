@@ -51,8 +51,11 @@ namespace SudokuSetterAndSolver
                 e.Handled = true;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void mainMenuBtn_Click(object sender, EventArgs e)
         {
+            this.Close();
+            MainMenu mainMenu = new MainMenu();
+            mainMenu.Show();
         }
     }
 }

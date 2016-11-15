@@ -32,21 +32,21 @@ namespace SudokuSetterAndSolver
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RandomPuzzleGameScreen));
-            this.button1 = new System.Windows.Forms.Button();
+            this.mainMenuBtn = new System.Windows.Forms.Button();
             this.gameBanner = new System.Windows.Forms.PictureBox();
             this.submitPuzzleBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.gameBanner)).BeginInit();
             this.SuspendLayout();
             // 
-            // button1
+            // mainMenuBtn
             // 
-            this.button1.Location = new System.Drawing.Point(672, 896);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(167, 100);
-            this.button1.TabIndex = 85;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.mainMenuBtn.Location = new System.Drawing.Point(672, 896);
+            this.mainMenuBtn.Name = "mainMenuBtn";
+            this.mainMenuBtn.Size = new System.Drawing.Size(167, 100);
+            this.mainMenuBtn.TabIndex = 85;
+            this.mainMenuBtn.Text = "Main Menu ";
+            this.mainMenuBtn.UseVisualStyleBackColor = true;
+            this.mainMenuBtn.Click += new System.EventHandler(this.mainMenuBtn_Click);
             // 
             // gameBanner
             // 
@@ -77,7 +77,7 @@ namespace SudokuSetterAndSolver
             this.ClientSize = new System.Drawing.Size(1464, 1012);
             this.Controls.Add(this.submitPuzzleBtn);
             this.Controls.Add(this.gameBanner);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.mainMenuBtn);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "RandomPuzzleGameScreen";
@@ -170,7 +170,7 @@ namespace SudokuSetterAndSolver
         }
 
         #endregion
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button mainMenuBtn;
         private PictureBox gameBanner;
         private Button submitPuzzleBtn;
     }
