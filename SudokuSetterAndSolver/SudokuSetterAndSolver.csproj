@@ -202,6 +202,7 @@
     <Content Include="Puzzles\TestPuzzles\test19.xml" />
     <Content Include="Puzzles\TestPuzzles\test2.xml" />
     <Content Include="Puzzles\TestPuzzles\test20.xml" />
+    <Content Include="Puzzles\TestPuzzles\test21.xml" />
     <Content Include="Puzzles\TestPuzzles\test3.xml" />
     <Content Include="Puzzles\TestPuzzles\test4.xml" />
     <Content Include="Puzzles\TestPuzzles\test5.xml" />

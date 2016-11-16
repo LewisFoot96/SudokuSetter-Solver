@@ -80,7 +80,7 @@ namespace SudokuSetterAndSolver
         private void GeneratePuzzle()
         {
             //Loaing in a puzzle from a test file and creating the puzzle, along with static numbers. 
-            puzzleDetails = puzzleManager.ReadFromXMlFile("C:\\Users\\New\\Documents\\Sudoku\\Application\\SudokuSetterAndSolver\\SudokuSetterAndSolver\\Puzzles\\TestPuzzles\\test16.xml");
+            puzzleDetails = puzzleManager.ReadFromXMlFile("C:\\Users\\New\\Documents\\Sudoku\\Application\\SudokuSetterAndSolver\\SudokuSetterAndSolver\\Puzzles\\TestPuzzles\\test11.xml");
             int[] puzzleArray = puzzleDetails.puzzlecells.Cast<int>().ToArray();
             sudokuPuzzleMultiExample = puzzleManager.ConvertArrayToMultiDimensionalArray(puzzleArray);
             staticNumbers = sudokuPuzzleMultiExample;
@@ -1014,6 +1014,7 @@ namespace SudokuSetterAndSolver
         {
             List<List<int>> listOfCanidadtesForEachCellWithinTheColumn = new List<List<int>>();
             bool hiddenColumnBool = false;
+            int hiddenColumnSinglesCount = 0; 
 
             //Search through all of the columns. 
             for (int columnNumber = 0; columnNumber <= 8; columnNumber++)
@@ -1027,8 +1028,12 @@ namespace SudokuSetterAndSolver
                     }
                 }
                 //Seeing if there is any hidden column singles, if there is input them into the grid and return as true; 
-                hiddenColumnBool = HiddenSinglesGeneric("column", listOfCanidadtesForEachCellWithinTheColumn, 0, columnNumber);
+                hiddenColumnSinglesCount = HiddenSinglesGeneric("column", listOfCanidadtesForEachCellWithinTheColumn, 0, columnNumber);
                 listOfCanidadtesForEachCellWithinTheColumn.Clear(); //Clearning the ready for the new list to be inserted and that to be handled. 
+            }
+            if(hiddenColumnSinglesCount >=1)
+            {
+                hiddenColumnBool = true; 
             }
             return hiddenColumnBool;
         }
@@ -1037,6 +1042,7 @@ namespace SudokuSetterAndSolver
         {
             List<List<int>> listOfCanidadtesForEachCellWithinTheBlock = new List<List<int>>();
             bool hiddenBlockBool = false;
+            int hiddenBlockSinglesCount = 0; 
 
             //Gets all the values from each block. 
             for (int rowNumber = 2; rowNumber <= 8; rowNumber += 3)
@@ -1045,20 +1051,25 @@ namespace SudokuSetterAndSolver
                 {
                     listOfCanidadtesForEachCellWithinTheBlock = getSudokuValuesInBox(rowNumber, coulmnNumber);
 
-                    hiddenBlockBool = HiddenSinglesGeneric("block", listOfCanidadtesForEachCellWithinTheBlock, rowNumber, coulmnNumber);
+                    hiddenBlockSinglesCount = HiddenSinglesGeneric("block", listOfCanidadtesForEachCellWithinTheBlock, rowNumber, coulmnNumber);
 
                     listOfCanidadtesForEachCellWithinTheBlock.Clear(); //Clearning the ready for the new list to be inserted and that to be handled. 
                 }
             }
+            if(hiddenBlockSinglesCount >=1)
+            {
+                hiddenBlockBool = true; 
+            }
             return hiddenBlockBool;
         }
 
+        //The return bool value is returning false, if the last row does not have a hidden single, thereofre a counting system may need to be implemented. 
         private bool HiddenRowSingles()
         {
             List<List<int>> listOfCanidadtesForEachCellWithinTheRow = new List<List<int>>();
-
-            int rowNumber = 0;
+            int _rowNumber = 0;
             bool hiddenRowBool = false;
+            int hiddenRowCount = 0; 
 
             //Going through all if the candidate cells. 
             for (int candidateIndexNumber = 0; candidateIndexNumber <= candidatesList.Count - 1; candidateIndexNumber++)
@@ -1068,21 +1079,26 @@ namespace SudokuSetterAndSolver
                 //When the end of a row has been reached. 
                 if (candidateIndexNumber % 9 == 8 || candidateIndexNumber == 8)
                 {
-                    hiddenRowBool = HiddenSinglesGeneric("row", listOfCanidadtesForEachCellWithinTheRow, rowNumber, 0);
+                    hiddenRowCount = HiddenSinglesGeneric("row", listOfCanidadtesForEachCellWithinTheRow, _rowNumber, 0);
                     listOfCanidadtesForEachCellWithinTheRow.Clear(); //Clearning the ready for the new list to be inserted and that to be handled. 
-                    rowNumber++; //Increasing the row number
+                    _rowNumber++; //Increasing the row number
                 }
+            }
+            //There where hidden singles. 
+            if(hiddenRowCount >=1)
+            {
+                hiddenRowBool = true; 
             }
             return hiddenRowBool;
         }
 
         //May need to implement this method at somepoint. 
-        private bool HiddenSinglesGeneric(string region, List<List<int>> listOfCells, int rowNumber, int columnNumber)
+        private int HiddenSinglesGeneric(string region, List<List<int>> listOfCells, int rowNumber, int columnNumber)
         {
             List<int> notNullIndexList = new List<int>();
             List<int> individualNumbers = new List<int>();
             List<int> valuesUsed = new List<int>();
-            bool hiddenBool = false;
+            int hiddenCount = 0; 
             //Removing all null values from the candidate lists in the column. 
             for (int indexValue = 0; indexValue <= listOfCells.Count - 1; indexValue++)
             {
@@ -1170,7 +1186,7 @@ namespace SudokuSetterAndSolver
                                         startCoulmnNumber = columnNumber - 2;
 
                                     }
-                                    hiddenBool = true;
+                                    hiddenCount++;
                                     //Updating the grid and corresponding candidates. 
                                     staticNumbers[actualRowNumber, actualColumnNumber] = indivdualValue;
                                     sudokuPuzzleMultiExample[actualRowNumber, actualColumnNumber] = indivdualValue;
@@ -1179,7 +1195,7 @@ namespace SudokuSetterAndSolver
                                 }
                                 else if (region == "column")
                                 {
-                                    hiddenBool = true;
+                                    hiddenCount++;
                                     //Updating the grid and corresponding candidates. 
                                     staticNumbers[notNullIndexList[candidateValues], columnNumber] = indivdualValue;
                                     sudokuPuzzleMultiExample[notNullIndexList[candidateValues], columnNumber] = indivdualValue;
@@ -1188,7 +1204,7 @@ namespace SudokuSetterAndSolver
                                 }
                                 else
                                 {
-                                    hiddenBool = true;
+                                    hiddenCount++;
                                     //Updating the grid and corresponding candidates. 
                                     staticNumbers[rowNumber, notNullIndexList[candidateValues]] = indivdualValue;
                                     sudokuPuzzleMultiExample[rowNumber, notNullIndexList[candidateValues]] = indivdualValue;
@@ -1205,7 +1221,7 @@ namespace SudokuSetterAndSolver
             listOfCells.Clear(); //Clearning the ready for the new list to be inserted and that to be handled. 
             notNullIndexList.Clear();
             valuesUsed.Clear();
-            return hiddenBool;
+            return hiddenCount;
         }
 
         #endregion
