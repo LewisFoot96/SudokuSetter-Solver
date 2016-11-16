@@ -992,6 +992,7 @@ namespace SudokuSetterAndSolver
 
         #endregion 
 
+        //this method needs a further looking at. 
         #region Hiddens
         //Method that calls all of the hidden methods, to see if ther are any hidden values in the grid. 
         private void HiddenSingles()
@@ -999,15 +1000,24 @@ namespace SudokuSetterAndSolver
             bool hiddenRowBool = false;
             bool hiddenColumnBool = false;
             bool hiddenBlockBool = false;
-            hiddenRowBool = HiddenRowSingles();
-            hiddenColumnBool = HiddenColumnSingles();
-            hiddenBlockBool = HiddenBlockSingles();
 
-            //If there is hidden values, then recurse and try the naked singles method. 
-            if (hiddenBlockBool == true || hiddenColumnBool == true || hiddenRowBool == true)
+            hiddenRowBool = HiddenRowSingles();
+
+            if(hiddenRowBool==true)
             {
                 SolveSudokRuleBased();
             }
+            hiddenColumnBool = HiddenColumnSingles();
+            if(hiddenColumnBool==true)
+            {
+                SolveSudokRuleBased();
+            }
+            hiddenBlockBool = HiddenBlockSingles();
+            if(hiddenBlockBool == true)
+            {
+                SolveSudokRuleBased();
+            }
+
         }
 
         private bool HiddenColumnSingles()
@@ -1028,7 +1038,7 @@ namespace SudokuSetterAndSolver
                     }
                 }
                 //Seeing if there is any hidden column singles, if there is input them into the grid and return as true; 
-                hiddenColumnSinglesCount = HiddenSinglesGeneric("column", listOfCanidadtesForEachCellWithinTheColumn, 0, columnNumber);
+                hiddenColumnSinglesCount += HiddenSinglesGeneric("column", listOfCanidadtesForEachCellWithinTheColumn, 0, columnNumber);
                 listOfCanidadtesForEachCellWithinTheColumn.Clear(); //Clearning the ready for the new list to be inserted and that to be handled. 
             }
             if(hiddenColumnSinglesCount >=1)
@@ -1051,7 +1061,7 @@ namespace SudokuSetterAndSolver
                 {
                     listOfCanidadtesForEachCellWithinTheBlock = getSudokuValuesInBox(rowNumber, coulmnNumber);
 
-                    hiddenBlockSinglesCount = HiddenSinglesGeneric("block", listOfCanidadtesForEachCellWithinTheBlock, rowNumber, coulmnNumber);
+                    hiddenBlockSinglesCount += HiddenSinglesGeneric("block", listOfCanidadtesForEachCellWithinTheBlock, rowNumber, coulmnNumber);
 
                     listOfCanidadtesForEachCellWithinTheBlock.Clear(); //Clearning the ready for the new list to be inserted and that to be handled. 
                 }
@@ -1079,7 +1089,7 @@ namespace SudokuSetterAndSolver
                 //When the end of a row has been reached. 
                 if (candidateIndexNumber % 9 == 8 || candidateIndexNumber == 8)
                 {
-                    hiddenRowCount = HiddenSinglesGeneric("row", listOfCanidadtesForEachCellWithinTheRow, _rowNumber, 0);
+                    hiddenRowCount += HiddenSinglesGeneric("row", listOfCanidadtesForEachCellWithinTheRow, _rowNumber, 0);
                     listOfCanidadtesForEachCellWithinTheRow.Clear(); //Clearning the ready for the new list to be inserted and that to be handled. 
                     _rowNumber++; //Increasing the row number
                 }
