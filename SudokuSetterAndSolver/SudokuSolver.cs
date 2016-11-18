@@ -80,7 +80,7 @@ namespace SudokuSetterAndSolver
         private void GeneratePuzzle()
         {
             //Loaing in a puzzle from a test file and creating the puzzle, along with static numbers. 
-            puzzleDetails = puzzleManager.ReadFromXMlFile("C:\\Users\\New\\Documents\\Sudoku\\Application\\SudokuSetterAndSolver\\SudokuSetterAndSolver\\Puzzles\\TestPuzzles\\test11.xml");
+            puzzleDetails = puzzleManager.ReadFromXMlFile("C:\\Users\\New\\Documents\\Sudoku\\Application\\SudokuSetterAndSolver\\SudokuSetterAndSolver\\Puzzles\\TestPuzzles\\test18.xml");
             int[] puzzleArray = puzzleDetails.puzzlecells.Cast<int>().ToArray();
             sudokuPuzzleMultiExample = puzzleManager.ConvertArrayToMultiDimensionalArray(puzzleArray);
             staticNumbers = sudokuPuzzleMultiExample;
@@ -128,7 +128,7 @@ namespace SudokuSetterAndSolver
             for (rowNumber = 0; rowNumber <= 8; rowNumber++)
             {
                 for (columnNumber = 0; columnNumber <= 8; columnNumber++)
-                {            
+                {
                     //Static numbers check 
                     if (staticNumbers[rowNumber, columnNumber] == 0)
                     {
@@ -149,7 +149,7 @@ namespace SudokuSetterAndSolver
                     validNumbersInCell.Clear();
                 }
             }
-            
+
             //Check to see if its the first run of the method, and setting the orginal 
             if (methodRunNumber == 0)
             {
@@ -205,7 +205,7 @@ namespace SudokuSetterAndSolver
                 }
                 else
                 { SolveSudokRuleBased(); }
-                
+
             }
             //Checks to see if puzzle is solved. 
             bool checkSolved = CheckToSeeIfPuzzleIsSolved();
@@ -214,13 +214,13 @@ namespace SudokuSetterAndSolver
                 Console.WriteLine("Solved");
             }
             //all the below methods seem to work togher and solve puzzles. 
-            HiddenSingles();
+            // HiddenSingles();
             checkSolved = CheckToSeeIfPuzzleIsSolved();
             if (checkSolved)
             {
                 Console.WriteLine("Solved");
             }
-            //CandidateHandling();
+            CandidateHandling();
             //Backtracking
             BacktrackinEffcient(false);
         }
@@ -257,774 +257,46 @@ namespace SudokuSetterAndSolver
 
         private void CandidateHandling()
         {
-            NakedTuples();
-        }
-
-        #endregion 
-
-        #region Nakeds
-        //Methods that get all the naked doubles and triples for the differnet regions within the grid. 
-        private void NakedTuples()
-        {
-
-            // NakedTuplesRow("Row");
-            //NakedTuplesColumn();
-            //NakedTuplesBlock();
-            //NakedTriplesColumn();
-            //HiddenTriplesColumn();
-        }
-
-        private void NakedTriplesRow()
-        {
-            //Getting the naked triples for all of the rows wihtin the grid. 
-            List<List<int>> cadidatesInSingleRow = new List<List<int>>();
-            for (int rowNumber = 0; rowNumber <= 80; rowNumber++)
-            {
-                cadidatesInSingleRow.Add(candidatesList[rowNumber]);
-                //If the row is at an end. 
-                if (rowNumber % 9 == 8 || rowNumber == 8)
-                {
-                    GetNakedTriples(cadidatesInSingleRow, rowNumber, 0, 0, "row");
-                    cadidatesInSingleRow.Clear();
-                }
-            }
-        }
-
-        private void NakedDoubleRow()
-        {
-            //Getting all of the naked doubles for that row. 
-            List<List<int>> cadidatesInSingleRow = new List<List<int>>();
-            for (int rowNumber = 0; rowNumber <= 80; rowNumber++)
-            {
-                cadidatesInSingleRow.Add(candidatesList[rowNumber]);
-
-                //If the row is at an end. 
-                if (rowNumber % 9 == 8 || rowNumber == 8)
-                {
-                    GetNakedDoubles(cadidatesInSingleRow, rowNumber, 0, 0, "row");
-                    cadidatesInSingleRow.Clear();
-                }
-            }
-        }
-
-        private void NakedDoublesColumn()
-        {
-            List<List<int>> cadidatesInSingleColumn = new List<List<int>>();
-            //Search through all of the columns. 
-            for (int columnNumber = 0; columnNumber <= 8; columnNumber++)
-            {
-                for (int candiateIndexNumber = 0; candiateIndexNumber <= 80; candiateIndexNumber++)
-                {
-                    if (columnNumber == candiateIndexNumber || candiateIndexNumber % 9 == columnNumber)
-                    {
-                        cadidatesInSingleColumn.Add(candidatesList[candiateIndexNumber]);
-                    }
-                }
-                GetNakedDoubles(cadidatesInSingleColumn, 0, columnNumber, 0, "column");
-                cadidatesInSingleColumn.Clear();
-            }
-        }
-
-        private void NakedTriplesColumn()
-        {
-            List<List<int>> cadidatesInSingleColumn = new List<List<int>>();
-            //Search through all of the columns. 
-            for (int columnNumber = 0; columnNumber <= 8; columnNumber++)
-            {
-                for (int candiateIndexNumber = 0; candiateIndexNumber <= 80; candiateIndexNumber++)
-                {
-                    if (columnNumber == candiateIndexNumber || candiateIndexNumber % 9 == columnNumber)
-                    {
-                        cadidatesInSingleColumn.Add(candidatesList[candiateIndexNumber]);
-                    }
-                }
-                GetNakedTriples(cadidatesInSingleColumn, 0, columnNumber, 0, "column");
-                cadidatesInSingleColumn.Clear();
-            }
-        }
-
-        private void NakedDoublesBlock()
-        {
-            List<List<int>> listOfCanidadtesForEachCellWithinTheBlock = new List<List<int>>();
-            //Gets all the values from each block. 
-            for (int rowNumber = 2; rowNumber <= 8; rowNumber += 3)
-            {
-                for (int coulmnNumber = 2; coulmnNumber <= 8; coulmnNumber += 3)
-                {
-                    listOfCanidadtesForEachCellWithinTheBlock = getSudokuValuesInBox(rowNumber, coulmnNumber); //Get cell values for that block. 
-                    GetNakedDoubles(listOfCanidadtesForEachCellWithinTheBlock, rowNumber, coulmnNumber, 0, "block");
-                    listOfCanidadtesForEachCellWithinTheBlock.Clear();
-                }
-            }
-        }
-
-        private void NakedTriplesBlock()
-        {
-            List<List<int>> listOfCanidadtesForEachCellWithinTheBlock = new List<List<int>>();
-            //Gets all the values from each block. 
-            for (int rowNumber = 2; rowNumber <= 8; rowNumber += 3)
-            {
-                for (int coulmnNumber = 2; coulmnNumber <= 8; coulmnNumber += 3)
-                {
-                    listOfCanidadtesForEachCellWithinTheBlock = getSudokuValuesInBox(rowNumber, coulmnNumber); //Get cells values for that block. 
-                    GetNakedTriples(listOfCanidadtesForEachCellWithinTheBlock, rowNumber, coulmnNumber, 0, "block");
-                    listOfCanidadtesForEachCellWithinTheBlock.Clear();
-                }
-            }
-        }
-
-        private void GetNakedDoubles(List<List<int>> cadidatesInSingleRow, int rowNumber, int columnNumber, int blockNumber, string regionTitle)
-        {
-            //Stores all of the index values for the cells that are not null within the region. 
-            List<int> notNullIndexValuesCellsInRow = new List<int>();
-            //Gets all the none null cells within the row. 
-            for (int cellIndexValue = 0; cellIndexValue <= cadidatesInSingleRow.Count - 1; cellIndexValue++)
-            {
-                if (cadidatesInSingleRow[cellIndexValue] != null)
-                {
-                    notNullIndexValuesCellsInRow.Add(cellIndexValue);
-                }
-            }
-
-            //Cycling through all of the possible double number combination. 
-            for (int firstNumber = 1; firstNumber <= 9; firstNumber++)
-            {
-                for (int secondNumber = 1; secondNumber <= 9; secondNumber++)
-                {
-                    //List that contains all of the matches. 
-                    List<int> matchList = new List<int>();
-                    //Going through all of the cells. 
-                    for (int indexValueForMatch = 0; indexValueForMatch <= notNullIndexValuesCellsInRow.Count - 1; indexValueForMatch++)
-                    {
-                        //Making sure all numbers within the combination are unique. 
-                        if (firstNumber != secondNumber)
-                        {
-                            int containsCount = 0;
-                            //If the cell contains the current doubles combination. 
-                            if (cadidatesInSingleRow[notNullIndexValuesCellsInRow[indexValueForMatch]].Contains(firstNumber)) { containsCount++; }
-                            if (cadidatesInSingleRow[notNullIndexValuesCellsInRow[indexValueForMatch]].Contains(secondNumber)) { containsCount++; }
-                            //This will also match for hidden double.
-                            if (containsCount == 2 && cadidatesInSingleRow[notNullIndexValuesCellsInRow[indexValueForMatch]].Count == 2)
-                            {
-                                //if there is a match, add it to the match list, the match provides the index of the matched cell. 
-                                matchList.Add(notNullIndexValuesCellsInRow[indexValueForMatch]);
-                            }
-                        }
-                    }
-
-                    //A naked double has been found. 
-                    if (matchList.Count == 2)
-                    {
-                        //Going through all of fhe none null cells.
-                        for (int candidatesIndexValues = 0; candidatesIndexValues <= notNullIndexValuesCellsInRow.Count - 1; candidatesIndexValues++)
-                        {
-                            //If the cell is one which contains the naked doubles, we do not want to remove the candidates. 
-                            bool doubleCell = false;
-                            foreach (var value in matchList)
-                            {
-                                if (value == notNullIndexValuesCellsInRow[candidatesIndexValues])
-                                {
-                                    doubleCell = true;
-                                    break;
-                                }
-                            }
-                            //If the cell is not a naked cell, then possible candidates will be removed from the cell. 
-                            if (doubleCell == false)
-                            {
-                                for (int candidateValueIndex = 0; candidateValueIndex <= cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]].Count - 1; candidateValueIndex++)
-                                {
-                                    if (cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]][candidateValueIndex] == firstNumber || cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]][candidateValueIndex] == secondNumber)
-                                    {
-                                        cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]].RemoveAt(candidateValueIndex);
-                                        if (regionTitle == "row")
-                                        {
-                                            candidatesList[rowNumber - 8 + notNullIndexValuesCellsInRow[candidatesIndexValues]] = cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]];
-                                        }
-                                        else if (regionTitle == "column")
-                                        {
-                                            candidatesList[notNullIndexValuesCellsInRow[candidatesIndexValues] * 9 + columnNumber] = cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]];
-                                        }
-                                        //If the region is a block, then further handling. 
-                                        else
-                                        {
-                                            //Method to get the row and column number, using the row number, the index number and the column number 
-                                            int coordinateValue = 1;
-                                            int startRowNumber = rowNumber - 2;
-                                            int startCoulmnNumber = columnNumber - 2;
-                                            int actualRowNumber = 0;
-                                            int actualColumnNumber = 0;
-                                            //Getting row number and column of the current cell. 
-                                            for (; startRowNumber <= rowNumber; startRowNumber++)
-                                            {
-                                                for (; startCoulmnNumber <= columnNumber; startCoulmnNumber++)
-                                                {
-                                                    if (notNullIndexValuesCellsInRow[candidatesIndexValues] + 1 == coordinateValue)
-                                                    {
-                                                        actualRowNumber = startRowNumber;
-                                                        actualColumnNumber = startCoulmnNumber;
-                                                    }
-                                                    coordinateValue++;
-                                                }
-                                                startCoulmnNumber = columnNumber - 2;
-                                            }
-                                            //Removing candidate from cell. 
-                                            candidatesList[9 * actualRowNumber + actualColumnNumber] = cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]];
-                                        }
-                                        candidateValueIndex = 0;
-                                    }
-                                }
-                            }
-
-                        }
-                        matchList.Clear();
-                    }
-                }
-            }
-            notNullIndexValuesCellsInRow.Clear();
-            cadidatesInSingleRow.Clear();
-        }
-
-        private void GetNakedTriples(List<List<int>> cadidatesInSingleRow, int rowNumber, int columnNumber, int blockNumber, string regionTitle)
-        {
-            List<int> notNullIndexValuesCellsInRow = new List<int>();
-            //Gets all the none null cells within the row. 
-            for (int cellIndexValue = 0; cellIndexValue <= cadidatesInSingleRow.Count - 1; cellIndexValue++)
-            {
-                if (cadidatesInSingleRow[cellIndexValue] != null)
-                {
-                    notNullIndexValuesCellsInRow.Add(cellIndexValue);
-                }
-            }
-            //Going through all of the possible triple combinations. 
-            for (int firstNumber = 1; firstNumber <= 9; firstNumber++)
-            {
-                for (int secondNumber = 1; secondNumber <= 9; secondNumber++)
-                {
-                    List<int> matchList = new List<int>();
-                    for (int thirdNumber = 1; thirdNumber <= 9; thirdNumber++)
-                    {
-                        for (int indexValueForMatch = 0; indexValueForMatch <= notNullIndexValuesCellsInRow.Count - 1; indexValueForMatch++)
-                        {
-                            //Making sure all numbers within the combination are unique. 
-                            if (firstNumber != secondNumber && firstNumber != thirdNumber && secondNumber != thirdNumber)
-                            {
-                                int containsCount = 0;
-                                if (cadidatesInSingleRow[notNullIndexValuesCellsInRow[indexValueForMatch]].Contains(firstNumber)) { containsCount++; }
-                                if (cadidatesInSingleRow[notNullIndexValuesCellsInRow[indexValueForMatch]].Contains(secondNumber)) { containsCount++; }
-                                if (cadidatesInSingleRow[notNullIndexValuesCellsInRow[indexValueForMatch]].Contains(thirdNumber)) { containsCount++; }
-                                //This will also match for hidden triples. 
-                                if (containsCount >= 2 && containsCount == cadidatesInSingleRow[notNullIndexValuesCellsInRow[indexValueForMatch]].Count)
-                                {
-                                    //if there is a match, add it to the match list, the match provides the index of the matched cell. 
-                                    matchList.Add(notNullIndexValuesCellsInRow[indexValueForMatch]);
-                                }
-                            }
-                        }
-
-                        //A naked treble has been found. Need to tes this in isolation. To see if it pics up the naked triple in the 5 row. 
-                        if (matchList.Count == 3)
-                        {
-                            //Removing the candidates from the other cells apart from the naked triple cells. 
-                            for (int candidatesIndexValues = 0; candidatesIndexValues <= notNullIndexValuesCellsInRow.Count - 1; candidatesIndexValues++)
-                            {
-                                bool tripleCell = false;
-                                foreach (var value in matchList)
-                                {
-                                    if (value == notNullIndexValuesCellsInRow[candidatesIndexValues])
-                                    {
-                                        tripleCell = true;
-                                        break;
-                                    }
-                                }
-                                if (tripleCell == false)
-                                {
-                                    for (int candidateValueIndex = 0; candidateValueIndex <= cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]].Count - 1; candidateValueIndex++)
-                                    {
-                                        if (cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]][candidateValueIndex] == firstNumber || cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]][candidateValueIndex] == secondNumber || cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]][candidateValueIndex] == thirdNumber)
-                                        {
-                                            cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]].RemoveAt(candidateValueIndex);
-                                            if (regionTitle == "row")
-                                            {
-                                                candidatesList[rowNumber - 8 + notNullIndexValuesCellsInRow[candidatesIndexValues]] = cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]];
-                                            }
-                                            else if (regionTitle == "column")
-                                            {
-                                                candidatesList[notNullIndexValuesCellsInRow[candidatesIndexValues] * 9 + columnNumber] = cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]];
-                                            }
-                                            else
-                                            {
-                                                //Method to get the row and column number, using the row number, the index number and the column number 
-                                                int coordinateValue = 1;
-                                                int startRowNumber = rowNumber - 2;
-                                                int startCoulmnNumber = columnNumber - 2;
-                                                int actualRowNumber = 0;
-                                                int actualColumnNumber = 0;
-
-                                                for (; startRowNumber <= rowNumber; startRowNumber++)
-                                                {
-                                                    for (; startCoulmnNumber <= columnNumber; startCoulmnNumber++)
-                                                    {
-                                                        if (notNullIndexValuesCellsInRow[candidatesIndexValues] + 1 == coordinateValue)
-                                                        {
-                                                            actualRowNumber = startRowNumber;
-                                                            actualColumnNumber = startCoulmnNumber;
-                                                        }
-                                                        coordinateValue++;
-                                                    }
-                                                    startCoulmnNumber = columnNumber - 2;
-                                                }
-                                                //Removing candidate from cell. 
-                                                candidatesList[9 * actualRowNumber + actualColumnNumber] = cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]];
-                                            }
-                                            candidateValueIndex = 0;
-                                        }
-                                    }
-                                }
-                            }
-
-                        }
-                        matchList.Clear();
-                    }
-                }
-            }
-            notNullIndexValuesCellsInRow.Clear();
-            cadidatesInSingleRow.Clear();
+            NakedDoubles();
+            HiddenDoubles();
+            NakedTriples();
+            //Naked Triples 
+            //HIdden Triples 
         }
 
         #endregion
 
-        #region HiddenDoubles 
-
-        private void HiddenDoublesRow()
-        {
-            //Getting all of the naked doubles for that row. 
-            List<List<int>> cadidatesInSingleRow = new List<List<int>>();
-            for (int rowNumber = 0; rowNumber <= 80; rowNumber++)
-            {
-                cadidatesInSingleRow.Add(candidatesList[rowNumber]);
-
-                //If the row is at an end. 
-                if (rowNumber % 9 == 8 || rowNumber == 8)
-                {
-                    GetHiddenDoubles(cadidatesInSingleRow, rowNumber, 0, "row");
-                    cadidatesInSingleRow.Clear();
-                }
-            }
-        }
-        private void HiddenDoublesColumn()
-        {
-            List<List<int>> cadidatesInSingleColumn = new List<List<int>>();
-            //Search through all of the columns. 
-            for (int columnNumber = 0; columnNumber <= 8; columnNumber++)
-            {
-                for (int candiateIndexNumber = 0; candiateIndexNumber <= 80; candiateIndexNumber++)
-                {
-                    if (columnNumber == candiateIndexNumber || candiateIndexNumber % 9 == columnNumber)
-                    {
-                        cadidatesInSingleColumn.Add(candidatesList[candiateIndexNumber]);
-                    }
-                }
-                GetHiddenDoubles(cadidatesInSingleColumn, 0, columnNumber, "column");
-                cadidatesInSingleColumn.Clear();
-            }
-        }
-        private void HiddenDoublesBlock()
-        {
-            List<List<int>> listOfCanidadtesForEachCellWithinTheBlock = new List<List<int>>();
-            //Gets all the values from each block. 
-            for (int rowNumber = 2; rowNumber <= 8; rowNumber += 3)
-            {
-                for (int coulmnNumber = 2; coulmnNumber <= 8; coulmnNumber += 3)
-                {
-                    listOfCanidadtesForEachCellWithinTheBlock = getSudokuValuesInBox(rowNumber, coulmnNumber); //Get cell values for that block. 
-                    GetHiddenDoubles(listOfCanidadtesForEachCellWithinTheBlock, rowNumber, coulmnNumber, "block");
-                    listOfCanidadtesForEachCellWithinTheBlock.Clear();
-                }
-            }
-        }
-
-        private void HiddenTriplesRow()
-        {
-            //Getting all of the naked doubles for that row. 
-            List<List<int>> cadidatesInSingleRow = new List<List<int>>();
-            for (int rowNumber = 0; rowNumber <= 80; rowNumber++)
-            {
-                cadidatesInSingleRow.Add(candidatesList[rowNumber]);
-
-                //If the row is at an end. 
-                if (rowNumber % 9 == 8 || rowNumber == 8)
-                {
-                    GetHiddenTriples(cadidatesInSingleRow, rowNumber, 0, "row");
-                    cadidatesInSingleRow.Clear();
-                }
-            }
-        }
-
-        private void HiddenTriplesColumn()
-        {
-            List<List<int>> cadidatesInSingleColumn = new List<List<int>>();
-            //Search through all of the columns. 
-            for (int columnNumber = 0; columnNumber <= 8; columnNumber++)
-            {
-                for (int candiateIndexNumber = 0; candiateIndexNumber <= 80; candiateIndexNumber++)
-                {
-                    if (columnNumber == candiateIndexNumber || candiateIndexNumber % 9 == columnNumber)
-                    {
-                        cadidatesInSingleColumn.Add(candidatesList[candiateIndexNumber]);
-                    }
-                }
-                GetHiddenTriples(cadidatesInSingleColumn, 0, columnNumber, "column");
-                cadidatesInSingleColumn.Clear();
-            }
-        }
-
-        private void HiddenTriplesBlock()
-        {
-            List<List<int>> listOfCanidadtesForEachCellWithinTheBlock = new List<List<int>>();
-            //Gets all the values from each block. 
-            for (int rowNumber = 2; rowNumber <= 8; rowNumber += 3)
-            {
-                for (int coulmnNumber = 2; coulmnNumber <= 8; coulmnNumber += 3)
-                {
-                    listOfCanidadtesForEachCellWithinTheBlock = getSudokuValuesInBox(rowNumber, coulmnNumber); //Get cell values for that block. 
-                    GetHiddenTriples(listOfCanidadtesForEachCellWithinTheBlock, rowNumber, coulmnNumber, "block");
-                    listOfCanidadtesForEachCellWithinTheBlock.Clear();
-                }
-            }
-        }
-
-        //The logic for this method is worng. 
-        private void GetHiddenDoubles(List<List<int>> cells, int rowNumber, int columnNumber, string regionTitle)
-        {
-            //Stores all of the index values for the cells that are not null within the region. 
-            List<int> notNullIndexValuesCellsInRow = new List<int>();
-            //Gets all the none null cells within the row. 
-            for (int cellIndexValue = 0; cellIndexValue <= cells.Count - 1; cellIndexValue++)
-            {
-                if (cells[cellIndexValue] != null)
-                {
-                    notNullIndexValuesCellsInRow.Add(cellIndexValue);
-                }
-            }
-
-            //Cycling through all of the possible double number combination. 
-            for (int firstNumber = 1; firstNumber <= 9; firstNumber++)
-            {
-                for (int secondNumber = 1; secondNumber <= 9; secondNumber++)
-                {
-                    //List that contains all of the matches. 
-                    List<int> matchList = new List<int>();
-                    List<int> matchDoubleList = new List<int>();
-                    for (int indexValueForMatch = 0; indexValueForMatch <= notNullIndexValuesCellsInRow.Count - 1; indexValueForMatch++)
-                    {
-                        // Making sure all numbers within the combination are unique. 
-                        if (firstNumber != secondNumber)
-                        {
-                            int containsFristCount = 0;
-                            int containsSecondCount = 0;
-                            //If the cell contains the current doubles combination. 
-                            if (cells[notNullIndexValuesCellsInRow[indexValueForMatch]].Contains(firstNumber)) { containsFristCount++; }
-                            if (cells[notNullIndexValuesCellsInRow[indexValueForMatch]].Contains(secondNumber)) { containsSecondCount++; }
-                            //This will also match for hidden double.
-                            if (containsFristCount == 1 && containsSecondCount == 1)
-                            {
-                                matchDoubleList.Add(notNullIndexValuesCellsInRow[indexValueForMatch]);
-                            }
-                            else if (containsFristCount == 1 || containsSecondCount == 1)
-                            {
-                                //if there is a match, add it to the match list, the match provides the index of the matched cell. 
-                                matchList.Add(notNullIndexValuesCellsInRow[indexValueForMatch]);
-                            }
-                        }
-                    }
-                    //A hidden double has been found. 
-                    if (matchList.Count == 0 && matchDoubleList.Count == 2)
-                    {
-                        List<List<int>> test = candidatesList;
-                        //Going through all of fhe none null cells.
-                        for (int candidatesIndexValues = 0; candidatesIndexValues <= notNullIndexValuesCellsInRow.Count - 1; candidatesIndexValues++)
-                        {
-                            //If the cell is one which contains the naked doubles, we do not want to remove the candidates. 
-                            bool doubleCell = false;
-                            foreach (var value in matchDoubleList)
-                            {
-                                if (value == notNullIndexValuesCellsInRow[candidatesIndexValues])
-                                {
-                                    doubleCell = true;
-                                    break;
-                                }
-                            }
-
-                            //Removing all of the other candidates in the cells that are  double or triple. 
-                            if (doubleCell == true)
-                            {
-                                for (int candidateValueIndex = 0; candidateValueIndex <= cells[notNullIndexValuesCellsInRow[candidatesIndexValues]].Count - 1; candidateValueIndex++)
-                                {
-                                    if (cells[notNullIndexValuesCellsInRow[candidatesIndexValues]][candidateValueIndex] != firstNumber && cells[notNullIndexValuesCellsInRow[candidatesIndexValues]][candidateValueIndex] != secondNumber)
-                                    {
-                                        cells[notNullIndexValuesCellsInRow[candidatesIndexValues]].RemoveAt(candidateValueIndex);
-                                        if (regionTitle == "row")
-                                        {
-                                            candidatesList[rowNumber - 8 + notNullIndexValuesCellsInRow[candidatesIndexValues]] = cells[notNullIndexValuesCellsInRow[candidatesIndexValues]];
-                                        }
-                                        else if (regionTitle == "column")
-                                        {
-                                            candidatesList[notNullIndexValuesCellsInRow[candidatesIndexValues] * 9 + columnNumber] = cells[notNullIndexValuesCellsInRow[candidatesIndexValues]];
-                                        }
-                                        //If the region is a block, then further handling. 
-                                        else
-                                        {
-                                            //Method to get the row and column number, using the row number, the index number and the column number 
-                                            int coordinateValue = 1;
-                                            int startRowNumber = rowNumber - 2;
-                                            int startCoulmnNumber = columnNumber - 2;
-                                            int actualRowNumber = 0;
-                                            int actualColumnNumber = 0;
-                                            //Getting row number and column of the current cell. 
-                                            for (; startRowNumber <= rowNumber; startRowNumber++)
-                                            {
-                                                for (; startCoulmnNumber <= columnNumber; startCoulmnNumber++)
-                                                {
-                                                    if (notNullIndexValuesCellsInRow[candidatesIndexValues] + 1 == coordinateValue)
-                                                    {
-                                                        actualRowNumber = startRowNumber;
-                                                        actualColumnNumber = startCoulmnNumber;
-                                                    }
-                                                    coordinateValue++;
-                                                }
-                                                startCoulmnNumber = columnNumber - 2;
-                                            }
-                                            //Removing candidate from cell. 
-                                            candidatesList[9 * actualRowNumber + actualColumnNumber] = cells[notNullIndexValuesCellsInRow[candidatesIndexValues]];
-                                        }
-                                        candidateValueIndex = 0;
-                                    }
-                                }
-                            }
-
-                        }
-                        matchList.Clear();
-                        matchDoubleList.Clear();
-                    }
-                }
-            }
-            notNullIndexValuesCellsInRow.Clear();
-            cells.Clear();
-        }
-
-        //The logic is wrong, it is picking up values that should not be there. It is picking up, things with 2 items in each which is not correct. May need to 
-        private void GetHiddenTriples(List<List<int>> cells, int rowNumber, int columnNumber, string regionTitle)
-        {
-            List<int> notNullIndexValuesCellsInRow = new List<int>();
-            //Gets all the none null cells within the row. 
-            for (int cellIndexValue = 0; cellIndexValue <= cells.Count - 1; cellIndexValue++)
-            {
-                if (cells[cellIndexValue] != null)
-                {
-                    notNullIndexValuesCellsInRow.Add(cellIndexValue);
-                }
-            }
-            //Going through all of the possible triple combinations. 
-            for (int firstNumber = 1; firstNumber <= 9; firstNumber++)
-            {
-                for (int secondNumber = 1; secondNumber <= 9; secondNumber++)
-                {
-                    List<int> matchList = new List<int>();
-                    List<int> tripleMatchList = new List<int>();
-                    for (int thirdNumber = 1; thirdNumber <= 9; thirdNumber++)
-                    {
-                        for (int indexValueForMatch = 0; indexValueForMatch <= notNullIndexValuesCellsInRow.Count - 1; indexValueForMatch++)
-                        {
-                            //Making sure all numbers within the combination are unique. 
-                            if (firstNumber != secondNumber && firstNumber != thirdNumber && secondNumber != thirdNumber)
-                            {
-                                int containsCount = 0;
-                                if (cells[notNullIndexValuesCellsInRow[indexValueForMatch]].Contains(firstNumber)) { containsCount++; }
-                                if (cells[notNullIndexValuesCellsInRow[indexValueForMatch]].Contains(secondNumber)) { containsCount++; }
-                                if (cells[notNullIndexValuesCellsInRow[indexValueForMatch]].Contains(thirdNumber)) { containsCount++; }
-                                //This will also match for hidden triples. 
-                                if (containsCount >= 2)
-                                {
-                                    //if there is a match, add it to the match list, the match provides the index of the matched cell. 
-                                    tripleMatchList.Add(notNullIndexValuesCellsInRow[indexValueForMatch]);
-                                }
-                                else if (containsCount >= 1)
-                                {
-                                    matchList.Add(notNullIndexValuesCellsInRow[indexValueForMatch]);
-                                }
-                            }
-                        }
-                        //A naked treble has been found. Need to tes this in isolation. To see if it pics up the naked triple in the 5 row. 
-                        if (tripleMatchList.Count == 3 && matchList.Count == 0)
-                        {
-                            //Removing the candidates from the other cells apart from the naked triple cells. 
-                            for (int candidatesIndexValues = 0; candidatesIndexValues <= notNullIndexValuesCellsInRow.Count - 1; candidatesIndexValues++)
-                            {
-                                bool tripleCell = false;
-                                foreach (var value in tripleMatchList)
-                                {
-                                    if (value == notNullIndexValuesCellsInRow[candidatesIndexValues])
-                                    {
-                                        tripleCell = true;
-                                        break;
-                                    }
-                                }
-                                if (tripleCell == true)
-                                {
-                                    for (int candidateValueIndex = 0; candidateValueIndex <= cells[notNullIndexValuesCellsInRow[candidatesIndexValues]].Count - 1; candidateValueIndex++)
-                                    {
-                                        if (cells[notNullIndexValuesCellsInRow[candidatesIndexValues]][candidateValueIndex] != firstNumber && cells[notNullIndexValuesCellsInRow[candidatesIndexValues]][candidateValueIndex] != secondNumber && cells[notNullIndexValuesCellsInRow[candidatesIndexValues]][candidateValueIndex] != thirdNumber)
-                                        {
-                                            cells[notNullIndexValuesCellsInRow[candidatesIndexValues]].RemoveAt(candidateValueIndex);
-                                            if (regionTitle == "row")
-                                            {
-                                                candidatesList[rowNumber - 8 + notNullIndexValuesCellsInRow[candidatesIndexValues]] = cells[notNullIndexValuesCellsInRow[candidatesIndexValues]];
-                                            }
-                                            else if (regionTitle == "column")
-                                            {
-                                                candidatesList[notNullIndexValuesCellsInRow[candidatesIndexValues] * 9 + columnNumber] = cells[notNullIndexValuesCellsInRow[candidatesIndexValues]];
-                                            }
-                                            //If the region is a block, then further handling. 
-                                            else
-                                            {
-                                                //Method to get the row and column number, using the row number, the index number and the column number 
-                                                int coordinateValue = 1;
-                                                int startRowNumber = rowNumber - 2;
-                                                int startCoulmnNumber = columnNumber - 2;
-                                                int actualRowNumber = 0;
-                                                int actualColumnNumber = 0;
-                                                //Getting row number and column of the current cell. 
-                                                for (; startRowNumber <= rowNumber; startRowNumber++)
-                                                {
-                                                    for (; startCoulmnNumber <= columnNumber; startCoulmnNumber++)
-                                                    {
-                                                        if (notNullIndexValuesCellsInRow[candidatesIndexValues] + 1 == coordinateValue)
-                                                        {
-                                                            actualRowNumber = startRowNumber;
-                                                            actualColumnNumber = startCoulmnNumber;
-                                                        }
-                                                        coordinateValue++;
-                                                    }
-                                                    startCoulmnNumber = columnNumber - 2;
-                                                }
-                                                //Removing candidate from cell. 
-                                                candidatesList[9 * actualRowNumber + actualColumnNumber] = cells[notNullIndexValuesCellsInRow[candidatesIndexValues]];
-                                            }
-                                            candidateValueIndex = 0;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        matchList.Clear();
-                        tripleMatchList.Clear();
-                    }
-                }
-            }
-            notNullIndexValuesCellsInRow.Clear();
-            cells.Clear();
-        }
-
-        private void RemoveCandidates(List<int> notNullIndexValuesCellsInRow, List<int> matchList, List<List<int>> cells, int rowNumber, int columnNumber, string regionTitle, int firstNumber, int secondNumber, int thirdNumber)
-        {
-            //Going through all of fhe none null cells.
-            for (int candidatesIndexValues = 0; candidatesIndexValues <= notNullIndexValuesCellsInRow.Count - 1; candidatesIndexValues++)
-            {
-                //If the cell is one which contains the naked doubles, we do not want to remove the candidates. 
-                bool doubleCell = false;
-                foreach (var value in matchList)
-                {
-                    if (value == notNullIndexValuesCellsInRow[candidatesIndexValues])
-                    {
-                        doubleCell = true;
-                        break;
-                    }
-                }
-                //If the cell is not a naked cell, then possible candidates will be removed from the cell. 
-                if (doubleCell == false)
-                {
-                    for (int candidateValueIndex = 0; candidateValueIndex <= cells[notNullIndexValuesCellsInRow[candidatesIndexValues]].Count - 1; candidateValueIndex++)
-                    {
-                        if (cells[notNullIndexValuesCellsInRow[candidatesIndexValues]][candidateValueIndex] == firstNumber || cells[notNullIndexValuesCellsInRow[candidatesIndexValues]][candidateValueIndex] == secondNumber || cells[notNullIndexValuesCellsInRow[candidatesIndexValues]][candidateValueIndex] == thirdNumber)
-                        {
-                            cells[notNullIndexValuesCellsInRow[candidatesIndexValues]].RemoveAt(candidateValueIndex);
-                            if (regionTitle == "row")
-                            {
-                                candidatesList[rowNumber - 8 + notNullIndexValuesCellsInRow[candidatesIndexValues]] = cells[notNullIndexValuesCellsInRow[candidatesIndexValues]];
-                            }
-                            else if (regionTitle == "column")
-                            {
-                                candidatesList[notNullIndexValuesCellsInRow[candidatesIndexValues] * 9 + columnNumber] = cells[notNullIndexValuesCellsInRow[candidatesIndexValues]];
-                            }
-                            //If the region is a block, then further handling. 
-                            else
-                            {
-                                //Method to get the row and column number, using the row number, the index number and the column number 
-                                int coordinateValue = 1;
-                                int startRowNumber = rowNumber - 2;
-                                int startCoulmnNumber = columnNumber - 2;
-                                int actualRowNumber = 0;
-                                int actualColumnNumber = 0;
-                                //Getting row number and column of the current cell. 
-                                for (; startRowNumber <= rowNumber; startRowNumber++)
-                                {
-                                    for (; startCoulmnNumber <= columnNumber; startCoulmnNumber++)
-                                    {
-                                        if (notNullIndexValuesCellsInRow[candidatesIndexValues] + 1 == coordinateValue)
-                                        {
-                                            actualRowNumber = startRowNumber;
-                                            actualColumnNumber = startCoulmnNumber;
-                                        }
-                                        coordinateValue++;
-                                    }
-                                    startCoulmnNumber = columnNumber - 2;
-                                }
-                                //Removing candidate from cell. 
-                                candidatesList[9 * actualRowNumber + actualColumnNumber] = cells[notNullIndexValuesCellsInRow[candidatesIndexValues]];
-                            }
-                            candidateValueIndex = 0;
-                        }
-                    }
-                }
-
-            }
-        }
-
-        #endregion 
-
-        //this method needs a further looking at. 
-        #region Hiddens
+        #region Hiddens Singles 
         //Method that calls all of the hidden methods, to see if ther are any hidden values in the grid. 
         private void HiddenSingles()
         {
+            //Resetting bools. 
             bool hiddenRowBool = false;
             bool hiddenColumnBool = false;
             bool hiddenBlockBool = false;
-
+            //GOing through the hidden singles, and returning to the main method if they are found within a region, to update the puzzle, acting as a human. 
             hiddenRowBool = HiddenRowSingles();
-
-            if(hiddenRowBool==true)
+            if (hiddenRowBool == true)
             {
                 SolveSudokRuleBased();
             }
             hiddenColumnBool = HiddenColumnSingles();
-            if(hiddenColumnBool==true)
+            if (hiddenColumnBool == true)
             {
                 SolveSudokRuleBased();
             }
             hiddenBlockBool = HiddenBlockSingles();
-            if(hiddenBlockBool == true)
+            if (hiddenBlockBool == true)
             {
                 SolveSudokRuleBased();
             }
-
         }
 
         private bool HiddenColumnSingles()
         {
             List<List<int>> listOfCanidadtesForEachCellWithinTheColumn = new List<List<int>>();
             bool hiddenColumnBool = false;
-            int hiddenColumnSinglesCount = 0; 
+            int hiddenColumnSinglesCount = 0;
 
             //Search through all of the columns. 
             for (int columnNumber = 0; columnNumber <= 8; columnNumber++)
@@ -1041,9 +313,9 @@ namespace SudokuSetterAndSolver
                 hiddenColumnSinglesCount += HiddenSinglesGeneric("column", listOfCanidadtesForEachCellWithinTheColumn, 0, columnNumber);
                 listOfCanidadtesForEachCellWithinTheColumn.Clear(); //Clearning the ready for the new list to be inserted and that to be handled. 
             }
-            if(hiddenColumnSinglesCount >=1)
+            if (hiddenColumnSinglesCount >= 1)
             {
-                hiddenColumnBool = true; 
+                hiddenColumnBool = true;
             }
             return hiddenColumnBool;
         }
@@ -1052,7 +324,7 @@ namespace SudokuSetterAndSolver
         {
             List<List<int>> listOfCanidadtesForEachCellWithinTheBlock = new List<List<int>>();
             bool hiddenBlockBool = false;
-            int hiddenBlockSinglesCount = 0; 
+            int hiddenBlockSinglesCount = 0;
 
             //Gets all the values from each block. 
             for (int rowNumber = 2; rowNumber <= 8; rowNumber += 3)
@@ -1066,9 +338,9 @@ namespace SudokuSetterAndSolver
                     listOfCanidadtesForEachCellWithinTheBlock.Clear(); //Clearning the ready for the new list to be inserted and that to be handled. 
                 }
             }
-            if(hiddenBlockSinglesCount >=1)
+            if (hiddenBlockSinglesCount >= 1)
             {
-                hiddenBlockBool = true; 
+                hiddenBlockBool = true;
             }
             return hiddenBlockBool;
         }
@@ -1079,7 +351,7 @@ namespace SudokuSetterAndSolver
             List<List<int>> listOfCanidadtesForEachCellWithinTheRow = new List<List<int>>();
             int _rowNumber = 0;
             bool hiddenRowBool = false;
-            int hiddenRowCount = 0; 
+            int hiddenRowCount = 0;
 
             //Going through all if the candidate cells. 
             for (int candidateIndexNumber = 0; candidateIndexNumber <= candidatesList.Count - 1; candidateIndexNumber++)
@@ -1095,9 +367,9 @@ namespace SudokuSetterAndSolver
                 }
             }
             //There where hidden singles. 
-            if(hiddenRowCount >=1)
+            if (hiddenRowCount >= 1)
             {
-                hiddenRowBool = true; 
+                hiddenRowBool = true;
             }
             return hiddenRowBool;
         }
@@ -1108,7 +380,7 @@ namespace SudokuSetterAndSolver
             List<int> notNullIndexList = new List<int>();
             List<int> individualNumbers = new List<int>();
             List<int> valuesUsed = new List<int>();
-            int hiddenCount = 0; 
+            int hiddenCount = 0;
             //Removing all null values from the candidate lists in the column. 
             for (int indexValue = 0; indexValue <= listOfCells.Count - 1; indexValue++)
             {
@@ -1236,6 +508,868 @@ namespace SudokuSetterAndSolver
 
         #endregion
 
+        #region Naked Doubles 
+        private void NakedDoubles()
+        {
+            //Resetting 
+            bool nakedDoubleRowBool = false;
+            bool nakedDoubleColumnBool = false;
+            bool nakedDoubleBlockBool = false;
+            //Adding any naked doubles, if there isnt any go to hidden doubles. 
+            nakedDoubleRowBool = NakedDoubleRow();
+            nakedDoubleColumnBool = NakedDoublesColumn();
+            nakedDoubleBlockBool = NakedDoublesBlock();
+
+            if (nakedDoubleRowBool == true || nakedDoubleColumnBool == true || nakedDoubleBlockBool == true)
+            {
+                SolveSudokRuleBased();
+            }
+        }
+
+        private bool NakedDoubleRow()
+        {
+            //Getting all of the naked doubles for that row. 
+            List<List<int>> cadidatesInSingleRow = new List<List<int>>();
+            bool nakedDoubleBool = false;
+            int nakedDoubleRowCount = 0;
+            for (int rowNumber = 0; rowNumber <= 80; rowNumber++)
+            {
+                cadidatesInSingleRow.Add(candidatesList[rowNumber]);
+
+                //If the row is at an end. 
+                if (rowNumber % 9 == 8 || rowNumber == 8)
+                {
+                    nakedDoubleRowCount += GetNakedDoubles(cadidatesInSingleRow, rowNumber, 0, 0, "row");
+                    cadidatesInSingleRow.Clear();
+                }
+            }
+            if (nakedDoubleRowCount >= 1)
+            {
+                nakedDoubleBool = true;
+            }
+            return nakedDoubleBool;
+        }
+
+        private bool NakedDoublesColumn()
+        {
+            bool nakedDoubleCoumnBool = false;
+            int nakedDoubleColumnCount = 0;
+            List<List<int>> cadidatesInSingleColumn = new List<List<int>>();
+            //Search through all of the columns. 
+            for (int columnNumber = 0; columnNumber <= 8; columnNumber++)
+            {
+                for (int candiateIndexNumber = 0; candiateIndexNumber <= 80; candiateIndexNumber++)
+                {
+                    if (columnNumber == candiateIndexNumber || candiateIndexNumber % 9 == columnNumber)
+                    {
+                        cadidatesInSingleColumn.Add(candidatesList[candiateIndexNumber]);
+                    }
+                }
+                nakedDoubleColumnCount += GetNakedDoubles(cadidatesInSingleColumn, 0, columnNumber, 0, "column");
+                cadidatesInSingleColumn.Clear();
+            }
+
+            if (nakedDoubleColumnCount >= 1)
+            {
+                nakedDoubleCoumnBool = true;
+            }
+            return nakedDoubleCoumnBool;
+        }
+
+        private bool NakedDoublesBlock()
+        {
+            bool nakedDoubleBlockBool = false;
+            int nakedDoubleBlockCount = 0;
+            List<List<int>> listOfCanidadtesForEachCellWithinTheBlock = new List<List<int>>();
+            //Gets all the values from each block. 
+            for (int rowNumber = 2; rowNumber <= 8; rowNumber += 3)
+            {
+                for (int coulmnNumber = 2; coulmnNumber <= 8; coulmnNumber += 3)
+                {
+                    listOfCanidadtesForEachCellWithinTheBlock = getSudokuValuesInBox(rowNumber, coulmnNumber); //Get cell values for that block. 
+                    nakedDoubleBlockCount += GetNakedDoubles(listOfCanidadtesForEachCellWithinTheBlock, rowNumber, coulmnNumber, 0, "block");
+                    listOfCanidadtesForEachCellWithinTheBlock.Clear();
+                }
+            }
+            if (nakedDoubleBlockCount >= 1)
+            {
+                nakedDoubleBlockBool = true;
+            }
+            return nakedDoubleBlockBool;
+        }
+
+        private int GetNakedDoubles(List<List<int>> cadidatesInSingleRow, int rowNumber, int columnNumber, int blockNumber, string regionTitle)
+        {
+            int nakedDoubleCount = 0;
+            //Stores all of the index values for the cells that are not null within the region. 
+            List<int> notNullIndexValuesCellsInRow = new List<int>();
+            //Gets all the none null cells within the row. 
+            for (int cellIndexValue = 0; cellIndexValue <= cadidatesInSingleRow.Count - 1; cellIndexValue++)
+            {
+                if (cadidatesInSingleRow[cellIndexValue] != null)
+                {
+                    notNullIndexValuesCellsInRow.Add(cellIndexValue);
+                }
+            }
+
+            //Cycling through all of the possible double number combination. 
+            for (int firstNumber = 1; firstNumber <= 9; firstNumber++)
+            {
+                for (int secondNumber = 1; secondNumber <= 9; secondNumber++)
+                {
+                    //List that contains all of the matches. 
+                    List<int> matchList = new List<int>();
+                    //Going through all of the cells. 
+                    for (int indexValueForMatch = 0; indexValueForMatch <= notNullIndexValuesCellsInRow.Count - 1; indexValueForMatch++)
+                    {
+                        //Making sure all numbers within the combination are unique. 
+                        if (firstNumber != secondNumber)
+                        {
+                            int containsCount = 0;
+                            //If the cell contains the current doubles combination. 
+                            if (cadidatesInSingleRow[notNullIndexValuesCellsInRow[indexValueForMatch]].Contains(firstNumber)) { containsCount++; }
+                            if (cadidatesInSingleRow[notNullIndexValuesCellsInRow[indexValueForMatch]].Contains(secondNumber)) { containsCount++; }
+                            //This will also match for hidden double.
+                            if (containsCount == 2 && cadidatesInSingleRow[notNullIndexValuesCellsInRow[indexValueForMatch]].Count == 2)
+                            {
+                                //if there is a match, add it to the match list, the match provides the index of the matched cell. 
+                                matchList.Add(notNullIndexValuesCellsInRow[indexValueForMatch]);
+                            }
+                        }
+                    }
+
+                    //A naked double has been found. 
+                    if (matchList.Count == 2)
+                    {
+                        //Going through all of fhe none null cells.
+                        for (int candidatesIndexValues = 0; candidatesIndexValues <= notNullIndexValuesCellsInRow.Count - 1; candidatesIndexValues++)
+                        {
+                            //If the cell is one which contains the naked doubles, we do not want to remove the candidates. 
+                            bool doubleCell = false;
+                            foreach (var value in matchList)
+                            {
+                                if (value == notNullIndexValuesCellsInRow[candidatesIndexValues])
+                                {
+                                    doubleCell = true;
+                                    break;
+                                }
+                            }
+                            //If the cell is not a naked cell, then possible candidates will be removed from the cell. 
+                            if (doubleCell == false)
+                            {
+                                for (int candidateValueIndex = 0; candidateValueIndex <= cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]].Count - 1; candidateValueIndex++)
+                                {
+                                    if (cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]][candidateValueIndex] == firstNumber || cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]][candidateValueIndex] == secondNumber)
+                                    {
+                                        cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]].RemoveAt(candidateValueIndex);
+                                        if (regionTitle == "row")
+                                        {
+                                            nakedDoubleCount++;
+                                            candidatesList[rowNumber - 8 + notNullIndexValuesCellsInRow[candidatesIndexValues]] = cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]];
+                                        }
+                                        else if (regionTitle == "column")
+                                        {
+                                            nakedDoubleCount++;
+                                            candidatesList[notNullIndexValuesCellsInRow[candidatesIndexValues] * 9 + columnNumber] = cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]];
+                                        }
+                                        //If the region is a block, then further handling. 
+                                        else
+                                        {
+                                            //Method to get the row and column number, using the row number, the index number and the column number 
+                                            int coordinateValue = 1;
+                                            int startRowNumber = rowNumber - 2;
+                                            int startCoulmnNumber = columnNumber - 2;
+                                            int actualRowNumber = 0;
+                                            int actualColumnNumber = 0;
+                                            //Getting row number and column of the current cell. 
+                                            for (; startRowNumber <= rowNumber; startRowNumber++)
+                                            {
+                                                for (; startCoulmnNumber <= columnNumber; startCoulmnNumber++)
+                                                {
+                                                    if (notNullIndexValuesCellsInRow[candidatesIndexValues] + 1 == coordinateValue)
+                                                    {
+                                                        actualRowNumber = startRowNumber;
+                                                        actualColumnNumber = startCoulmnNumber;
+                                                    }
+                                                    coordinateValue++;
+                                                }
+                                                startCoulmnNumber = columnNumber - 2;
+                                            }
+                                            nakedDoubleCount++;
+                                            //Removing candidate from cell. 
+                                            candidatesList[9 * actualRowNumber + actualColumnNumber] = cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]];
+                                        }
+                                        candidateValueIndex = 0;
+                                    }
+                                }
+                            }
+
+                        }
+                        matchList.Clear();
+                    }
+                }
+            }
+            notNullIndexValuesCellsInRow.Clear();
+            cadidatesInSingleRow.Clear();
+            return nakedDoubleCount;
+        }
+
+        #endregion
+
+        #region Hidden Doubles 
+
+        private void HiddenDoubles()
+        {
+            //Resetting 
+            bool hiddenDoubleRowBool = false;
+            bool hiddenDoubleColumnBool = false;
+            bool hiddenDoubleBlockBool = false;
+            //Getting the hidden doubles. 
+            hiddenDoubleRowBool = HiddenDoublesRow();
+            hiddenDoubleColumnBool = HiddenDoublesColumn();
+            hiddenDoubleBlockBool = HiddenDoublesBlock();
+            //If there is hidden doubles then begin the initial method again. 
+            if (hiddenDoubleBlockBool == true || hiddenDoubleColumnBool == true || hiddenDoubleRowBool == true)
+            {
+                SolveSudokRuleBased();
+            }
+       
+        }
+
+        private bool HiddenDoublesRow()
+        {
+            //Getting all of the naked doubles for that row. 
+            List<List<int>> cadidatesInSingleRow = new List<List<int>>();
+            bool hiddenDoubleRowBool = false;
+            int hiddenDoubleRowCount = 0; 
+            for (int rowNumber = 0; rowNumber <= 80; rowNumber++)
+            {
+                cadidatesInSingleRow.Add(candidatesList[rowNumber]);
+
+                //If the row is at an end. 
+                if (rowNumber % 9 == 8 || rowNumber == 8)
+                {
+                    hiddenDoubleRowCount += GetHiddenDoubles(cadidatesInSingleRow, rowNumber, 0, "row");
+                    cadidatesInSingleRow.Clear();
+                }
+            }
+            if(hiddenDoubleRowCount >=1)
+            {
+                hiddenDoubleRowBool = true; 
+            }
+            return hiddenDoubleRowBool; 
+        }
+        private bool HiddenDoublesColumn()
+        {
+            List<List<int>> cadidatesInSingleColumn = new List<List<int>>();
+            bool hiddenDoubleColumnBool = false;
+            int hiddenDoubleColumnCount = 0; 
+            //Search through all of the columns. 
+            for (int columnNumber = 0; columnNumber <= 8; columnNumber++)
+            {
+                for (int candiateIndexNumber = 0; candiateIndexNumber <= 80; candiateIndexNumber++)
+                {
+                    if (columnNumber == candiateIndexNumber || candiateIndexNumber % 9 == columnNumber)
+                    {
+                        cadidatesInSingleColumn.Add(candidatesList[candiateIndexNumber]);
+                    }
+                }
+                hiddenDoubleColumnCount += GetHiddenDoubles(cadidatesInSingleColumn, 0, columnNumber, "column");
+                cadidatesInSingleColumn.Clear();
+            }
+            if(hiddenDoubleColumnCount >=1)
+            {
+                hiddenDoubleColumnBool = true; 
+            }
+            return hiddenDoubleColumnBool;
+        }
+        private bool HiddenDoublesBlock()
+        {
+            List<List<int>> listOfCanidadtesForEachCellWithinTheBlock = new List<List<int>>();
+            bool hiddenDoubleBlockBool = false;
+            int hiddenDoubleBlockCount = 0;
+            //Gets all the values from each block. 
+            for (int rowNumber = 2; rowNumber <= 8; rowNumber += 3)
+            {
+                for (int coulmnNumber = 2; coulmnNumber <= 8; coulmnNumber += 3)
+                {
+                    listOfCanidadtesForEachCellWithinTheBlock = getSudokuValuesInBox(rowNumber, coulmnNumber); //Get cell values for that block. 
+                    hiddenDoubleBlockCount += GetHiddenDoubles(listOfCanidadtesForEachCellWithinTheBlock, rowNumber, coulmnNumber, "block");
+                    listOfCanidadtesForEachCellWithinTheBlock.Clear();
+                }
+            }
+            if(hiddenDoubleBlockCount>=1)
+            {
+                hiddenDoubleBlockBool = true; 
+            }
+            return hiddenDoubleBlockBool;
+        }
+
+        //The logic for this method is worng. 
+        private int GetHiddenDoubles(List<List<int>> cells, int rowNumber, int columnNumber, string regionTitle)
+        {
+            //Stores all of the index values for the cells that are not null within the region. 
+            List<int> notNullIndexValuesCellsInRow = new List<int>();
+            int hiddenDoubleCount = 0; 
+
+            //Gets all the none null cells within the row. 
+            for (int cellIndexValue = 0; cellIndexValue <= cells.Count - 1; cellIndexValue++)
+            {
+                if (cells[cellIndexValue] != null)
+                {
+                    notNullIndexValuesCellsInRow.Add(cellIndexValue);
+                }
+            }
+
+            //Cycling through all of the possible double number combination. 
+            for (int firstNumber = 1; firstNumber <= 9; firstNumber++)
+            {
+                for (int secondNumber = 1; secondNumber <= 9; secondNumber++)
+                {
+                    //List that contains all of the matches. 
+                    List<int> matchList = new List<int>();
+                    List<int> matchDoubleList = new List<int>();
+                    for (int indexValueForMatch = 0; indexValueForMatch <= notNullIndexValuesCellsInRow.Count - 1; indexValueForMatch++)
+                    {
+                        // Making sure all numbers within the combination are unique. 
+                        if (firstNumber != secondNumber)
+                        {
+                            int containsFristCount = 0;
+                            int containsSecondCount = 0;
+                            //If the cell contains the current doubles combination. 
+                            if (cells[notNullIndexValuesCellsInRow[indexValueForMatch]].Contains(firstNumber)) { containsFristCount++; }
+                            if (cells[notNullIndexValuesCellsInRow[indexValueForMatch]].Contains(secondNumber)) { containsSecondCount++; }
+                            //This will also match for hidden double.
+                            if (containsFristCount == 1 && containsSecondCount == 1)
+                            {
+                                matchDoubleList.Add(notNullIndexValuesCellsInRow[indexValueForMatch]);
+                            }
+                            else if (containsFristCount == 1 || containsSecondCount == 1)
+                            {
+                                //if there is a match, add it to the match list, the match provides the index of the matched cell. 
+                                matchList.Add(notNullIndexValuesCellsInRow[indexValueForMatch]);
+                            }
+                        }
+                    }
+                    //A hidden double has been found. 
+                    if (matchList.Count == 0 && matchDoubleList.Count == 2)
+                    {
+                        List<List<int>> test = candidatesList;
+                        //Going through all of fhe none null cells.
+                        for (int candidatesIndexValues = 0; candidatesIndexValues <= notNullIndexValuesCellsInRow.Count - 1; candidatesIndexValues++)
+                        {
+                            //If the cell is one which contains the naked doubles, we do not want to remove the candidates. 
+                            bool doubleCell = false;
+                            foreach (var value in matchDoubleList)
+                            {
+                                if (value == notNullIndexValuesCellsInRow[candidatesIndexValues])
+                                {
+                                    doubleCell = true;
+                                    break;
+                                }
+                            }
+
+                            //Removing all of the other candidates in the cells that are  double or triple. 
+                            if (doubleCell == true)
+                            {
+                                for (int candidateValueIndex = 0; candidateValueIndex <= cells[notNullIndexValuesCellsInRow[candidatesIndexValues]].Count - 1; candidateValueIndex++)
+                                {
+                                    if (cells[notNullIndexValuesCellsInRow[candidatesIndexValues]][candidateValueIndex] != firstNumber && cells[notNullIndexValuesCellsInRow[candidatesIndexValues]][candidateValueIndex] != secondNumber)
+                                    {
+                                        cells[notNullIndexValuesCellsInRow[candidatesIndexValues]].RemoveAt(candidateValueIndex);
+                                        if (regionTitle == "row")
+                                        {
+                                            hiddenDoubleCount++;
+                                            candidatesList[rowNumber - 8 + notNullIndexValuesCellsInRow[candidatesIndexValues]] = cells[notNullIndexValuesCellsInRow[candidatesIndexValues]];
+                                        }
+                                        else if (regionTitle == "column")
+                                        {
+                                            hiddenDoubleCount++;
+                                            candidatesList[notNullIndexValuesCellsInRow[candidatesIndexValues] * 9 + columnNumber] = cells[notNullIndexValuesCellsInRow[candidatesIndexValues]];
+                                        }
+                                        //If the region is a block, then further handling. 
+                                        else
+                                        {
+                                            //Method to get the row and column number, using the row number, the index number and the column number 
+                                            int coordinateValue = 1;
+                                            int startRowNumber = rowNumber - 2;
+                                            int startCoulmnNumber = columnNumber - 2;
+                                            int actualRowNumber = 0;
+                                            int actualColumnNumber = 0;
+                                            //Getting row number and column of the current cell. 
+                                            for (; startRowNumber <= rowNumber; startRowNumber++)
+                                            {
+                                                for (; startCoulmnNumber <= columnNumber; startCoulmnNumber++)
+                                                {
+                                                    if (notNullIndexValuesCellsInRow[candidatesIndexValues] + 1 == coordinateValue)
+                                                    {
+                                                        actualRowNumber = startRowNumber;
+                                                        actualColumnNumber = startCoulmnNumber;
+                                                    }
+                                                    coordinateValue++;
+                                                }
+                                                startCoulmnNumber = columnNumber - 2;
+                                            }
+                                            hiddenDoubleCount++;
+                                            //Removing candidate from cell. 
+                                            candidatesList[9 * actualRowNumber + actualColumnNumber] = cells[notNullIndexValuesCellsInRow[candidatesIndexValues]];
+                                        }
+                                        candidateValueIndex = 0;
+                                    }
+                                }
+                            }
+
+                        }
+                        matchList.Clear();
+                        matchDoubleList.Clear();
+                    }
+                }
+            }
+            notNullIndexValuesCellsInRow.Clear();
+            cells.Clear();
+
+            return hiddenDoubleCount;
+        }
+        #endregion
+
+        #region Hidden Triples
+
+        private void HiddenTriplesRow()
+        {
+            //Getting all of the naked doubles for that row. 
+            List<List<int>> cadidatesInSingleRow = new List<List<int>>();
+            for (int rowNumber = 0; rowNumber <= 80; rowNumber++)
+            {
+                cadidatesInSingleRow.Add(candidatesList[rowNumber]);
+
+                //If the row is at an end. 
+                if (rowNumber % 9 == 8 || rowNumber == 8)
+                {
+                    GetHiddenTriples(cadidatesInSingleRow, rowNumber, 0, "row");
+                    cadidatesInSingleRow.Clear();
+                }
+            }
+        }
+
+        private void HiddenTriplesColumn()
+        {
+            List<List<int>> cadidatesInSingleColumn = new List<List<int>>();
+            //Search through all of the columns. 
+            for (int columnNumber = 0; columnNumber <= 8; columnNumber++)
+            {
+                for (int candiateIndexNumber = 0; candiateIndexNumber <= 80; candiateIndexNumber++)
+                {
+                    if (columnNumber == candiateIndexNumber || candiateIndexNumber % 9 == columnNumber)
+                    {
+                        cadidatesInSingleColumn.Add(candidatesList[candiateIndexNumber]);
+                    }
+                }
+                GetHiddenTriples(cadidatesInSingleColumn, 0, columnNumber, "column");
+                cadidatesInSingleColumn.Clear();
+            }
+        }
+
+        private void HiddenTriplesBlock()
+        {
+            List<List<int>> listOfCanidadtesForEachCellWithinTheBlock = new List<List<int>>();
+            //Gets all the values from each block. 
+            for (int rowNumber = 2; rowNumber <= 8; rowNumber += 3)
+            {
+                for (int coulmnNumber = 2; coulmnNumber <= 8; coulmnNumber += 3)
+                {
+                    listOfCanidadtesForEachCellWithinTheBlock = getSudokuValuesInBox(rowNumber, coulmnNumber); //Get cell values for that block. 
+                    GetHiddenTriples(listOfCanidadtesForEachCellWithinTheBlock, rowNumber, coulmnNumber, "block");
+                    listOfCanidadtesForEachCellWithinTheBlock.Clear();
+                }
+            }
+        }
+
+        //The logic is wrong, it is picking up values that should not be there. It is picking up, things with 2 items in each which is not correct. May need to 
+        private void GetHiddenTriples(List<List<int>> cells, int rowNumber, int columnNumber, string regionTitle)
+        {
+            List<int> notNullIndexValuesCellsInRow = new List<int>();
+            //Gets all the none null cells within the row. 
+            for (int cellIndexValue = 0; cellIndexValue <= cells.Count - 1; cellIndexValue++)
+            {
+                if (cells[cellIndexValue] != null)
+                {
+                    notNullIndexValuesCellsInRow.Add(cellIndexValue);
+                }
+            }
+            //Going through all of the possible triple combinations. 
+            for (int firstNumber = 1; firstNumber <= 9; firstNumber++)
+            {
+                for (int secondNumber = 1; secondNumber <= 9; secondNumber++)
+                {
+                    List<int> matchList = new List<int>();
+                    List<int> tripleMatchList = new List<int>();
+                    for (int thirdNumber = 1; thirdNumber <= 9; thirdNumber++)
+                    {
+                        for (int indexValueForMatch = 0; indexValueForMatch <= notNullIndexValuesCellsInRow.Count - 1; indexValueForMatch++)
+                        {
+                            //Making sure all numbers within the combination are unique. 
+                            if (firstNumber != secondNumber && firstNumber != thirdNumber && secondNumber != thirdNumber)
+                            {
+                                int containsCount = 0;
+                                if (cells[notNullIndexValuesCellsInRow[indexValueForMatch]].Contains(firstNumber)) { containsCount++; }
+                                if (cells[notNullIndexValuesCellsInRow[indexValueForMatch]].Contains(secondNumber)) { containsCount++; }
+                                if (cells[notNullIndexValuesCellsInRow[indexValueForMatch]].Contains(thirdNumber)) { containsCount++; }
+                                //This will also match for hidden triples. 
+                                if (containsCount >= 2)
+                                {
+                                    //if there is a match, add it to the match list, the match provides the index of the matched cell. 
+                                    tripleMatchList.Add(notNullIndexValuesCellsInRow[indexValueForMatch]);
+                                }
+                                else if (containsCount >= 1)
+                                {
+                                    matchList.Add(notNullIndexValuesCellsInRow[indexValueForMatch]);
+                                }
+                            }
+                        }
+                        //A naked treble has been found. Need to tes this in isolation. To see if it pics up the naked triple in the 5 row. 
+                        if (tripleMatchList.Count == 3 && matchList.Count == 0)
+                        {
+                            //Removing the candidates from the other cells apart from the naked triple cells. 
+                            for (int candidatesIndexValues = 0; candidatesIndexValues <= notNullIndexValuesCellsInRow.Count - 1; candidatesIndexValues++)
+                            {
+                                bool tripleCell = false;
+                                foreach (var value in tripleMatchList)
+                                {
+                                    if (value == notNullIndexValuesCellsInRow[candidatesIndexValues])
+                                    {
+                                        tripleCell = true;
+                                        break;
+                                    }
+                                }
+                                if (tripleCell == true)
+                                {
+                                    for (int candidateValueIndex = 0; candidateValueIndex <= cells[notNullIndexValuesCellsInRow[candidatesIndexValues]].Count - 1; candidateValueIndex++)
+                                    {
+                                        if (cells[notNullIndexValuesCellsInRow[candidatesIndexValues]][candidateValueIndex] != firstNumber && cells[notNullIndexValuesCellsInRow[candidatesIndexValues]][candidateValueIndex] != secondNumber && cells[notNullIndexValuesCellsInRow[candidatesIndexValues]][candidateValueIndex] != thirdNumber)
+                                        {
+                                            cells[notNullIndexValuesCellsInRow[candidatesIndexValues]].RemoveAt(candidateValueIndex);
+                                            if (regionTitle == "row")
+                                            {
+                                                candidatesList[rowNumber - 8 + notNullIndexValuesCellsInRow[candidatesIndexValues]] = cells[notNullIndexValuesCellsInRow[candidatesIndexValues]];
+                                            }
+                                            else if (regionTitle == "column")
+                                            {
+                                                candidatesList[notNullIndexValuesCellsInRow[candidatesIndexValues] * 9 + columnNumber] = cells[notNullIndexValuesCellsInRow[candidatesIndexValues]];
+                                            }
+                                            //If the region is a block, then further handling. 
+                                            else
+                                            {
+                                                //Method to get the row and column number, using the row number, the index number and the column number 
+                                                int coordinateValue = 1;
+                                                int startRowNumber = rowNumber - 2;
+                                                int startCoulmnNumber = columnNumber - 2;
+                                                int actualRowNumber = 0;
+                                                int actualColumnNumber = 0;
+                                                //Getting row number and column of the current cell. 
+                                                for (; startRowNumber <= rowNumber; startRowNumber++)
+                                                {
+                                                    for (; startCoulmnNumber <= columnNumber; startCoulmnNumber++)
+                                                    {
+                                                        if (notNullIndexValuesCellsInRow[candidatesIndexValues] + 1 == coordinateValue)
+                                                        {
+                                                            actualRowNumber = startRowNumber;
+                                                            actualColumnNumber = startCoulmnNumber;
+                                                        }
+                                                        coordinateValue++;
+                                                    }
+                                                    startCoulmnNumber = columnNumber - 2;
+                                                }
+                                                //Removing candidate from cell. 
+                                                candidatesList[9 * actualRowNumber + actualColumnNumber] = cells[notNullIndexValuesCellsInRow[candidatesIndexValues]];
+                                            }
+                                            candidateValueIndex = 0;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        matchList.Clear();
+                        tripleMatchList.Clear();
+                    }
+                }
+            }
+            notNullIndexValuesCellsInRow.Clear();
+            cells.Clear();
+        }
+
+        #endregion 
+
+        #region Naked Triples 
+
+        private void NakedTriples()
+        {
+            bool nakedTripleRowBool = false;
+            bool nakedTripleColumnBool = false;
+            bool nakedTripleBlockBool = false; 
+            nakedTripleRowBool = NakedTriplesRow();
+            nakedTripleColumnBool = NakedTriplesColumn();
+            nakedTripleBlockBool = NakedTriplesBlock();
+
+            if (nakedTripleRowBool == true || nakedTripleColumnBool == true || nakedTripleBlockBool == true)
+            {
+                SolveSudokRuleBased(); 
+            }
+        }
+
+        private bool NakedTriplesRow()
+        {
+            //Getting the naked triples for all of the rows wihtin the grid. 
+            List<List<int>> cadidatesInSingleRow = new List<List<int>>();
+            bool nakedTripleRowBool = false;
+            int nakedTripleRowCount = 0; 
+            for (int rowNumber = 0; rowNumber <= 80; rowNumber++)
+            {
+                cadidatesInSingleRow.Add(candidatesList[rowNumber]);
+                //If the row is at an end. 
+                if (rowNumber % 9 == 8 || rowNumber == 8)
+                {
+                    nakedTripleRowCount += GetNakedTriples(cadidatesInSingleRow, rowNumber, 0, 0, "row");
+                    cadidatesInSingleRow.Clear();
+                }
+            }
+            if(nakedTripleRowCount >=1)
+            {
+                nakedTripleRowBool = true; 
+            }
+            return nakedTripleRowBool;
+        }
+
+        private bool NakedTriplesColumn()
+        {
+            List<List<int>> cadidatesInSingleColumn = new List<List<int>>();
+            bool nakedTripleColumnBool = false;
+            int nakedTripleColumnCount = 0; 
+            //Search through all of the columns. 
+            for (int columnNumber = 0; columnNumber <= 8; columnNumber++)
+            {
+                for (int candiateIndexNumber = 0; candiateIndexNumber <= 80; candiateIndexNumber++)
+                {
+                    if (columnNumber == candiateIndexNumber || candiateIndexNumber % 9 == columnNumber)
+                    {
+                        cadidatesInSingleColumn.Add(candidatesList[candiateIndexNumber]);
+                    }
+                }
+                nakedTripleColumnCount += GetNakedTriples(cadidatesInSingleColumn, 0, columnNumber, 0, "column");
+                cadidatesInSingleColumn.Clear();
+            }
+            if(nakedTripleColumnCount >=1)
+            {
+                nakedTripleColumnBool = true;
+            }
+            return nakedTripleColumnBool;
+        }
+
+        private bool NakedTriplesBlock()
+        {
+            List<List<int>> listOfCanidadtesForEachCellWithinTheBlock = new List<List<int>>();
+            bool nakedTripleBlockBool = false;
+            int nakedTripleBlockCount = 0; 
+            //Gets all the values from each block. 
+            for (int rowNumber = 2; rowNumber <= 8; rowNumber += 3)
+            {
+                for (int coulmnNumber = 2; coulmnNumber <= 8; coulmnNumber += 3)
+                {
+                    listOfCanidadtesForEachCellWithinTheBlock = getSudokuValuesInBox(rowNumber, coulmnNumber); //Get cells values for that block. 
+                    nakedTripleBlockCount += GetNakedTriples(listOfCanidadtesForEachCellWithinTheBlock, rowNumber, coulmnNumber, 0, "block");
+                    listOfCanidadtesForEachCellWithinTheBlock.Clear();
+                }
+            }
+            if(nakedTripleBlockCount >=1)
+            {
+                nakedTripleBlockBool = true; 
+            }
+            return nakedTripleBlockBool;
+        }
+
+        private int GetNakedTriples(List<List<int>> cadidatesInSingleRow, int rowNumber, int columnNumber, int blockNumber, string regionTitle)
+        {
+            List<int> notNullIndexValuesCellsInRow = new List<int>();
+            int nakedTripleCount = 0;
+            //Gets all the none null cells within the row. 
+            for (int cellIndexValue = 0; cellIndexValue <= cadidatesInSingleRow.Count - 1; cellIndexValue++)
+            {
+                if (cadidatesInSingleRow[cellIndexValue] != null)
+                {
+                    notNullIndexValuesCellsInRow.Add(cellIndexValue);
+                }
+            }
+            //Going through all of the possible triple combinations. 
+            for (int firstNumber = 1; firstNumber <= 9; firstNumber++)
+            {
+                for (int secondNumber = 1; secondNumber <= 9; secondNumber++)
+                {
+                    List<int> matchList = new List<int>();
+                    for (int thirdNumber = 1; thirdNumber <= 9; thirdNumber++)
+                    {
+                        for (int indexValueForMatch = 0; indexValueForMatch <= notNullIndexValuesCellsInRow.Count - 1; indexValueForMatch++)
+                        {
+                            //Making sure all numbers within the combination are unique. 
+                            if (firstNumber != secondNumber && firstNumber != thirdNumber && secondNumber != thirdNumber)
+                            {
+                                int containsCount = 0;
+                                if (cadidatesInSingleRow[notNullIndexValuesCellsInRow[indexValueForMatch]].Contains(firstNumber)) { containsCount++; }
+                                if (cadidatesInSingleRow[notNullIndexValuesCellsInRow[indexValueForMatch]].Contains(secondNumber)) { containsCount++; }
+                                if (cadidatesInSingleRow[notNullIndexValuesCellsInRow[indexValueForMatch]].Contains(thirdNumber)) { containsCount++; }
+                                //This will also match for hidden triples. 
+                                if (containsCount >= 2 && containsCount == cadidatesInSingleRow[notNullIndexValuesCellsInRow[indexValueForMatch]].Count)
+                                {
+                                    //if there is a match, add it to the match list, the match provides the index of the matched cell. 
+                                    matchList.Add(notNullIndexValuesCellsInRow[indexValueForMatch]);
+                                }
+                            }
+                        }
+
+                        //A naked treble has been found. Need to tes this in isolation. To see if it pics up the naked triple in the 5 row. 
+                        if (matchList.Count == 3)
+                        {
+                            //Removing the candidates from the other cells apart from the naked triple cells. 
+                            for (int candidatesIndexValues = 0; candidatesIndexValues <= notNullIndexValuesCellsInRow.Count - 1; candidatesIndexValues++)
+                            {
+                                bool tripleCell = false;
+                                foreach (var value in matchList)
+                                {
+                                    if (value == notNullIndexValuesCellsInRow[candidatesIndexValues])
+                                    {
+                                        tripleCell = true;
+                                        break;
+                                    }
+                                }
+                                if (tripleCell == false)
+                                {
+                                    for (int candidateValueIndex = 0; candidateValueIndex <= cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]].Count - 1; candidateValueIndex++)
+                                    {
+                                        if (cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]][candidateValueIndex] == firstNumber || cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]][candidateValueIndex] == secondNumber || cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]][candidateValueIndex] == thirdNumber)
+                                        {
+                                            cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]].RemoveAt(candidateValueIndex);
+                                            if (regionTitle == "row")
+                                            {
+                                                nakedTripleCount++;
+                                                candidatesList[rowNumber - 8 + notNullIndexValuesCellsInRow[candidatesIndexValues]] = cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]];
+                                            }
+                                            else if (regionTitle == "column")
+                                            {
+                                                nakedTripleCount++;
+                                                candidatesList[notNullIndexValuesCellsInRow[candidatesIndexValues] * 9 + columnNumber] = cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]];
+                                            }
+                                            else
+                                            {
+                                                //Method to get the row and column number, using the row number, the index number and the column number 
+                                                int coordinateValue = 1;
+                                                int startRowNumber = rowNumber - 2;
+                                                int startCoulmnNumber = columnNumber - 2;
+                                                int actualRowNumber = 0;
+                                                int actualColumnNumber = 0;
+
+                                                for (; startRowNumber <= rowNumber; startRowNumber++)
+                                                {
+                                                    for (; startCoulmnNumber <= columnNumber; startCoulmnNumber++)
+                                                    {
+                                                        if (notNullIndexValuesCellsInRow[candidatesIndexValues] + 1 == coordinateValue)
+                                                        {
+                                                            actualRowNumber = startRowNumber;
+                                                            actualColumnNumber = startCoulmnNumber;
+                                                        }
+                                                        coordinateValue++;
+                                                    }
+                                                    startCoulmnNumber = columnNumber - 2;
+                                                }
+                                                nakedTripleCount++;
+                                                //Removing candidate from cell. 
+                                                candidatesList[9 * actualRowNumber + actualColumnNumber] = cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]];
+                                            }
+                                            candidateValueIndex = 0;
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                        matchList.Clear();
+                    }
+                }
+            }
+            notNullIndexValuesCellsInRow.Clear();
+            cadidatesInSingleRow.Clear();
+            return nakedTripleCount;
+        }
+
+        #endregion
+
+        #region Remove Candidates Method 
+
+        private void RemoveCandidates(List<int> notNullIndexValuesCellsInRow, List<int> matchList, List<List<int>> cells, int rowNumber, int columnNumber, string regionTitle, int firstNumber, int secondNumber, int thirdNumber)
+        {
+            //Going through all of fhe none null cells.
+            for (int candidatesIndexValues = 0; candidatesIndexValues <= notNullIndexValuesCellsInRow.Count - 1; candidatesIndexValues++)
+            {
+                //If the cell is one which contains the naked doubles, we do not want to remove the candidates. 
+                bool doubleCell = false;
+                foreach (var value in matchList)
+                {
+                    if (value == notNullIndexValuesCellsInRow[candidatesIndexValues])
+                    {
+                        doubleCell = true;
+                        break;
+                    }
+                }
+                //If the cell is not a naked cell, then possible candidates will be removed from the cell. 
+                if (doubleCell == false)
+                {
+                    for (int candidateValueIndex = 0; candidateValueIndex <= cells[notNullIndexValuesCellsInRow[candidatesIndexValues]].Count - 1; candidateValueIndex++)
+                    {
+                        if (cells[notNullIndexValuesCellsInRow[candidatesIndexValues]][candidateValueIndex] == firstNumber || cells[notNullIndexValuesCellsInRow[candidatesIndexValues]][candidateValueIndex] == secondNumber || cells[notNullIndexValuesCellsInRow[candidatesIndexValues]][candidateValueIndex] == thirdNumber)
+                        {
+                            cells[notNullIndexValuesCellsInRow[candidatesIndexValues]].RemoveAt(candidateValueIndex);
+                            if (regionTitle == "row")
+                            {
+                                candidatesList[rowNumber - 8 + notNullIndexValuesCellsInRow[candidatesIndexValues]] = cells[notNullIndexValuesCellsInRow[candidatesIndexValues]];
+                            }
+                            else if (regionTitle == "column")
+                            {
+                                candidatesList[notNullIndexValuesCellsInRow[candidatesIndexValues] * 9 + columnNumber] = cells[notNullIndexValuesCellsInRow[candidatesIndexValues]];
+                            }
+                            //If the region is a block, then further handling. 
+                            else
+                            {
+                                //Method to get the row and column number, using the row number, the index number and the column number 
+                                int coordinateValue = 1;
+                                int startRowNumber = rowNumber - 2;
+                                int startCoulmnNumber = columnNumber - 2;
+                                int actualRowNumber = 0;
+                                int actualColumnNumber = 0;
+                                //Getting row number and column of the current cell. 
+                                for (; startRowNumber <= rowNumber; startRowNumber++)
+                                {
+                                    for (; startCoulmnNumber <= columnNumber; startCoulmnNumber++)
+                                    {
+                                        if (notNullIndexValuesCellsInRow[candidatesIndexValues] + 1 == coordinateValue)
+                                        {
+                                            actualRowNumber = startRowNumber;
+                                            actualColumnNumber = startCoulmnNumber;
+                                        }
+                                        coordinateValue++;
+                                    }
+                                    startCoulmnNumber = columnNumber - 2;
+                                }
+                                //Removing candidate from cell. 
+                                candidatesList[9 * actualRowNumber + actualColumnNumber] = cells[notNullIndexValuesCellsInRow[candidatesIndexValues]];
+                            }
+                            candidateValueIndex = 0;
+                        }
+                    }
+                }
+
+            }
+        }
+
+
+        #endregion 
+
         //New backtracking no recursion, works, needs to be tested with harder puzzles. 
         #region Backtracking More Efficient Test 
         public void BacktrackinEffcient(bool generating)
@@ -1295,7 +1429,7 @@ namespace SudokuSetterAndSolver
 
             for (startingValue = numberOfCellToBeHandled; startingValue <= cellNumbersForLogicalEffcientOrder.Count - 1; startingValue++)
             {
-                if(cellNumbersForLogicalEffcientOrder[startingValue].Count ==0)
+                if (cellNumbersForLogicalEffcientOrder[startingValue].Count == 0)
                 {
                     break;
                 }
@@ -1367,7 +1501,7 @@ namespace SudokuSetterAndSolver
                 validNumbersInCell.Clear();
             }
             cellNumbersForLogicalEffcientOrder.Clear();
-            bool puzzleSolved = false; 
+            bool puzzleSolved = false;
 
         }
 
@@ -1379,14 +1513,14 @@ namespace SudokuSetterAndSolver
             //this method 
             List<int> finalCandidateList = new List<int>();
             //Need to compare the valid numbers in the cell with the candidates that have been attained from previous processing. 
-            foreach (int candidateValue in candidatesList[rowNumber*9+columnNumber])
+            foreach (int candidateValue in candidatesList[rowNumber * 9 + columnNumber])
             {
                 if (validNumbersInCell.Contains(candidateValue))
                 {
                     finalCandidateList.Add(candidateValue);
                 }
             }
-           validNumbersInCell = finalCandidateList;
+            validNumbersInCell = finalCandidateList;
         }
 
 
