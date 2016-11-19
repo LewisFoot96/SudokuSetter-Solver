@@ -77,7 +77,6 @@ namespace SudokuSetterAndSolver
         {
             //In here need to make a call to the recursive backtracking algorithm, to solve the puzzle that the user has entered.
             //The puzzle solving should have a time out on it, if this time out is past, the puzzle is deemed unsolavable. 
-
             
             bool solved = sudokuSolver.solvePuzzle();
             sudokuGrid = sudokuSolver.sudokuPuzzleMultiExample;

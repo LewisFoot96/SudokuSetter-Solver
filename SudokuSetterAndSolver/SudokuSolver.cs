@@ -62,6 +62,8 @@ namespace SudokuSetterAndSolver
         //counts the number of times the rules based algorithm has been exectuted. 
         int methodRunNumber = 0;
 
+        string difficluty; 
+
         #endregion
 
         #region Main Method 
@@ -202,7 +204,7 @@ namespace SudokuSetterAndSolver
                 bool solved = CheckToSeeIfPuzzleIsSolved();
                 if (solved)
                 {
-                    Console.WriteLine("Solved");
+                    return true; 
                 }
                 else
                 { SolveSudokRuleBased(); }
@@ -212,17 +214,16 @@ namespace SudokuSetterAndSolver
             bool checkSolved = CheckToSeeIfPuzzleIsSolved();
             if (checkSolved)
             {
-                Console.WriteLine("Solved");
+                return true; 
             }
             //all the below methods seem to work togher and solve puzzles. 
-            // HiddenSingles();
+            HiddenSingles();
             checkSolved = CheckToSeeIfPuzzleIsSolved();
             if (checkSolved)
             {
-                Console.WriteLine("Solved");
+                return true; 
             }
-            //CandidateHandling();
-            //Backtracking
+            CandidateHandling();
            bool solvedBacktracking = BacktrackinEffcient(false);
             return solvedBacktracking;
         }
@@ -1542,7 +1543,6 @@ namespace SudokuSetterAndSolver
             }
             cellNumbersForLogicalEffcientOrder.Clear();
             return true; 
-
         }
 
         /// <summary>

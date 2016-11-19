@@ -16,6 +16,7 @@ namespace SudokuSetterAndSolver
         int _gridSize = 0;
         int rowNumber = 0;
         int columnNumber = 0;
+        bool solved = false;
         #endregion
 
         #region Objects 
@@ -30,7 +31,7 @@ namespace SudokuSetterAndSolver
         public SudokuPuzzleGenerator(int gridSize)
         {
             _gridSize = gridSize;
-            
+
         }
         #endregion
 
@@ -39,8 +40,8 @@ namespace SudokuSetterAndSolver
         //This method is called when the grid is created, on the screen start up. 
         public int[,] CreateSudokuGrid()
         {
-            GenerateExampleSudokuGrid();     
-            return sudokuGrid;
+            GenerateExampleSudokuGrid();
+            return finalGenenratedPuzzle;
         }
 
         //Create 2 methods, one which diggies holes from a grid and the other one inserts radnom givens in the puzzle. 
@@ -51,12 +52,12 @@ namespace SudokuSetterAndSolver
         private void GenerateExampleSudokuGrid()
         {
             //finalGenenratedPuzzle =  new int[,] sudokuGrid;
-            solver.sudokuPuzzleMultiExample = sudokuGrid;       
-            solver.BacktrackinEffcient(true);
+            solver.sudokuPuzzleMultiExample = sudokuGrid;
+            solved = solver.BacktrackinEffcient(true);
             sudokuGrid = solver.sudokuPuzzleMultiExample;
-            for(int i=0;i<=8;i++)
+            for (int i = 0; i <= 8; i++)
             {
-                for(int j=0;j<=8;j++)
+                for (int j = 0; j <= 8; j++)
                 {
                     orginalSudokuGrid[i, j] = sudokuGrid[i, j];
                 }
@@ -69,7 +70,7 @@ namespace SudokuSetterAndSolver
         {
             //classes do it my reference 
             bool onlyOneSolution = false;
-            bool isEqualToOrginal = false; 
+            bool isEqualToOrginal = false;
             //Initially remove 10 candidates from the cells. 
             for (int initialHolesRemoved = 0; initialHolesRemoved <= 30; initialHolesRemoved++)
             {
@@ -77,7 +78,7 @@ namespace SudokuSetterAndSolver
                 {
                     rowNumber = randomNumber.Next(0, 8);
                     columnNumber = randomNumber.Next(0, 8);
-                }         
+                }
                 sudokuGrid[rowNumber, columnNumber] = 0;
             }
             //Maybe create a getter and setter for sudokuMulti 
@@ -87,14 +88,14 @@ namespace SudokuSetterAndSolver
 
             solver.sudokuPuzzleMultiExample = sudokuGrid;
             //solver.sudokuPuzzleMultiExample = sudokuGrid;
-            solver.BacktrackinEffcient(false);
+            solved = solver.BacktrackinEffcient(false);
 
             isEqualToOrginal = SeeIfGeneratedPuzzleHasTheSameSolutionAsTheOrginal();
 
-            while (onlyOneSolution == false)
-            {
-                onlyOneSolution = true; 
-            }
+            //while (onlyOneSolution == false)
+            //{
+            //    onlyOneSolution = true; 
+            //}
 
         }
 
@@ -112,14 +113,14 @@ namespace SudokuSetterAndSolver
 
         private bool SeeIfGeneratedPuzzleHasTheSameSolutionAsTheOrginal()
         {
-            bool isEqual = true; 
-            for(int row = 0; row <= 8; row++)
+            bool isEqual = true;
+            for (int row = 0; row <= 8; row++)
             {
-                for(int column =0;column<=8;column++)
+                for (int column = 0; column <= 8; column++)
                 {
-                    if(sudokuGrid[row,column] != orginalSudokuGrid[row,column])
+                    if (sudokuGrid[row, column] != orginalSudokuGrid[row, column])
                     {
-                       isEqual = false; 
+                        isEqual = false;
                     }
                 }
             }
@@ -128,6 +129,6 @@ namespace SudokuSetterAndSolver
 
     }
 
- 
-    #endregion 
+
+    #endregion
 }
