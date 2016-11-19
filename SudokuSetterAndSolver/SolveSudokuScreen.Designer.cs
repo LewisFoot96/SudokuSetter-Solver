@@ -106,6 +106,7 @@ namespace SudokuSetterAndSolver
             for (int i = 0; i < gridSize; i++)
             {
                 for (int j = 0; j < gridSize; j++)
+
                 {
                     //Creating a textbox for the each cell, with the valid details. 
                     TextBox txtBox = new TextBox();

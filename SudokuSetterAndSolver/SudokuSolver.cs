@@ -56,21 +56,22 @@ namespace SudokuSetterAndSolver
 
         //Stop watch that will time the algorithm. 
         Stopwatch stopWatch = new Stopwatch();
-
+        TimeSpan timeSpan = TimeSpan.FromSeconds(30);
         //List that contains all of the candidates for each cell this should be used for candidate reference within the program. 
         List<List<int>> candidatesList = new List<List<int>>();
         //counts the number of times the rules based algorithm has been exectuted. 
         int methodRunNumber = 0;
 
-        #endregion 
+        #endregion
 
         #region Main Method 
-        public void solvePuzzle()
+        public bool solvePuzzle()
         {
             //Generate the puzzle and then solve it. 
             GeneratePuzzle();
             //Solving the puzzle. 
-            SolveSudokRuleBased();
+            bool solved = SolveSudokRuleBased();
+            return solved;
         }
 
         #endregion 
@@ -80,7 +81,7 @@ namespace SudokuSetterAndSolver
         private void GeneratePuzzle()
         {
             //Loaing in a puzzle from a test file and creating the puzzle, along with static numbers. 
-            puzzleDetails = puzzleManager.ReadFromXMlFile("C:\\Users\\New\\Documents\\Sudoku\\Application\\SudokuSetterAndSolver\\SudokuSetterAndSolver\\Puzzles\\TestPuzzles\\test18.xml");
+            puzzleDetails = puzzleManager.ReadFromXMlFile("C:\\Users\\New\\Documents\\Sudoku\\Application\\SudokuSetterAndSolver\\SudokuSetterAndSolver\\Puzzles\\TestPuzzles\\test21.xml");
             int[] puzzleArray = puzzleDetails.puzzlecells.Cast<int>().ToArray();
             sudokuPuzzleMultiExample = puzzleManager.ConvertArrayToMultiDimensionalArray(puzzleArray);
             staticNumbers = sudokuPuzzleMultiExample;
@@ -116,7 +117,7 @@ namespace SudokuSetterAndSolver
         #endregion 
 
         #region Rule Based Algorithm 
-        public void SolveSudokRuleBased()
+        public bool SolveSudokRuleBased()
         {
             //Contains the list of candiates in each cell from simple analysis, not including human solvint methods procesing. 
             List<List<int>> tempCandiateList = new List<List<int>>();
@@ -220,9 +221,10 @@ namespace SudokuSetterAndSolver
             {
                 Console.WriteLine("Solved");
             }
-            CandidateHandling();
+            //CandidateHandling();
             //Backtracking
-            BacktrackinEffcient(false);
+           bool solvedBacktracking = BacktrackinEffcient(false);
+            return solvedBacktracking;
         }
 
         //Method that creates the correct candidate list. 
@@ -733,7 +735,7 @@ namespace SudokuSetterAndSolver
             {
                 SolveSudokRuleBased();
             }
-       
+
         }
 
         private bool HiddenDoublesRow()
@@ -741,7 +743,7 @@ namespace SudokuSetterAndSolver
             //Getting all of the naked doubles for that row. 
             List<List<int>> cadidatesInSingleRow = new List<List<int>>();
             bool hiddenDoubleRowBool = false;
-            int hiddenDoubleRowCount = 0; 
+            int hiddenDoubleRowCount = 0;
             for (int rowNumber = 0; rowNumber <= 80; rowNumber++)
             {
                 cadidatesInSingleRow.Add(candidatesList[rowNumber]);
@@ -753,17 +755,17 @@ namespace SudokuSetterAndSolver
                     cadidatesInSingleRow.Clear();
                 }
             }
-            if(hiddenDoubleRowCount >=1)
+            if (hiddenDoubleRowCount >= 1)
             {
-                hiddenDoubleRowBool = true; 
+                hiddenDoubleRowBool = true;
             }
-            return hiddenDoubleRowBool; 
+            return hiddenDoubleRowBool;
         }
         private bool HiddenDoublesColumn()
         {
             List<List<int>> cadidatesInSingleColumn = new List<List<int>>();
             bool hiddenDoubleColumnBool = false;
-            int hiddenDoubleColumnCount = 0; 
+            int hiddenDoubleColumnCount = 0;
             //Search through all of the columns. 
             for (int columnNumber = 0; columnNumber <= 8; columnNumber++)
             {
@@ -777,9 +779,9 @@ namespace SudokuSetterAndSolver
                 hiddenDoubleColumnCount += GetHiddenDoubles(cadidatesInSingleColumn, 0, columnNumber, "column");
                 cadidatesInSingleColumn.Clear();
             }
-            if(hiddenDoubleColumnCount >=1)
+            if (hiddenDoubleColumnCount >= 1)
             {
-                hiddenDoubleColumnBool = true; 
+                hiddenDoubleColumnBool = true;
             }
             return hiddenDoubleColumnBool;
         }
@@ -798,9 +800,9 @@ namespace SudokuSetterAndSolver
                     listOfCanidadtesForEachCellWithinTheBlock.Clear();
                 }
             }
-            if(hiddenDoubleBlockCount>=1)
+            if (hiddenDoubleBlockCount >= 1)
             {
-                hiddenDoubleBlockBool = true; 
+                hiddenDoubleBlockBool = true;
             }
             return hiddenDoubleBlockBool;
         }
@@ -810,7 +812,7 @@ namespace SudokuSetterAndSolver
         {
             //Stores all of the index values for the cells that are not null within the region. 
             List<int> notNullIndexValuesCellsInRow = new List<int>();
-            int hiddenDoubleCount = 0; 
+            int hiddenDoubleCount = 0;
 
             //Gets all the none null cells within the row. 
             for (int cellIndexValue = 0; cellIndexValue <= cells.Count - 1; cellIndexValue++)
@@ -1105,14 +1107,14 @@ namespace SudokuSetterAndSolver
         {
             bool nakedTripleRowBool = false;
             bool nakedTripleColumnBool = false;
-            bool nakedTripleBlockBool = false; 
+            bool nakedTripleBlockBool = false;
             nakedTripleRowBool = NakedTriplesRow();
             nakedTripleColumnBool = NakedTriplesColumn();
             nakedTripleBlockBool = NakedTriplesBlock();
 
             if (nakedTripleRowBool == true || nakedTripleColumnBool == true || nakedTripleBlockBool == true)
             {
-                SolveSudokRuleBased(); 
+                SolveSudokRuleBased();
             }
         }
 
@@ -1121,7 +1123,7 @@ namespace SudokuSetterAndSolver
             //Getting the naked triples for all of the rows wihtin the grid. 
             List<List<int>> cadidatesInSingleRow = new List<List<int>>();
             bool nakedTripleRowBool = false;
-            int nakedTripleRowCount = 0; 
+            int nakedTripleRowCount = 0;
             for (int rowNumber = 0; rowNumber <= 80; rowNumber++)
             {
                 cadidatesInSingleRow.Add(candidatesList[rowNumber]);
@@ -1132,9 +1134,9 @@ namespace SudokuSetterAndSolver
                     cadidatesInSingleRow.Clear();
                 }
             }
-            if(nakedTripleRowCount >=1)
+            if (nakedTripleRowCount >= 1)
             {
-                nakedTripleRowBool = true; 
+                nakedTripleRowBool = true;
             }
             return nakedTripleRowBool;
         }
@@ -1143,7 +1145,7 @@ namespace SudokuSetterAndSolver
         {
             List<List<int>> cadidatesInSingleColumn = new List<List<int>>();
             bool nakedTripleColumnBool = false;
-            int nakedTripleColumnCount = 0; 
+            int nakedTripleColumnCount = 0;
             //Search through all of the columns. 
             for (int columnNumber = 0; columnNumber <= 8; columnNumber++)
             {
@@ -1157,7 +1159,7 @@ namespace SudokuSetterAndSolver
                 nakedTripleColumnCount += GetNakedTriples(cadidatesInSingleColumn, 0, columnNumber, 0, "column");
                 cadidatesInSingleColumn.Clear();
             }
-            if(nakedTripleColumnCount >=1)
+            if (nakedTripleColumnCount >= 1)
             {
                 nakedTripleColumnBool = true;
             }
@@ -1168,7 +1170,7 @@ namespace SudokuSetterAndSolver
         {
             List<List<int>> listOfCanidadtesForEachCellWithinTheBlock = new List<List<int>>();
             bool nakedTripleBlockBool = false;
-            int nakedTripleBlockCount = 0; 
+            int nakedTripleBlockCount = 0;
             //Gets all the values from each block. 
             for (int rowNumber = 2; rowNumber <= 8; rowNumber += 3)
             {
@@ -1179,9 +1181,9 @@ namespace SudokuSetterAndSolver
                     listOfCanidadtesForEachCellWithinTheBlock.Clear();
                 }
             }
-            if(nakedTripleBlockCount >=1)
+            if (nakedTripleBlockCount >= 1)
             {
-                nakedTripleBlockBool = true; 
+                nakedTripleBlockBool = true;
             }
             return nakedTripleBlockBool;
         }
@@ -1372,7 +1374,7 @@ namespace SudokuSetterAndSolver
 
         //New backtracking no recursion, works, needs to be tested with harder puzzles. 
         #region Backtracking More Efficient Test 
-        public void BacktrackinEffcient(bool generating)
+        public bool BacktrackinEffcient(bool generating)
         {
             //Starting the timer
             stopWatch.Start();
@@ -1429,6 +1431,10 @@ namespace SudokuSetterAndSolver
 
             for (startingValue = numberOfCellToBeHandled; startingValue <= cellNumbersForLogicalEffcientOrder.Count - 1; startingValue++)
             {
+                if(stopWatch.Elapsed >=timeSpan)
+                {
+                    return false; 
+                }
                 if (cellNumbersForLogicalEffcientOrder[startingValue].Count == 0)
                 {
                     break;
@@ -1461,7 +1467,16 @@ namespace SudokuSetterAndSolver
                 {
                     if (previousNumberInCell == 0)
                     {
-                        sudokuPuzzleMultiExample[rowNumber, columnNumber] = validNumbersInCell[0];
+                        if (generating == false)
+                        {
+                            sudokuPuzzleMultiExample[rowNumber, columnNumber] = validNumbersInCell[0];
+                        }
+                        //Random number generation for creating a puzzle. 
+                        else
+                        {
+                            int randomNumber = randomNumberGenerator.Next(validNumbersInCell.Count);
+                            sudokuPuzzleMultiExample[rowNumber, columnNumber] = validNumbersInCell[randomNumber];
+                        }
                     }
 
                     else
@@ -1479,20 +1494,45 @@ namespace SudokuSetterAndSolver
                             //Maybe  something wrong with this statement 
                             int correctNumber = randomNumberGenerator.Next(validNumbersInCell.Count);
                             //this gives the value of the index, so this then would be used to get the other value. 
-
-                            for (counter = 0; counter <= validNumbersInCell.Count - 1; counter++)
+                            if (generating == true)
                             {
-
-                                //If the valid number has already been used in the cell, then the next number will need to be inserted or the backtracking will need to go back further. 
-                                if (validNumbersInCell[counter] == previousNumberInCell || validNumbersInCell[counter] < previousNumberInCell)
+                                if (validNumbersInCell[correctNumber] == previousNumberInCell)
                                 {
+                                    for (counter = 0; counter <= validNumbersInCell.Count - 1; counter++)
+                                    {
+                                        if (counter != correctNumber)
+                                        {
+                                            sudokuPuzzleMultiExample[rowNumber, columnNumber] = validNumbersInCell[counter];
+                                            previousNumberInCell = 0;
+                                            break;
+                                        }
+                                    }
 
                                 }
-                                else //Set the valid number to the cell, and submit the new grid. 
+                                else
                                 {
-                                    sudokuPuzzleMultiExample[rowNumber, columnNumber] = validNumbersInCell[counter];
+                                    sudokuPuzzleMultiExample[rowNumber, columnNumber] = validNumbersInCell[correctNumber];
                                     previousNumberInCell = 0;
-                                    break;
+
+                                }
+                            }
+                            else
+                            {
+
+                                for (counter = 0; counter <= validNumbersInCell.Count - 1; counter++)
+                                {
+
+                                    //If the valid number has already been used in the cell, then the next number will need to be inserted or the backtracking will need to go back further. 
+                                    if (validNumbersInCell[counter] == previousNumberInCell || validNumbersInCell[counter] < previousNumberInCell)
+                                    {
+
+                                    }
+                                    else //Set the valid number to the cell, and submit the new grid. 
+                                    {
+                                        sudokuPuzzleMultiExample[rowNumber, columnNumber] = validNumbersInCell[counter];
+                                        previousNumberInCell = 0;
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -1501,7 +1541,7 @@ namespace SudokuSetterAndSolver
                 validNumbersInCell.Clear();
             }
             cellNumbersForLogicalEffcientOrder.Clear();
-            bool puzzleSolved = false;
+            return true; 
 
         }
 

@@ -78,33 +78,43 @@ namespace SudokuSetterAndSolver
             //In here need to make a call to the recursive backtracking algorithm, to solve the puzzle that the user has entered.
             //The puzzle solving should have a time out on it, if this time out is past, the puzzle is deemed unsolavable. 
 
-            //Creating the grid from the entered numbers. 
-            for (int rowNumber =0;rowNumber<=8;rowNumber++)
+            
+            bool solved = sudokuSolver.solvePuzzle();
+            sudokuGrid = sudokuSolver.sudokuPuzzleMultiExample;
+            if (solved == true)
             {
-                for(int columnNumber =0;columnNumber<=8;columnNumber++)
+                //Creating the grid from the entered numbers. 
+                for (int rowNumber = 0; rowNumber <= 8; rowNumber++)
                 {
-                    string cellName = rowNumber.ToString() + columnNumber.ToString();
-                    foreach (var textBox in listOfTextBoxes)
-                    {                
-                        if(cellName == textBox.Name)
+                    for (int columnNumber = 0; columnNumber <= 8; columnNumber++)
+                    {
+                        string cellName = rowNumber.ToString() + columnNumber.ToString();
+                        foreach (var textBox in listOfTextBoxes)
                         {
-                            if (textBox.Text == "")
+                            if (cellName == textBox.Name)
                             {
-                                textBox.Text = "0";
+                                if (textBox.Text == "")
+                                {
+                                    textBox.Text = sudokuGrid[rowNumber, columnNumber].ToString();
+                                }
+                                
                             }
-                            sudokuGrid[rowNumber, columnNumber] =Int32.Parse(textBox.Text);
                         }
+
                     }
-                    
                 }
+            }
+            else
+            {
+                MessageBox.Show("No solution, invalid solution");
+            }
             }
 
 
-            sudokuSolver.solvePuzzle();
+            
             //GOt the grid, then need to solve it. 
             //sudokuSolver.solvePuzzle();
         }
 
         #endregion 
-    }
 }

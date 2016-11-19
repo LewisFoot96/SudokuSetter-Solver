@@ -8,42 +8,38 @@ namespace SudokuSetterAndSolver
 {
     class SudokuPuzzleGenerator
     {
+        #region Global Vairbales 
+        //Grids that will contain the created grid, the first will be used to check to ensure the grid is valid 
         int[,] sudokuGrid = new int[9, 9];
         int[,] finalGenenratedPuzzle = new int[9, 9];
+        int[,] orginalSudokuGrid = new int[9, 9];
         int _gridSize = 0;
+        int rowNumber = 0;
+        int columnNumber = 0;
+        #endregion
+
+        #region Objects 
         PuzzleManager puzzleManager = new PuzzleManager();
         SudokuSolver solver = new SudokuSolver();
         Random randomNumber = new Random();
-        int rowNumber = 0;
-        int columnNumber = 0;
-
         Random randomNumberGenerator = new Random();
 
+        #endregion
+
+        #region Constructor 
         public SudokuPuzzleGenerator(int gridSize)
         {
             _gridSize = gridSize;
             
         }
+        #endregion
+
+        #region Methods 
 
         //This method is called when the grid is created, on the screen start up. 
         public int[,] CreateSudokuGrid()
         {
-            Random randomNumber = new Random();
-            int[,] gridValue = new int[_gridSize, _gridSize];
-
-            for (int i = 0; i < _gridSize; i++)
-            {
-                for (int j = 0; j < _gridSize; j++)
-                {
-                    gridValue[i, j] = randomNumber.Next(0, 9);
-                }
-            }
-
-            //puzzleManager.SavePuzzleToFile(gridValue);
-
-            GenerateExampleSudokuGrid();
-
-          
+            GenerateExampleSudokuGrid();     
             return sudokuGrid;
         }
 
@@ -54,17 +50,28 @@ namespace SudokuSetterAndSolver
         /// </summary>
         private void GenerateExampleSudokuGrid()
         {
-            solver.sudokuPuzzleMultiExample = sudokuGrid;          
+            //finalGenenratedPuzzle =  new int[,] sudokuGrid;
+            solver.sudokuPuzzleMultiExample = sudokuGrid;       
             solver.BacktrackinEffcient(true);
             sudokuGrid = solver.sudokuPuzzleMultiExample;
+            for(int i=0;i<=8;i++)
+            {
+                for(int j=0;j<=8;j++)
+                {
+                    orginalSudokuGrid[i, j] = sudokuGrid[i, j];
+                }
+            }
             DigHoles();
         }
 
+        //could use static numbers list. 
         private void DigHoles()
         {
+            //classes do it my reference 
             bool onlyOneSolution = false;
+            bool isEqualToOrginal = false; 
             //Initially remove 10 candidates from the cells. 
-            for (int initialHolesRemoved = 0; initialHolesRemoved <= 40; initialHolesRemoved++)
+            for (int initialHolesRemoved = 0; initialHolesRemoved <= 30; initialHolesRemoved++)
             {
                 while (sudokuGrid[rowNumber, columnNumber] == 0)
                 {
@@ -73,18 +80,54 @@ namespace SudokuSetterAndSolver
                 }         
                 sudokuGrid[rowNumber, columnNumber] = 0;
             }
+            //Maybe create a getter and setter for sudokuMulti 
+
+            SetFinalGeneratedPuzzle();
+
+
+            solver.sudokuPuzzleMultiExample = sudokuGrid;
+            //solver.sudokuPuzzleMultiExample = sudokuGrid;
+            solver.BacktrackinEffcient(false);
+
+            isEqualToOrginal = SeeIfGeneratedPuzzleHasTheSameSolutionAsTheOrginal();
 
             while (onlyOneSolution == false)
             {
                 onlyOneSolution = true; 
             }
-            //check to see if the puzzle is solvable. 
-            //finalGenenratedPuzzle = sudokuGrid;
-            solver.sudokuPuzzleMultiExample = sudokuGrid;
-            solver.BacktrackinEffcient(false);
-            //Need to then check if there is another solution. 
 
         }
-      
+
+        private void SetFinalGeneratedPuzzle()
+        {
+            //Getting the value of finalGeneratedPUzzle 
+            for (int i = 0; i <= 8; i++)
+            {
+                for (int j = 0; j <= 8; j++)
+                {
+                    finalGenenratedPuzzle[i, j] = sudokuGrid[i, j];
+                }
+            }
+        }
+
+        private bool SeeIfGeneratedPuzzleHasTheSameSolutionAsTheOrginal()
+        {
+            bool isEqual = true; 
+            for(int row = 0; row <= 8; row++)
+            {
+                for(int column =0;column<=8;column++)
+                {
+                    if(sudokuGrid[row,column] != orginalSudokuGrid[row,column])
+                    {
+                       isEqual = false; 
+                    }
+                }
+            }
+            return isEqual;
+        }
+
     }
+
+ 
+    #endregion 
 }
