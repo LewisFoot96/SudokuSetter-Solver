@@ -17,6 +17,9 @@ namespace SudokuSetterAndSolver
         int rowNumber = 0;
         int columnNumber = 0;
         bool solved = false;
+        int rowNumberOfGeneratingBacktrackCell = 0;
+        int columnNumberOFGeneratingBacktrackingCell = 0;
+        int numberToInsertIntoTheBacktrackingCell = 0;
         #endregion
 
         #region Objects 
@@ -51,53 +54,130 @@ namespace SudokuSetterAndSolver
         /// </summary>
         private void GenerateExampleSudokuGrid()
         {
-            //finalGenenratedPuzzle =  new int[,] sudokuGrid;
+            //Solving a blank grid. 
             solver.sudokuPuzzleMultiExample = sudokuGrid;
             solved = solver.BacktrackinEffcient(true);
-            sudokuGrid = solver.sudokuPuzzleMultiExample;
-            for (int i = 0; i <= 8; i++)
+            //Setting up the orginal solution for the puzzle. 
+            for (int originalRowNumber = 0; originalRowNumber <= 8; originalRowNumber++)
             {
-                for (int j = 0; j <= 8; j++)
+                for (int originalColumnNumber = 0; originalColumnNumber <= 8; originalColumnNumber++)
                 {
-                    orginalSudokuGrid[i, j] = sudokuGrid[i, j];
+                    orginalSudokuGrid[originalRowNumber, originalColumnNumber] = sudokuGrid[originalRowNumber, originalColumnNumber];
                 }
             }
+            //Removing values from cells until there is a valid solution. 
             DigHoles();
         }
 
-        //could use static numbers list. 
+        /// <summary>
+        /// Method that removes numbers within the grid until a valid puzzle is generated. 
+        /// </summary>
         private void DigHoles()
         {
-            //classes do it my reference 
-            bool onlyOneSolution = false;
             bool isEqualToOrginal = false;
             //Initially remove 10 candidates from the cells. 
-            for (int initialHolesRemoved = 0; initialHolesRemoved <= 30; initialHolesRemoved++)
+            for (int initialHolesRemoved = 0; initialHolesRemoved <= 35; initialHolesRemoved++)
             {
                 while (sudokuGrid[rowNumber, columnNumber] == 0)
                 {
-                    rowNumber = randomNumber.Next(0, 8);
-                    columnNumber = randomNumber.Next(0, 8);
+                    rowNumber = randomNumber.Next(0, 9);
+                    columnNumber = randomNumber.Next(0, 9);
                 }
                 sudokuGrid[rowNumber, columnNumber] = 0;
             }
-            //Maybe create a getter and setter for sudokuMulti 
-
+            //Setting the puzzle to the grid with the removed values. 
             SetFinalGeneratedPuzzle();
-
-
+            ///Solving the grid that the 35 values have been removed from. 
             solver.sudokuPuzzleMultiExample = sudokuGrid;
-            //solver.sudokuPuzzleMultiExample = sudokuGrid;
             solved = solver.BacktrackinEffcient(false);
 
-            isEqualToOrginal = SeeIfGeneratedPuzzleHasTheSameSolutionAsTheOrginal();
+            if (solved == true)
+            {
+                //If the puzzle is equal to the initial solution then it may be a valid puzzle. 
+                isEqualToOrginal = SeeIfGeneratedPuzzleHasTheSameSolutionAsTheOrginal();
 
-            //while (onlyOneSolution == false)
-            //{
-            //    onlyOneSolution = true; 
-            //}
+                //If the puzzle is not equal to the orginal solution, then remove values, until it does. 
+                while (isEqualToOrginal == false)
+                {
+                    //Getting a value to remove. 
+                    while (finalGenenratedPuzzle[rowNumber, columnNumber] == 0)
+                    {
+                        rowNumber = randomNumber.Next(0, 9);
+                        columnNumber = randomNumber.Next(0, 9);
+                    }
+                    finalGenenratedPuzzle[rowNumber, columnNumber] = 0;
+                    ConvertFInalGridIntoSudokuGrid();
 
+                    solver.sudokuPuzzleMultiExample = sudokuGrid;
+                    //solver.sudokuPuzzleMultiExample = sudokuGrid;
+                    solved = solver.BacktrackinEffcient(false);
+                    solver.sudokuPuzzleMultiExample = sudokuGrid;
+                    //If the puzzle is equal to the initial solution then it may be a valid puzzle. 
+                    isEqualToOrginal = SeeIfGeneratedPuzzleHasTheSameSolutionAsTheOrginal();
+                }
+
+                if (isEqualToOrginal == true)
+                {
+                    //Forcing the bactracking to see if there is another solution, by chnaging a value to be backtracked. 
+                    for (int reverseRowNumber = 8; rowNumber >= 0; reverseRowNumber--)
+                    {
+                        for (int reverseColumnNumber = 8; reverseColumnNumber >= 0; reverseColumnNumber--)
+                        {
+                            //Getting the valid numbers for the cell. 
+                            if (finalGenenratedPuzzle[reverseRowNumber, reverseColumnNumber] == 0)
+                            {
+                                int previousNumber = sudokuGrid[reverseRowNumber, reverseColumnNumber];
+                                sudokuGrid[reverseRowNumber, reverseColumnNumber] = 0;
+                                List<int> validNumbersInRow = CheckValidNumbersForRegions.checkRow(sudokuGrid, reverseRowNumber, reverseColumnNumber);
+                                List<int> validNumbersInColumn = CheckValidNumbersForRegions.checkColumn(sudokuGrid, reverseRowNumber, reverseColumnNumber);
+                                List<int> validNumbersInBlock = CheckValidNumbersForRegions.checkBlock(sudokuGrid, reverseRowNumber, reverseColumnNumber);
+                                List<int> validNumbers = CheckValidNumbersForRegions.GetValidNumbers(validNumbersInColumn, validNumbersInRow, validNumbersInBlock);
+                                //If there is a cell with 2 or more candidates. 
+                                if (validNumbers.Count >= 2)
+                                {
+                                    //If there is a cell with 2 or more candidates, where the current value is not the last valid number in that list. 
+                                    if (previousNumber != validNumbers[validNumbers.Count - 1])
+                                    {
+                                        for (int validNumberIndexNumber = 0; validNumberIndexNumber <= validNumbers.Count - 1; validNumberIndexNumber++)
+                                        {
+                                            if (validNumbers[validNumberIndexNumber] > previousNumber)
+                                            {
+                                                //Testing the new puzzle, which has the changed value. 
+                                                sudokuGrid[reverseRowNumber, reverseColumnNumber] = validNumbers[validNumberIndexNumber];
+                                                solver.sudokuPuzzleMultiExample = sudokuGrid;
+                                                solved = solver.BacktrackinEffcient(false);
+                                                //there is another solution. Therefore another value needs to be removed. 
+                                                if (solved == true)
+                                                {
+                                                    //delete another number. if there is no solution after a puzzle has been submitted, then recurse on the generating method, 
+                                                }
+                                                //If there is no other solution, then it is a unique solution. 
+                                                else
+                                                {
+                                                    return;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                ClearSudokuGrid();
+                GenerateExampleSudokuGrid();
+            }
         }
+
+
+        //Method to get that cell to change. So get a cell with more than one candidate, and if this candidate is not the last then make it the current bakctack cell. 
+        //Need to manually backtrack to see if there is another solution. 
+
+        //THe generating cell now contains this value, so need to pass this puzzle into the solver. by rmeoving all values in the solution up until that cell. 
+        //valid numbers in cell contains all of the values that where valid for that cell, therefore it will be the one of the number in that value cell that is used for the backtracking. 
 
         private void SetFinalGeneratedPuzzle()
         {
@@ -107,6 +187,18 @@ namespace SudokuSetterAndSolver
                 for (int j = 0; j <= 8; j++)
                 {
                     finalGenenratedPuzzle[i, j] = sudokuGrid[i, j];
+                }
+            }
+        }
+
+        private void ConvertFInalGridIntoSudokuGrid()
+        {
+            //Getting the value of finalGeneratedPUzzle 
+            for (int i = 0; i <= 8; i++)
+            {
+                for (int j = 0; j <= 8; j++)
+                {
+                    sudokuGrid[i, j] = finalGenenratedPuzzle[i, j];
                 }
             }
         }
@@ -127,8 +219,17 @@ namespace SudokuSetterAndSolver
             return isEqual;
         }
 
+        //Method that clears the sudoku grid. 
+        private void ClearSudokuGrid()
+        {
+            for (int clearRowNumber = 0; clearRowNumber <= 8; clearRowNumber++)
+            {
+                for (int clearColumnNumber = 0; clearColumnNumber <= 8; clearColumnNumber++)
+                {
+                    sudokuGrid[clearRowNumber, clearColumnNumber] = 0;
+                }
+            }
+        }
     }
-
-
     #endregion
 }

@@ -56,13 +56,14 @@ namespace SudokuSetterAndSolver
 
         //Stop watch that will time the algorithm. 
         Stopwatch stopWatch = new Stopwatch();
-        TimeSpan timeSpan = TimeSpan.FromSeconds(30);
+        TimeSpan timeSpan = TimeSpan.FromSeconds(10000);
         //List that contains all of the candidates for each cell this should be used for candidate reference within the program. 
         List<List<int>> candidatesList = new List<List<int>>();
         //counts the number of times the rules based algorithm has been exectuted. 
         int methodRunNumber = 0;
 
-        string difficluty; 
+        string difficluty;
+
 
         #endregion
 
@@ -83,7 +84,7 @@ namespace SudokuSetterAndSolver
         private void GeneratePuzzle()
         {
             //Loaing in a puzzle from a test file and creating the puzzle, along with static numbers. 
-            puzzleDetails = puzzleManager.ReadFromXMlFile("C:\\Users\\New\\Documents\\Sudoku\\Application\\SudokuSetterAndSolver\\SudokuSetterAndSolver\\Puzzles\\TestPuzzles\\test21.xml");
+            puzzleDetails = puzzleManager.ReadFromXMlFile("C:\\Users\\New\\Documents\\Sudoku\\Application\\SudokuSetterAndSolver\\SudokuSetterAndSolver\\Puzzles\\TestPuzzles\\test22.xml");
             int[] puzzleArray = puzzleDetails.puzzlecells.Cast<int>().ToArray();
             sudokuPuzzleMultiExample = puzzleManager.ConvertArrayToMultiDimensionalArray(puzzleArray);
             staticNumbers = sudokuPuzzleMultiExample;
@@ -1377,6 +1378,17 @@ namespace SudokuSetterAndSolver
         #region Backtracking More Efficient Test 
         public bool BacktrackinEffcient(bool generating)
         {
+            int emptyCellListCount = 0;
+            for (int countEmptyCellTestRow = 0; countEmptyCellTestRow <= 8; countEmptyCellTestRow++)
+            {
+                for (int countEmptyCellTestColumn = 0; countEmptyCellTestColumn <= 8; countEmptyCellTestColumn++)
+                {
+                    if(sudokuPuzzleMultiExample[countEmptyCellTestRow,countEmptyCellTestColumn] ==0)
+                    {
+                        emptyCellListCount++;
+                    }
+                }
+            }
             //Starting the timer
             stopWatch.Start();
             //setting the starting candidate number value. 
@@ -1388,11 +1400,11 @@ namespace SudokuSetterAndSolver
                 List<int> blankList = new List<int>();
                 cellNumbersForLogicalEffcientOrder.Add(blankList);
             }
-            bool solved = false;
+
             int startingValue = 0;
 
             //This process get the valid cells, in the order they should be handled based on the number of candidtates in the cell. 
-            while (candidateTotalNumber <= 9 || solved == true)
+            while (candidateTotalNumber <= 9)
             {
                 for (currentCellNumberHandled = startingValue; currentCellNumberHandled <= 80; currentCellNumberHandled++)
                 {
@@ -1409,6 +1421,11 @@ namespace SudokuSetterAndSolver
                                 validNumbersInBlock.Clear();
                                 validNumbersInColumn.Clear();
                                 validNUmbersInRow.Clear();
+
+                                if(validNumbersInCell.Count ==0)
+                                {
+
+                                }
 
                                 if (validNumbersInCell.Count == candidateTotalNumber)
                                 {
@@ -1430,11 +1447,25 @@ namespace SudokuSetterAndSolver
             startingValue = 0;
             numberOfCellToBeHandled = 0;
 
+           int cellNumberValidNotEmptyCount = 0; 
+            foreach (var cellsInList in cellNumbersForLogicalEffcientOrder)
+            {
+                if(cellsInList.Count !=0)
+                {
+                    cellNumberValidNotEmptyCount++;
+                }
+            }
+
+            if(emptyCellListCount > cellNumberValidNotEmptyCount)
+            {
+                return false;
+            }
+
             for (startingValue = numberOfCellToBeHandled; startingValue <= cellNumbersForLogicalEffcientOrder.Count - 1; startingValue++)
             {
-                if(stopWatch.Elapsed >=timeSpan)
+                if (stopWatch.Elapsed >= timeSpan)
                 {
-                    return false; 
+                    return false;
                 }
                 if (cellNumbersForLogicalEffcientOrder[startingValue].Count == 0)
                 {
@@ -1471,6 +1502,8 @@ namespace SudokuSetterAndSolver
                         if (generating == false)
                         {
                             sudokuPuzzleMultiExample[rowNumber, columnNumber] = validNumbersInCell[0];
+
+
                         }
                         //Random number generation for creating a puzzle. 
                         else
@@ -1488,10 +1521,10 @@ namespace SudokuSetterAndSolver
                             previousNumberInCell = sudokuPuzzleMultiExample[cellNumbersForLogicalEffcientOrder[numberOfCellToBeHandled - 1][0], cellNumbersForLogicalEffcientOrder[numberOfCellToBeHandled - 1][1]];
                             sudokuPuzzleMultiExample[cellNumbersForLogicalEffcientOrder[startingValue - 1][0], cellNumbersForLogicalEffcientOrder[startingValue - 1][1]] = 0;
                             startingValue -= 2;
-
                         }
                         else
                         {
+                            
                             //Maybe  something wrong with this statement 
                             int correctNumber = randomNumberGenerator.Next(validNumbersInCell.Count);
                             //this gives the value of the index, so this then would be used to get the other value. 
@@ -1531,6 +1564,7 @@ namespace SudokuSetterAndSolver
                                     else //Set the valid number to the cell, and submit the new grid. 
                                     {
                                         sudokuPuzzleMultiExample[rowNumber, columnNumber] = validNumbersInCell[counter];
+                                        
                                         previousNumberInCell = 0;
                                         break;
                                     }
@@ -1540,8 +1574,10 @@ namespace SudokuSetterAndSolver
                     }
                 }
                 validNumbersInCell.Clear();
-            }
+            }          
+            Console.WriteLine(stopWatch.Elapsed.TotalSeconds);
             cellNumbersForLogicalEffcientOrder.Clear();
+            stopWatch.Stop();
             return true; 
         }
 
