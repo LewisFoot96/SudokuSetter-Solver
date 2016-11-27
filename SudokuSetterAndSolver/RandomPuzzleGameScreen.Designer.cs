@@ -66,6 +66,7 @@ namespace SudokuSetterAndSolver
             this.submitPuzzleBtn.TabIndex = 87;
             this.submitPuzzleBtn.Text = "Submit Puzzle";
             this.submitPuzzleBtn.UseVisualStyleBackColor = true;
+            this.submitPuzzleBtn.Click += new System.EventHandler(this.submitPuzzleBtn_Click);
             // 
             // RandomPuzzleGameScreen
             // 
@@ -84,15 +85,12 @@ namespace SudokuSetterAndSolver
             this.Text = "RandomPuzzleGameScreen";
             ((System.ComponentModel.ISupportInitialize)(this.gameBanner)).EndInit();
             this.ResumeLayout(false);
-
         }
 
         private void CreateGrid(int gridSize)
-        {
-            //Creating the sudoku grid values. 
-            int[,] sudokuGrid = new int[gridSize, gridSize];
-            SudokuPuzzleGenerator sudokuGridGenerator = new SudokuPuzzleGenerator(9);
+        {          
             sudokuGrid = sudokuGridGenerator.CreateSudokuGrid();
+            sudokuPuzzleSolution = sudokuGridGenerator.orginalSudokuGrid;
 
             //Creating and popualting the grid with the values attained. 
             int[,] gridMultiDimensionalArray = new int[gridSize, gridSize];
@@ -142,7 +140,6 @@ namespace SudokuSetterAndSolver
                         txtBox.BackColor = Color.LightBlue;
                     }
 
-
                     //Ensuring static numbers can not be edited. 
                     if (sudokuGrid[i, j] != 0)
                     {
@@ -163,6 +160,7 @@ namespace SudokuSetterAndSolver
                         rowLocation = rowLocation + 38;
                     }
                     txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
+                    listOfTextBoxes.Add(txtBox);
                 }
                 rowLocation = 80;
                 columnLocation = columnLocation + 17;

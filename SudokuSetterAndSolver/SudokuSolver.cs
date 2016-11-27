@@ -4,10 +4,14 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace SudokuSetterAndSolver
 {
     //Refactoring needs to be done between the columns and rows, with the hidden singles and also the naked rows and columns.
+
+        //For some reason, the code carries on going down the code after backtracking has occured, this is incorrect funcitonality and needs to be sorted. 
+
 
     public class SudokuSolver
     {
@@ -56,14 +60,14 @@ namespace SudokuSetterAndSolver
 
         //Stop watch that will time the algorithm. 
         Stopwatch stopWatch = new Stopwatch();
-        TimeSpan timeSpan = TimeSpan.FromSeconds(10000);
+        TimeSpan timeSpan = TimeSpan.FromSeconds(30);
         //List that contains all of the candidates for each cell this should be used for candidate reference within the program. 
         List<List<int>> candidatesList = new List<List<int>>();
         //counts the number of times the rules based algorithm has been exectuted. 
         int methodRunNumber = 0;
 
+        bool solvedBacktracking = false;
         string difficluty;
-
 
         #endregion
 
@@ -122,110 +126,117 @@ namespace SudokuSetterAndSolver
         #region Rule Based Algorithm 
         public bool SolveSudokRuleBased()
         {
-            //Contains the list of candiates in each cell from simple analysis, not including human solvint methods procesing. 
-            List<List<int>> tempCandiateList = new List<List<int>>();
-            tempCandiateList.Clear();
-            //Number of naked singles within the puzzle, reset everytime this method is executed. 
-            int nakedSinglesCount = 0;
+                difficluty = "easy";
+                //Contains the list of candiates in each cell from simple analysis, not including human solvint methods procesing. 
+                List<List<int>> tempCandiateList = new List<List<int>>();
+                tempCandiateList.Clear();
+                //Number of naked singles within the puzzle, reset everytime this method is executed. 
+                int nakedSinglesCount = 0;
 
-            ///Going through all of the cells. 
-            for (rowNumber = 0; rowNumber <= 8; rowNumber++)
-            {
-                for (columnNumber = 0; columnNumber <= 8; columnNumber++)
+                ///Going through all of the cells. 
+                for (rowNumber = 0; rowNumber <= 8; rowNumber++)
                 {
-                    //Static numbers check 
-                    if (staticNumbers[rowNumber, columnNumber] == 0)
+                    for (columnNumber = 0; columnNumber <= 8; columnNumber++)
                     {
-                        checkBlock();
-                        checkColumn();
-                        checkRow();
-                        GetValidNumbers();
-                        validNumbersInBlock.Clear();
-                        validNumbersInColumn.Clear();
-                        validNUmbersInRow.Clear();
-                        tempCandiateList.Add(new List<int>(validNumbersInCell));
+                        //Static numbers check 
+                        if (staticNumbers[rowNumber, columnNumber] == 0)
+                        {
+                            checkBlock();
+                            checkColumn();
+                            checkRow();
+                            GetValidNumbers();
+                            validNumbersInBlock.Clear();
+                            validNumbersInColumn.Clear();
+                            validNUmbersInRow.Clear();
+                            tempCandiateList.Add(new List<int>(validNumbersInCell));
+                            validNumbersInCell.Clear();
+                        }
+                        else
+                        {
+                            tempCandiateList.Add(null);
+                        }
                         validNumbersInCell.Clear();
+                    }
+                }
+
+                //Check to see if its the first run of the method, and setting the orginal 
+                if (methodRunNumber == 0)
+                {
+                    candidatesList = tempCandiateList;
+                }
+                else
+                {
+                    CompareCandidateLists(tempCandiateList); //comparing the candidate list and the temp, to get the current values.
+                }
+                //The correct candidate list is now in place. 
+
+                //Gets all the naked singles witin the puzzle. 
+                int rowNumberCheck = 0;
+                int columnCheckNumber = 0;
+                for (int indexOfCandidateValue = 0; indexOfCandidateValue <= candidatesList.Count - 1; indexOfCandidateValue++)
+                {
+                    if (candidatesList[indexOfCandidateValue] != null)
+                    {
+                        if (candidatesList[indexOfCandidateValue].Count == 1) //Naked singles 
+                        {
+                            nakedSinglesCount++;
+                            foreach (int nakedValue in candidatesList[indexOfCandidateValue]) //Insert naked single. 
+                            {
+                                staticNumbers[rowNumberCheck, columnCheckNumber] = nakedValue;
+                                sudokuPuzzleMultiExample[rowNumberCheck, columnCheckNumber] = nakedValue;
+                                candidatesList[indexOfCandidateValue] = null;
+                            }
+                        }
+                    }
+                    //Row and column logic to determine current cell. 
+                    if (indexOfCandidateValue % 9 == 8 || indexOfCandidateValue == 8)
+                    {
+                        columnCheckNumber = 0;
+                        rowNumberCheck++;
                     }
                     else
                     {
-                        tempCandiateList.Add(null);
+                        columnCheckNumber++;
                     }
-                    validNumbersInCell.Clear();
                 }
-            }
+                //Resetting values and increasing method count. 
+                rowNumberCheck = 0;
+                columnCheckNumber = 0;
+                methodRunNumber++;
 
-            //Check to see if its the first run of the method, and setting the orginal 
-            if (methodRunNumber == 0)
-            {
-                candidatesList = tempCandiateList;
-            }
-            else
-            {
-                CompareCandidateLists(tempCandiateList); //comparing the candidate list and the temp, to get the current values.
-            }
-            //The correct candidate list is now in place. 
-
-            //Gets all the naked singles witin the puzzle. 
-            int rowNumberCheck = 0;
-            int columnCheckNumber = 0;
-            for (int indexOfCandidateValue = 0; indexOfCandidateValue <= candidatesList.Count - 1; indexOfCandidateValue++)
-            {
-                if (candidatesList[indexOfCandidateValue] != null)
+                //If there were naked singles, then see if puzzle is solved, if not then recurse. 
+                if (nakedSinglesCount != 0)
                 {
-                    if (candidatesList[indexOfCandidateValue].Count == 1) //Naked singles 
+                    bool solved = CheckToSeeIfPuzzleIsSolved();
+                    if (solved)
                     {
-                        nakedSinglesCount++;
-                        foreach (int nakedValue in candidatesList[indexOfCandidateValue]) //Insert naked single. 
-                        {
-                            staticNumbers[rowNumberCheck, columnCheckNumber] = nakedValue;
-                            sudokuPuzzleMultiExample[rowNumberCheck, columnCheckNumber] = nakedValue;
-                            candidatesList[indexOfCandidateValue] = null;
-                        }
+                        return true;
                     }
-                }
-                //Row and column logic to determine current cell. 
-                if (indexOfCandidateValue % 9 == 8 || indexOfCandidateValue == 8)
-                {
-                    columnCheckNumber = 0;
-                    rowNumberCheck++;
-                }
-                else
-                {
-                    columnCheckNumber++;
-                }
-            }
-            //Resetting values and increasing method count. 
-            rowNumberCheck = 0;
-            columnCheckNumber = 0;
-            methodRunNumber++;
+                    else
+                    { SolveSudokRuleBased(); }
 
-            //If there were naked singles, then see if puzzle is solved, if not then recurse. 
-            if (nakedSinglesCount != 0)
-            {
-                bool solved = CheckToSeeIfPuzzleIsSolved();
-                if (solved)
-                {
-                    return true; 
                 }
-                else
-                { SolveSudokRuleBased(); }
-
-            }
-            //Checks to see if puzzle is solved. 
-            bool checkSolved = CheckToSeeIfPuzzleIsSolved();
-            if (checkSolved)
-            {
-                return true; 
-            }
-            //all the below methods seem to work togher and solve puzzles. 
-            HiddenSingles();
-            checkSolved = CheckToSeeIfPuzzleIsSolved();
-            if (checkSolved)
-            {
-                return true; 
-            }
-            CandidateHandling();
-           bool solvedBacktracking = BacktrackinEffcient(false);
+                //Checks to see if puzzle is solved. 
+                bool checkSolved = CheckToSeeIfPuzzleIsSolved();
+                if (checkSolved)
+                {
+                    MessageBox.Show("Human Solving Methods Completed! Puzzle Completed. Difficulty: " + difficluty);
+                    return true;
+                }
+                //all the below methods seem to work togher and solve puzzles. 
+                HiddenSingles();
+                checkSolved = CheckToSeeIfPuzzleIsSolved();
+                if (checkSolved)
+                {
+                    MessageBox.Show("Human Solving Methods Completed! Puzzle Completed. Difficulty: " + difficluty);
+                    return true;
+                }
+                difficluty = "medium";
+                CandidateHandling();
+                difficluty = "veryhard";
+                MessageBox.Show("Human Solving Methods Completed! Puzzle not completed. Diffiuclty: Very Hard. Backtracking will begin.");
+            
+            solvedBacktracking = BacktrackinEffcient(false);
             return solvedBacktracking;
         }
 
@@ -263,6 +274,7 @@ namespace SudokuSetterAndSolver
         {
             NakedDoubles();
             HiddenDoubles();
+            difficluty = "hard";
             NakedTriples();
             //Naked Triples 
             //HIdden Triples 
@@ -1378,6 +1390,7 @@ namespace SudokuSetterAndSolver
         #region Backtracking More Efficient Test 
         public bool BacktrackinEffcient(bool generating)
         {
+            cellNumbersForLogicalEffcientOrder.Clear();
             int emptyCellListCount = 0;
             for (int countEmptyCellTestRow = 0; countEmptyCellTestRow <= 8; countEmptyCellTestRow++)
             {
@@ -1390,6 +1403,7 @@ namespace SudokuSetterAndSolver
                 }
             }
             //Starting the timer
+            stopWatch.Reset();
             stopWatch.Start();
             //setting the starting candidate number value. 
             candidateTotalNumber = 1;
@@ -1463,8 +1477,9 @@ namespace SudokuSetterAndSolver
 
             for (startingValue = numberOfCellToBeHandled; startingValue <= cellNumbersForLogicalEffcientOrder.Count - 1; startingValue++)
             {
-                if (stopWatch.Elapsed >= timeSpan)
+                if (stopWatch.Elapsed.Seconds >= 5)
                 {
+                    cellNumbersForLogicalEffcientOrder.Clear();
                     return false;
                 }
                 if (cellNumbersForLogicalEffcientOrder[startingValue].Count == 0)
@@ -1518,6 +1533,11 @@ namespace SudokuSetterAndSolver
                         //Need to back track further. 
                         if (previousNumberInCell == validNumbersInCell[validNumbersInCell.Count - 1])
                         {
+                            if(validNumbersInCell.Count <=1 && startingValue==0 )
+                            {
+                                cellNumbersForLogicalEffcientOrder.Clear();
+                                return false;
+                            }
                             previousNumberInCell = sudokuPuzzleMultiExample[cellNumbersForLogicalEffcientOrder[numberOfCellToBeHandled - 1][0], cellNumbersForLogicalEffcientOrder[numberOfCellToBeHandled - 1][1]];
                             sudokuPuzzleMultiExample[cellNumbersForLogicalEffcientOrder[startingValue - 1][0], cellNumbersForLogicalEffcientOrder[startingValue - 1][1]] = 0;
                             startingValue -= 2;

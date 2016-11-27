@@ -12,7 +12,7 @@ namespace SudokuSetterAndSolver
         //Grids that will contain the created grid, the first will be used to check to ensure the grid is valid 
         int[,] sudokuGrid = new int[9, 9];
         int[,] finalGenenratedPuzzle = new int[9, 9];
-        int[,] orginalSudokuGrid = new int[9, 9];
+        public int[,] orginalSudokuGrid = new int[9, 9];
         int _gridSize = 0;
         int rowNumber = 0;
         int columnNumber = 0;
@@ -20,6 +20,7 @@ namespace SudokuSetterAndSolver
         int rowNumberOfGeneratingBacktrackCell = 0;
         int columnNumberOFGeneratingBacktrackingCell = 0;
         int numberToInsertIntoTheBacktrackingCell = 0;
+        string puzzlePifficulty = "";
         #endregion
 
         #region Objects 
@@ -105,13 +106,19 @@ namespace SudokuSetterAndSolver
                         rowNumber = randomNumber.Next(0, 9);
                         columnNumber = randomNumber.Next(0, 9);
                     }
-                    finalGenenratedPuzzle[rowNumber, columnNumber] = 0;
+                   finalGenenratedPuzzle[rowNumber, columnNumber] = 0;
                     ConvertFInalGridIntoSudokuGrid();
 
                     solver.sudokuPuzzleMultiExample = sudokuGrid;
-                    //solver.sudokuPuzzleMultiExample = sudokuGrid;
                     solved = solver.BacktrackinEffcient(false);
-                    solver.sudokuPuzzleMultiExample = sudokuGrid;
+
+                    if(solved == false)
+                    {
+                        ClearSudokuGrid();
+                        CreateSudokuGrid();
+                            
+                    }
+
                     //If the puzzle is equal to the initial solution then it may be a valid puzzle. 
                     isEqualToOrginal = SeeIfGeneratedPuzzleHasTheSameSolutionAsTheOrginal();
                 }
@@ -119,7 +126,7 @@ namespace SudokuSetterAndSolver
                 if (isEqualToOrginal == true)
                 {
                     //Forcing the bactracking to see if there is another solution, by chnaging a value to be backtracked. 
-                    for (int reverseRowNumber = 8; rowNumber >= 0; reverseRowNumber--)
+                    for (int reverseRowNumber = 8; reverseRowNumber >= 0; reverseRowNumber--)
                     {
                         for (int reverseColumnNumber = 8; reverseColumnNumber >= 0; reverseColumnNumber--)
                         {
