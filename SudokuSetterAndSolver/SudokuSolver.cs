@@ -60,7 +60,6 @@ namespace SudokuSetterAndSolver
 
         //Stop watch that will time the algorithm. 
         Stopwatch stopWatch = new Stopwatch();
-        TimeSpan timeSpan = TimeSpan.FromSeconds(30);
         //List that contains all of the candidates for each cell this should be used for candidate reference within the program. 
         List<List<int>> candidatesList = new List<List<int>>();
         //counts the number of times the rules based algorithm has been exectuted. 
@@ -68,7 +67,7 @@ namespace SudokuSetterAndSolver
 
         bool solvedBacktracking = false;
         string difficluty;
-
+        //Directory location of the file that is being solved. 
         string loadFileDirectoryLocation = "C:\\Users\\New\\Documents\\Sudoku\\Application\\SudokuSetterAndSolver\\SudokuSetterAndSolver\\Puzzles\\TestPuzzles\\test22.xml";
 
         #endregion
@@ -1875,6 +1874,14 @@ namespace SudokuSetterAndSolver
         }
 
         #endregion
+
+        #region Irregular Puzzles
+
+        //For the blocks i will need to detemine the cell numbers to determine which cells are in which block of irregular shapes. 
+
+        //I will need a way of evaluating the shapes and storing them accordingly. Maybe need to store these coordinates in the xml files. 
+
+        #endregion 
 
     }
 }

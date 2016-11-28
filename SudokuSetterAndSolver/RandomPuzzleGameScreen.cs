@@ -194,11 +194,65 @@ namespace SudokuSetterAndSolver
                     {
                         if (cellName == textBox.Name)
                         {
-                                textBox.Text = submittedPuzzle[rowNumber, columnNumber].ToString();
+                            textBox.Text = submittedPuzzle[rowNumber, columnNumber].ToString();
                         }
                     }
                 }
             }
+        }
+
+        private void PopulateNewPuzzle()
+        {
+            for (int rowNumberNew = 0; rowNumberNew <= 8; rowNumberNew++)
+            {
+                for (int columnNumberNew = 0; columnNumberNew <= 8; columnNumberNew++)
+                {
+                    string cellName = rowNumberNew.ToString() + columnNumberNew.ToString();
+                    foreach (var textBox in listOfTextBoxes)
+                    {
+                        textBox.Enabled = true;
+                        if (cellName == textBox.Name)
+                        {
+                            if (sudokuGrid[rowNumberNew, columnNumberNew] == 0)
+                            {
+                                textBox.Text = "";                        
+                            }
+                            else
+                            {
+                                textBox.Enabled = false;
+                                textBox.Text = sudokuGrid[rowNumberNew, columnNumberNew].ToString();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void ClearGrid()
+        {
+            //currently remove all textboxes when a new puzzle is selected, this may need to be changed. 
+            foreach (var textBox in listOfTextBoxes)
+            {
+                textBox.Dispose();
+            }
+        }
+
+        private void ClearSudokuGridVaribale()
+        {
+            for (int clearRowNumber = 0; clearRowNumber <= 8; clearRowNumber++)
+            {
+                for (int clearColumnNumber = 0; clearColumnNumber <= 8; clearColumnNumber++)
+                {
+                    sudokuGrid[clearRowNumber, clearColumnNumber] = 0;
+                }
+            }
+        }
+
+        private void newPuzzleBtn_Click(object sender, EventArgs e)
+        {
+            ClearGrid();
+            ClearSudokuGridVaribale();
+            CreateGrid(9);
         }
     }
 }

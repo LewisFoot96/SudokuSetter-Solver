@@ -44,6 +44,9 @@ namespace SudokuSetterAndSolver
         //This method is called when the grid is created, on the screen start up. 
         public int[,] CreateSudokuGrid()
         {
+            ClearSudokuGrid(finalGenenratedPuzzle);
+            ClearSudokuGrid(sudokuGrid);
+            ClearSudokuGrid(orginalSudokuGrid);
             GenerateExampleSudokuGrid();
             return finalGenenratedPuzzle;
         }
@@ -114,7 +117,7 @@ namespace SudokuSetterAndSolver
 
                     if(solved == false)
                     {
-                        ClearSudokuGrid();
+                        ClearSudokuGrid(sudokuGrid);
                         CreateSudokuGrid();
                             
                     }
@@ -174,7 +177,7 @@ namespace SudokuSetterAndSolver
             }
             else
             {
-                ClearSudokuGrid();
+                ClearSudokuGrid(sudokuGrid);
                 GenerateExampleSudokuGrid();
             }
         }
@@ -227,16 +230,18 @@ namespace SudokuSetterAndSolver
         }
 
         //Method that clears the sudoku grid. 
-        private void ClearSudokuGrid()
+        private void ClearSudokuGrid(int[,] grid)
         {
             for (int clearRowNumber = 0; clearRowNumber <= 8; clearRowNumber++)
             {
                 for (int clearColumnNumber = 0; clearColumnNumber <= 8; clearColumnNumber++)
                 {
-                    sudokuGrid[clearRowNumber, clearColumnNumber] = 0;
+                    grid[clearRowNumber, clearColumnNumber] = 0;
                 }
             }
         }
+
+        
     }
     #endregion
 }
