@@ -189,28 +189,28 @@
     </Content>
     <Content Include="Puzzles\level1.txt" />
     <Content Include="Puzzles\TestPuzzle.txt" />
-    <Content Include="Puzzles\TestPuzzles\test1.xml" />
-    <Content Include="Puzzles\TestPuzzles\test10.xml" />
-    <Content Include="Puzzles\TestPuzzles\test11.xml" />
-    <Content Include="Puzzles\TestPuzzles\test12.xml" />
-    <Content Include="Puzzles\TestPuzzles\test13.xml" />
-    <Content Include="Puzzles\TestPuzzles\test14.xml" />
-    <Content Include="Puzzles\TestPuzzles\test15.xml" />
-    <Content Include="Puzzles\TestPuzzles\test16.xml" />
+    <Content Include="Puzzles\TestPuzzles\testlevel1.xml" />
+    <Content Include="Puzzles\TestPuzzles\testlevel10.xml" />
+    <Content Include="Puzzles\TestPuzzles\testlevel11.xml" />
+    <Content Include="Puzzles\TestPuzzles\testlevel12.xml" />
+    <Content Include="Puzzles\TestPuzzles\testlevel13.xml" />
+    <Content Include="Puzzles\TestPuzzles\testlevel14.xml" />
+    <Content Include="Puzzles\TestPuzzles\testlevel15.xml" />
+    <Content Include="Puzzles\TestPuzzles\testlevel16.xml" />
     <Content Include="Puzzles\TestPuzzles\test17.xml" />
     <Content Include="Puzzles\TestPuzzles\test18.xml" />
     <Content Include="Puzzles\TestPuzzles\test19.xml" />
-    <Content Include="Puzzles\TestPuzzles\test2.xml" />
+    <Content Include="Puzzles\TestPuzzles\testlevel2.xml" />
     <Content Include="Puzzles\TestPuzzles\test20.xml" />
     <Content Include="Puzzles\TestPuzzles\test21.xml" />
     <Content Include="Puzzles\TestPuzzles\test22.xml" />
-    <Content Include="Puzzles\TestPuzzles\test3.xml" />
-    <Content Include="Puzzles\TestPuzzles\test4.xml" />
-    <Content Include="Puzzles\TestPuzzles\test5.xml" />
-    <Content Include="Puzzles\TestPuzzles\test6.xml" />
-    <Content Include="Puzzles\TestPuzzles\test7.xml" />
-    <Content Include="Puzzles\TestPuzzles\test8.xml" />
-    <Content Include="Puzzles\TestPuzzles\test9.xml" />
+    <Content Include="Puzzles\TestPuzzles\testlevel3.xml" />
+    <Content Include="Puzzles\TestPuzzles\testlevel4.xml" />
+    <Content Include="Puzzles\TestPuzzles\testlevel5.xml" />
+    <Content Include="Puzzles\TestPuzzles\testlevel6.xml" />
+    <Content Include="Puzzles\TestPuzzles\testlevel7.xml" />
+    <Content Include="Puzzles\TestPuzzles\testlevel8.xml" />
+    <Content Include="Puzzles\TestPuzzles\testlevel9.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

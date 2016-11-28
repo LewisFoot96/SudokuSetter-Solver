@@ -21,7 +21,7 @@ namespace SudokuSetterAndSolver
         {
             var button = (Button)sender;
             this.Hide();
-            PlaySudokuScreen playSudokuScreen = new PlaySudokuScreen(button.Name);
+            PlaySudokuScreen playSudokuScreen = new PlaySudokuScreen(button.Name,9);
             playSudokuScreen.Show();
         }
 

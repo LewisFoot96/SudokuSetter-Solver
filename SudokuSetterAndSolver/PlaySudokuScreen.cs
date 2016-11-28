@@ -12,15 +12,25 @@ namespace SudokuSetterAndSolver
 {
     public partial class PlaySudokuScreen : Form
     {
+        int[,] sudokuGrid; 
         TextBox currentSelectedTextBox = new TextBox();
+        string fileDirectoryLocation;
+        puzzle loadedPuzzle;
+        PuzzleManager puzzleManager; 
         public PlaySudokuScreen()
         {
             InitializeComponent();       
         }
 
-        public PlaySudokuScreen(string fileNameFromButtonPress)
+        public PlaySudokuScreen(string fileNameFromButtonPress, int gridSize)
         {
+            loadedPuzzle = new puzzle();
+            puzzleManager = new PuzzleManager();
+            fileDirectoryLocation = "C:\\Users\\New\\Documents\\Sudoku\\Application\\SudokuSetterAndSolver\\SudokuSetterAndSolver\\Puzzles\\TestPuzzles\\";
+            fileDirectoryLocation += "test"+ fileNameFromButtonPress + ".xml";
+            gridSize = 9;
             InitializeComponent();
+            sudokuGrid = new int[gridSize, gridSize];
             CreateGrid(9);
             //The string that is passed into here will be the file exntesion value, to load in the correct file. 
         }
