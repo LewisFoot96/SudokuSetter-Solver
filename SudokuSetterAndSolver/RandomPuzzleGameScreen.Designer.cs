@@ -35,6 +35,7 @@ namespace SudokuSetterAndSolver
             this.mainMenuBtn = new System.Windows.Forms.Button();
             this.gameBanner = new System.Windows.Forms.PictureBox();
             this.submitPuzzleBtn = new System.Windows.Forms.Button();
+            this.solveGeneratedPuzzleBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.gameBanner)).BeginInit();
             this.SuspendLayout();
             // 
@@ -68,6 +69,16 @@ namespace SudokuSetterAndSolver
             this.submitPuzzleBtn.UseVisualStyleBackColor = true;
             this.submitPuzzleBtn.Click += new System.EventHandler(this.submitPuzzleBtn_Click);
             // 
+            // solveGeneratedPuzzleBtn
+            // 
+            this.solveGeneratedPuzzleBtn.Location = new System.Drawing.Point(899, 851);
+            this.solveGeneratedPuzzleBtn.Name = "solveGeneratedPuzzleBtn";
+            this.solveGeneratedPuzzleBtn.Size = new System.Drawing.Size(171, 102);
+            this.solveGeneratedPuzzleBtn.TabIndex = 88;
+            this.solveGeneratedPuzzleBtn.Text = "Solve";
+            this.solveGeneratedPuzzleBtn.UseVisualStyleBackColor = true;
+            this.solveGeneratedPuzzleBtn.Click += new System.EventHandler(this.solveGeneratedPuzzleBtn_Click);
+            // 
             // RandomPuzzleGameScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(240F, 240F);
@@ -76,6 +87,7 @@ namespace SudokuSetterAndSolver
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.ClientSize = new System.Drawing.Size(1464, 1012);
+            this.Controls.Add(this.solveGeneratedPuzzleBtn);
             this.Controls.Add(this.submitPuzzleBtn);
             this.Controls.Add(this.gameBanner);
             this.Controls.Add(this.mainMenuBtn);
@@ -85,6 +97,7 @@ namespace SudokuSetterAndSolver
             this.Text = "RandomPuzzleGameScreen";
             ((System.ComponentModel.ISupportInitialize)(this.gameBanner)).EndInit();
             this.ResumeLayout(false);
+
         }
 
         private void CreateGrid(int gridSize)
@@ -171,5 +184,6 @@ namespace SudokuSetterAndSolver
         private System.Windows.Forms.Button mainMenuBtn;
         private PictureBox gameBanner;
         private Button submitPuzzleBtn;
+        private Button solveGeneratedPuzzleBtn;
     }
 }

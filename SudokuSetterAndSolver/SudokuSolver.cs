@@ -69,11 +69,24 @@ namespace SudokuSetterAndSolver
         bool solvedBacktracking = false;
         string difficluty;
 
+        string loadFileDirectoryLocation = "C:\\Users\\New\\Documents\\Sudoku\\Application\\SudokuSetterAndSolver\\SudokuSetterAndSolver\\Puzzles\\TestPuzzles\\test22.xml";
+
         #endregion
 
         #region Main Method 
         public bool solvePuzzle()
         {
+            difficluty = "easy";
+            //Generate the puzzle and then solve it. 
+            GeneratePuzzle();
+            //Solving the puzzle. 
+            bool solved = SolveSudokRuleBased();
+            return solved;
+        }
+        public bool solvePuzzle(string directoryLocation)
+        {
+            difficluty = "easy";
+            loadFileDirectoryLocation = directoryLocation;
             //Generate the puzzle and then solve it. 
             GeneratePuzzle();
             //Solving the puzzle. 
@@ -88,7 +101,7 @@ namespace SudokuSetterAndSolver
         private void GeneratePuzzle()
         {
             //Loaing in a puzzle from a test file and creating the puzzle, along with static numbers. 
-            puzzleDetails = puzzleManager.ReadFromXMlFile("C:\\Users\\New\\Documents\\Sudoku\\Application\\SudokuSetterAndSolver\\SudokuSetterAndSolver\\Puzzles\\TestPuzzles\\test22.xml");
+            puzzleDetails = puzzleManager.ReadFromXMlFile(loadFileDirectoryLocation);
             int[] puzzleArray = puzzleDetails.puzzlecells.Cast<int>().ToArray();
             sudokuPuzzleMultiExample = puzzleManager.ConvertArrayToMultiDimensionalArray(puzzleArray);
             staticNumbers = sudokuPuzzleMultiExample;

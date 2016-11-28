@@ -18,11 +18,12 @@ namespace SudokuSetterAndSolver
         SudokuPuzzleGenerator sudokuGridGenerator = new SudokuPuzzleGenerator(9);
         TextBox currentSelectedTextBox = new TextBox();
         public List<TextBox> listOfTextBoxes = new List<TextBox>();
+        SudokuSolver sudokuSolver = new SudokuSolver();
         #endregion
 
         #region Global Variables 
         //Contains the solution to the puzzle on the screen. 
-        int[,] sudokuPuzzleSolution;  
+        int[,] sudokuPuzzleSolution;
         //Contains the puzzle when the user presses submit.      
         int[,] submittedPuzzle;
         //Creating the sudoku grid values. 
@@ -94,15 +95,15 @@ namespace SudokuSetterAndSolver
                     {
                         if (cellName == textBox.Name)
                         {
-                            if(textBox.Text !="")
+                            if (textBox.Text != "")
                             {
                                 submittedPuzzle[rowNumber, columnNumber] = Int32.Parse(textBox.Text);
                             }
                             else
                             {
-                                submittedPuzzle[rowNumber, columnNumber] = 0; 
+                                submittedPuzzle[rowNumber, columnNumber] = 0;
                             }
-                            
+
                         }
                     }
 
@@ -110,7 +111,7 @@ namespace SudokuSetterAndSolver
             }
             bool correctPuzzle = CheckSubmittedPuzzle();
 
-            if(correctPuzzle == true)
+            if (correctPuzzle == true)
             {
                 MessageBox.Show("Puzzle Completed! Well Done!");
             }
@@ -125,20 +126,79 @@ namespace SudokuSetterAndSolver
         #region Method
         private bool CheckSubmittedPuzzle()
         {
-           //Goes through all of the values within the puzzle. 
-            for(int checkRowNumber =0;checkRowNumber<=8;checkRowNumber++)
+            //Goes through all of the values within the puzzle. 
+            for (int checkRowNumber = 0; checkRowNumber <= 8; checkRowNumber++)
             {
-                for (int checkColumnNumber =0;checkColumnNumber<=8;checkColumnNumber++)
+                for (int checkColumnNumber = 0; checkColumnNumber <= 8; checkColumnNumber++)
                 {
-                    if(submittedPuzzle[checkRowNumber, checkColumnNumber] != sudokuPuzzleSolution[checkRowNumber,checkColumnNumber])
+                    if (submittedPuzzle[checkRowNumber, checkColumnNumber] != sudokuPuzzleSolution[checkRowNumber, checkColumnNumber])
                     {
                         return false;  //If ther solution is not correct. 
                     }
                 }
             }
 
-            return true; 
+            return true;
         }
-        #endregion 
+        #endregion
+
+        private void solveGeneratedPuzzleBtn_Click(object sender, EventArgs e)
+        {
+            GetPuzzle();
+
+        }
+        private void GetPuzzle()
+        {
+            //Creating the grid from the entered numbers. 
+            for (int rowNumber = 0; rowNumber <= 8; rowNumber++)
+            {
+                for (int columnNumber = 0; columnNumber <= 8; columnNumber++)
+                {
+                    //submittedPuzzle 
+                    string cellName = rowNumber.ToString() + columnNumber.ToString();
+                    foreach (var textBox in listOfTextBoxes)
+                    {
+                        if (cellName == textBox.Name)
+                        {
+                            if (textBox.Text != "")
+                            {
+                                submittedPuzzle[rowNumber, columnNumber] = Int32.Parse(textBox.Text);
+                            }
+                            else
+                            {
+                                submittedPuzzle[rowNumber, columnNumber] = 0;
+                            }
+
+                        }
+                    }
+                }
+            }
+            sudokuSolver.sudokuPuzzleMultiExample = submittedPuzzle;
+            bool solved = sudokuSolver.BacktrackinEffcient(false);
+            if (solved == true)
+            {
+                SetGridSolved();
+            }
+        }
+
+        private void SetGridSolved()
+        {
+            //Creating the grid from the entered numbers. 
+            for (int rowNumber = 0; rowNumber <= 8; rowNumber++)
+            {
+                for (int columnNumber = 0; columnNumber <= 8; columnNumber++)
+                {
+                    //submittedPuzzle 
+                    string cellName = rowNumber.ToString() + columnNumber.ToString();
+                    foreach (var textBox in listOfTextBoxes)
+                    {
+                        if (cellName == textBox.Name)
+                        {
+                                textBox.Text = submittedPuzzle[rowNumber, columnNumber].ToString();
+                        }
+                    }
+                }
+            }
+        }
     }
 }

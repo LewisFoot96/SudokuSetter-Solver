@@ -16,7 +16,9 @@ namespace SudokuSetterAndSolver
         TextBox currentSelectedTextBox = new TextBox();
         SudokuSolver sudokuSolver = new SudokuSolver();
         int[,] sudokuGrid;
-
+        string fileDirctoryLocation = "";
+        PuzzleManager puzzleManager = new PuzzleManager();
+        puzzle loadedPuzzle = new puzzle();
 
         #endregion
 
@@ -77,8 +79,8 @@ namespace SudokuSetterAndSolver
         {
             //In here need to make a call to the recursive backtracking algorithm, to solve the puzzle that the user has entered.
             //The puzzle solving should have a time out on it, if this time out is past, the puzzle is deemed unsolavable. 
-            
-            bool solved = sudokuSolver.solvePuzzle();
+            sudokuSolver.sudokuPuzzleMultiExample = sudokuGrid;
+            bool solved = sudokuSolver.solvePuzzle(fileDirctoryLocation);
             sudokuGrid = sudokuSolver.sudokuPuzzleMultiExample;
             if (solved == true)
             {
@@ -109,11 +111,57 @@ namespace SudokuSetterAndSolver
             }
             }
 
-
-            
-            //GOt the grid, then need to solve it. 
-            //sudokuSolver.solvePuzzle();
+        private void loadFileBtn_Click(object sender, EventArgs e)
+        {
+            fileChooser.ShowDialog();
         }
+
+        private void fileChooser_FileOk(object sender, CancelEventArgs e)
+        {
+            ClearGrid();
+            fileDirctoryLocation = fileChooser.FileName;
+            loadedPuzzle = puzzleManager.ReadFromXMlFile(fileDirctoryLocation);
+
+            int[] puzzleArray = loadedPuzzle.puzzlecells.Cast<int>().ToArray();
+            sudokuGrid = puzzleManager.ConvertArrayToMultiDimensionalArray(puzzleArray);
+            SetLoadedGrid();
+        }
+
+        private void SetLoadedGrid()
+        {
+            //Creating the grid from the entered numbers. 
+            for (int rowNumber = 0; rowNumber <= 8; rowNumber++)
+            {
+                for (int columnNumber = 0; columnNumber <= 8; columnNumber++)
+                {
+                    string cellName = rowNumber.ToString() + columnNumber.ToString();
+                    foreach (var textBox in listOfTextBoxes)
+                    {
+                        if (cellName == textBox.Name)
+                        {
+                            //Enures zeros aren't entered into the grid. 
+                            if (sudokuGrid[rowNumber, columnNumber] != 0)
+                            {
+                                textBox.Text = sudokuGrid[rowNumber, columnNumber].ToString();
+                            }
+                            
+
+                        }
+                    }
+
+                }
+            }
+        }
+
+        private void ClearGrid()
+        {
+            foreach (var textBox in listOfTextBoxes)
+            {
+                textBox.Clear();
+            }
+        }
+
+    }
 
         #endregion 
 }
