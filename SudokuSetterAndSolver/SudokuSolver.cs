@@ -8,9 +8,7 @@ using System.Windows.Forms;
 
 namespace SudokuSetterAndSolver
 {
-    //Refactoring needs to be done between the columns and rows, with the hidden singles and also the naked rows and columns.
-
-        //For some reason, the code carries on going down the code after backtracking has occured, this is incorrect funcitonality and needs to be sorted. 
+    //For some reason, the code carries on going down the code after backtracking has occured, this is incorrect funcitonality and needs to be sorted. 
 
 
     public class SudokuSolver
@@ -48,6 +46,8 @@ namespace SudokuSetterAndSolver
 
         //List of the cell coordinates that will be used for solving, the order of cells to be handled. 
         List<List<int>> cellNumbersForLogicalEffcientOrder = new List<List<int>>();
+
+        List<int> logicalOrderOfCellsXml = new List<int>();
         //Used to store the number in the cell that is being bactracked to, beofore clearing that cell. 
         int previousNumberInCell = 0;
         //The number of the cell being handled within the ordered list. 
@@ -69,6 +69,11 @@ namespace SudokuSetterAndSolver
         public string difficluty;
         //Directory location of the file that is being solved. 
         string loadFileDirectoryLocation = "C:\\Users\\New\\Documents\\Sudoku\\Application\\SudokuSetterAndSolver\\SudokuSetterAndSolver\\Puzzles\\TestPuzzles\\test22.xml";
+
+        //Get all the cells with the corrrect row , column and block number, this will then allow easier handling.
+        public puzzle currentPuzzleToBeSolved = new puzzle();
+        //THis will be the cell that is currently being handled by the solver. 
+        puzzleCell puzzleCellCurrentlyBeingHandled = new puzzleCell();
 
         #endregion
 
@@ -100,12 +105,9 @@ namespace SudokuSetterAndSolver
         private void GeneratePuzzle()
         {
             //Loaing in a puzzle from a test file and creating the puzzle, along with static numbers. 
-            puzzleDetails = puzzleManager.ReadFromXMlFile(loadFileDirectoryLocation);
-            // int[] puzzleArray = puzzleDetails.puzzlecells.Cast<int>().ToArray();
-            //sudokuPuzzleMultiExample = puzzleManager.ConvertArrayToMultiDimensionalArray(puzzleArray);
-
+            currentPuzzleToBeSolved = puzzleManager.ReadFromXMlFile(loadFileDirectoryLocation);
+            //Temp list that stores the values witin the puzzle. 
             List<int> listOfSudokuValues = new List<int>();
-
             foreach (var cell in puzzleDetails.puzzlecells)
             {
                 listOfSudokuValues.Add(cell.value);
@@ -147,116 +149,116 @@ namespace SudokuSetterAndSolver
         #region Rule Based Algorithm 
         public bool SolveSudokRuleBased()
         {
-                difficluty = "easy";
-                //Contains the list of candiates in each cell from simple analysis, not including human solvint methods procesing. 
-                List<List<int>> tempCandiateList = new List<List<int>>();
-                tempCandiateList.Clear();
-                //Number of naked singles within the puzzle, reset everytime this method is executed. 
-                int nakedSinglesCount = 0;
+            difficluty = "easy";
+            //Contains the list of candiates in each cell from simple analysis, not including human solvint methods procesing. 
+            List<List<int>> tempCandiateList = new List<List<int>>();
+            tempCandiateList.Clear();
+            //Number of naked singles within the puzzle, reset everytime this method is executed. 
+            int nakedSinglesCount = 0;
 
-                ///Going through all of the cells. 
-                for (rowNumber = 0; rowNumber <= 8; rowNumber++)
+            ///Going through all of the cells. 
+            for (rowNumber = 0; rowNumber <= 8; rowNumber++)
+            {
+                for (columnNumber = 0; columnNumber <= 8; columnNumber++)
                 {
-                    for (columnNumber = 0; columnNumber <= 8; columnNumber++)
+                    //Static numbers check 
+                    if (staticNumbers[rowNumber, columnNumber] == 0)
                     {
-                        //Static numbers check 
-                        if (staticNumbers[rowNumber, columnNumber] == 0)
-                        {
-                            checkBlock();
-                            checkColumn();
-                            checkRow();
-                            GetValidNumbers();
-                            validNumbersInBlock.Clear();
-                            validNumbersInColumn.Clear();
-                            validNUmbersInRow.Clear();
-                            tempCandiateList.Add(new List<int>(validNumbersInCell));
-                            validNumbersInCell.Clear();
-                        }
-                        else
-                        {
-                            tempCandiateList.Add(null);
-                        }
+                        checkBlock();
+                        checkColumn();
+                        checkRow();
+                        GetValidNumbers();
+                        validNumbersInBlock.Clear();
+                        validNumbersInColumn.Clear();
+                        validNUmbersInRow.Clear();
+                        tempCandiateList.Add(new List<int>(validNumbersInCell));
                         validNumbersInCell.Clear();
                     }
+                    else
+                    {
+                        tempCandiateList.Add(null);
+                    }
+                    validNumbersInCell.Clear();
                 }
+            }
 
-                //Check to see if its the first run of the method, and setting the orginal 
-                if (methodRunNumber == 0)
+            //Check to see if its the first run of the method, and setting the orginal 
+            if (methodRunNumber == 0)
+            {
+                candidatesList = tempCandiateList;
+            }
+            else
+            {
+                CompareCandidateLists(tempCandiateList); //comparing the candidate list and the temp, to get the current values.
+            }
+            //The correct candidate list is now in place. 
+
+            //Gets all the naked singles witin the puzzle. 
+            int rowNumberCheck = 0;
+            int columnCheckNumber = 0;
+            for (int indexOfCandidateValue = 0; indexOfCandidateValue <= candidatesList.Count - 1; indexOfCandidateValue++)
+            {
+                if (candidatesList[indexOfCandidateValue] != null)
                 {
-                    candidatesList = tempCandiateList;
+                    if (candidatesList[indexOfCandidateValue].Count == 1) //Naked singles 
+                    {
+                        nakedSinglesCount++;
+                        foreach (int nakedValue in candidatesList[indexOfCandidateValue]) //Insert naked single. 
+                        {
+                            staticNumbers[rowNumberCheck, columnCheckNumber] = nakedValue;
+                            sudokuPuzzleMultiExample[rowNumberCheck, columnCheckNumber] = nakedValue;
+                            candidatesList[indexOfCandidateValue] = null;
+                        }
+                    }
+                }
+                //Row and column logic to determine current cell. 
+                if (indexOfCandidateValue % 9 == 8 || indexOfCandidateValue == 8)
+                {
+                    columnCheckNumber = 0;
+                    rowNumberCheck++;
                 }
                 else
                 {
-                    CompareCandidateLists(tempCandiateList); //comparing the candidate list and the temp, to get the current values.
+                    columnCheckNumber++;
                 }
-                //The correct candidate list is now in place. 
+            }
+            //Resetting values and increasing method count. 
+            rowNumberCheck = 0;
+            columnCheckNumber = 0;
+            methodRunNumber++;
 
-                //Gets all the naked singles witin the puzzle. 
-                int rowNumberCheck = 0;
-                int columnCheckNumber = 0;
-                for (int indexOfCandidateValue = 0; indexOfCandidateValue <= candidatesList.Count - 1; indexOfCandidateValue++)
+            //If there were naked singles, then see if puzzle is solved, if not then recurse. 
+            if (nakedSinglesCount != 0)
+            {
+                bool solved = CheckToSeeIfPuzzleIsSolved();
+                if (solved)
                 {
-                    if (candidatesList[indexOfCandidateValue] != null)
-                    {
-                        if (candidatesList[indexOfCandidateValue].Count == 1) //Naked singles 
-                        {
-                            nakedSinglesCount++;
-                            foreach (int nakedValue in candidatesList[indexOfCandidateValue]) //Insert naked single. 
-                            {
-                                staticNumbers[rowNumberCheck, columnCheckNumber] = nakedValue;
-                                sudokuPuzzleMultiExample[rowNumberCheck, columnCheckNumber] = nakedValue;
-                                candidatesList[indexOfCandidateValue] = null;
-                            }
-                        }
-                    }
-                    //Row and column logic to determine current cell. 
-                    if (indexOfCandidateValue % 9 == 8 || indexOfCandidateValue == 8)
-                    {
-                        columnCheckNumber = 0;
-                        rowNumberCheck++;
-                    }
-                    else
-                    {
-                        columnCheckNumber++;
-                    }
-                }
-                //Resetting values and increasing method count. 
-                rowNumberCheck = 0;
-                columnCheckNumber = 0;
-                methodRunNumber++;
-
-                //If there were naked singles, then see if puzzle is solved, if not then recurse. 
-                if (nakedSinglesCount != 0)
-                {
-                    bool solved = CheckToSeeIfPuzzleIsSolved();
-                    if (solved)
-                    {
-                        return true;
-                    }
-                    else
-                    { SolveSudokRuleBased(); }
-
-                }
-                //Checks to see if puzzle is solved. 
-                bool checkSolved = CheckToSeeIfPuzzleIsSolved();
-                if (checkSolved)
-                {
-                    MessageBox.Show("Human Solving Methods Completed! Puzzle Completed. Difficulty: " + difficluty);
                     return true;
                 }
-                //all the below methods seem to work togher and solve puzzles. 
-                HiddenSingles();
-                checkSolved = CheckToSeeIfPuzzleIsSolved();
-                if (checkSolved)
-                {
-                    MessageBox.Show("Human Solving Methods Completed! Puzzle Completed. Difficulty: " + difficluty);
-                    return true;
-                }
-                difficluty = "medium";
-                CandidateHandling();
-                difficluty = "veryhard";
-                MessageBox.Show("Human Solving Methods Completed! Puzzle not completed. Diffiuclty: Very Hard. Backtracking will begin.");
-            
+                else
+                { SolveSudokRuleBased(); }
+
+            }
+            //Checks to see if puzzle is solved. 
+            bool checkSolved = CheckToSeeIfPuzzleIsSolved();
+            if (checkSolved)
+            {
+                MessageBox.Show("Human Solving Methods Completed! Puzzle Completed. Difficulty: " + difficluty);
+                return true;
+            }
+            //all the below methods seem to work togher and solve puzzles. 
+            HiddenSingles();
+            checkSolved = CheckToSeeIfPuzzleIsSolved();
+            if (checkSolved)
+            {
+                MessageBox.Show("Human Solving Methods Completed! Puzzle Completed. Difficulty: " + difficluty);
+                return true;
+            }
+            difficluty = "medium";
+            CandidateHandling();
+            difficluty = "veryhard";
+            MessageBox.Show("Human Solving Methods Completed! Puzzle not completed. Diffiuclty: Very Hard. Backtracking will begin.");
+
             solvedBacktracking = BacktrackinEffcient(false);
             return solvedBacktracking;
         }
@@ -1417,7 +1419,7 @@ namespace SudokuSetterAndSolver
             {
                 for (int countEmptyCellTestColumn = 0; countEmptyCellTestColumn <= 8; countEmptyCellTestColumn++)
                 {
-                    if(sudokuPuzzleMultiExample[countEmptyCellTestRow,countEmptyCellTestColumn] ==0)
+                    if (sudokuPuzzleMultiExample[countEmptyCellTestRow, countEmptyCellTestColumn] == 0)
                     {
                         emptyCellListCount++;
                     }
@@ -1457,7 +1459,7 @@ namespace SudokuSetterAndSolver
                                 validNumbersInColumn.Clear();
                                 validNUmbersInRow.Clear();
 
-                                if(validNumbersInCell.Count ==0)
+                                if (validNumbersInCell.Count == 0)
                                 {
 
                                 }
@@ -1482,16 +1484,16 @@ namespace SudokuSetterAndSolver
             startingValue = 0;
             numberOfCellToBeHandled = 0;
 
-           int cellNumberValidNotEmptyCount = 0; 
+            int cellNumberValidNotEmptyCount = 0;
             foreach (var cellsInList in cellNumbersForLogicalEffcientOrder)
             {
-                if(cellsInList.Count !=0)
+                if (cellsInList.Count != 0)
                 {
                     cellNumberValidNotEmptyCount++;
                 }
             }
 
-            if(emptyCellListCount > cellNumberValidNotEmptyCount)
+            if (emptyCellListCount > cellNumberValidNotEmptyCount)
             {
                 return false;
             }
@@ -1554,7 +1556,7 @@ namespace SudokuSetterAndSolver
                         //Need to back track further. 
                         if (previousNumberInCell == validNumbersInCell[validNumbersInCell.Count - 1])
                         {
-                            if(validNumbersInCell.Count <=1 && startingValue==0 )
+                            if (validNumbersInCell.Count <= 1 && startingValue == 0)
                             {
                                 cellNumbersForLogicalEffcientOrder.Clear();
                                 return false;
@@ -1565,7 +1567,7 @@ namespace SudokuSetterAndSolver
                         }
                         else
                         {
-                            
+
                             //Maybe  something wrong with this statement 
                             int correctNumber = randomNumberGenerator.Next(validNumbersInCell.Count);
                             //this gives the value of the index, so this then would be used to get the other value. 
@@ -1605,7 +1607,7 @@ namespace SudokuSetterAndSolver
                                     else //Set the valid number to the cell, and submit the new grid. 
                                     {
                                         sudokuPuzzleMultiExample[rowNumber, columnNumber] = validNumbersInCell[counter];
-                                        
+
                                         previousNumberInCell = 0;
                                         break;
                                     }
@@ -1615,11 +1617,11 @@ namespace SudokuSetterAndSolver
                     }
                 }
                 validNumbersInCell.Clear();
-            }          
+            }
             Console.WriteLine(stopWatch.Elapsed.TotalSeconds);
             cellNumbersForLogicalEffcientOrder.Clear();
             stopWatch.Stop();
-            return true; 
+            return true;
         }
 
         /// <summary>
@@ -1643,6 +1645,179 @@ namespace SudokuSetterAndSolver
 
         #endregion
 
+        #region More Effcient Backtracking method for the xml class file example
+        public bool BacktrackingUsingXmlTemplateFile(bool generating)
+        {
+            logicalOrderOfCellsXml.Clear();
+
+            int emptyCellListCount = 0;
+
+            for (int checkEmptyCellValue = 0; checkEmptyCellValue <= currentPuzzleToBeSolved.puzzlecells.Count - 1; checkEmptyCellValue++)
+            {
+                if (currentPuzzleToBeSolved.puzzlecells[checkEmptyCellValue].value == 0)
+                {
+                    emptyCellListCount++;
+                }
+            }
+
+            //Starting the timer
+            stopWatch.Reset();
+            stopWatch.Start();
+            //setting the starting candidate number value. 
+            candidateTotalNumber = 1;
+
+            int startingValue = 0;
+            while (candidateTotalNumber <= 9)
+            {
+                for (int currentCellBeingHandled = startingValue; currentCellBeingHandled <= currentPuzzleToBeSolved.puzzlecells.Count - 1; currentCellBeingHandled++)
+                {
+                    puzzleCellCurrentlyBeingHandled = currentPuzzleToBeSolved.puzzlecells[currentCellBeingHandled];
+
+                    if (puzzleCellCurrentlyBeingHandled.value == 0)
+                    {
+                        GetValuesForRowXmlPuzzleTemplate();
+                        GetValuesForColumnXmlPuzzleTemplate();
+                        GetValuesForBlockXmlPuzzleTemplate();
+                        GetValidNumbers();
+                        validNumbersInBlock.Clear();
+                        validNumbersInColumn.Clear();
+                        validNUmbersInRow.Clear();
+
+                        if (validNumbersInCell.Count == candidateTotalNumber)
+                        {
+                            logicalOrderOfCellsXml.Add(currentCellBeingHandled);
+                            validNumbersInCell.Clear();
+                        }
+                        validNumbersInCell.Clear();
+                    }
+                }
+                candidateTotalNumber++;
+            }
+            
+
+            //Resetting the starting value, so it cycles through all of the cells. 
+            startingValue = 0;
+            numberOfCellToBeHandled = 0;
+
+            //if (emptyCellListCount > currentPuzzleToBeSolved.puzzlecells.Count - logicalOrderOfCellsXml.Count)
+            //{
+            //    return false;
+            //}
+
+            for (startingValue = numberOfCellToBeHandled; startingValue <= logicalOrderOfCellsXml.Count - 1; startingValue++)
+            {
+                if (stopWatch.Elapsed.Seconds >= 1000000000)
+                {
+                    logicalOrderOfCellsXml.Clear();
+                    return false;
+                }
+                numberOfCellToBeHandled = startingValue;
+                puzzleCellCurrentlyBeingHandled = currentPuzzleToBeSolved.puzzlecells[logicalOrderOfCellsXml[startingValue]];
+
+                GetValuesForRowXmlPuzzleTemplate();
+                GetValuesForColumnXmlPuzzleTemplate();
+                GetValuesForBlockXmlPuzzleTemplate();
+                GetValidNumbers();
+                validNumbersInBlock.Clear();
+                validNumbersInColumn.Clear();
+                validNUmbersInRow.Clear();
+
+                if (validNumbersInCell.Count == 0)
+                {
+                    previousNumberInCell = currentPuzzleToBeSolved.puzzlecells[logicalOrderOfCellsXml[ startingValue - 1]].value;
+                    currentPuzzleToBeSolved.puzzlecells[logicalOrderOfCellsXml[ numberOfCellToBeHandled - 1]].value = 0;
+                    startingValue -= 2;
+                }
+                else
+                {
+                    if (previousNumberInCell == 0)
+                    {
+                        if (generating == false)
+                        {
+                            currentPuzzleToBeSolved.puzzlecells[logicalOrderOfCellsXml[numberOfCellToBeHandled]].value = validNumbersInCell[0];
+
+
+                        }
+                        //Random number generation for creating a puzzle. 
+                        else
+                        {
+                            int randomNumber = randomNumberGenerator.Next(validNumbersInCell.Count);
+                            currentPuzzleToBeSolved.puzzlecells[logicalOrderOfCellsXml[numberOfCellToBeHandled]].value = validNumbersInCell[randomNumber];
+                        }
+                    }
+                    else
+                    {
+                        //Need to back track further. 
+                        if (previousNumberInCell == validNumbersInCell[validNumbersInCell.Count - 1])
+                        {
+                            if (validNumbersInCell.Count <= 1 && startingValue == 0)
+                            {
+                                logicalOrderOfCellsXml.Clear();
+                                return false;
+                            }
+                            previousNumberInCell = currentPuzzleToBeSolved.puzzlecells[logicalOrderOfCellsXml[ startingValue - 1]].value;
+                            currentPuzzleToBeSolved.puzzlecells[logicalOrderOfCellsXml[numberOfCellToBeHandled - 1]].value = 0;
+                            startingValue -= 2;
+                        }
+                        else
+                        {
+                            //Maybe  something wrong with this statement 
+                            int correctNumber = randomNumberGenerator.Next(validNumbersInCell.Count);
+                            //this gives the value of the index, so this then would be used to get the other value. 
+                            if (generating == true)
+                            {
+                                if (validNumbersInCell[correctNumber] == previousNumberInCell)
+                                {
+                                    for (counter = 0; counter <= validNumbersInCell.Count - 1; counter++)
+                                    {
+                                        if (counter != correctNumber)
+                                        {
+                                            currentPuzzleToBeSolved.puzzlecells[logicalOrderOfCellsXml[ numberOfCellToBeHandled]].value = validNumbersInCell[counter];
+                                            previousNumberInCell = 0;
+                                            break;
+                                        }
+                                    }
+
+                                }
+                                else
+                                {
+                                    currentPuzzleToBeSolved.puzzlecells[logicalOrderOfCellsXml[ numberOfCellToBeHandled]].value = validNumbersInCell[correctNumber];
+                                    previousNumberInCell = 0;
+
+                                }
+                            }
+                            else
+                            {
+                                for (counter = 0; counter <= validNumbersInCell.Count - 1; counter++)
+                                {
+
+                                    //If the valid number has already been used in the cell, then the next number will need to be inserted or the backtracking will need to go back further. 
+                                    if (validNumbersInCell[counter] == previousNumberInCell || validNumbersInCell[counter] < previousNumberInCell)
+                                    {
+
+                                    }
+                                    else //Set the valid number to the cell, and submit the new grid. 
+                                    {
+                                        currentPuzzleToBeSolved.puzzlecells[logicalOrderOfCellsXml[ numberOfCellToBeHandled]].value = validNumbersInCell[counter];
+
+                                        previousNumberInCell = 0;
+                                        break;
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+                }
+                validNumbersInCell.Clear();
+            }
+            Console.WriteLine(stopWatch.Elapsed.TotalSeconds);
+            cellNumbersForLogicalEffcientOrder.Clear();
+            stopWatch.Stop();
+            return true;
+        }
+        #endregion
+
         #region Methods for getting values out of blocks, rows and columns, by passing values. 
 
         private List<List<int>> getSudokuValuesInBox(int rowNumber, int columnNumber)
@@ -1663,6 +1838,84 @@ namespace SudokuSetterAndSolver
 
             return numbersPositionsInBlock;
 
+        }
+
+        #endregion
+
+        #region Methods for checking rows columns and blocks using the XML generated class
+
+        //Methods for getting the values using the xml file. 
+        private void GetValuesForRowXmlPuzzleTemplate()
+        {
+            List<int> numbersInRow = new List<int>();
+            List<int> nonValidNumberInRow = new List<int>();
+
+            foreach (var cell in currentPuzzleToBeSolved.puzzlecells)
+            {
+                if (cell.rownumber == puzzleCellCurrentlyBeingHandled.rownumber)
+                {
+                    numbersInRow.Add(cell.value);
+                }
+            }
+
+            foreach (var valueInCell in numbersInRow)
+            {
+                if (valueInCell != 0)
+                {
+                    nonValidNumberInRow.Add(valueInCell);
+                }
+            }
+
+            validNUmbersInRow = CheckValidNumbersForRegions.GetValidNumbers(nonValidNumberInRow);
+
+        }
+
+        private void GetValuesForColumnXmlPuzzleTemplate()
+        {
+            List<int> numbersInColumn = new List<int>();
+            List<int> nonValidNumberInColumn = new List<int>();
+
+            foreach (var cell in currentPuzzleToBeSolved.puzzlecells)
+            {
+                if (cell.columnnumber == puzzleCellCurrentlyBeingHandled.columnnumber)
+                {
+                    numbersInColumn.Add(cell.value);
+                }
+            }
+
+            foreach (var valueInCell in numbersInColumn)
+            {
+                if (valueInCell != 0)
+                {
+                    nonValidNumberInColumn.Add(valueInCell);
+                }
+            }
+
+            validNumbersInColumn = CheckValidNumbersForRegions.GetValidNumbers(nonValidNumberInColumn);
+        }
+
+        private void GetValuesForBlockXmlPuzzleTemplate()
+        {
+            List<int> numbersInBlock = new List<int>();
+            List<int> nonValidNumberInBlock = new List<int>();
+
+            foreach (var cell in currentPuzzleToBeSolved.puzzlecells)
+            {
+                if (cell.blocknumber == puzzleCellCurrentlyBeingHandled.blocknumber)
+                {
+                    numbersInBlock.Add(cell.value);
+                }
+            }
+
+            foreach (var valueInCell in numbersInBlock)
+            {
+                if (valueInCell != 0)
+                {
+                    nonValidNumberInBlock.Add(valueInCell);
+                }
+            }
+
+            validNumbersInBlock = CheckValidNumbersForRegions.GetValidNumbers(nonValidNumberInBlock);
         }
 
         #endregion
