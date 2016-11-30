@@ -10,7 +10,10 @@ namespace SudokuSetterAndSolver
 {
     //For some reason, the code carries on going down the code after backtracking has occured, this is incorrect funcitonality and needs to be sorted. 
 
+        //Is the candidate list being transferred to the backtracking method. Does this really matter, as its only the human models that need to know this. 
 
+
+        //The rule based algorithm may need a lot more work to make compatible with the new xml files. 
     public class SudokuSolver
     {
         #region Objects 
@@ -21,6 +24,8 @@ namespace SudokuSetterAndSolver
         #endregion
 
         #region Global Variables 
+
+        //sudoku mulit it used to input the hidden singles within the application. 
         //Contains the puzzle. 
         public int[,] sudokuPuzzleMultiExample = new int[9, 9];
         //array that stores the static numbers that are within the puzzle. 
@@ -74,6 +79,7 @@ namespace SudokuSetterAndSolver
         public puzzle currentPuzzleToBeSolved = new puzzle();
         //THis will be the cell that is currently being handled by the solver. 
         puzzleCell puzzleCellCurrentlyBeingHandled = new puzzleCell();
+        puzzle staticPuzzle = new puzzle();
 
         #endregion
 
@@ -98,6 +104,27 @@ namespace SudokuSetterAndSolver
             return solved;
         }
 
+        public bool solvePuzzleXMl()
+        {
+            difficluty = "easy";
+            //Generate the puzzle and then solve it. 
+            GeneratePuzzleXML();
+            //Solving the puzzle. 
+            bool solved = SolveSudokuRuleBasedXML();
+            return solved;
+        }
+
+        public bool solvePuzzleXML(string directoryLocation)
+        {
+            difficluty = "easy";
+            loadFileDirectoryLocation = directoryLocation;
+            //Generate the puzzle and then solve it. 
+            GeneratePuzzleXML();
+            //Solving the puzzle. 
+            bool solved = SolveSudokuRuleBasedXML();
+            return solved;
+        }
+
         #endregion 
 
         #region General Methods 
@@ -117,6 +144,23 @@ namespace SudokuSetterAndSolver
             staticNumbers = sudokuPuzzleMultiExample;
         }
 
+        private void GeneratePuzzleXML()
+        {
+            //Loaing in a puzzle from a test file and creating the puzzle, along with static numbers. 
+            currentPuzzleToBeSolved = puzzleManager.ReadFromXMlFile(loadFileDirectoryLocation);
+        }
+
+        private bool CheckToSeeIfPuzzleSolvedXML()
+        {
+            foreach(var cell in currentPuzzleToBeSolved.puzzlecells)
+            {
+                if(cell.value ==0)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
         //Method that checks whether the puzzle has been solved or not. 
         private bool CheckToSeeIfPuzzleIsSolved()
         {
@@ -147,6 +191,101 @@ namespace SudokuSetterAndSolver
         #endregion 
 
         #region Rule Based Algorithm 
+
+        public bool SolveSudokuRuleBasedXML()
+        {
+            difficluty = "easy";
+            //Contains the list of candiates in each cell from simple analysis, not including human solvint methods procesing. 
+            List<List<int>> tempCandiateList = new List<List<int>>();
+            tempCandiateList.Clear();
+            //Number of naked singles within the puzzle, reset everytime this method is executed. 
+            int nakedSinglesCount = 0;
+
+            foreach (var cell in currentPuzzleToBeSolved.puzzlecells)
+            {
+                if(cell.value ==0)
+                {
+                    checkBlock();
+                    checkColumn();
+                    checkRow();
+                    GetValidNumbers();
+                    validNumbersInBlock.Clear();
+                    validNumbersInColumn.Clear();
+                    validNUmbersInRow.Clear();
+                    tempCandiateList.Add(new List<int>(validNumbersInCell));
+                    validNumbersInCell.Clear();
+                }
+                else
+                {
+                    tempCandiateList.Add(null);
+                }
+                validNumbersInCell.Clear();
+            }
+
+            //Check to see if its the first run of the method, and setting the orginal 
+            if (methodRunNumber == 0)
+            {
+                candidatesList = tempCandiateList;
+            }
+            else
+            {
+                CompareCandidateLists(tempCandiateList); //comparing the candidate list and the temp, to get the current values.
+            }
+
+            for (int indexOfCandidateValue = 0; indexOfCandidateValue <= candidatesList.Count - 1; indexOfCandidateValue++)
+            {
+                if (candidatesList[indexOfCandidateValue] != null)
+                {
+                    if (candidatesList[indexOfCandidateValue].Count == 1) //Naked singles 
+                    {
+                        nakedSinglesCount++;
+                        foreach (int nakedValue in candidatesList[indexOfCandidateValue]) //Insert naked single. 
+                        {
+                            currentPuzzleToBeSolved.puzzlecells[indexOfCandidateValue].value = nakedValue;
+                            candidatesList[indexOfCandidateValue] = null;
+                        }
+                    }
+                }
+            }
+            methodRunNumber++;
+
+            //If there were naked singles, then see if puzzle is solved, if not then recurse. 
+            if (nakedSinglesCount != 0)
+            {
+                bool solved = CheckToSeeIfPuzzleSolvedXML();
+                if (solved)
+                {
+                    return true;
+                }
+                else
+                { SolveSudokuRuleBasedXML(); }
+
+            }
+            //Checks to see if puzzle is solved. 
+            bool checkSolved = CheckToSeeIfPuzzleSolvedXML();
+            if (checkSolved)
+            {
+                MessageBox.Show("Human Solving Methods Completed! Puzzle Completed. Difficulty: " + difficluty);
+                return true;
+            }
+            //all the below methods seem to work togher and solve puzzles. 
+            HiddenSingles();
+            checkSolved = CheckToSeeIfPuzzleSolvedXML();
+            if (checkSolved)
+            {
+                MessageBox.Show("Human Solving Methods Completed! Puzzle Completed. Difficulty: " + difficluty);
+                return true;
+            }
+            difficluty = "medium";
+            CandidateHandling();
+            difficluty = "veryhard";
+            MessageBox.Show("Human Solving Methods Completed! Puzzle not completed. Diffiuclty: Very Hard. Backtracking will begin.");
+
+            solvedBacktracking = BacktrackingUsingXmlTemplateFile(false);
+            return solvedBacktracking;
+        }
+
+
         public bool SolveSudokRuleBased()
         {
             difficluty = "easy";
@@ -1706,7 +1845,7 @@ namespace SudokuSetterAndSolver
 
             for (startingValue = numberOfCellToBeHandled; startingValue <= logicalOrderOfCellsXml.Count - 1; startingValue++)
             {
-                if (stopWatch.Elapsed.Seconds >= 1000000000)
+                if (stopWatch.Elapsed.Seconds >= 5)
                 {
                     logicalOrderOfCellsXml.Clear();
                     return false;

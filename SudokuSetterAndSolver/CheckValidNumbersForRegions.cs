@@ -234,5 +234,82 @@ namespace SudokuSetterAndSolver
 
             return validNumbers;
         }
+
+        //Methods for getting the values using the xml file. 
+        public static  List<int> GetValuesForRowXmlPuzzleTemplate(puzzle currentPuzzleToBeSolved, puzzleCell puzzleCellCurrentlyBeingHandled)
+        {
+            List<int> numbersInRow = new List<int>();
+            List<int> nonValidNumberInRow = new List<int>();
+            List<int> validNumbersInRow = new List<int>();
+
+            foreach (var cell in currentPuzzleToBeSolved.puzzlecells)
+            {
+                if (cell.rownumber == puzzleCellCurrentlyBeingHandled.rownumber)
+                {
+                    numbersInRow.Add(cell.value);
+                }
+            }
+
+            foreach (var valueInCell in numbersInRow)
+            {
+                if (valueInCell != 0)
+                {
+                    nonValidNumberInRow.Add(valueInCell);
+                }
+            }
+
+            return validNumbersInRow = GetValidNumbers(nonValidNumberInRow);
+
+        }
+
+        public static List<int> GetValuesForColumnXmlPuzzleTemplate(puzzle currentPuzzleToBeSolved, puzzleCell puzzleCellCurrentlyBeingHandled)
+        {
+            List<int> numbersInColumn = new List<int>();
+            List<int> nonValidNumberInColumn = new List<int>();
+            List<int> validNumbersInColumn = new List<int>();
+
+            foreach (var cell in currentPuzzleToBeSolved.puzzlecells)
+            {
+                if (cell.columnnumber == puzzleCellCurrentlyBeingHandled.columnnumber)
+                {
+                    numbersInColumn.Add(cell.value);
+                }
+            }
+
+            foreach (var valueInCell in numbersInColumn)
+            {
+                if (valueInCell != 0)
+                {
+                    nonValidNumberInColumn.Add(valueInCell);
+                }
+            }
+
+            return validNumbersInColumn = GetValidNumbers(nonValidNumberInColumn);
+        }
+
+        public static List<int> GetValuesForBlockXmlPuzzleTemplate(puzzle currentPuzzleToBeSolved, puzzleCell puzzleCellCurrentlyBeingHandled)
+        {
+            List<int> numbersInBlock = new List<int>();
+            List<int> nonValidNumberInBlock = new List<int>();
+            List<int> validNumbersInBlock = new List<int>();
+
+            foreach (var cell in currentPuzzleToBeSolved.puzzlecells)
+            {
+                if (cell.blocknumber == puzzleCellCurrentlyBeingHandled.blocknumber)
+                {
+                    numbersInBlock.Add(cell.value);
+                }
+            }
+
+            foreach (var valueInCell in numbersInBlock)
+            {
+                if (valueInCell != 0)
+                {
+                    nonValidNumberInBlock.Add(valueInCell);
+                }
+            }
+
+            return validNumbersInBlock = GetValidNumbers(nonValidNumberInBlock);
+        }
     }
 }

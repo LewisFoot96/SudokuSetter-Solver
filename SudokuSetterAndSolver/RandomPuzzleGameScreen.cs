@@ -19,6 +19,9 @@ namespace SudokuSetterAndSolver
         TextBox currentSelectedTextBox = new TextBox();
         public List<TextBox> listOfTextBoxes = new List<TextBox>();
         SudokuSolver sudokuSolver = new SudokuSolver();
+        puzzle generatedPuzzle = new puzzle();
+
+        List<int> sudokuSolutionArray = new List<int>();
         #endregion
 
         #region Global Variables 
@@ -144,7 +147,27 @@ namespace SudokuSetterAndSolver
 
         private void solveGeneratedPuzzleBtn_Click(object sender, EventArgs e)
         {
-            GetPuzzle();
+            sudokuSolver.currentPuzzleToBeSolved = generatedPuzzle;
+            bool puzzleSolved = sudokuSolver.BacktrackingUsingXmlTemplateFile(false);
+            generatedPuzzle = sudokuSolver.currentPuzzleToBeSolved;
+
+            if (puzzleSolved == true)
+            {
+                foreach (var cell in generatedPuzzle.puzzlecells)
+                {
+                    foreach (var textBoxCurrent in listOfTextBoxes)
+                    {
+                        if (textBoxCurrent.Name == cell.rownumber.ToString() + cell.columnnumber.ToString())
+                        {
+                            textBoxCurrent.Text = cell.value.ToString();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("No solution, invalid solution");
+            }
 
         }
         private void GetPuzzle()
@@ -251,8 +274,32 @@ namespace SudokuSetterAndSolver
         private void newPuzzleBtn_Click(object sender, EventArgs e)
         {
             ClearGrid();
-            ClearSudokuGridVaribale();
+            generatedPuzzle.puzzlecells.Clear();
             CreateGrid(9);
+        }
+
+        private int[,] ConvertListToMultiDimensionalArray(List<int> puzzleInList, int gridSize)
+        {
+            int[,] puzzleArray = new int[gridSize, gridSize];
+            int rowNumber = 0;
+            int columnNumber = 0;
+
+            for (int cellNumber = 0; cellNumber <= puzzleInList.Count - 1; cellNumber++)
+            {
+                puzzleArray[rowNumber, columnNumber] = puzzleInList[cellNumber];
+                if (columnNumber == 8 || columnNumber % 9 == 8)
+                {
+                    rowNumber++;
+                    columnNumber = 0;
+                }
+                else
+                {
+                    columnNumber++;
+                }
+            }
+
+
+            return puzzleArray;
         }
     }
 }

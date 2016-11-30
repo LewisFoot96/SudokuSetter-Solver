@@ -8,6 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
@@ -23,7 +24,8 @@ using System.Xml.Serialization;
 [System.ComponentModel.DesignerCategoryAttribute("code")]
 [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://tempuri.org/PuzzleSchema.xsd")]
 [System.Xml.Serialization.XmlRootAttribute(Namespace="http://tempuri.org/PuzzleSchema.xsd", IsNullable=false)]
-public partial class puzzle {
+public partial class puzzle
+{
     
     private string typeField;
     
@@ -83,6 +85,7 @@ public partial class puzzle {
 [System.ComponentModel.DesignerCategoryAttribute("code")]
 [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://tempuri.org/PuzzleSchema.xsd")]
 public partial class puzzleCell {
+
     
     private int blocknumberField;
     

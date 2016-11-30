@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace SudokuSetterAndSolver
@@ -109,13 +110,24 @@ namespace SudokuSetterAndSolver
             this.Text = "RandomPuzzleGameScreen";
             ((System.ComponentModel.ISupportInitialize)(this.gameBanner)).EndInit();
             this.ResumeLayout(false);
-
         }
 
         private void CreateGrid(int gridSize)
-        {          
-            sudokuGrid = sudokuGridGenerator.CreateSudokuGrid();
-            sudokuPuzzleSolution = sudokuGridGenerator.orginalSudokuGrid;
+        {
+           sudokuGridGenerator.generatedPuzzle = generatedPuzzle;
+            generatedPuzzle = sudokuGridGenerator.CreateSudokuGridXML();
+
+            sudokuSolutionArray = sudokuGridGenerator.orginalSolution;
+
+            List<int> listOfSudokuValues = new List<int>();
+
+            foreach (var cell in generatedPuzzle.puzzlecells)
+            {
+                listOfSudokuValues.Add(cell.value);
+            }
+
+            sudokuGrid = ConvertListToMultiDimensionalArray(listOfSudokuValues, 9);
+
 
             //Creating and popualting the grid with the values attained. 
             int[,] gridMultiDimensionalArray = new int[gridSize, gridSize];

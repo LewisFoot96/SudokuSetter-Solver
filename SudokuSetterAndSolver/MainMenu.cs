@@ -14,7 +14,7 @@ namespace SudokuSetterAndSolver
     {
         #region Constructor 
         public MainMenu()
-        {
+        {       
             InitializeComponent();
         }
         #endregion 

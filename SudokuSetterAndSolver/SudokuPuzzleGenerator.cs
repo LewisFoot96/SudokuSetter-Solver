@@ -27,12 +27,21 @@ namespace SudokuSetterAndSolver
         int humanModelDifficultyLevel;
         int staticNumbersTotal;
         int staticNumbersDifficulty;
+        public List<int> orginalSolution = new List<int>();
+
+        List<int> listOfCellsRemovedValues = new List<int>();
         #endregion
 
         #region Objects 
         PuzzleManager puzzleManager = new PuzzleManager();
         SudokuSolver solver = new SudokuSolver();
         Random randomNumber = new Random();
+
+
+        public puzzle generatedPuzzle = new puzzle();
+        puzzle orginalSolutionToGeneratedPuzzle;
+        puzzle tempGeneratedPuzzle;
+        puzzleCell puzzleCellBeingHandled = new puzzleCell();
         #endregion
 
         #region Constructor 
@@ -44,6 +53,17 @@ namespace SudokuSetterAndSolver
         #endregion
 
         #region Methods 
+
+        public puzzle CreateSudokuGridXML()
+        {
+            listOfCellsRemovedValues.Clear();
+            orginalSolution.Clear();
+            orginalSolutionToGeneratedPuzzle = new puzzle();
+            tempGeneratedPuzzle = new puzzle();
+            GenerateExampleSudokuGridXML();
+
+            return generatedPuzzle;
+        }
 
         //This method is called when the grid is created, on the screen start up. 
         public int[,] CreateSudokuGrid()
@@ -59,13 +79,48 @@ namespace SudokuSetterAndSolver
             solver.SolveSudokRuleBased();
 
             puzzlePifficulty = solver.difficluty;
-
-            
-
             return finalGenenratedPuzzle;
         }
 
         //Create 2 methods, one which diggies holes from a grid and the other one inserts radnom givens in the puzzle. 
+
+        private void GenerateExampleSudokuGridXML()
+        {
+            //Creating blank cells. 
+            for (int getBlankCount = 0; getBlankCount <= 80; getBlankCount++)
+            {
+                generatedPuzzle.puzzlecells.Add(new puzzleCell());
+            }
+            //Getting the row, column and block numbers for the cells. 
+            for (int cellNumberPopulating = 0; cellNumberPopulating <= generatedPuzzle.puzzlecells.Count - 1; cellNumberPopulating++)
+            {
+
+                generatedPuzzle.puzzlecells[cellNumberPopulating].rownumber = cellNumberPopulating / 9;
+                generatedPuzzle.puzzlecells[cellNumberPopulating].columnnumber = cellNumberPopulating % 9;
+                generatedPuzzle.puzzlecells[cellNumberPopulating].blocknumber = GetBlockNumber(generatedPuzzle.puzzlecells[cellNumberPopulating].rownumber, generatedPuzzle.puzzlecells[cellNumberPopulating].columnnumber);
+            }
+
+            //Solving blank grid. 
+            solver.currentPuzzleToBeSolved = generatedPuzzle;
+            solved = solver.BacktrackingUsingXmlTemplateFile(true);
+
+            for (int orginalSolutionCounter = 0; orginalSolutionCounter <= generatedPuzzle.puzzlecells.Count - 1; orginalSolutionCounter++)
+            {
+                orginalSolution.Add(generatedPuzzle.puzzlecells[orginalSolutionCounter].value);
+            }
+
+            DigHolesXML();
+
+            //Need to added the grid from the intitial solution and then remove values. 
+
+            for(int cellIndexValue =0; cellIndexValue<=generatedPuzzle.puzzlecells.Count-1;cellIndexValue++)
+            {
+                generatedPuzzle.puzzlecells[cellIndexValue].value = orginalSolution[cellIndexValue];
+            }
+
+            RemoveValuesFromPuzzle();
+       
+        }
 
         /// <summary>
         /// This method creates a completed grid. 
@@ -85,6 +140,143 @@ namespace SudokuSetterAndSolver
             }
             //Removing values from cells until there is a valid solution. 
             DigHoles();
+        }
+
+        private void DigHolesXML()
+        {
+            bool isEqualToOrginal = false;
+            int cellValue = 0;
+            //Initially remove 10 candidates from the cells. 
+            for (int initialHolesRemoved = 0; initialHolesRemoved <= 35; initialHolesRemoved++)
+            {
+                while (generatedPuzzle.puzzlecells[cellValue].value == 0)
+                {
+                    cellValue = randomNumber.Next(0, generatedPuzzle.puzzlecells.Count - 1);
+                }
+                listOfCellsRemovedValues.Add(cellValue); //Adds the cells that have been blanked previously. 
+                generatedPuzzle.puzzlecells[cellValue].value = 0;
+            }
+
+            solver.currentPuzzleToBeSolved = generatedPuzzle;
+            solved = solver.BacktrackingUsingXmlTemplateFile(false);
+
+            if (solved == true)
+            {
+                isEqualToOrginal = CheckValidSolutionXML();
+                //If the puzzle is not equal to the orginal solution, then remove values, until it does. 
+                while (isEqualToOrginal == false)
+                {
+                    while (generatedPuzzle.puzzlecells[cellValue].value == 0)
+                    {
+                        cellValue = randomNumber.Next(0, generatedPuzzle.puzzlecells.Count - 1);
+                    }
+                    listOfCellsRemovedValues.Add(cellValue); //Adds the cells that have been blanked previously. 
+                    RemoveValuesFromPuzzle();
+
+
+                    solver.currentPuzzleToBeSolved = generatedPuzzle;
+                    solved = solver.BacktrackinEffcient(false);
+
+                    if (solved == false)
+                    {
+                        generatedPuzzle = new puzzle();
+                        CreateSudokuGridXML();
+
+                    }
+
+                    //If the puzzle is equal to the initial solution then it may be a valid puzzle. 
+                    isEqualToOrginal = CheckValidSolutionXML();
+                }
+
+                if (isEqualToOrginal == true)
+                {
+                    for (int reverseCellCount = 80; reverseCellCount >= 0; reverseCellCount--)
+                    {
+                        //Get a vlaid cell, that a value has been removed from. 
+                        bool isRemovedCell = false;
+                        for (int removeCellIndex = 0; removeCellIndex <= listOfCellsRemovedValues.Count - 1; removeCellIndex++)
+                        {
+                            if (reverseCellCount == listOfCellsRemovedValues[removeCellIndex])
+                            {
+                                isRemovedCell = true;
+                            }
+                        }
+                        if (isRemovedCell == false) //If there has been no value removed from this cell then skip the iteration. 
+                        {
+                            continue;
+                        }
+
+                        int previousNumberReverse = generatedPuzzle.puzzlecells[reverseCellCount].value;
+                        generatedPuzzle.puzzlecells[reverseCellCount].value = 0;
+
+                        List<int> validNumbersInRow = CheckValidNumbersForRegions.GetValuesForRowXmlPuzzleTemplate(generatedPuzzle, generatedPuzzle.puzzlecells[reverseCellCount]);
+                        List<int> validNumbersInColumn = CheckValidNumbersForRegions.GetValuesForColumnXmlPuzzleTemplate(generatedPuzzle, generatedPuzzle.puzzlecells[reverseCellCount]);
+                        List<int> validNumbersInBlock = CheckValidNumbersForRegions.GetValuesForBlockXmlPuzzleTemplate(generatedPuzzle, generatedPuzzle.puzzlecells[reverseCellCount]);
+                        List<int> validNumbers = CheckValidNumbersForRegions.GetValidNumbers(validNumbersInColumn, validNumbersInRow, validNumbersInBlock);
+
+                        if (validNumbers.Count >= 2)
+                        {
+                            //If there is a cell with 2 or more candidates, where the current value is not the last valid number in that list. 
+                            if (previousNumberReverse != validNumbers[validNumbers.Count - 1])
+                            {
+                                for (int validNumberIndexNumber = 0; validNumberIndexNumber <= validNumbers.Count - 1; validNumberIndexNumber++)
+                                {
+                                    if (validNumbers[validNumberIndexNumber] > previousNumberReverse)
+                                    {
+                                        //Testing the new puzzle, which has the changed value. 
+                                        generatedPuzzle.puzzlecells[reverseCellCount].value = validNumbers[validNumberIndexNumber];
+                                        solver.currentPuzzleToBeSolved = generatedPuzzle;
+                                        solved = solver.BacktrackingUsingXmlTemplateFile(false);
+                                        //there is another solution. Therefore another value needs to be removed. 
+                                        if (solved == true)
+                                        {
+                                            //delete another number. if there is no solution after a puzzle has been submitted, then recurse on the generating method, 
+                                        }
+                                        //If there is no other solution, then it is a unique solution. 
+                                        else
+                                        {
+                                            return;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                generatedPuzzle = new puzzle();
+                GenerateExampleSudokuGridXML();
+            }
+        }
+
+        private bool CheckValidSolutionXML()
+        {
+            for (int checkPuzzleCounter = 0; checkPuzzleCounter <= generatedPuzzle.puzzlecells.Count - 1; checkPuzzleCounter++)
+            {
+                if (generatedPuzzle.puzzlecells[checkPuzzleCounter].value != orginalSolution[checkPuzzleCounter])
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private void RemoveValuesFromPuzzle()
+        {
+            for (int cellNumberTemp = 0; cellNumberTemp <= generatedPuzzle.puzzlecells.Count - 1; cellNumberTemp++)
+            {
+                foreach (var removeValueCell in listOfCellsRemovedValues)
+                {
+                    //Removing value from cell. 
+                    if (cellNumberTemp == removeValueCell)
+                    {
+                        generatedPuzzle.puzzlecells[cellNumberTemp].value = 0;
+                        break;
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -123,17 +315,17 @@ namespace SudokuSetterAndSolver
                         rowNumber = randomNumber.Next(0, 9);
                         columnNumber = randomNumber.Next(0, 9);
                     }
-                   finalGenenratedPuzzle[rowNumber, columnNumber] = 0;
+                    finalGenenratedPuzzle[rowNumber, columnNumber] = 0;
                     ConvertFInalGridIntoSudokuGrid();
 
                     solver.sudokuPuzzleMultiExample = sudokuGrid;
                     solved = solver.BacktrackinEffcient(false);
 
-                    if(solved == false)
+                    if (solved == false)
                     {
                         ClearSudokuGrid(sudokuGrid);
                         CreateSudokuGrid();
-                            
+
                     }
 
                     //If the puzzle is equal to the initial solution then it may be a valid puzzle. 
@@ -270,14 +462,63 @@ namespace SudokuSetterAndSolver
         /// <returns></returns>
         private int EvaluateExecutionTime()
         {
-            if(executionTime == 1)
+            if (executionTime == 1)
             {
 
             }
             return 1;
         }
+        #endregion
 
-        
+
+        #region GetBlockNumber 
+
+        private int GetBlockNumber(int tempRowNumber, int tempColumnNumber)
+        {
+            if (tempRowNumber <= 2 && tempColumnNumber <= 2)
+            {
+                return 0;
+            }
+            else if (tempRowNumber <= 2 && (tempColumnNumber >= 3 && tempColumnNumber <= 5))
+            {
+                return 1;
+            }
+            else if (tempRowNumber <= 2 && (tempColumnNumber >= 6 && tempColumnNumber <= 8))
+            {
+                return 2;
+            }
+            else if ((tempRowNumber >= 3 && tempRowNumber <= 5) && tempColumnNumber <= 2)
+            {
+                return 3;
+            }
+            else if ((tempRowNumber >= 3 && tempRowNumber <= 5) && (tempColumnNumber >= 3 && tempColumnNumber <= 5))
+            {
+                return 4;
+            }
+            else if ((tempRowNumber >= 3 && tempRowNumber <= 5) && (tempColumnNumber >= 6 && tempColumnNumber <= 8))
+            {
+                return 5;
+            }
+            else if ((tempRowNumber >= 6 && tempRowNumber <= 8) && tempColumnNumber <= 2)
+            {
+                return 6;
+            }
+            else if ((tempRowNumber >= 6 && tempRowNumber <= 8) && (tempColumnNumber >= 3 && tempColumnNumber <= 5))
+            {
+                return 7;
+            }
+            else
+            {
+                return 8;
+            }
+        }
+
+        #endregion 
+
+
+
     }
-    #endregion
+
+
+
 }
