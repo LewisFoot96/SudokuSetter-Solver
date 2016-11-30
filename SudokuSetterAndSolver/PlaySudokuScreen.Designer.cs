@@ -109,12 +109,9 @@ namespace SudokuSetterAndSolver
                 listOfSudokuValues.Add(cell.value);
             }
 
-            //sudokuGrid = ConvertListToMultiDimensionalArray(listOfSudokuValues, loadedPuzzle.gridsize);
+            sudokuGrid = ConvertListToMultiDimensionalArray(listOfSudokuValues, loadedPuzzle.gridsize);
 
             //Method to convert the list to a multidimensional array. 
-
-
-
 
             //int[] puzzleArray = loadedPuzzle.puzzlecells.Cast<int>().ToArray();
             //sudokuGrid = puzzleManager.ConvertArrayToMultiDimensionalArray(puzzleArray);

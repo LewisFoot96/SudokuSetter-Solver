@@ -156,61 +156,27 @@
     <None Include="Resources\SSSGameScreenFullBanner.fw1.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Puzzles\level13.txt" />
-    <Content Include="Puzzles\level15.txt" />
-    <Content Include="Puzzles\level14.txt">
-      <Generator>C:\Users\New\Documents\Sudoku\Application\SudokuSetterAndSolver\SudokuSetterAndSolver\Puzzles\level2.txt</Generator>
-    </Content>
-    <Content Include="Puzzles\level16.txt">
-      <Generator>C:\Users\New\Documents\Sudoku\Application\SudokuSetterAndSolver\SudokuSetterAndSolver\Puzzles\level2.txt</Generator>
-    </Content>
-    <Content Include="Puzzles\level3.txt" />
-    <Content Include="Puzzles\level4.txt" />
-    <Content Include="Puzzles\level5.txt" />
-    <Content Include="Puzzles\level6.txt" />
-    <Content Include="Puzzles\level7.txt" />
-    <Content Include="Puzzles\level8.txt">
-      <Generator>C:\Users\New\Documents\Sudoku\Application\SudokuSetterAndSolver\SudokuSetterAndSolver\Puzzles\level2.txt</Generator>
-    </Content>
-    <Content Include="Puzzles\level9.txt">
-      <Generator>C:\Users\New\Documents\Sudoku\Application\SudokuSetterAndSolver\SudokuSetterAndSolver\Puzzles\level2.txt</Generator>
-    </Content>
-    <Content Include="Puzzles\level10.txt">
-      <Generator>C:\Users\New\Documents\Sudoku\Application\SudokuSetterAndSolver\SudokuSetterAndSolver\Puzzles\level2.txt</Generator>
-    </Content>
-    <Content Include="Puzzles\level11.txt">
-      <Generator>C:\Users\New\Documents\Sudoku\Application\SudokuSetterAndSolver\SudokuSetterAndSolver\Puzzles\level2.txt</Generator>
-    </Content>
-    <Content Include="Puzzles\level12.txt">
-      <Generator>C:\Users\New\Documents\Sudoku\Application\SudokuSetterAndSolver\SudokuSetterAndSolver\Puzzles\level2.txt</Generator>
-    </Content>
-    <Content Include="Puzzles\level2.txt">
-      <Generator>C:\Users\New\Documents\Sudoku\Application\SudokuSetterAndSolver\SudokuSetterAndSolver\Puzzles\level2.txt</Generator>
-    </Content>
-    <Content Include="Puzzles\level1.txt" />
-    <Content Include="Puzzles\TestPuzzle.txt" />
+    <Content Include="Puzzles\TestPuzzles\testlevel10old.xml" />
+    <Content Include="Puzzles\TestPuzzles\testlevel11old.xml" />
+    <Content Include="Puzzles\TestPuzzles\testlevel12old.xml" />
+    <Content Include="Puzzles\TestPuzzles\testlevel13old.xml" />
+    <Content Include="Puzzles\TestPuzzles\testlevel14old.xml" />
+    <Content Include="Puzzles\TestPuzzles\testlevel15old.xml" />
+    <Content Include="Puzzles\TestPuzzles\testlevel16old.xml" />
+    <Content Include="Puzzles\TestPuzzles\test17old.xml" />
+    <Content Include="Puzzles\TestPuzzles\test18old.xml" />
+    <Content Include="Puzzles\TestPuzzles\test19old.xml" />
     <Content Include="Puzzles\TestPuzzles\testlevel1.xml" />
-    <Content Include="Puzzles\TestPuzzles\testlevel10.xml" />
-    <Content Include="Puzzles\TestPuzzles\testlevel11.xml" />
-    <Content Include="Puzzles\TestPuzzles\testlevel12.xml" />
-    <Content Include="Puzzles\TestPuzzles\testlevel13.xml" />
-    <Content Include="Puzzles\TestPuzzles\testlevel14.xml" />
-    <Content Include="Puzzles\TestPuzzles\testlevel15.xml" />
-    <Content Include="Puzzles\TestPuzzles\testlevel16.xml" />
-    <Content Include="Puzzles\TestPuzzles\test17.xml" />
-    <Content Include="Puzzles\TestPuzzles\test18.xml" />
-    <Content Include="Puzzles\TestPuzzles\test19.xml" />
-    <Content Include="Puzzles\TestPuzzles\testlevel2old.xml" />
-    <Content Include="Puzzles\TestPuzzles\test20.xml" />
-    <Content Include="Puzzles\TestPuzzles\test21.xml" />
-    <Content Include="Puzzles\TestPuzzles\test22.xml" />
-    <Content Include="Puzzles\TestPuzzles\testlevel3.xml" />
-    <Content Include="Puzzles\TestPuzzles\testlevel4.xml" />
-    <Content Include="Puzzles\TestPuzzles\testlevel5.xml" />
-    <Content Include="Puzzles\TestPuzzles\testlevel6.xml" />
-    <Content Include="Puzzles\TestPuzzles\testlevel7.xml" />
-    <Content Include="Puzzles\TestPuzzles\testlevel8.xml" />
-    <Content Include="Puzzles\TestPuzzles\testlevel9.xml" />
+    <Content Include="Puzzles\TestPuzzles\test20old.xml" />
+    <Content Include="Puzzles\TestPuzzles\test21old.xml" />
+    <Content Include="Puzzles\TestPuzzles\test22old.xml" />
+    <Content Include="Puzzles\TestPuzzles\testlevel3old.xml" />
+    <Content Include="Puzzles\TestPuzzles\testlevel4old.xml" />
+    <Content Include="Puzzles\TestPuzzles\testlevel5old.xml" />
+    <Content Include="Puzzles\TestPuzzles\testlevel6old.xml" />
+    <Content Include="Puzzles\TestPuzzles\testlevel7old.xml" />
+    <Content Include="Puzzles\TestPuzzles\testlevel8old.xml" />
+    <Content Include="Puzzles\TestPuzzles\testlevel9old.xml" />
     <Content Include="Puzzles\TestPuzzles\testlevel2.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -101,8 +101,17 @@ namespace SudokuSetterAndSolver
         {
             //Loaing in a puzzle from a test file and creating the puzzle, along with static numbers. 
             puzzleDetails = puzzleManager.ReadFromXMlFile(loadFileDirectoryLocation);
-            int[] puzzleArray = puzzleDetails.puzzlecells.Cast<int>().ToArray();
-            sudokuPuzzleMultiExample = puzzleManager.ConvertArrayToMultiDimensionalArray(puzzleArray);
+            // int[] puzzleArray = puzzleDetails.puzzlecells.Cast<int>().ToArray();
+            //sudokuPuzzleMultiExample = puzzleManager.ConvertArrayToMultiDimensionalArray(puzzleArray);
+
+            List<int> listOfSudokuValues = new List<int>();
+
+            foreach (var cell in puzzleDetails.puzzlecells)
+            {
+                listOfSudokuValues.Add(cell.value);
+            }
+
+            sudokuPuzzleMultiExample = ConvertListToMultiDimensionalArray(listOfSudokuValues, puzzleDetails.gridsize);
             staticNumbers = sudokuPuzzleMultiExample;
         }
 
@@ -1882,7 +1891,34 @@ namespace SudokuSetterAndSolver
         //I will need a way of evaluating the shapes and storing them accordingly. Maybe need to store these coordinates in the xml files. 
 
         //Could have a few set puzzle orientations, that i just use. 
-        #endregion 
+        #endregion
+
+        #region Generic Method
+        private int[,] ConvertListToMultiDimensionalArray(List<int> puzzleInList, int gridSize)
+        {
+            int[,] puzzleArray = new int[gridSize, gridSize];
+            int rowNumber = 0;
+            int columnNumber = 0;
+
+            for (int cellNumber = 0; cellNumber <= puzzleInList.Count - 1; cellNumber++)
+            {
+                puzzleArray[rowNumber, columnNumber] = puzzleInList[cellNumber];
+                if (columnNumber == 8 || columnNumber % 9 == 8)
+                {
+                    rowNumber++;
+                    columnNumber = 0;
+                }
+                else
+                {
+                    columnNumber++;
+                }
+            }
+
+
+            return puzzleArray;
+        }
+
+        #endregion
 
     }
 }

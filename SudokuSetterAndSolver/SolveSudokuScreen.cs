@@ -122,8 +122,16 @@ namespace SudokuSetterAndSolver
             fileDirctoryLocation = fileChooser.FileName;
             loadedPuzzle = puzzleManager.ReadFromXMlFile(fileDirctoryLocation);
 
-            int[] puzzleArray = loadedPuzzle.puzzlecells.Cast<int>().ToArray();
-            sudokuGrid = puzzleManager.ConvertArrayToMultiDimensionalArray(puzzleArray);
+            List<int> listOfSudokuValues = new List<int>();
+
+            foreach (var cell in loadedPuzzle.puzzlecells)
+            {
+                listOfSudokuValues.Add(cell.value);
+            }
+
+            sudokuGrid = ConvertListToMultiDimensionalArray(listOfSudokuValues, loadedPuzzle.gridsize);
+            //int[] puzzleArray = loadedPuzzle.puzzlecells.Cast<int>().ToArray();
+            //sudokuGrid = puzzleManager.ConvertArrayToMultiDimensionalArray(puzzleArray);
             SetLoadedGrid();
         }
 
@@ -159,6 +167,30 @@ namespace SudokuSetterAndSolver
             {
                 textBox.Clear();
             }
+        }
+
+        private int[,] ConvertListToMultiDimensionalArray(List<int> puzzleInList, int gridSize)
+        {
+            int[,] puzzleArray = new int[gridSize, gridSize];
+            int rowNumber = 0;
+            int columnNumber = 0;
+
+            for (int cellNumber = 0; cellNumber <= puzzleInList.Count - 1; cellNumber++)
+            {
+                puzzleArray[rowNumber, columnNumber] = puzzleInList[cellNumber];
+                if (columnNumber == 8 || columnNumber % 9 == 8)
+                {
+                    rowNumber++;
+                    columnNumber = 0;
+                }
+                else
+                {
+                    columnNumber++;
+                }
+            }
+
+
+            return puzzleArray;
         }
 
     }
