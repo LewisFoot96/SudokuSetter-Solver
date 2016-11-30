@@ -87,32 +87,26 @@ namespace SudokuSetterAndSolver
 
         private void submitPuzzleBtn_Click(object sender, EventArgs e)
         {
-            //Creating the grid from the entered numbers. 
-            for (int rowNumber = 0; rowNumber <= 8; rowNumber++)
+            for (int indexNumber = 0; indexNumber <= generatedPuzzle.puzzlecells.Count - 1; indexNumber++)
             {
-                for (int columnNumber = 0; columnNumber <= 8; columnNumber++)
+                string cellName = generatedPuzzle.puzzlecells[indexNumber].rownumber.ToString() + generatedPuzzle.puzzlecells[indexNumber].columnnumber.ToString();
+                foreach (var textBox in listOfTextBoxes)
                 {
-                    //submittedPuzzle 
-                    string cellName = rowNumber.ToString() + columnNumber.ToString();
-                    foreach (var textBox in listOfTextBoxes)
+                    if (cellName == textBox.Name)
                     {
-                        if (cellName == textBox.Name)
+                        if (textBox.Text != "")
                         {
-                            if (textBox.Text != "")
-                            {
-                                submittedPuzzle[rowNumber, columnNumber] = Int32.Parse(textBox.Text);
-                            }
-                            else
-                            {
-                                submittedPuzzle[rowNumber, columnNumber] = 0;
-                            }
-
+                            generatedPuzzle.puzzlecells[indexNumber].value = Int32.Parse(textBox.Text);
+                        }
+                        else
+                        {
+                            generatedPuzzle.puzzlecells[indexNumber].value = 0;
                         }
                     }
-
                 }
             }
-            bool correctPuzzle = CheckSubmittedPuzzle();
+
+            bool correctPuzzle = CheckSubmittedPuzzleXML();
 
             if (correctPuzzle == true)
             {
@@ -122,6 +116,18 @@ namespace SudokuSetterAndSolver
             {
                 MessageBox.Show("Puzzle incorrect. Please try again.");
             }
+        }
+
+        private bool CheckSubmittedPuzzleXML()
+        {
+            for (int indexValue = 0; indexValue <= generatedPuzzle.puzzlecells.Count - 1; indexValue++)
+            {
+                if(generatedPuzzle.puzzlecells[indexValue].value != sudokuSolutionArray[indexValue])
+                {
+                    return false; 
+                }
+            }
+            return true; 
         }
 
         #endregion
