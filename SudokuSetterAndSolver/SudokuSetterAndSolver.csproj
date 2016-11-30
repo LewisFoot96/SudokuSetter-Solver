@@ -143,6 +143,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\" />
+    <Folder Include="Puzzles\TestPuzzles\DifficultyTests\" />
+    <Folder Include="Puzzles\TestPuzzles\HiddenTest\" />
+    <Folder Include="Puzzles\TestPuzzles\NakedTests\" />
     <Folder Include="Screens\" />
     <Folder Include="SudokuPuzzles\" />
   </ItemGroup>

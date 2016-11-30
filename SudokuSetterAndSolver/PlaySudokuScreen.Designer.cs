@@ -101,9 +101,8 @@ namespace SudokuSetterAndSolver
         {
             //Creating the sudoku grid values. 
             loadedPuzzle = puzzleManager.ReadFromXMlFile(fileDirectoryLocation);
-
+            //Temporary list that contains all of the values with the grid. 
             List<int> listOfSudokuValues = new List<int>();
-
             foreach(var cell in loadedPuzzle.puzzlecells)
             {
                 listOfSudokuValues.Add(cell.value);
@@ -117,7 +116,6 @@ namespace SudokuSetterAndSolver
             //sudokuGrid = puzzleManager.ConvertArrayToMultiDimensionalArray(puzzleArray);
 
             //Creating and popualting the grid with the values attained. 
-            int[,] gridMultiDimensionalArray = new int[gridSize, gridSize];
             int rowLocation = 0, columnLocation = 0;
             for (int i = 0; i < gridSize; i++)
             {
@@ -189,6 +187,31 @@ namespace SudokuSetterAndSolver
                 rowLocation = 80;
                 columnLocation = columnLocation + 17;
             }
+        }
+
+        private Color GetColour(int gridSize, int blockNumber)
+        {
+            if(gridSize==9)
+            {
+                switch(blockNumber)
+                {
+                    case (8):
+                    case (0):
+                        return Color.LightGreen;
+                    case (7):
+                    case (1):
+                        return Color.LightPink;
+                    case (6):
+                    case (2):
+                        return Color.LightCyan;
+                    case (5):
+                    case (3):
+                        return Color.LightYellow;
+                    case (4):
+                        return Color.LightBlue;            
+                }
+            }
+            return Color.Gray;
         }
 
         #endregion
