@@ -24,12 +24,26 @@ using System.Xml.Serialization;
 [System.Xml.Serialization.XmlRootAttribute(Namespace="http://tempuri.org/PuzzleSchema.xsd", IsNullable=false)]
 public partial class puzzle {
     
-    private object difficultyField;
+    private string typeField;
     
-    private object[] puzzlecellsField;
+    private string difficultyField;
+    
+    private int gridsizeField;
+    
+    private puzzleCell[] puzzlecellsField;
     
     /// <remarks/>
-    public object difficulty {
+    public string type {
+        get {
+            return this.typeField;
+        }
+        set {
+            this.typeField = value;
+        }
+    }
+    
+    /// <remarks/>
+    public string difficulty {
         get {
             return this.difficultyField;
         }
@@ -39,13 +53,80 @@ public partial class puzzle {
     }
     
     /// <remarks/>
+    public int gridsize {
+        get {
+            return this.gridsizeField;
+        }
+        set {
+            this.gridsizeField = value;
+        }
+    }
+    
+    /// <remarks/>
     [System.Xml.Serialization.XmlArrayItemAttribute("cell", IsNullable=false)]
-    public object[] puzzlecells {
+    public puzzleCell[] puzzlecells {
         get {
             return this.puzzlecellsField;
         }
         set {
             this.puzzlecellsField = value;
+        }
+    }
+}
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
+[System.SerializableAttribute()]
+[System.Diagnostics.DebuggerStepThroughAttribute()]
+[System.ComponentModel.DesignerCategoryAttribute("code")]
+[System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://tempuri.org/PuzzleSchema.xsd")]
+public partial class puzzleCell {
+    
+    private int blocknumberField;
+    
+    private int rownumberField;
+    
+    private int columnnumberField;
+    
+    private int valueField;
+    
+    /// <remarks/>
+    public int blocknumber {
+        get {
+            return this.blocknumberField;
+        }
+        set {
+            this.blocknumberField = value;
+        }
+    }
+    
+    /// <remarks/>
+    public int rownumber {
+        get {
+            return this.rownumberField;
+        }
+        set {
+            this.rownumberField = value;
+        }
+    }
+    
+    /// <remarks/>
+    public int columnnumber {
+        get {
+            return this.columnnumberField;
+        }
+        set {
+            this.columnnumberField = value;
+        }
+    }
+    
+    /// <remarks/>
+    public int value {
+        get {
+            return this.valueField;
+        }
+        set {
+            this.valueField = value;
         }
     }
 }

@@ -10,11 +10,23 @@
   <xs:element name ="puzzle">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name ="difficulty"/>     
+        <xs:element name ="type" type="xs:string"/>
+        <xs:element name ="difficulty" type="xs:string"/>
+        <xs:element name ="gridsize" type="xs:int"/>
         <xs:element name ="puzzlecells">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="cell" minOccurs="81" maxOccurs="unbounded"/>          
+              <xs:element name="cell" minOccurs="54" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name ="blocknumber" type="xs:int"/>
+                    <xs:element name ="rownumber" type="xs:int"/>
+                    <xs:element name ="columnnumber" type="xs:int"/>
+                    <xs:element name ="value" type="xs:int"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+
             </xs:sequence>     
           </xs:complexType>
         </xs:element>      

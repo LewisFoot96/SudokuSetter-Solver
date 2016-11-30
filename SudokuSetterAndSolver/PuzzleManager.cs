@@ -73,11 +73,26 @@ namespace SudokuSetterAndSolver
         public void WriteToXmlFile(int[] puzzleArray, string path)
         {
             //creating an array of objects from the arrat that the puzzle is stored int. 
-            object[] objectArray;
-            objectArray = puzzleArray.Cast<object>().ToArray();
+            List<puzzleCell> testPuzzle = new List<puzzleCell>();
+
+            puzzleCell testPuzzleCell1 = new puzzleCell();
+            testPuzzleCell1.value = 1;
+            testPuzzleCell1.columnnumber = 1;
+            testPuzzleCell1.rownumber = 1;
+            testPuzzleCell1.blocknumber = 1;
+
+            puzzleCell testPuzzleCell2 = new puzzleCell();
+            testPuzzleCell2.value = 1;
+            testPuzzleCell2.columnnumber = 1;
+            testPuzzleCell2.rownumber = 1;
+            testPuzzleCell2.blocknumber = 1;
+
+            testPuzzle.Add(testPuzzleCell1);
+            testPuzzle.Add(testPuzzleCell2);
+           
 
             //Writing the array and the difficulty to the xml file. 
-            var data = new puzzle { difficulty="easy", puzzlecells = objectArray};
+            var data = new puzzle { difficulty="easy", puzzlecells = testPuzzle };
             var serializer = new XmlSerializer(typeof(puzzle));
             using (var stream = new StreamWriter(path))
                 serializer.Serialize(stream, data);

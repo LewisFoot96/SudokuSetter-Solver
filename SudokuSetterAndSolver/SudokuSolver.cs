@@ -66,7 +66,7 @@ namespace SudokuSetterAndSolver
         int methodRunNumber = 0;
 
         bool solvedBacktracking = false;
-        string difficluty;
+        public string difficluty;
         //Directory location of the file that is being solved. 
         string loadFileDirectoryLocation = "C:\\Users\\New\\Documents\\Sudoku\\Application\\SudokuSetterAndSolver\\SudokuSetterAndSolver\\Puzzles\\TestPuzzles\\test22.xml";
 
@@ -1881,6 +1881,7 @@ namespace SudokuSetterAndSolver
 
         //I will need a way of evaluating the shapes and storing them accordingly. Maybe need to store these coordinates in the xml files. 
 
+        //Could have a few set puzzle orientations, that i just use. 
         #endregion 
 
     }

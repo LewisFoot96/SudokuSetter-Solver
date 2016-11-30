@@ -31,5 +31,7 @@ namespace SudokuSetterAndSolver
             MainMenu mainMenu = new MainMenu();
             mainMenu.Show();
         }
+
+        
     }
 }

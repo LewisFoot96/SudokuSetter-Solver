@@ -9,6 +9,8 @@ namespace SudokuSetterAndSolver
     class SudokuPuzzleGenerator
     {
         #region Global Vairbales 
+        //The number of static numbers should intially be used to determine the difficulty, then the other methods will contribute to the difficulty determination.
+
         //Grids that will contain the created grid, the first will be used to check to ensure the grid is valid 
         int[,] sudokuGrid = new int[9, 9];
         int[,] finalGenenratedPuzzle = new int[9, 9];
@@ -17,18 +19,20 @@ namespace SudokuSetterAndSolver
         int rowNumber = 0;
         int columnNumber = 0;
         bool solved = false;
-        int rowNumberOfGeneratingBacktrackCell = 0;
-        int columnNumberOFGeneratingBacktrackingCell = 0;
-        int numberToInsertIntoTheBacktrackingCell = 0;
         string puzzlePifficulty = "";
+        int executionTime;
+        int executionTimeDifficulty;
+        int totalCandidates;
+        int totalNumberCandidatesDifficulty;
+        int humanModelDifficultyLevel;
+        int staticNumbersTotal;
+        int staticNumbersDifficulty;
         #endregion
 
         #region Objects 
         PuzzleManager puzzleManager = new PuzzleManager();
         SudokuSolver solver = new SudokuSolver();
         Random randomNumber = new Random();
-        Random randomNumberGenerator = new Random();
-
         #endregion
 
         #region Constructor 
@@ -48,6 +52,16 @@ namespace SudokuSetterAndSolver
             ClearSudokuGrid(sudokuGrid);
             ClearSudokuGrid(orginalSudokuGrid);
             GenerateExampleSudokuGrid();
+            ConvertFInalGridIntoSudokuGrid();
+            //This is where i need to get the difficluty of the puzzle. 
+
+            solver.sudokuPuzzleMultiExample = sudokuGrid;
+            solver.SolveSudokRuleBased();
+
+            puzzlePifficulty = solver.difficluty;
+
+            
+
             return finalGenenratedPuzzle;
         }
 
@@ -239,6 +253,28 @@ namespace SudokuSetterAndSolver
                     grid[clearRowNumber, clearColumnNumber] = 0;
                 }
             }
+        }
+
+        private string EvaluatePuzzleDifficulty()
+        {
+            //Execution times
+            //total number of candidates
+            //Number os static numbers 
+            //Human model
+            return "";
+        }
+
+        /// <summary>
+        /// Method that evaluates the execution time of the puzzle that has been generated, this will determine the difficulty of the puzzle. 
+        /// </summary>
+        /// <returns></returns>
+        private int EvaluateExecutionTime()
+        {
+            if(executionTime == 1)
+            {
+
+            }
+            return 1;
         }
 
         

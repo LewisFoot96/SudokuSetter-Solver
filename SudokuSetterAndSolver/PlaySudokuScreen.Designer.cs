@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -99,12 +100,24 @@ namespace SudokuSetterAndSolver
         private void CreateGrid(int gridSize)
         {
             //Creating the sudoku grid values. 
-
-            
             loadedPuzzle = puzzleManager.ReadFromXMlFile(fileDirectoryLocation);
 
-            int[] puzzleArray = loadedPuzzle.puzzlecells.Cast<int>().ToArray();
-            sudokuGrid = puzzleManager.ConvertArrayToMultiDimensionalArray(puzzleArray);
+            List<int> listOfSudokuValues = new List<int>();
+
+            foreach(var cell in loadedPuzzle.puzzlecells)
+            {
+                listOfSudokuValues.Add(cell.value);
+            }
+
+            //sudokuGrid = ConvertListToMultiDimensionalArray(listOfSudokuValues, loadedPuzzle.gridsize);
+
+            //Method to convert the list to a multidimensional array. 
+
+
+
+
+            //int[] puzzleArray = loadedPuzzle.puzzlecells.Cast<int>().ToArray();
+            //sudokuGrid = puzzleManager.ConvertArrayToMultiDimensionalArray(puzzleArray);
 
             //Creating and popualting the grid with the values attained. 
             int[,] gridMultiDimensionalArray = new int[gridSize, gridSize];

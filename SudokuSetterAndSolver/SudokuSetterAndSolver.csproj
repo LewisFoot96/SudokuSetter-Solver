@@ -200,7 +200,7 @@
     <Content Include="Puzzles\TestPuzzles\test17.xml" />
     <Content Include="Puzzles\TestPuzzles\test18.xml" />
     <Content Include="Puzzles\TestPuzzles\test19.xml" />
-    <Content Include="Puzzles\TestPuzzles\testlevel2.xml" />
+    <Content Include="Puzzles\TestPuzzles\testlevel2old.xml" />
     <Content Include="Puzzles\TestPuzzles\test20.xml" />
     <Content Include="Puzzles\TestPuzzles\test21.xml" />
     <Content Include="Puzzles\TestPuzzles\test22.xml" />
@@ -211,6 +211,7 @@
     <Content Include="Puzzles\TestPuzzles\testlevel7.xml" />
     <Content Include="Puzzles\TestPuzzles\testlevel8.xml" />
     <Content Include="Puzzles\TestPuzzles\testlevel9.xml" />
+    <Content Include="Puzzles\TestPuzzles\testlevel2.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
