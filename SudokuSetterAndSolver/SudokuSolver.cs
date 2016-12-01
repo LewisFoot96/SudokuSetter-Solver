@@ -1706,7 +1706,6 @@ namespace SudokuSetterAndSolver
                         }
                         else
                         {
-
                             //Maybe  something wrong with this statement 
                             int correctNumber = randomNumberGenerator.Next(validNumbersInCell.Count);
                             //this gives the value of the index, so this then would be used to get the other value. 
@@ -1787,6 +1786,8 @@ namespace SudokuSetterAndSolver
         #region More Effcient Backtracking method for the xml class file example
         public bool BacktrackingUsingXmlTemplateFile(bool generating)
         {
+
+            //If valid numbers loist count is less than the none empty cells then return false, as invalid solution. 
             logicalOrderOfCellsXml.Clear();
 
             int emptyCellListCount = 0;
@@ -1838,10 +1839,10 @@ namespace SudokuSetterAndSolver
             startingValue = 0;
             numberOfCellToBeHandled = 0;
 
-            //if (emptyCellListCount > currentPuzzleToBeSolved.puzzlecells.Count - logicalOrderOfCellsXml.Count)
-            //{
-            //    return false;
-            //}
+            if (emptyCellListCount > logicalOrderOfCellsXml.Count && generating == false)
+            {
+                return false;
+            }
 
             for (startingValue = numberOfCellToBeHandled; startingValue <= logicalOrderOfCellsXml.Count - 1; startingValue++)
             {
@@ -1889,7 +1890,7 @@ namespace SudokuSetterAndSolver
                         //Need to back track further. 
                         if (previousNumberInCell == validNumbersInCell[validNumbersInCell.Count - 1])
                         {
-                            if (validNumbersInCell.Count <= 1 && startingValue == 0)
+                            if ( startingValue == 0)
                             {
                                 logicalOrderOfCellsXml.Clear();
                                 return false;
