@@ -58,18 +58,30 @@ namespace SudokuSetterAndSolver
 
         private void GenerateExampleSudokuGridXML()
         {
-            //Creating blank cells. 
-            for (int getBlankCount = 0; getBlankCount <= 80; getBlankCount++)
-            {
-                listOfCellsNotRemoved.Add(getBlankCount);
-                generatedPuzzle.puzzlecells.Add(new puzzleCell());
-            }
+            ////Creating blank cells. 
+            //for (int getBlankCount = 0; getBlankCount <= 80; getBlankCount++)
+            //{
+            //    listOfCellsNotRemoved.Add(getBlankCount);
+            //    generatedPuzzle.puzzlecells.Add(new puzzleCell());
+            //}
             //Getting the row, column and block numbers for the cells. 
             for (int cellNumberPopulating = 0; cellNumberPopulating <= generatedPuzzle.puzzlecells.Count - 1; cellNumberPopulating++)
             {
-                generatedPuzzle.puzzlecells[cellNumberPopulating].rownumber = cellNumberPopulating / 9;
-                generatedPuzzle.puzzlecells[cellNumberPopulating].columnnumber = cellNumberPopulating % 9;
-                generatedPuzzle.puzzlecells[cellNumberPopulating].blocknumber = GetBlockNumber(generatedPuzzle.puzzlecells[cellNumberPopulating].rownumber, generatedPuzzle.puzzlecells[cellNumberPopulating].columnnumber);
+                generatedPuzzle.puzzlecells[cellNumberPopulating].rownumber = cellNumberPopulating / generatedPuzzle.gridsize;
+                generatedPuzzle.puzzlecells[cellNumberPopulating].columnnumber = cellNumberPopulating % generatedPuzzle.gridsize;
+
+                if(generatedPuzzle.gridsize ==9)
+                {
+                    generatedPuzzle.puzzlecells[cellNumberPopulating].blocknumber = GetBlockNumberNine(generatedPuzzle.puzzlecells[cellNumberPopulating].rownumber, generatedPuzzle.puzzlecells[cellNumberPopulating].columnnumber);
+                }
+                else if (generatedPuzzle.gridsize==16)
+                {
+                    generatedPuzzle.puzzlecells[cellNumberPopulating].blocknumber = GetBlocNumberSixteen(generatedPuzzle.puzzlecells[cellNumberPopulating].rownumber, generatedPuzzle.puzzlecells[cellNumberPopulating].columnnumber);
+                }
+                else
+                {
+                    generatedPuzzle.puzzlecells[cellNumberPopulating].blocknumber = GetBlockFour(generatedPuzzle.puzzlecells[cellNumberPopulating].rownumber, generatedPuzzle.puzzlecells[cellNumberPopulating].columnnumber);
+                }
             }
 
             //Solving blank grid. 
@@ -261,6 +273,145 @@ namespace SudokuSetterAndSolver
         #endregion
 
         #region GetValues Methods 
+
+
+        #region Get Blocks Methods 
+        private int GetBlockFour(int tempRowNumber, int tempColumnNumber)
+        {
+            if (tempRowNumber <= 1 && tempColumnNumber <= 1)
+            {
+                return 0;
+            }
+            else if (tempRowNumber <= 1 && tempColumnNumber >= 2)
+            {
+                return 1;
+            }
+            else if (tempRowNumber >= 2 && tempRowNumber <= 1)
+            {
+                return 2;
+            }
+            else
+            {
+                return 3;
+            }
+        }
+
+
+        private int GetBlockNumberNine(int tempRowNumber, int tempColumnNumber)
+        {
+            double blockValue = Math.Sqrt(generatedPuzzle.gridsize);
+            if (tempRowNumber <= 2 && tempColumnNumber <= 2)
+            {
+                return 0;
+            }
+            else if (tempRowNumber <= 2 && (tempColumnNumber >= 3 && tempColumnNumber <= 5))
+            {
+                return 1;
+            }
+            else if (tempRowNumber <= 2 && (tempColumnNumber >= 6 && tempColumnNumber <= 8))
+            {
+                return 2;
+            }
+            else if ((tempRowNumber >= 3 && tempRowNumber <= 5) && tempColumnNumber <= 2)
+            {
+                return 3;
+            }
+            else if ((tempRowNumber >= 3 && tempRowNumber <= 5) && (tempColumnNumber >= 3 && tempColumnNumber <= 5))
+            {
+                return 4;
+            }
+            else if ((tempRowNumber >= 3 && tempRowNumber <= 5) && (tempColumnNumber >= 6 && tempColumnNumber <= 8))
+            {
+                return 5;
+            }
+            else if ((tempRowNumber >= 6 && tempRowNumber <= 8) && tempColumnNumber <= 2)
+            {
+                return 6;
+            }
+            else if ((tempRowNumber >= 6 && tempRowNumber <= 8) && (tempColumnNumber >= 3 && tempColumnNumber <= 5))
+            {
+                return 7;
+            }
+            else
+            {
+                return 8;
+            }
+
+        }
+
+        private int GetBlocNumberSixteen(int tempRowNumber, int tempColumnNumber)
+        {
+            if (tempRowNumber <= 3 && tempColumnNumber <= 3)
+            {
+                return 0;
+            }
+            else if (tempRowNumber <= 3 && (tempColumnNumber >= 4 && tempColumnNumber <= 7))
+            {
+                return 1;
+            }
+            else if (tempRowNumber <= 3 && (tempColumnNumber >= 8 && tempColumnNumber <= 11))
+            {
+                return 2;
+            }
+            else if (tempRowNumber <= 3 && (tempColumnNumber >= 12 && tempColumnNumber <= 15))
+            {
+                return 3;
+            }
+            else if ((tempRowNumber >= 4 && tempRowNumber <= 7) && tempColumnNumber <= 3)
+            {
+                return 4;
+            }
+            else if ((tempRowNumber >= 4 && tempRowNumber <= 7) && (tempColumnNumber >= 4 && tempColumnNumber <= 7))
+            {
+                return 5;
+            }
+            else if ((tempRowNumber >= 4 && tempRowNumber <= 7) && (tempColumnNumber >= 8 && tempColumnNumber <= 11))
+            {
+                return 6;
+            }
+            else if ((tempRowNumber >= 4 && tempRowNumber <= 7) && (tempColumnNumber >= 12 && tempColumnNumber <= 15))
+            {
+                return 7;
+            }
+            else if ((tempRowNumber >= 8 && tempRowNumber <= 11) && tempColumnNumber <= 3)
+            {
+                return 8;
+            }
+            else if ((tempRowNumber >= 8 && tempRowNumber <= 11) && (tempColumnNumber >= 4 && tempColumnNumber <= 7))
+            {
+                return 9;
+            }
+            else if ((tempRowNumber >= 8 && tempRowNumber <= 11) && (tempColumnNumber >= 8 && tempColumnNumber <= 11))
+            {
+                return 10;
+            }
+            else if ((tempRowNumber >= 8 && tempRowNumber <= 11) && (tempColumnNumber >= 12 && tempColumnNumber <= 15))
+            {
+                return 11;
+            }
+            else if ((tempRowNumber >= 12 && tempRowNumber <= 15) && tempColumnNumber <= 3)
+            {
+                return 12;
+            }
+            else if ((tempRowNumber >= 12 && tempRowNumber <= 15) && (tempColumnNumber >= 4 && tempColumnNumber <= 7))
+            {
+                return 13;
+            }
+            else if ((tempRowNumber >= 12 && tempRowNumber <= 15) && (tempColumnNumber >= 8 && tempColumnNumber <= 11))
+            {
+                return 14;
+            }
+            else
+            {
+                return 15;
+            }
+
+        }
+
+        #endregion
+
+
+
         private int GetBlockNumber(int tempRowNumber, int tempColumnNumber)
         {
             if (tempRowNumber <= 2 && tempColumnNumber <= 2)

@@ -9,11 +9,8 @@ using System.Windows.Forms;
 namespace SudokuSetterAndSolver
 {
     //For some reason, the code carries on going down the code after backtracking has occured, this is incorrect funcitonality and needs to be sorted. 
-
-        //Is the candidate list being transferred to the backtracking method. Does this really matter, as its only the human models that need to know this. 
-
-
-        //The rule based algorithm may need a lot more work to make compatible with the new xml files. 
+    //Is the candidate list being transferred to the backtracking method. Does this really matter, as its only the human models that need to know this. 
+    //The rule based algorithm may need a lot more work to make compatible with the new xml files. 
     public class SudokuSolver
     {
         #region Objects 
@@ -1783,6 +1780,7 @@ namespace SudokuSetterAndSolver
 
         #endregion
 
+        //This method also now solves irregular puzzles. Also seems to be generic for differnet grid sizes. 
         #region More Effcient Backtracking method for the xml class file example
         public bool BacktrackingUsingXmlTemplateFile(bool generating)
         {
@@ -1807,7 +1805,7 @@ namespace SudokuSetterAndSolver
             candidateTotalNumber = 1;
 
             int startingValue = 0;
-            while (candidateTotalNumber <= 9)
+            while (candidateTotalNumber <= currentPuzzleToBeSolved.gridsize)
             {
                 for (int currentCellBeingHandled = startingValue; currentCellBeingHandled <= currentPuzzleToBeSolved.puzzlecells.Count - 1; currentCellBeingHandled++)
                 {

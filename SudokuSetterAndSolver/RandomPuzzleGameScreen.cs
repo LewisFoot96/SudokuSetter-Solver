@@ -11,6 +11,8 @@ using System.Windows.Forms;
 namespace SudokuSetterAndSolver
 {
 
+    //For the irregulat puzzlesm will have template puzzles that will be loaded in, these puzzle templates will then be solved. 
+
     //Maybe create a sudoku grid class, to create the grids and populate from there. 
     public partial class RandomPuzzleGameScreen : Form
     {
@@ -21,34 +23,42 @@ namespace SudokuSetterAndSolver
         SudokuSolver sudokuSolver = new SudokuSolver();
         puzzle generatedPuzzle = new puzzle();
 
-        List<int> sudokuSolutionArray = new List<int>();
         #endregion
 
         #region Global Variables 
         //Contains the solution to the puzzle on the screen. 
-        int[,] sudokuPuzzleSolution;
-        //Contains the puzzle when the user presses submit.      
-        int[,] submittedPuzzle;
         //Creating the sudoku grid values. 
         int[,] sudokuGrid;
-
+        List<int> sudokuSolutionArray = new List<int>();
+        int _puzzleSelection = 0;
         #endregion
 
         #region Constructor 
-        public RandomPuzzleGameScreen(int gridSize)
+        public RandomPuzzleGameScreen(int gridSize, int puzzleSelection)
         {
-            gridSize = 9;
-            sudokuPuzzleSolution = new int[gridSize, gridSize];
-            submittedPuzzle = new int[gridSize, gridSize];
-            sudokuGrid = new int[gridSize, gridSize];
+            _puzzleSelection = puzzleSelection;
+            CreateSudokuGrid();
+            //gridSize = 9;
+            //sudokuGrid = new int[gridSize, gridSize];
             InitializeComponent();
-            CreateGrid(9);
+            if (generatedPuzzle.gridsize == 9)
+            {
+                GenerateStandardSudokuPuzzle();
+            }
+            else if(generatedPuzzle.gridsize ==16)
+            {
+                GenerateLargeSudokuPuzzle(1);
+            }
+            else
+            {
+                GenerateSmallSudokuPuzzle();
+            }
+            //CreateGrid(9);
         }
 
         #endregion
 
         #region Event Methods 
-
         private void puzzleTextChange(object sender, EventArgs e)
         {
             var tb = (TextBox)sender;
@@ -122,34 +132,13 @@ namespace SudokuSetterAndSolver
         {
             for (int indexValue = 0; indexValue <= generatedPuzzle.puzzlecells.Count - 1; indexValue++)
             {
-                if(generatedPuzzle.puzzlecells[indexValue].value != sudokuSolutionArray[indexValue])
+                if (generatedPuzzle.puzzlecells[indexValue].value != sudokuSolutionArray[indexValue])
                 {
-                    return false; 
+                    return false;
                 }
             }
-            return true; 
-        }
-
-        #endregion
-
-        #region Method
-        private bool CheckSubmittedPuzzle()
-        {
-            //Goes through all of the values within the puzzle. 
-            for (int checkRowNumber = 0; checkRowNumber <= 8; checkRowNumber++)
-            {
-                for (int checkColumnNumber = 0; checkColumnNumber <= 8; checkColumnNumber++)
-                {
-                    if (submittedPuzzle[checkRowNumber, checkColumnNumber] != sudokuPuzzleSolution[checkRowNumber, checkColumnNumber])
-                    {
-                        return false;  //If ther solution is not correct. 
-                    }
-                }
-            }
-
             return true;
         }
-        #endregion
 
         private void solveGeneratedPuzzleBtn_Click(object sender, EventArgs e)
         {
@@ -176,86 +165,16 @@ namespace SudokuSetterAndSolver
             }
 
         }
-        private void GetPuzzle()
-        {
-            //Creating the grid from the entered numbers. 
-            for (int rowNumber = 0; rowNumber <= 8; rowNumber++)
-            {
-                for (int columnNumber = 0; columnNumber <= 8; columnNumber++)
-                {
-                    //submittedPuzzle 
-                    string cellName = rowNumber.ToString() + columnNumber.ToString();
-                    foreach (var textBox in listOfTextBoxes)
-                    {
-                        if (cellName == textBox.Name)
-                        {
-                            if (textBox.Text != "")
-                            {
-                                submittedPuzzle[rowNumber, columnNumber] = Int32.Parse(textBox.Text);
-                            }
-                            else
-                            {
-                                submittedPuzzle[rowNumber, columnNumber] = 0;
-                            }
 
-                        }
-                    }
-                }
-            }
-            sudokuSolver.sudokuPuzzleMultiExample = submittedPuzzle;
-            bool solved = sudokuSolver.BacktrackinEffcient(false);
-            if (solved == true)
-            {
-                SetGridSolved();
-            }
-        }
-
-        private void SetGridSolved()
+        private void newPuzzleBtn_Click(object sender, EventArgs e)
         {
-            //Creating the grid from the entered numbers. 
-            for (int rowNumber = 0; rowNumber <= 8; rowNumber++)
-            {
-                for (int columnNumber = 0; columnNumber <= 8; columnNumber++)
-                {
-                    //submittedPuzzle 
-                    string cellName = rowNumber.ToString() + columnNumber.ToString();
-                    foreach (var textBox in listOfTextBoxes)
-                    {
-                        if (cellName == textBox.Name)
-                        {
-                            textBox.Text = submittedPuzzle[rowNumber, columnNumber].ToString();
-                        }
-                    }
-                }
-            }
+            ClearGrid();
+            generatedPuzzle.puzzlecells.Clear();
+            CreateGrid(9);
         }
+        #endregion
 
-        private void PopulateNewPuzzle()
-        {
-            for (int rowNumberNew = 0; rowNumberNew <= 8; rowNumberNew++)
-            {
-                for (int columnNumberNew = 0; columnNumberNew <= 8; columnNumberNew++)
-                {
-                    string cellName = rowNumberNew.ToString() + columnNumberNew.ToString();
-                    foreach (var textBox in listOfTextBoxes)
-                    {
-                        textBox.Enabled = true;
-                        if (cellName == textBox.Name)
-                        {
-                            if (sudokuGrid[rowNumberNew, columnNumberNew] == 0)
-                            {
-                                textBox.Text = "";                        
-                            }
-                            else
-                            {
-                                textBox.Enabled = false;
-                                textBox.Text = sudokuGrid[rowNumberNew, columnNumberNew].ToString();
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        #region Methods 
 
         private void ClearGrid()
         {
@@ -264,24 +183,6 @@ namespace SudokuSetterAndSolver
             {
                 textBox.Dispose();
             }
-        }
-
-        private void ClearSudokuGridVaribale()
-        {
-            for (int clearRowNumber = 0; clearRowNumber <= 8; clearRowNumber++)
-            {
-                for (int clearColumnNumber = 0; clearColumnNumber <= 8; clearColumnNumber++)
-                {
-                    sudokuGrid[clearRowNumber, clearColumnNumber] = 0;
-                }
-            }
-        }
-
-        private void newPuzzleBtn_Click(object sender, EventArgs e)
-        {
-            ClearGrid();
-            generatedPuzzle.puzzlecells.Clear();
-            CreateGrid(9);
         }
 
         private int[,] ConvertListToMultiDimensionalArray(List<int> puzzleInList, int gridSize)
@@ -307,5 +208,194 @@ namespace SudokuSetterAndSolver
 
             return puzzleArray;
         }
+
+        #endregion
+
+        #region Generate Blank Puzzle 
+        /// <summary>
+        /// This method generates a blank puzzle dependant on the grid size. 
+        /// </summary>
+        private void CreateSudokuGrid()
+        {
+            if (_puzzleSelection == 2 || _puzzleSelection == 0)
+            {
+                generatedPuzzle.gridsize = 9;
+            }
+            else if (_puzzleSelection == 1)
+            {
+                generatedPuzzle.gridsize = 16;
+            }
+            else
+            {
+                generatedPuzzle.gridsize = 4;
+            }
+
+            if (_puzzleSelection != 0)
+            {
+                GenerateBlankGridStandardSudoku();
+            }
+        }
+
+        private void GenerateBlankGridStandardSudoku()
+        {
+            for (int puzzleRowNumber = 0; puzzleRowNumber <= generatedPuzzle.gridsize - 1; puzzleRowNumber++)
+            {
+                for (int puzzleColumnNumber = 0; puzzleColumnNumber <= generatedPuzzle.gridsize - 1; puzzleColumnNumber++)
+                {
+                    puzzleCell tempPuzzleCell = new puzzleCell();
+                    tempPuzzleCell.rownumber = puzzleRowNumber;
+                    tempPuzzleCell.columnnumber = puzzleColumnNumber;
+                    if (generatedPuzzle.gridsize == 4)
+                    {
+                        tempPuzzleCell.blocknumber = GetBlockFour(puzzleRowNumber, puzzleColumnNumber);
+                    }
+                    else if (generatedPuzzle.gridsize == 9)
+                    {
+                        tempPuzzleCell.blocknumber = GetBlockNumberNine(puzzleRowNumber, puzzleColumnNumber);
+                    }
+                    else
+                    {
+                        tempPuzzleCell.blocknumber = GetBlocNumberSixteen(puzzleRowNumber, puzzleColumnNumber);
+                    }
+                    generatedPuzzle.puzzlecells.Add(tempPuzzleCell);
+                }
+            }
+        }
+        #endregion
+
+        #region Get Blocks Methods 
+        private int GetBlockFour(int tempRowNumber, int tempColumnNumber)
+        {
+            if (tempRowNumber <= 1 && tempColumnNumber <= 1)
+            {
+                return 0;
+            }
+            else if (tempRowNumber <= 1 && tempColumnNumber >= 2)
+            {
+                return 1;
+            }
+            else if (tempRowNumber >= 2 && tempRowNumber <= 1)
+            {
+                return 2;
+            }
+            else
+            {
+                return 3;
+            }
+        }
+
+
+        private int GetBlockNumberNine(int tempRowNumber, int tempColumnNumber)
+        {
+            double blockValue = Math.Sqrt(generatedPuzzle.gridsize);
+            if (tempRowNumber <= 2 && tempColumnNumber <= 2)
+            {
+                return 0;
+            }
+            else if (tempRowNumber <= 2 && (tempColumnNumber >= 3 && tempColumnNumber <= 5))
+            {
+                return 1;
+            }
+            else if (tempRowNumber <= 2 && (tempColumnNumber >= 6 && tempColumnNumber <= 8))
+            {
+                return 2;
+            }
+            else if ((tempRowNumber >= 3 && tempRowNumber <= 5) && tempColumnNumber <= 2)
+            {
+                return 3;
+            }
+            else if ((tempRowNumber >= 3 && tempRowNumber <= 5) && (tempColumnNumber >= 3 && tempColumnNumber <= 5))
+            {
+                return 4;
+            }
+            else if ((tempRowNumber >= 3 && tempRowNumber <= 5) && (tempColumnNumber >= 6 && tempColumnNumber <= 8))
+            {
+                return 5;
+            }
+            else if ((tempRowNumber >= 6 && tempRowNumber <= 8) && tempColumnNumber <= 2)
+            {
+                return 6;
+            }
+            else if ((tempRowNumber >= 6 && tempRowNumber <= 8) && (tempColumnNumber >= 3 && tempColumnNumber <= 5))
+            {
+                return 7;
+            }
+            else
+            {
+                return 8;
+            }
+
+        }
+
+        private int GetBlocNumberSixteen(int tempRowNumber, int tempColumnNumber)
+        {
+            if (tempRowNumber <= 3 && tempColumnNumber <= 3)
+            {
+                return 0;
+            }
+            else if (tempRowNumber <= 3 && (tempColumnNumber >= 4 && tempColumnNumber <= 7))
+            {
+                return 1;
+            }
+            else if (tempRowNumber <= 3 && (tempColumnNumber >= 8 && tempColumnNumber <= 11))
+            {
+                return 2;
+            }
+            else if (tempRowNumber <= 3 && (tempColumnNumber >= 12 && tempColumnNumber <= 15))
+            {
+                return 3;
+            }
+            else if ((tempRowNumber >= 4 && tempRowNumber <= 7) && tempColumnNumber <= 3)
+            {
+                return 4;
+            }
+            else if ((tempRowNumber >= 4 && tempRowNumber <= 7) && (tempColumnNumber >= 4 && tempColumnNumber <= 7))
+            {
+                return 5;
+            }
+            else if ((tempRowNumber >= 4 && tempRowNumber <= 7) && (tempColumnNumber >= 8 && tempColumnNumber <= 11))
+            {
+                return 6;
+            }
+            else if ((tempRowNumber >= 4 && tempRowNumber <= 7) && (tempColumnNumber >= 12 && tempColumnNumber <= 15))
+            {
+                return 7;
+            }
+            else if ((tempRowNumber >= 8 && tempRowNumber <= 11) && tempColumnNumber <= 3)
+            {
+                return 8;
+            }
+            else if ((tempRowNumber >= 8 && tempRowNumber <= 11) && (tempColumnNumber >= 4 && tempColumnNumber <= 7))
+            {
+                return 9;
+            }
+            else if ((tempRowNumber >= 8 && tempRowNumber <= 11) && (tempColumnNumber >= 8 && tempColumnNumber <= 11))
+            {
+                return 10;
+            }
+            else if ((tempRowNumber >= 8 && tempRowNumber <= 11) && (tempColumnNumber >= 12 && tempColumnNumber <= 15))
+            {
+                return 11;
+            }
+            else if ((tempRowNumber >= 12 && tempRowNumber <= 15) && tempColumnNumber <= 3)
+            {
+                return 12;
+            }
+            else if ((tempRowNumber >= 12 && tempRowNumber <= 15) && (tempColumnNumber >= 4 && tempColumnNumber <= 7))
+            {
+                return 13;
+            }
+            else if ((tempRowNumber >= 12 && tempRowNumber <= 15) && (tempColumnNumber >= 8 && tempColumnNumber <= 11))
+            {
+                return 14;
+            }
+            else
+            {
+                return 15;
+            }
+
+        }
+
+        #endregion
     }
 }

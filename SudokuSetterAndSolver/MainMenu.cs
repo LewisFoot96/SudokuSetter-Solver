@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,8 @@ namespace SudokuSetterAndSolver
 {
     public partial class MainMenu : Form
     {
+        public static int puzzleSelection = 0;
+        public static bool popUpCompleted = false; 
         #region Constructor 
         public MainMenu()
         {       
@@ -23,9 +26,9 @@ namespace SudokuSetterAndSolver
 
         private void randomPuzzleScreenBtn_Click(object sender, EventArgs e)
         {
+            PopUpRandomPuzzleSelection puzzleSelectionPopup = new PopUpRandomPuzzleSelection();
+            puzzleSelectionPopup.Show();
             this.Hide();
-            RandomPuzzleGameScreen randomPuzzleScreen = new RandomPuzzleGameScreen(9);
-            randomPuzzleScreen.Show();
         }
 
         private void gamePlayScreenBtn_Click(object sender, EventArgs e)
