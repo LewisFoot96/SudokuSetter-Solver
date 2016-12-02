@@ -47,7 +47,7 @@ namespace SudokuSetterAndSolver
             }
             else if(generatedPuzzle.gridsize ==16)
             {
-                GenerateLargeSudokuPuzzle(1);
+                GenerateLargeSudokuPuzzle();
             }
             else
             {
@@ -274,7 +274,7 @@ namespace SudokuSetterAndSolver
             {
                 return 1;
             }
-            else if (tempRowNumber >= 2 && tempRowNumber <= 1)
+            else if (tempRowNumber >= 2 && tempColumnNumber <= 1)
             {
                 return 2;
             }
@@ -283,7 +283,6 @@ namespace SudokuSetterAndSolver
                 return 3;
             }
         }
-
 
         private int GetBlockNumberNine(int tempRowNumber, int tempColumnNumber)
         {
