@@ -1871,8 +1871,6 @@ namespace SudokuSetterAndSolver
                         if (generating == false)
                         {
                             currentPuzzleToBeSolved.puzzlecells[logicalOrderOfCellsXml[numberOfCellToBeHandled]].value = validNumbersInCell[0];
-
-
                         }
                         //Random number generation for creating a puzzle. 
                         else

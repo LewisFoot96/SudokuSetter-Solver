@@ -41,11 +41,11 @@ namespace SudokuSetterAndSolver
             //gridSize = 9;
             //sudokuGrid = new int[gridSize, gridSize];
             InitializeComponent();
-            if (generatedPuzzle.gridsize == 9)
+            if (generatedPuzzle.gridsize == 9 )
             {
                 GenerateStandardSudokuPuzzle();
             }
-            else if(generatedPuzzle.gridsize ==16)
+            else if (generatedPuzzle.gridsize == 16)
             {
                 GenerateLargeSudokuPuzzle();
             }
@@ -234,6 +234,10 @@ namespace SudokuSetterAndSolver
             {
                 GenerateBlankGridStandardSudoku();
             }
+            else
+            {
+                GenerateFirstTemplateIrregular();
+            }
         }
 
         private void GenerateBlankGridStandardSudoku()
@@ -396,5 +400,65 @@ namespace SudokuSetterAndSolver
         }
 
         #endregion
+
+        #region IrregularPuzzles
+
+        private void GenerateFirstTemplateIrregular()
+        {
+            for (int puzzleRowNumber = 0; puzzleRowNumber <= generatedPuzzle.gridsize - 1; puzzleRowNumber++)
+            {
+                for (int puzzleColumnNumber = 0; puzzleColumnNumber <= generatedPuzzle.gridsize - 1; puzzleColumnNumber++)
+                {
+                    puzzleCell tempPuzzleCell = new puzzleCell();
+                    tempPuzzleCell.rownumber = puzzleRowNumber;
+                    tempPuzzleCell.columnnumber = puzzleColumnNumber;
+
+                    if ((puzzleRowNumber == 0 && puzzleColumnNumber == 0) || (puzzleRowNumber == 1 && puzzleColumnNumber == 0) || (puzzleRowNumber == 1 && puzzleColumnNumber == 1) || (puzzleRowNumber == 1 && puzzleColumnNumber == 2) || (puzzleRowNumber == 1 && puzzleColumnNumber == 3) || (puzzleRowNumber == 2 && puzzleColumnNumber == 0) || (puzzleRowNumber == 2 && puzzleColumnNumber == 1) || (puzzleRowNumber == 2 && puzzleColumnNumber == 3) || (puzzleRowNumber == 3 && puzzleColumnNumber == 0))
+                    {
+                        tempPuzzleCell.blocknumber = 0;
+                    }
+                    else if ((puzzleRowNumber == 0 && puzzleColumnNumber == 1) || (puzzleRowNumber == 0 && puzzleColumnNumber == 2) || (puzzleRowNumber == 0 && puzzleColumnNumber == 3) || (puzzleRowNumber == 0 && puzzleColumnNumber == 4) || (puzzleRowNumber == 0 && puzzleColumnNumber == 5) || (puzzleRowNumber == 0 && puzzleColumnNumber == 6) || (puzzleRowNumber == 0 && puzzleColumnNumber == 7) || (puzzleRowNumber == 1 && puzzleColumnNumber == 4) || (puzzleRowNumber == 2 && puzzleColumnNumber == 4))
+                    {
+                        tempPuzzleCell.blocknumber = 1;
+                    }
+                    else if ((puzzleRowNumber == 0 && puzzleColumnNumber == 8) || (puzzleRowNumber == 1 && puzzleColumnNumber == 5) || (puzzleRowNumber == 1 && puzzleColumnNumber == 6) || (puzzleRowNumber == 1 && puzzleColumnNumber == 7) || (puzzleRowNumber == 1 && puzzleColumnNumber == 8) || (puzzleRowNumber == 2 && puzzleColumnNumber == 5) || (puzzleRowNumber == 2 && puzzleColumnNumber == 7) || (puzzleRowNumber == 2 && puzzleColumnNumber == 8) || (puzzleRowNumber == 3 && puzzleColumnNumber == 8))
+                    {
+                        tempPuzzleCell.blocknumber = 2;
+                    }
+                    else if ((puzzleRowNumber == 2 && puzzleColumnNumber == 2) || (puzzleRowNumber == 3 && puzzleColumnNumber == 1) || (puzzleRowNumber == 3 && puzzleColumnNumber == 2) || (puzzleRowNumber == 4 && puzzleColumnNumber == 0) || (puzzleRowNumber == 4 && puzzleColumnNumber == 1) || (puzzleRowNumber == 5 && puzzleColumnNumber == 0) || (puzzleRowNumber == 6 && puzzleColumnNumber == 0) || (puzzleRowNumber == 7 && puzzleColumnNumber == 0) || (puzzleRowNumber == 8 && puzzleColumnNumber == 0))
+                    {
+                        tempPuzzleCell.blocknumber = 3;
+                    }
+                    else if ((puzzleRowNumber == 3 && puzzleColumnNumber == 3) || (puzzleRowNumber == 3 && puzzleColumnNumber == 4) || (puzzleRowNumber == 3 && puzzleColumnNumber == 5) || (puzzleRowNumber == 4 && puzzleColumnNumber == 2) || (puzzleRowNumber == 4 && puzzleColumnNumber == 3) || (puzzleRowNumber == 4 && puzzleColumnNumber == 4) || (puzzleRowNumber == 4 && puzzleColumnNumber == 5) || (puzzleRowNumber == 4 && puzzleColumnNumber == 6) || (puzzleRowNumber == 5 && puzzleColumnNumber == 4))
+                    {
+                        tempPuzzleCell.blocknumber = 4;
+                    }
+                    else if ((puzzleRowNumber == 2 && puzzleColumnNumber == 6) || (puzzleRowNumber == 3 && puzzleColumnNumber == 6) || (puzzleRowNumber == 3 && puzzleColumnNumber == 7) || (puzzleRowNumber == 4 && puzzleColumnNumber == 7) || (puzzleRowNumber == 4 && puzzleColumnNumber == 8) || (puzzleRowNumber == 5 && puzzleColumnNumber == 8) || (puzzleRowNumber == 6 && puzzleColumnNumber == 8) || (puzzleRowNumber == 7 && puzzleColumnNumber == 8) || (puzzleRowNumber == 8 && puzzleColumnNumber == 8))
+                    {
+                        tempPuzzleCell.blocknumber = 5;
+                    }
+                    else if ((puzzleRowNumber == 5 && puzzleColumnNumber == 1) || (puzzleRowNumber == 5 && puzzleColumnNumber == 2) || (puzzleRowNumber == 6 && puzzleColumnNumber == 1) || (puzzleRowNumber == 7 && puzzleColumnNumber == 1) || (puzzleRowNumber == 8 && puzzleColumnNumber == 1) || (puzzleRowNumber == 8 && puzzleColumnNumber == 2) || (puzzleRowNumber == 8 && puzzleColumnNumber == 3) || (puzzleRowNumber == 8 && puzzleColumnNumber == 4) || (puzzleRowNumber == 7 && puzzleColumnNumber == 3))
+                    {
+                        tempPuzzleCell.blocknumber = 6;
+                    }
+                    else if ((puzzleRowNumber == 5 && puzzleColumnNumber == 3) || (puzzleRowNumber == 5 && puzzleColumnNumber == 5) || (puzzleRowNumber == 6 && puzzleColumnNumber == 2) || (puzzleRowNumber == 6 && puzzleColumnNumber == 3) || (puzzleRowNumber == 6 && puzzleColumnNumber == 4) || (puzzleRowNumber == 6 && puzzleColumnNumber == 5) || (puzzleRowNumber == 6 && puzzleColumnNumber == 6) || (puzzleRowNumber == 7 && puzzleColumnNumber == 2) || (puzzleRowNumber == 7 && puzzleColumnNumber == 6))
+                    {
+                        tempPuzzleCell.blocknumber = 7;
+                    }
+                    else if ((puzzleRowNumber == 7 && puzzleColumnNumber == 4) || (puzzleRowNumber == 7 && puzzleColumnNumber == 5) || (puzzleRowNumber == 8 && puzzleColumnNumber == 5) || (puzzleRowNumber == 8 && puzzleColumnNumber == 6) || (puzzleRowNumber == 8 && puzzleColumnNumber == 7) || (puzzleRowNumber == 7 && puzzleColumnNumber == 7) || (puzzleRowNumber == 6 && puzzleColumnNumber == 7) || (puzzleRowNumber == 5 && puzzleColumnNumber == 7) || (puzzleRowNumber == 5 && puzzleColumnNumber == 6))
+                    {
+                        tempPuzzleCell.blocknumber = 8;
+                    }
+                    else
+                    {
+                        tempPuzzleCell.blocknumber = 8;
+                    }
+                    generatedPuzzle.puzzlecells.Add(tempPuzzleCell);
+                }
+            }
+        }
+
+
+        #endregion 
     }
 }
