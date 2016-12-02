@@ -283,6 +283,8 @@ namespace SudokuSetterAndSolver
 
         private void GenerateLargeSudokuPuzzle()
         {
+            sudokuGridGenerator.generatedPuzzle = generatedPuzzle;
+            sudokuGridGenerator.CreateSudokuGridXML();
             int rowLocation = 0, columnLocation = 0;
             for (int indexNumber = 0; indexNumber <= generatedPuzzle.puzzlecells.Count - 1; indexNumber++)
             {
@@ -293,7 +295,7 @@ namespace SudokuSetterAndSolver
                 txtBox.Size = new System.Drawing.Size(20, 20);
                 txtBox.TabIndex = 0;
                 txtBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-                txtBox.Font = new Font(txtBox.Font.FontFamily, 10);
+                txtBox.Font = new Font(txtBox.Font.FontFamily, 6);
                 txtBox.Click += new System.EventHandler(this.puzzleSquareClick);
                 txtBox.TextChanged += new System.EventHandler(this.puzzleTextChange);
                 //Key press handler to only allow digits 1-9 in the textboxes. 
@@ -364,6 +366,8 @@ namespace SudokuSetterAndSolver
 
         private void GenerateSmallSudokuPuzzle()
         {
+            sudokuGridGenerator.generatedPuzzle = generatedPuzzle;
+            sudokuGridGenerator.CreateSudokuGridXML();
             int rowLocation = 0, columnLocation = 0;
             for (int indexNumber = 0; indexNumber <= generatedPuzzle.puzzlecells.Count - 1; indexNumber++)
             {

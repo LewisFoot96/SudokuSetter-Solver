@@ -65,24 +65,30 @@ namespace SudokuSetterAndSolver
             //    generatedPuzzle.puzzlecells.Add(new puzzleCell());
             //}
             //Getting the row, column and block numbers for the cells. 
-            for (int cellNumberPopulating = 0; cellNumberPopulating <= generatedPuzzle.puzzlecells.Count - 1; cellNumberPopulating++)
-            {
-                generatedPuzzle.puzzlecells[cellNumberPopulating].rownumber = cellNumberPopulating / generatedPuzzle.gridsize;
-                generatedPuzzle.puzzlecells[cellNumberPopulating].columnnumber = cellNumberPopulating % generatedPuzzle.gridsize;
 
-                if(generatedPuzzle.gridsize ==9)
-                {
-                    generatedPuzzle.puzzlecells[cellNumberPopulating].blocknumber = GetBlockNumberNine(generatedPuzzle.puzzlecells[cellNumberPopulating].rownumber, generatedPuzzle.puzzlecells[cellNumberPopulating].columnnumber);
-                }
-                else if (generatedPuzzle.gridsize==16)
-                {
-                    generatedPuzzle.puzzlecells[cellNumberPopulating].blocknumber = GetBlocNumberSixteen(generatedPuzzle.puzzlecells[cellNumberPopulating].rownumber, generatedPuzzle.puzzlecells[cellNumberPopulating].columnnumber);
-                }
-                else
-                {
-                    generatedPuzzle.puzzlecells[cellNumberPopulating].blocknumber = GetBlockFour(generatedPuzzle.puzzlecells[cellNumberPopulating].rownumber, generatedPuzzle.puzzlecells[cellNumberPopulating].columnnumber);
-                }
+            for(int getBlankCellCount=0;getBlankCellCount<=generatedPuzzle.puzzlecells.Count-1;getBlankCellCount++)
+            {
+                listOfCellsNotRemoved.Add(getBlankCellCount);
             }
+
+            //for (int cellNumberPopulating = 0; cellNumberPopulating <= generatedPuzzle.puzzlecells.Count - 1; cellNumberPopulating++)
+            //{
+            //    generatedPuzzle.puzzlecells[cellNumberPopulating].rownumber = cellNumberPopulating / generatedPuzzle.gridsize;
+            //    generatedPuzzle.puzzlecells[cellNumberPopulating].columnnumber = cellNumberPopulating % generatedPuzzle.gridsize;
+
+            //    if(generatedPuzzle.gridsize ==9)
+            //    {
+            //        generatedPuzzle.puzzlecells[cellNumberPopulating].blocknumber = GetBlockNumberNine(generatedPuzzle.puzzlecells[cellNumberPopulating].rownumber, generatedPuzzle.puzzlecells[cellNumberPopulating].columnnumber);
+            //    }
+            //    else if (generatedPuzzle.gridsize==16)
+            //    {
+            //        generatedPuzzle.puzzlecells[cellNumberPopulating].blocknumber = GetBlocNumberSixteen(generatedPuzzle.puzzlecells[cellNumberPopulating].rownumber, generatedPuzzle.puzzlecells[cellNumberPopulating].columnnumber);
+            //    }
+            //    else
+            //    {
+            //        generatedPuzzle.puzzlecells[cellNumberPopulating].blocknumber = GetBlockFour(generatedPuzzle.puzzlecells[cellNumberPopulating].rownumber, generatedPuzzle.puzzlecells[cellNumberPopulating].columnnumber);
+            //    }
+            //}
 
             //Solving blank grid. 
             solver.currentPuzzleToBeSolved = generatedPuzzle;
@@ -107,8 +113,21 @@ namespace SudokuSetterAndSolver
         {
             bool isEqualToOrginal = false;
             int cellValue = 0;
+            int blankCellNumber = 0;
+            if(generatedPuzzle.gridsize ==9)
+            {
+                blankCellNumber = 35;
+            }
+            else if(generatedPuzzle.gridsize ==16)
+            {
+                blankCellNumber = 35; 
+            }
+            else
+            {
+                blankCellNumber = 6;
+            }
             //Initially remove 10 candidates from the cells. 
-            for (int initialHolesRemoved = 0; initialHolesRemoved <= 35; initialHolesRemoved++)
+            for (int initialHolesRemoved = 0; initialHolesRemoved <= blankCellNumber; initialHolesRemoved++)
             {
                 while (generatedPuzzle.puzzlecells[cellValue].value == 0)
                 {
@@ -153,7 +172,7 @@ namespace SudokuSetterAndSolver
 
                 if (isEqualToOrginal == true)
                 {
-                    for (int reverseCellCount = 80; reverseCellCount >= 0; reverseCellCount--)
+                    for (int reverseCellCount = generatedPuzzle.puzzlecells.Count-1; reverseCellCount >= 0; reverseCellCount--)
                     {
                         //Get a vlaid cell, that a value has been removed from. 
                         bool isRemovedCell = false;

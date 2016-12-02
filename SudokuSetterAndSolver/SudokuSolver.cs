@@ -1784,12 +1784,10 @@ namespace SudokuSetterAndSolver
         #region More Effcient Backtracking method for the xml class file example
         public bool BacktrackingUsingXmlTemplateFile(bool generating)
         {
-
             //If valid numbers loist count is less than the none empty cells then return false, as invalid solution. 
             logicalOrderOfCellsXml.Clear();
 
             int emptyCellListCount = 0;
-
             for (int checkEmptyCellValue = 0; checkEmptyCellValue <= currentPuzzleToBeSolved.puzzlecells.Count - 1; checkEmptyCellValue++)
             {
                 if (currentPuzzleToBeSolved.puzzlecells[checkEmptyCellValue].value == 0)
@@ -1844,7 +1842,7 @@ namespace SudokuSetterAndSolver
 
             for (startingValue = numberOfCellToBeHandled; startingValue <= logicalOrderOfCellsXml.Count - 1; startingValue++)
             {
-                if (stopWatch.Elapsed.Seconds >= 5)
+                if (stopWatch.Elapsed.Seconds >= 1000000)
                 {
                     logicalOrderOfCellsXml.Clear();
                     return false;
@@ -2004,7 +2002,7 @@ namespace SudokuSetterAndSolver
                 }
             }
 
-            validNUmbersInRow = CheckValidNumbersForRegions.GetValidNumbers(nonValidNumberInRow);
+            validNUmbersInRow = GetValidNumbersXml(nonValidNumberInRow);
 
         }
 
@@ -2029,7 +2027,7 @@ namespace SudokuSetterAndSolver
                 }
             }
 
-            validNumbersInColumn = CheckValidNumbersForRegions.GetValidNumbers(nonValidNumberInColumn);
+            validNumbersInColumn = GetValidNumbersXml(nonValidNumberInColumn);
         }
 
         private void GetValuesForBlockXmlPuzzleTemplate()
@@ -2053,7 +2051,21 @@ namespace SudokuSetterAndSolver
                 }
             }
 
-            validNumbersInBlock = CheckValidNumbersForRegions.GetValidNumbers(nonValidNumberInBlock);
+            validNumbersInBlock = GetValidNumbersXml(nonValidNumberInBlock);
+        }
+
+        private List<int> GetValidNumbersXml (List<int> nonValidNumbers)
+        {
+            List<int> validNumbers = new List<int>();
+            for (int y = 1; y <= currentPuzzleToBeSolved.gridsize; y++)
+            {
+                if (nonValidNumbers.Contains(y) == false)
+                {
+                    validNumbers.Add(y);
+                }
+            }
+
+            return validNumbers;
         }
 
         #endregion
