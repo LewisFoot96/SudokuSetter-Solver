@@ -227,13 +227,22 @@ namespace SudokuSetterAndSolver
                 }
                 else
                 {
-                    generatedPuzzle.puzzlecells.Clear();
+                    //generatedPuzzle.puzzlecells.Clear();
+                    foreach(var clearCell in generatedPuzzle.puzzlecells)
+                    {
+                        clearCell.value = 0;
+                    }
+
                     CreateSudokuGridXML();
                 }
             }
             else
             {
-                generatedPuzzle.puzzlecells.Clear();
+                foreach (var clearCell in generatedPuzzle.puzzlecells)
+                {
+                    clearCell.value = 0;
+                }
+                // generatedPuzzle.puzzlecells.Clear();
                 CreateSudokuGridXML();
             }
         }

@@ -112,99 +112,11 @@ namespace SudokuSetterAndSolver
             this.ResumeLayout(false);
         }
 
-        private void CreateGrid(int gridSize)
-        {
-            sudokuGridGenerator.generatedPuzzle = generatedPuzzle;
-            generatedPuzzle = sudokuGridGenerator.CreateSudokuGridXML();
-
-            sudokuSolutionArray = sudokuGridGenerator.orginalSolution;
-
-            List<int> listOfSudokuValues = new List<int>();
-
-            foreach (var cell in generatedPuzzle.puzzlecells)
-            {
-                listOfSudokuValues.Add(cell.value);
-            }
-
-            sudokuGrid = ConvertListToMultiDimensionalArray(listOfSudokuValues, 9);
-
-            int rowLocation = 0, columnLocation = 0;
-            for (int i = 0; i < gridSize; i++)
-            {
-                for (int j = 0; j < gridSize; j++)
-                {
-                    //Creating a textbox for the each cell, with the valid details. 
-                    TextBox txtBox = new TextBox();
-                    this.Controls.Add(txtBox);
-                    txtBox.Name = i.ToString() + j.ToString();
-                    txtBox.ReadOnly = true;
-                    txtBox.Size = new System.Drawing.Size(38, 38);
-                    txtBox.TabIndex = 0;
-                    txtBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-                    txtBox.Click += new System.EventHandler(this.puzzleSquareClick);
-                    txtBox.TextChanged += new System.EventHandler(this.puzzleTextChange);
-                    //Key press handler to only allow digits 1-9 in the textboxes. 
-                    txtBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(CheckCellEntry);
-                    //Limiting the text box to only on character. 
-                    txtBox.MaxLength = 1;
-                    //Setting the value in the grid text box. 
-                    txtBox.Text = sudokuGrid[i, j].ToString();
-
-                    //Clouring 
-                    txtBox.Font = new Font(txtBox.Font, FontStyle.Bold);
-                    txtBox.ForeColor = Color.Black;
-                    if ((i <= 2 && j <= 2) || (i >= 6 && j >= 6))
-                    {
-                        txtBox.BackColor = Color.LightGreen;
-                    }
-                    else if ((i <= 2 && (j >= 3 && j <= 5)) || (i >= 6 && (j >= 3 && j <= 5)))
-                    {
-                        txtBox.BackColor = Color.Pink;
-                    }
-                    else if ((i <= 2 && j >= 6) || (i >= 6 && j <= 2))
-                    {
-                        txtBox.BackColor = Color.LightCyan;
-                    }
-                    else if (((i >= 3 && i <= 5) && j <= 2) || ((i >= 3 && i <= 5) && j >= 6))
-                    {
-                        txtBox.BackColor = Color.LightYellow;
-                    }
-                    else
-                    {
-                        txtBox.BackColor = Color.LightBlue;
-                    }
-
-                    //Ensuring static numbers can not be edited. 
-                    if (sudokuGrid[i, j] != 0)
-                    {
-                        txtBox.Enabled = false;
-                    }
-                    else
-                    {
-                        txtBox.Text = "";
-                    }
-                    //Position logic
-                    if (i == 0 && j == 0)
-                    {
-                        rowLocation = rowLocation + 118;
-                        columnLocation = columnLocation + 120;
-                    }
-                    else
-                    {
-                        rowLocation = rowLocation + 38;
-                    }
-                    txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
-                    listOfTextBoxes.Add(txtBox);
-                }
-                rowLocation = 80;
-                columnLocation = columnLocation + 17;
-            }
-        }
-
         private void GenerateStandardSudokuPuzzle()
         {
-           sudokuGridGenerator.generatedPuzzle = generatedPuzzle;
-            sudokuGridGenerator.CreateSudokuGridXML();
+            //sudokuGridGenerator.generatedPuzzle = generatedPuzzle;
+            //sudokuGridGenerator.CreateSudokuGridXML();
+            //sudokuSolutionArray = sudokuGridGenerator.orginalSolution;
             int rowLocation = 0, columnLocation = 0;
             for (int indexNumber = 0; indexNumber <= generatedPuzzle.puzzlecells.Count - 1; indexNumber++)
             {
@@ -264,19 +176,23 @@ namespace SudokuSetterAndSolver
                 //Position logic
                 if (indexNumber == 0)
                 {
-                    rowLocation = rowLocation + 118;
+                    rowLocation = rowLocation + 133;
                     columnLocation = columnLocation + 120;
+                    txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
                 }
                 else if (indexNumber == 8 || indexNumber % 9 == 8)
                 {
-                    columnLocation = columnLocation + 17;                
-                    rowLocation = 80;
+                    rowLocation += 38;
+                    txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
+                    rowLocation = 95;
+                    columnLocation += 17;
                 }
                 else
                 {
                     rowLocation += 38;
+                    txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
                 }
-                txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
+
                 listOfTextBoxes.Add(txtBox);
             }
         }
@@ -285,6 +201,7 @@ namespace SudokuSetterAndSolver
         {
             sudokuGridGenerator.generatedPuzzle = generatedPuzzle;
             sudokuGridGenerator.CreateSudokuGridXML();
+            sudokuSolutionArray = sudokuGridGenerator.orginalSolution;
             int rowLocation = 0, columnLocation = 0;
             for (int indexNumber = 0; indexNumber <= generatedPuzzle.puzzlecells.Count - 1; indexNumber++)
             {
@@ -292,10 +209,10 @@ namespace SudokuSetterAndSolver
                 TextBox txtBox = new TextBox();
                 this.Controls.Add(txtBox);
                 txtBox.Name = indexNumber.ToString();
-                txtBox.Size = new System.Drawing.Size(20, 20);
+                txtBox.Size = new System.Drawing.Size(26, 26);
                 txtBox.TabIndex = 0;
                 txtBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-                txtBox.Font = new Font(txtBox.Font.FontFamily, 6);
+                txtBox.Font = new Font(txtBox.Font.FontFamily, 7);
                 txtBox.Click += new System.EventHandler(this.puzzleSquareClick);
                 txtBox.TextChanged += new System.EventHandler(this.puzzleTextChange);
                 //Key press handler to only allow digits 1-9 in the textboxes. 
@@ -346,19 +263,23 @@ namespace SudokuSetterAndSolver
                 //Position logic
                 if (indexNumber == 0)
                 {
-                    rowLocation = rowLocation + 80;
-                    columnLocation = columnLocation + 110;                
+                    rowLocation = rowLocation + 106;
+                    columnLocation = columnLocation + 100;
+                    txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
                 }
                 else if (indexNumber == 15 || indexNumber % 16 == 15)
                 {
-                    columnLocation += 10;
-                    rowLocation = 60;
+                    rowLocation += 26;
+                    txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
+                    columnLocation += 13;
+                    rowLocation = 80;
                 }
                 else
                 {
-                    rowLocation += 20;
+                    rowLocation += 26;
+                    txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
                 }
-                txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
+
                 listOfTextBoxes.Add(txtBox);
             }
 
@@ -368,6 +289,7 @@ namespace SudokuSetterAndSolver
         {
             sudokuGridGenerator.generatedPuzzle = generatedPuzzle;
             sudokuGridGenerator.CreateSudokuGridXML();
+            sudokuSolutionArray = sudokuGridGenerator.orginalSolution;
             int rowLocation = 0, columnLocation = 0;
             for (int indexNumber = 0; indexNumber <= generatedPuzzle.puzzlecells.Count - 1; indexNumber++)
             {
@@ -376,10 +298,10 @@ namespace SudokuSetterAndSolver
                 this.Controls.Add(txtBox);
                 txtBox.Name = indexNumber.ToString();
                 //txtBox.ReadOnly = true;
-                txtBox.Size = new System.Drawing.Size(46,46);
+                txtBox.Size = new System.Drawing.Size(46, 60);
                 txtBox.TabIndex = 0;
                 txtBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-                txtBox.Font = new Font(txtBox.Font.FontFamily, 18);
+                txtBox.Font = new Font(txtBox.Font.FontFamily, 20);
                 txtBox.Click += new System.EventHandler(this.puzzleSquareClick);
                 txtBox.TextChanged += new System.EventHandler(this.puzzleTextChange);
                 //Key press handler to only allow digits 1-9 in the textboxes. 
@@ -424,21 +346,22 @@ namespace SudokuSetterAndSolver
                 //Position logic
                 if (indexNumber == 0)
                 {
-                    rowLocation = rowLocation + 180;
+                    rowLocation = rowLocation + 210;
                     columnLocation = columnLocation + 110;
+                    txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
                 }
                 else if (indexNumber == 3 || indexNumber % 4 == 3)
                 {
-
-                    rowLocation = 134;
-                    columnLocation += 23;
+                    rowLocation += 46;
+                    txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
+                    rowLocation = 164;
+                    columnLocation += 38;
                 }
                 else
                 {
                     rowLocation += 46;
-                    
+                    txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
                 }
-                txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
                 listOfTextBoxes.Add(txtBox);
             }
         }

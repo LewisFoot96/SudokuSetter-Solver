@@ -1842,7 +1842,7 @@ namespace SudokuSetterAndSolver
 
             for (startingValue = numberOfCellToBeHandled; startingValue <= logicalOrderOfCellsXml.Count - 1; startingValue++)
             {
-                if (stopWatch.Elapsed.Seconds >= 1000000)
+                if (stopWatch.Elapsed.Seconds >= 5 )
                 {
                     logicalOrderOfCellsXml.Clear();
                     return false;
@@ -1882,7 +1882,7 @@ namespace SudokuSetterAndSolver
                     else
                     {
                         //Need to back track further. 
-                        if (previousNumberInCell == validNumbersInCell[validNumbersInCell.Count - 1])
+                        if (previousNumberInCell == validNumbersInCell[validNumbersInCell.Count - 1] )
                         {
                             if ( startingValue == 0)
                             {
@@ -1943,6 +1943,11 @@ namespace SudokuSetterAndSolver
                         }
                     }
                 }
+                //foreach(var printCell in currentPuzzleToBeSolved.puzzlecells)
+                //{
+                //    Console.Write(printCell.value);
+                //}
+                //Console.WriteLine();
                 validNumbersInCell.Clear();
             }
             Console.WriteLine(stopWatch.Elapsed.TotalSeconds);

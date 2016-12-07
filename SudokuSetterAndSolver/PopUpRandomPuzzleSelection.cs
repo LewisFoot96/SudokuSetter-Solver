@@ -12,16 +12,34 @@ namespace SudokuSetterAndSolver
 {
     public partial class PopUpRandomPuzzleSelection : Form
     {
+        private bool _currentPage = false;
+
         public PopUpRandomPuzzleSelection()
         {
+            _currentPage = false;
+            InitializeComponent();
+        }
+        public PopUpRandomPuzzleSelection(bool currentPage)
+        {
+            _currentPage = currentPage;
             InitializeComponent();
         }
 
         private void confirmBtn_Click(object sender, EventArgs e)
         {
             this.Close();
-            RandomPuzzleGameScreen randomPuzzleScreen = new RandomPuzzleGameScreen(9, puzzleTypeSelection.SelectedIndex);
-            randomPuzzleScreen.Show();
+
+
+            if (_currentPage == false)
+            {
+                RandomPuzzleGameScreen randomPuzzleScreen = new RandomPuzzleGameScreen(puzzleTypeSelection.SelectedIndex);
+                randomPuzzleScreen.Show();
+            }
+            else
+            {
+                RandomPuzzleGameScreen._puzzleSelection = puzzleTypeSelection.SelectedIndex;
+            }
+
         }
     }
 }
