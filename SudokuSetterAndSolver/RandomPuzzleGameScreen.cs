@@ -136,7 +136,7 @@ namespace SudokuSetterAndSolver
             if (puzzleSolved == true)
             {
 
-                for (int cellLocationNumber =0; cellLocationNumber<=generatedPuzzle.puzzlecells.Count-1;cellLocationNumber++)
+                for (int cellLocationNumber = 0; cellLocationNumber <= generatedPuzzle.puzzlecells.Count - 1; cellLocationNumber++)
                 {
                     foreach (var textBoxCurrent in listOfTextBoxes)
                     {
@@ -145,7 +145,7 @@ namespace SudokuSetterAndSolver
                             textBoxCurrent.Text = generatedPuzzle.puzzlecells[cellLocationNumber].value.ToString();
                         }
                     }
-                }           
+                }
             }
             else
             {
@@ -190,10 +190,21 @@ namespace SudokuSetterAndSolver
                 GenerateStandardSudokuPuzzle();
 
             }
-            else if(_puzzleSelection ==0)
+            else if (_puzzleSelection == 0)
             {
                 generatedPuzzle.gridsize = 9;
-                GenerateFirstTemplateIrregular();
+
+                Random newRandomNumber = new Random();
+
+                int irregularRandom = newRandomNumber.Next(0, 1);
+                if (irregularRandom == 1)
+                {
+                    GenerateFirstTemplateIrregular();
+                }
+                else
+                {
+                    GenerateSecondTemplateIrregular();
+                }
                 GenerateStandardSudokuPuzzle();
             }
             else if (_puzzleSelection == 1)

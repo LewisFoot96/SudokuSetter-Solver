@@ -182,6 +182,254 @@ namespace SudokuSetterAndSolver
             }
         }
 
+        private void GenerateStandardSudokuPuzzle()
+        {
+            //sudokuGridGenerator.loadedPuzzle = loadedPuzzle;
+            //sudokuGridGenerator.CreateSudokuGridXML();
+            //sudokuSolutionArray = sudokuGridGenerator.orginalSolution;
+            int rowLocation = 0, columnLocation = 0;
+            for (int indexNumber = 0; indexNumber <= loadedPuzzle.puzzlecells.Count - 1; indexNumber++)
+            {
+                //Creating a textbox for the each cell, with the valid details. 
+                TextBox txtBox = new TextBox();
+                this.Controls.Add(txtBox);
+                txtBox.Name = indexNumber.ToString();
+                //txtBox.ReadOnly = true;
+                txtBox.Size = new System.Drawing.Size(38, 38);
+                txtBox.TabIndex = 0;
+                txtBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+                txtBox.Click += new System.EventHandler(this.puzzleSquareClick);
+                txtBox.TextChanged += new System.EventHandler(this.puzzleTextChange);
+                //Key press handler to only allow digits 1-9 in the textboxes. 
+                txtBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(CheckCellEntry);
+                //Limiting the text box to only on character. 
+                txtBox.MaxLength = 1;
+                //Setting the value in the grid text box. 
+                txtBox.Text = loadedPuzzle.puzzlecells[indexNumber].value.ToString();
+
+                //Clouring 
+                txtBox.Font = new Font(txtBox.Font, FontStyle.Bold);
+                txtBox.ForeColor = Color.Black;
+
+                switch (loadedPuzzle.puzzlecells[indexNumber].blocknumber)
+                {
+                    case (0):
+                    case (8):
+                        txtBox.BackColor = Color.LightGreen;
+                        break;
+                    case (1):
+                    case (7):
+                        txtBox.BackColor = Color.Pink;
+                        break;
+                    case (2):
+                    case (6):
+                        txtBox.BackColor = Color.LightCyan;
+                        break;
+                    case (3):
+                    case (5):
+                        txtBox.BackColor = Color.LightYellow;
+                        break;
+                    default:
+                        txtBox.BackColor = Color.LightBlue;
+                        break;
+                }
+
+                //Ensuring static numbers can not be edited. 
+                if (loadedPuzzle.puzzlecells[indexNumber].value != 0)
+                {
+                    txtBox.Enabled = false;
+                }
+                else
+                {
+                    txtBox.Text = "";
+                }
+                //Position logic
+                if (indexNumber == 0)
+                {
+                    rowLocation = rowLocation + 133;
+                    columnLocation = columnLocation + 120;
+                    txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
+                }
+                else if (indexNumber == 8 || indexNumber % 9 == 8)
+                {
+                    rowLocation += 38;
+                    txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
+                    rowLocation = 95;
+                    columnLocation += 17;
+                }
+                else
+                {
+                    rowLocation += 38;
+                    txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
+                }
+
+                listOfTextBoxes.Add(txtBox);
+            }
+        }
+
+        private void GenerateLargeSudokuPuzzle()
+        {
+            int rowLocation = 0, columnLocation = 0;
+            for (int indexNumber = 0; indexNumber <= loadedPuzzle.puzzlecells.Count - 1; indexNumber++)
+            {
+                //Creating a textbox for the each cell, with the valid details. 
+                TextBox txtBox = new TextBox();
+                this.Controls.Add(txtBox);
+                txtBox.Name = indexNumber.ToString();
+                txtBox.Size = new System.Drawing.Size(26, 26);
+                txtBox.TabIndex = 0;
+                txtBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+                txtBox.Font = new Font(txtBox.Font.FontFamily, 7);
+                txtBox.Click += new System.EventHandler(this.puzzleSquareClick);
+                txtBox.TextChanged += new System.EventHandler(this.puzzleTextChange);
+                //Key press handler to only allow digits 1-9 in the textboxes. 
+                txtBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(CheckCellEntry);
+                //Limiting the text box to only on character. 
+                txtBox.MaxLength = 1;
+                //Setting the value in the grid text box. 
+                txtBox.Text = loadedPuzzle.puzzlecells[indexNumber].value.ToString();
+
+                //Clouring 
+                txtBox.Font = new Font(txtBox.Font, FontStyle.Bold);
+                txtBox.ForeColor = Color.Black;
+
+                switch (loadedPuzzle.puzzlecells[indexNumber].blocknumber)
+                {
+                    case (0):
+                    case (3):
+                    case (12):
+                    case (15):
+                        txtBox.BackColor = Color.LightGreen;
+                        break;
+                    case (1):
+                    case (4):
+                    case (14):
+                    case (11):
+                        txtBox.BackColor = Color.Pink;
+                        break;
+                    case (2):
+                    case (8):
+                    case (7):
+                    case (13):
+                        txtBox.BackColor = Color.LightYellow;
+                        break;
+                    default:
+                        txtBox.BackColor = Color.LightBlue;
+                        break;
+                }
+
+                //Ensuring static numbers can not be edited. 
+                if (loadedPuzzle.puzzlecells[indexNumber].value != 0)
+                {
+                    txtBox.Enabled = false;
+                }
+                else
+                {
+                    txtBox.Text = "";
+                }
+                //Position logic
+                if (indexNumber == 0)
+                {
+                    rowLocation = rowLocation + 106;
+                    columnLocation = columnLocation + 100;
+                    txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
+                }
+                else if (indexNumber == 15 || indexNumber % 16 == 15)
+                {
+                    rowLocation += 26;
+                    txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
+                    columnLocation += 13;
+                    rowLocation = 80;
+                }
+                else
+                {
+                    rowLocation += 26;
+                    txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
+                }
+
+                listOfTextBoxes.Add(txtBox);
+            }
+
+        }
+
+        private void GenerateSmallSudokuPuzzle()
+        {
+            int rowLocation = 0, columnLocation = 0;
+            for (int indexNumber = 0; indexNumber <= loadedPuzzle.puzzlecells.Count - 1; indexNumber++)
+            {
+                //Creating a textbox for the each cell, with the valid details. 
+                TextBox txtBox = new TextBox();
+                this.Controls.Add(txtBox);
+                txtBox.Name = indexNumber.ToString();
+                //txtBox.ReadOnly = true;
+                txtBox.Size = new System.Drawing.Size(46, 60);
+                txtBox.TabIndex = 0;
+                txtBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+                txtBox.Font = new Font(txtBox.Font.FontFamily, 20);
+                txtBox.Click += new System.EventHandler(this.puzzleSquareClick);
+                txtBox.TextChanged += new System.EventHandler(this.puzzleTextChange);
+                //Key press handler to only allow digits 1-9 in the textboxes. 
+                txtBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(CheckCellEntry);
+                //Limiting the text box to only on character. 
+                txtBox.MaxLength = 1;
+                //Setting the value in the grid text box. 
+                txtBox.Text = loadedPuzzle.puzzlecells[indexNumber].value.ToString();
+
+                //Clouring 
+                txtBox.Font = new Font(txtBox.Font, FontStyle.Bold);
+                txtBox.ForeColor = Color.Black;
+
+                switch (loadedPuzzle.puzzlecells[indexNumber].blocknumber)
+                {
+                    case (0):
+                        txtBox.BackColor = Color.LightGreen;
+                        break;
+                    case (1):
+                        txtBox.BackColor = Color.Pink;
+                        break;
+                    case (2):
+                        txtBox.BackColor = Color.LightCyan;
+                        break;
+                    case (3):
+                        txtBox.BackColor = Color.LightYellow;
+                        break;
+                    default:
+                        txtBox.BackColor = Color.LightBlue;
+                        break;
+                }
+
+                //Ensuring static numbers can not be edited. 
+                if (loadedPuzzle.puzzlecells[indexNumber].value != 0)
+                {
+                    txtBox.Enabled = false;
+                }
+                else
+                {
+                    txtBox.Text = "";
+                }
+                //Position logic
+                if (indexNumber == 0)
+                {
+                    rowLocation = rowLocation + 210;
+                    columnLocation = columnLocation + 110;
+                    txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
+                }
+                else if (indexNumber == 3 || indexNumber % 4 == 3)
+                {
+                    rowLocation += 46;
+                    txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
+                    rowLocation = 164;
+                    columnLocation += 38;
+                }
+                else
+                {
+                    rowLocation += 46;
+                    txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
+                }
+                listOfTextBoxes.Add(txtBox);
+            }
+        }
+
         #endregion
 
         private System.Windows.Forms.PictureBox gameBanner;

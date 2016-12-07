@@ -114,9 +114,9 @@ namespace SudokuSetterAndSolver
 
         private void GenerateStandardSudokuPuzzle()
         {
-            //sudokuGridGenerator.generatedPuzzle = generatedPuzzle;
-            //sudokuGridGenerator.CreateSudokuGridXML();
-            //sudokuSolutionArray = sudokuGridGenerator.orginalSolution;
+            sudokuGridGenerator.generatedPuzzle = generatedPuzzle;
+            sudokuGridGenerator.CreateSudokuGridXML();
+            sudokuSolutionArray = sudokuGridGenerator.orginalSolution;
             int rowLocation = 0, columnLocation = 0;
             for (int indexNumber = 0; indexNumber <= generatedPuzzle.puzzlecells.Count - 1; indexNumber++)
             {

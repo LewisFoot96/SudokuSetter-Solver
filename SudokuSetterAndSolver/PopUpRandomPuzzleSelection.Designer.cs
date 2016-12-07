@@ -39,7 +39,7 @@
             "Irregular",
             "16*16",
             "9*9",
-            "6*6"});
+            "4*4"});
             this.puzzleTypeSelection.Location = new System.Drawing.Point(75, 88);
             this.puzzleTypeSelection.Name = "puzzleTypeSelection";
             this.puzzleTypeSelection.Size = new System.Drawing.Size(331, 39);

@@ -19,9 +19,7 @@ namespace SudokuSetterAndSolver
         string fileDirctoryLocation = "";
         PuzzleManager puzzleManager = new PuzzleManager();
         puzzle loadedPuzzle = new puzzle();
-
         #endregion
-
 
         #region Constructor 
         public SolveSudokuScreen()
@@ -114,7 +112,6 @@ namespace SudokuSetterAndSolver
 
         private void fileChooser_FileOk(object sender, CancelEventArgs e)
         {
-            ClearGrid();
             fileDirctoryLocation = fileChooser.FileName;
             loadedPuzzle = puzzleManager.ReadFromXMlFile(fileDirctoryLocation);
 
@@ -125,87 +122,29 @@ namespace SudokuSetterAndSolver
                 listOfSudokuValues.Add(cell.value);
             }
 
-            sudokuGrid = ConvertListToMultiDimensionalArray(listOfSudokuValues, loadedPuzzle.gridsize);
-            //SetLoadedGrid();
-            SetLoadedGridXml();
-        }
-
-        //Method loads in the file correclty and diplays it. 
-        private void SetLoadedGridXml()
-        {
-            foreach (var cell in loadedPuzzle.puzzlecells)
+            ClearTextBoxesGrid(); 
+            if(loadedPuzzle.gridsize == 9 )
             {
-                string cellName = cell.rownumber.ToString() + cell.columnnumber.ToString();
-                foreach (var textBox in listOfTextBoxes)
-                {
-                    if (cellName == textBox.Name)
-                    {
-                        //Enures zeros aren't entered into the grid. 
-                        if (cell.value != 0)
-                        {
-                            textBox.Text = cell.value.ToString();
-                        }
-                    }
-                }
+                GenerateStandardSudokuPuzzle();
+            }
+            else if(loadedPuzzle.gridsize ==16)
+            {
+                GenerateLargeSudokuPuzzle();
+            }
+            else
+            {
+                GenerateSmallSudokuPuzzle();
             }
         }
 
-        private void SetLoadedGrid()
+        private void ClearTextBoxesGrid()
         {
-            //Creating the grid from the entered numbers. 
-            for (int rowNumber = 0; rowNumber <= 8; rowNumber++)
-            {
-                for (int columnNumber = 0; columnNumber <= 8; columnNumber++)
-                {
-                    string cellName = rowNumber.ToString() + columnNumber.ToString();
-                    foreach (var textBox in listOfTextBoxes)
-                    {
-                        if (cellName == textBox.Name)
-                        {
-                            //Enures zeros aren't entered into the grid. 
-                            if (sudokuGrid[rowNumber, columnNumber] != 0)
-                            {
-                                textBox.Text = sudokuGrid[rowNumber, columnNumber].ToString();
-                            }
-                        }
-                    }
-
-                }
-            }
-        }
-
-        private void ClearGrid()
-        {
+            //currently remove all textboxes when a new puzzle is selected, this may need to be changed. 
             foreach (var textBox in listOfTextBoxes)
             {
-                textBox.Clear();
+                textBox.Dispose();
             }
         }
-
-        private int[,] ConvertListToMultiDimensionalArray(List<int> puzzleInList, int gridSize)
-        {
-            int[,] puzzleArray = new int[gridSize, gridSize];
-            int rowNumber = 0;
-            int columnNumber = 0;
-
-            for (int cellNumber = 0; cellNumber <= puzzleInList.Count - 1; cellNumber++)
-            {
-                puzzleArray[rowNumber, columnNumber] = puzzleInList[cellNumber];
-                if (columnNumber == 8 || columnNumber % 9 == 8)
-                {
-                    rowNumber++;
-                    columnNumber = 0;
-                }
-                else
-                {
-                    columnNumber++;
-                }
-            }
-
-
-            return puzzleArray;
-        }
-
     }
 
     #endregion
