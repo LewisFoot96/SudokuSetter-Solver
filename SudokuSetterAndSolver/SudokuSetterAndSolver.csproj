@@ -179,8 +179,10 @@
     <None Include="Resources\SSSGameScreenFullBanner.fw1.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Puzzles\TestPuzzles\HiddenTest\hiddenDoublesAll.xml" />
     <Content Include="Puzzles\TestPuzzles\HiddenTest\hiddenSingleBlock.xml" />
     <Content Include="Puzzles\TestPuzzles\HiddenTest\hiddenSingleRowColumn.xml" />
+    <Content Include="Puzzles\TestPuzzles\HiddenTest\test18old.xml" />
     <Content Include="Puzzles\TestPuzzles\IrregularPuzzles\irregulartest1.xml">
       <SubType>Designer</SubType>
     </Content>

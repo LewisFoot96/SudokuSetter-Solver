@@ -22,12 +22,6 @@ namespace SudokuSetterAndSolver
 
         #region Global Variables 
 
-        //sudoku mulit it used to input the hidden singles within the application. 
-        //Contains the puzzle. 
-        public int[,] sudokuPuzzleMultiExample = new int[9, 9];
-        //array that stores the static numbers that are within the puzzle. 
-        public int[,] staticNumbers = new int[9, 9];
-
         //Row and column number of the current cell being handled. 
         int rowNumber = 0;
         int columnNumber = 0;
@@ -80,39 +74,7 @@ namespace SudokuSetterAndSolver
 
         #endregion
 
-        #region Main Method 
-
-
-        public bool solvePuzzleXMl()
-        {
-            difficluty = "easy";
-            //Generate the puzzle and then solve it. 
-            GeneratePuzzleXML();
-            //Solving the puzzle. 
-            bool solved = SolveSudokuRuleBasedXML();
-            return solved;
-        }
-
-        public bool solvePuzzleXML(string directoryLocation)
-        {
-            difficluty = "easy";
-            loadFileDirectoryLocation = directoryLocation;
-            //Generate the puzzle and then solve it. 
-            GeneratePuzzleXML();
-            //Solving the puzzle. 
-            bool solved = SolveSudokuRuleBasedXML();
-            return solved;
-        }
-
-        #endregion 
-
         #region General Methods 
-
-        private void GeneratePuzzleXML()
-        {
-            //Loaing in a puzzle from a test file and creating the puzzle, along with static numbers. 
-            currentPuzzleToBeSolved = puzzleManager.ReadFromXMlFile(loadFileDirectoryLocation);
-        }
 
         private bool CheckToSeeIfPuzzleSolvedXML()
         {
@@ -209,7 +171,7 @@ namespace SudokuSetterAndSolver
                 return true;
             }
             //all the below methods seem to work togher and solve puzzles. 
-            HiddenSingles();
+            //HiddenSingles();
             checkSolved = CheckToSeeIfPuzzleSolvedXML();
             if (checkSolved)
             {
@@ -217,7 +179,7 @@ namespace SudokuSetterAndSolver
                 return true;
             }
             difficluty = "medium";
-            //CandidateHandling();
+            CandidateHandling();
             difficluty = "veryhard";
             MessageBox.Show("Human Solving Methods Completed! Puzzle not completed. Diffiuclty: Very Hard. Backtracking will begin.");
 
@@ -257,10 +219,10 @@ namespace SudokuSetterAndSolver
 
         private void CandidateHandling()
         {
-            NakedDoubles();
+            //NakedDoubles();
             HiddenDoubles();
             difficluty = "hard";
-            NakedTriples();
+            //NakedTriples();
             //Naked Triples 
             //HIdden Triples 
         }
@@ -355,14 +317,14 @@ namespace SudokuSetterAndSolver
 
             for (int indexRowNumber = 0; indexRowNumber <= currentPuzzleToBeSolved.gridsize - 1; indexRowNumber++)
             {
-                for(int cellIndexNumber =0;cellIndexNumber<=currentPuzzleToBeSolved.puzzlecells.Count-1;cellIndexNumber++)
+                for (int cellIndexNumber = 0; cellIndexNumber <= currentPuzzleToBeSolved.puzzlecells.Count - 1; cellIndexNumber++)
                 {
-                    if(indexRowNumber == currentPuzzleToBeSolved.puzzlecells[cellIndexNumber].rownumber)
+                    if (indexRowNumber == currentPuzzleToBeSolved.puzzlecells[cellIndexNumber].rownumber)
                     {
                         listOfCanidadtesForEachCellWithinTheRow.Add(cellIndexNumber);
                     }
                 }
-                hiddenRowCount += HiddenSinglesGeneric("row", listOfCanidadtesForEachCellWithinTheRow, _rowNumber, 0,0);
+                hiddenRowCount += HiddenSinglesGeneric("row", listOfCanidadtesForEachCellWithinTheRow, _rowNumber, 0, 0);
             }
             //There where hidden singles. 
             if (hiddenRowCount >= 1)
@@ -441,7 +403,7 @@ namespace SudokuSetterAndSolver
                         {
                             if (indivdualNumber == candidateValue)
                             {
-                                
+
                                 candidatesList[notNullIndexList[indexValueOfCellsInRegion]] = null;
                                 currentPuzzleToBeSolved.puzzlecells[notNullIndexList[indexValueOfCellsInRegion]].value = indivdualNumber;
                                 notNullIndexList.RemoveAt(indexValueOfCellsInRegion);
@@ -685,7 +647,6 @@ namespace SudokuSetterAndSolver
             {
                 SolveSudokuRuleBasedXML();
             }
-
         }
 
         private bool HiddenDoublesRow()
@@ -694,16 +655,18 @@ namespace SudokuSetterAndSolver
             List<List<int>> cadidatesInSingleRow = new List<List<int>>();
             bool hiddenDoubleRowBool = false;
             int hiddenDoubleRowCount = 0;
-            for (int rowNumber = 0; rowNumber <= 80; rowNumber++)
-            {
-                cadidatesInSingleRow.Add(candidatesList[rowNumber]);
 
-                //If the row is at an end. 
-                if (rowNumber % 9 == 8 || rowNumber == 8)
+            for (int rowNumberValue = 0; rowNumberValue <= currentPuzzleToBeSolved.gridsize - 1; rowNumberValue++)
+            {
+                for (int indexNumberOfCell = 0; indexNumberOfCell <= currentPuzzleToBeSolved.puzzlecells.Count - 1; indexNumberOfCell++)
                 {
-                    hiddenDoubleRowCount += GetHiddenDoubles(cadidatesInSingleRow, rowNumber, 0, "row");
-                    cadidatesInSingleRow.Clear();
+                    if (rowNumberValue == currentPuzzleToBeSolved.puzzlecells[indexNumberOfCell].rownumber)
+                    {
+                        cadidatesInSingleRow.Add(candidatesList[indexNumberOfCell]);
+                    }
                 }
+                hiddenDoubleRowCount += GetHiddenDoubles(cadidatesInSingleRow, rowNumberValue, 0, "row");
+                cadidatesInSingleRow.Clear();
             }
             if (hiddenDoubleRowCount >= 1)
             {
@@ -717,11 +680,11 @@ namespace SudokuSetterAndSolver
             bool hiddenDoubleColumnBool = false;
             int hiddenDoubleColumnCount = 0;
             //Search through all of the columns. 
-            for (int columnNumber = 0; columnNumber <= 8; columnNumber++)
+            for (int columnNumber = 0; columnNumber <= currentPuzzleToBeSolved.gridsize-1; columnNumber++)
             {
-                for (int candiateIndexNumber = 0; candiateIndexNumber <= 80; candiateIndexNumber++)
+                for (int candiateIndexNumber = 0; candiateIndexNumber <= currentPuzzleToBeSolved.puzzlecells.Count-1; candiateIndexNumber++)
                 {
-                    if (columnNumber == candiateIndexNumber || candiateIndexNumber % 9 == columnNumber)
+                    if (columnNumber == currentPuzzleToBeSolved.puzzlecells[candiateIndexNumber].columnnumber)
                     {
                         cadidatesInSingleColumn.Add(candidatesList[candiateIndexNumber]);
                     }
@@ -740,16 +703,20 @@ namespace SudokuSetterAndSolver
             List<List<int>> listOfCanidadtesForEachCellWithinTheBlock = new List<List<int>>();
             bool hiddenDoubleBlockBool = false;
             int hiddenDoubleBlockCount = 0;
-            //Gets all the values from each block. 
-            for (int rowNumber = 2; rowNumber <= 8; rowNumber += 3)
+            //Gets all the values from each block.
+            for(int blockNumberValue =0;blockNumberValue<=currentPuzzleToBeSolved.gridsize-1;blockNumberValue++ )
             {
-                for (int coulmnNumber = 2; coulmnNumber <= 8; coulmnNumber += 3)
+                for(int cellIndexNumber =0; cellIndexNumber<=currentPuzzleToBeSolved.puzzlecells.Count-1;cellIndexNumber++)
                 {
-                    listOfCanidadtesForEachCellWithinTheBlock = getSudokuValuesInBox(rowNumber, coulmnNumber); //Get cell values for that block. 
-                    hiddenDoubleBlockCount += GetHiddenDoubles(listOfCanidadtesForEachCellWithinTheBlock, rowNumber, coulmnNumber, "block");
-                    listOfCanidadtesForEachCellWithinTheBlock.Clear();
+                    if(blockNumberValue == currentPuzzleToBeSolved.puzzlecells[cellIndexNumber].blocknumber)
+                    {
+                        listOfCanidadtesForEachCellWithinTheBlock.Add(candidatesList[cellIndexNumber]);
+                    }
                 }
+                hiddenDoubleBlockCount += GetHiddenDoubles(listOfCanidadtesForEachCellWithinTheBlock, rowNumber, 0, "block");
+                listOfCanidadtesForEachCellWithinTheBlock.Clear();
             }
+             
             if (hiddenDoubleBlockCount >= 1)
             {
                 hiddenDoubleBlockBool = true;
@@ -778,6 +745,10 @@ namespace SudokuSetterAndSolver
             {
                 for (int secondNumber = 1; secondNumber <= 9; secondNumber++)
                 {
+                    if(firstNumber == 3 && secondNumber ==7)
+                    {
+
+                    }
                     //List that contains all of the matches. 
                     List<int> matchList = new List<int>();
                     List<int> matchDoubleList = new List<int>();
@@ -1616,208 +1587,6 @@ namespace SudokuSetterAndSolver
         #endregion
 
         #region Methods to check valid values 
-        private void checkBlock()
-        {
-            //Need to work out how to get all the values out of each box. 
-
-            if (rowNumber + 1 == 2 || rowNumber + 1 == 5 || rowNumber + 1 == 8)
-            {
-                if (columnNumber + 1 == 2 || columnNumber + 1 == 5 || columnNumber + 1 == 8)
-                {
-                    //Middle square 
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber, columnNumber + 1]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber, columnNumber - 1]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber - 1, columnNumber - 1]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber + 1, columnNumber + 1]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber + 1, columnNumber]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber - 1, columnNumber]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber - 1, columnNumber + 1]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber + 1, columnNumber - 1]);
-                }
-                else if (columnNumber + 1 == 3 || columnNumber + 1 == 6 || columnNumber + 1 == 9)
-                {
-                    //Middle right square
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber, columnNumber - 1]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber, columnNumber - 2]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber - 1, columnNumber]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber + 1, columnNumber]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber - 1, columnNumber - 1]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber + 1, columnNumber - 1]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber - 1, columnNumber - 2]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber + 1, columnNumber - 2]);
-                }
-                else
-                {
-                    //Middle left
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber, columnNumber + 1]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber, columnNumber + 2]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber + 1, columnNumber]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber - 1, columnNumber]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber + 1, columnNumber + 1]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber - 1, columnNumber + 1]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber + 1, columnNumber + 2]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber - 1, columnNumber + 2]);
-                }
-                //This if it is at the middle of a block. 
-            }
-            else if (rowNumber + 1 == 3 || rowNumber + 1 == 6 || rowNumber + 1 == 9)
-            {
-                if (columnNumber + 1 == 2 || columnNumber + 1 == 5 || columnNumber + 1 == 8)
-                {
-                    //Bottom middle 
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber, columnNumber - 1]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber, columnNumber + 1]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber - 1, columnNumber - 1]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber - 2, columnNumber - 1]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber - 2, columnNumber]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber - 1, columnNumber]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber - 1, columnNumber + 1]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber - 2, columnNumber + 1]);
-                }
-                else if (columnNumber + 1 == 3 || columnNumber + 1 == 6 || columnNumber + 1 == 9)
-                {
-                    //Botom righ corner 
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber - 2, columnNumber - 2]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber - 2, columnNumber]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber, columnNumber - 2]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber - 1, columnNumber]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber, columnNumber - 1]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber - 1, columnNumber - 1]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber - 2, columnNumber - 1]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber - 1, columnNumber - 2]);
-                }
-                else
-                {
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber, columnNumber + 1]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber, columnNumber + 2]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber - 1, columnNumber]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber - 2, columnNumber]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber - 1, columnNumber + 1]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber - 1, columnNumber + 2]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber - 2, columnNumber + 2]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber - 2, columnNumber + 1]);
-                }
-            }
-            else
-            {
-                if (columnNumber + 1 == 2 || columnNumber + 1 == 5 || columnNumber + 1 == 8)
-                {
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber, columnNumber + 1]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber, columnNumber - 1]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber + 1, columnNumber + 1]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber + 2, columnNumber + 1]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber + 2, columnNumber]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber + 1, columnNumber]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber + 1, columnNumber - 1]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber + 2, columnNumber - 1]);
-                }
-                else if (columnNumber + 1 == 3 || columnNumber + 1 == 6 || columnNumber + 1 == 9)
-                {
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber, columnNumber - 1]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber, columnNumber - 2]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber + 1, columnNumber]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber + 2, columnNumber]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber + 1, columnNumber - 1]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber + 1, columnNumber - 2]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber + 2, columnNumber - 2]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber + 2, columnNumber - 1]);
-                }
-                else
-                {
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber + 2, columnNumber + 2]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber + 2, columnNumber]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber, columnNumber + 2]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber + 1, columnNumber]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber, columnNumber + 1]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber + 1, columnNumber + 1]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber + 2, columnNumber + 1]);
-                    numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber + 1, columnNumber + 2]);
-                }
-            }
-
-            foreach (var value in numberPositionsInRegion)
-            {
-                if (value == 0)
-                {
-
-                }
-                else
-                {
-                    nonValidumbersInRegion.Add(value);
-                }
-            }
-            for (counter = 1; counter <= 9; counter++)
-            {
-                if (nonValidumbersInRegion.Contains(counter) == false)
-                {
-                    validNumbersInBlock.Add(counter);
-                }
-            }
-            numberPositionsInRegion.Clear();
-            nonValidumbersInRegion.Clear();
-        }
-
-        //There is something wrong with this method atm. 
-        private void checkColumn()
-        {
-            for (counter = 0; counter <= 8; counter++)
-            {
-                numberPositionsInRegion.Add(sudokuPuzzleMultiExample[counter, columnNumber]);
-            }
-
-            foreach (var value in numberPositionsInRegion)
-            {
-                if (value == 0)
-                {
-
-                }
-                else
-                {
-                    nonValidumbersInRegion.Add(value);
-                }
-            }
-            //Getting all the valid numbers i.e. the numbers that are not already in the column. 
-            for (counter = 1; counter <= 9; counter++)
-            {
-                if (nonValidumbersInRegion.Contains(counter) == false)
-                {
-                    validNumbersInColumn.Add(counter);
-                }
-            }
-            numberPositionsInRegion.Clear();
-            nonValidumbersInRegion.Clear();
-        }
-
-        private void checkRow()
-        {
-            for (counter = 0; counter <= 8; counter++)
-            {
-                numberPositionsInRegion.Add(sudokuPuzzleMultiExample[rowNumber, counter]);
-            }
-
-            foreach (var value in numberPositionsInRegion)
-            {
-                if (value == 0)
-                {
-
-                }
-                else
-                {
-                    nonValidumbersInRegion.Add(value);
-                }
-            }
-            //Getting all the valid numbers i.e. the numbers that are not already in the column. 
-            //Get the valid number that can be within this row. These should be in number order. 
-            for (counter = 1; counter <= 9; counter++)
-            {
-                if (nonValidumbersInRegion.Contains(counter) == false)
-                {
-                    validNUmbersInRow.Add(counter);
-                }
-            }
-            nonValidumbersInRegion.Clear();
-            numberPositionsInRegion.Clear();
-        }
 
         private void GetValidNumbers()
         {
