@@ -27,7 +27,7 @@ namespace SudokuSetterAndSolver
         private void randomPuzzleScreenBtn_Click(object sender, EventArgs e)
         {
             PopUpRandomPuzzleSelection puzzleSelectionPopup = new PopUpRandomPuzzleSelection();
-            puzzleSelectionPopup.Show();
+            puzzleSelectionPopup.ShowDialog();
             this.Hide();
         }
 
@@ -40,9 +40,9 @@ namespace SudokuSetterAndSolver
 
         private void solveSudokuScreenBtn_Click(object sender, EventArgs e)
         {
+            PopUpSolverScreen puzzleSelectionPopup = new PopUpSolverScreen();
+            puzzleSelectionPopup.ShowDialog();
             this.Hide();
-            SolveSudokuScreen solveSudokuScreen = new SolveSudokuScreen();
-            solveSudokuScreen.Show();
         }
 
         private void statisticsScreenBtn_Click(object sender, EventArgs e)

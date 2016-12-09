@@ -111,79 +111,10 @@ namespace SudokuSetterAndSolver
 
         }
 
-        private void CreateGrid(int gridSize)
-        {
-            listOfTextBoxes.Clear();
-            //Creating the sudoku grid values. 
-            int[,] sudokuGrid = new int[gridSize, gridSize];
-
-
-            //Creating and popualting the grid with the values attained. 
-            int[,] gridMultiDimensionalArray = new int[gridSize, gridSize];
-            int rowLocation = 0, columnLocation = 0;
-            for (int i = 0; i < gridSize; i++)
-            {
-                for (int j = 0; j < gridSize; j++)
-                {
-                    //Creating a textbox for the each cell, with the valid details. 
-                    TextBox txtBox = new TextBox();
-                    this.Controls.Add(txtBox);
-                    txtBox.Name = i.ToString() + j.ToString();
-                    txtBox.ReadOnly = false;
-                    txtBox.Size = new System.Drawing.Size(38, 38);
-                    txtBox.TabIndex = 0;
-                    txtBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-                    txtBox.Click += new System.EventHandler(this.puzzleSquareClick);
-                    txtBox.TextChanged += new System.EventHandler(this.puzzleTextChange);
-                    //Key press handler to only allow digits 1-9 in the textboxes. 
-                    txtBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(CheckCellEntry);
-                    //Limiting the text box to only on character. 
-                    txtBox.MaxLength = 1;
-
-                    //Clouring 
-                    txtBox.Font = new Font(txtBox.Font, FontStyle.Bold);
-                    txtBox.ForeColor = Color.Black;
-                    if ((i <= 2 && j <= 2) || (i >= 6 && j >= 6))
-                    {
-                        txtBox.BackColor = Color.LightGreen;
-                    }
-                    else if ((i <= 2 && (j >= 3 && j <= 5)) || (i >= 6 && (j >= 3 && j <= 5)))
-                    {
-                        txtBox.BackColor = Color.Pink;
-                    }
-                    else if ((i <= 2 && j >= 6) || (i >= 6 && j <= 2))
-                    {
-                        txtBox.BackColor = Color.LightCyan;
-                    }
-                    else if (((i >= 3 && i <= 5) && j <= 2) || ((i >= 3 && i <= 5) && j >= 6))
-                    {
-                        txtBox.BackColor = Color.LightYellow;
-                    }
-                    else
-                    {
-                        txtBox.BackColor = Color.LightBlue;
-                    }                  
-                    //Position logic
-                    if (i == 0 && j == 0)
-                    {
-                        rowLocation = rowLocation + 118;
-                        columnLocation = columnLocation + 120;
-                    }
-                    else
-                    {
-                        rowLocation = rowLocation + 38;
-                    }
-                    txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
-
-                    listOfTextBoxes.Add(txtBox);
-                }
-                rowLocation = 80;
-                columnLocation = columnLocation + 17;
-            }
-        }
+       
 
         private void GenerateStandardSudokuPuzzle()
-        {
+        {        
             //sudokuGridGenerator.loadedPuzzle = loadedPuzzle;
             //sudokuGridGenerator.CreateSudokuGridXML();
             //sudokuSolutionArray = sudokuGridGenerator.orginalSolution;

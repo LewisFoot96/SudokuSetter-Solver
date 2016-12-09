@@ -1943,11 +1943,11 @@ namespace SudokuSetterAndSolver
                         }
                     }
                 }
-                foreach (var printCell in currentPuzzleToBeSolved.puzzlecells)
-                {
-                    Console.Write(printCell.value);
-                }
-                Console.WriteLine();
+                //foreach (var printCell in currentPuzzleToBeSolved.puzzlecells)
+                //{
+                //    Console.Write(printCell.value);
+                //}
+                //Console.WriteLine();
                 validNumbersInCell.Clear();
             }
             Console.WriteLine(stopWatch.Elapsed.TotalSeconds);

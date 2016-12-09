@@ -218,8 +218,6 @@ namespace SudokuSetterAndSolver
                 generatedPuzzle.gridsize = 4;
                 GenerateBlankGridStandardSudoku();
                 GenerateSmallSudokuPuzzle();
-
-
             }
         }
 

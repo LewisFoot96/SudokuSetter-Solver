@@ -15,18 +15,49 @@ namespace SudokuSetterAndSolver
         #region Field Variables 
         TextBox currentSelectedTextBox = new TextBox();
         SudokuSolver sudokuSolver = new SudokuSolver();
-        int[,] sudokuGrid;
         string fileDirctoryLocation = "";
         PuzzleManager puzzleManager = new PuzzleManager();
         puzzle loadedPuzzle = new puzzle();
+        public static int _puzzleSelection; 
         #endregion
 
         #region Constructor 
         public SolveSudokuScreen()
         {
+            //need to handle the differne puzzles based on the pop up box 
             InitializeComponent();
-            CreateGrid(9);
-            sudokuGrid = new int[9, 9];
+            //Generate Blank Grid. 
+
+            if (_puzzleSelection == 0)
+            {
+                loadedPuzzle.gridsize = 16;
+            }
+            else if (_puzzleSelection == 1)
+            {
+                
+                loadedPuzzle.gridsize = 9;
+            }
+            else
+            {
+                loadedPuzzle.gridsize = 4;
+            }
+
+           
+            loadedPuzzle.type = "regualr";
+            GenerateBlankGridStandardSudoku();
+            if (_puzzleSelection == 0)
+            {
+                GenerateLargeSudokuPuzzle();
+                
+            }
+            else if (_puzzleSelection == 1)
+            {
+                GenerateStandardSudokuPuzzle();
+            }
+            else
+            {
+                GenerateSmallSudokuPuzzle();
+            }
         }
         #endregion
 
@@ -82,22 +113,20 @@ namespace SudokuSetterAndSolver
             bool puzzleSolved = sudokuSolver.BacktrackingUsingXmlTemplateFile(false);
             loadedPuzzle = sudokuSolver.currentPuzzleToBeSolved;
 
-
-            //sudokuSolver.sudokuPuzzleMultiExample = sudokuGrid;
-            //bool solved = sudokuSolver.solvePuzzle(fileDirctoryLocation);
-            //sudokuGrid = sudokuSolver.sudokuPuzzleMultiExample;
             if (puzzleSolved == true)
             {
-                foreach (var cell in loadedPuzzle.puzzlecells)
+
+                for (int cellNumberCount = 0; cellNumberCount <= loadedPuzzle.puzzlecells.Count - 1; cellNumberCount++)
                 {
                     foreach (var textBoxCurrent in listOfTextBoxes)
                     {
-                        if (textBoxCurrent.Name == cell.rownumber.ToString() + cell.columnnumber.ToString())
+                        if (textBoxCurrent.Name == cellNumberCount.ToString())
                         {
-                            textBoxCurrent.Text = cell.value.ToString();
+                            textBoxCurrent.Text = loadedPuzzle.puzzlecells[cellNumberCount].value.ToString();
+                            break;
                         }
                     }
-                }
+                }            
             }
             else
             {
@@ -112,6 +141,8 @@ namespace SudokuSetterAndSolver
 
         private void fileChooser_FileOk(object sender, CancelEventArgs e)
         {
+            ClearTextBoxesGrid();
+            listOfTextBoxes.Clear();
             fileDirctoryLocation = fileChooser.FileName;
             loadedPuzzle = puzzleManager.ReadFromXMlFile(fileDirctoryLocation);
 
@@ -121,8 +152,6 @@ namespace SudokuSetterAndSolver
             {
                 listOfSudokuValues.Add(cell.value);
             }
-
-            ClearTextBoxesGrid(); 
             if(loadedPuzzle.gridsize == 9 )
             {
                 GenerateStandardSudokuPuzzle();
@@ -145,7 +174,172 @@ namespace SudokuSetterAndSolver
                 textBox.Dispose();
             }
         }
+
+        #endregion
+
+        #region Blank Grid Methods
+
+        private void GenerateBlankGridStandardSudoku()
+        {
+            for (int puzzleRowNumber = 0; puzzleRowNumber <= loadedPuzzle.gridsize - 1; puzzleRowNumber++)
+            {
+                for (int puzzleColumnNumber = 0; puzzleColumnNumber <= loadedPuzzle.gridsize - 1; puzzleColumnNumber++)
+                {
+                    puzzleCell tempPuzzleCell = new puzzleCell();
+                    tempPuzzleCell.rownumber = puzzleRowNumber;
+                    tempPuzzleCell.columnnumber = puzzleColumnNumber;
+                    if (loadedPuzzle.gridsize == 4)
+                    {
+                        tempPuzzleCell.blocknumber = GetBlockFour(puzzleRowNumber, puzzleColumnNumber);
+                    }
+                    else if (loadedPuzzle.gridsize == 9)
+                    {
+                        tempPuzzleCell.blocknumber = GetBlockNumberNine(puzzleRowNumber, puzzleColumnNumber);
+                    }
+                    else
+                    {
+                        tempPuzzleCell.blocknumber = GetBlocNumberSixteen(puzzleRowNumber, puzzleColumnNumber);
+                    }
+                    loadedPuzzle.puzzlecells.Add(tempPuzzleCell);
+                }
+            }
+        }
+
+        private int GetBlockFour(int tempRowNumber, int tempColumnNumber)
+        {
+            if (tempRowNumber <= 1 && tempColumnNumber <= 1)
+            {
+                return 0;
+            }
+            else if (tempRowNumber <= 1 && tempColumnNumber >= 2)
+            {
+                return 1;
+            }
+            else if (tempRowNumber >= 2 && tempColumnNumber <= 1)
+            {
+                return 2;
+            }
+            else
+            {
+                return 3;
+            }
+        }
+
+        private int GetBlockNumberNine(int tempRowNumber, int tempColumnNumber)
+        {
+            double blockValue = Math.Sqrt(loadedPuzzle.gridsize);
+            if (tempRowNumber <= 2 && tempColumnNumber <= 2)
+            {
+                return 0;
+            }
+            else if (tempRowNumber <= 2 && (tempColumnNumber >= 3 && tempColumnNumber <= 5))
+            {
+                return 1;
+            }
+            else if (tempRowNumber <= 2 && (tempColumnNumber >= 6 && tempColumnNumber <= 8))
+            {
+                return 2;
+            }
+            else if ((tempRowNumber >= 3 && tempRowNumber <= 5) && tempColumnNumber <= 2)
+            {
+                return 3;
+            }
+            else if ((tempRowNumber >= 3 && tempRowNumber <= 5) && (tempColumnNumber >= 3 && tempColumnNumber <= 5))
+            {
+                return 4;
+            }
+            else if ((tempRowNumber >= 3 && tempRowNumber <= 5) && (tempColumnNumber >= 6 && tempColumnNumber <= 8))
+            {
+                return 5;
+            }
+            else if ((tempRowNumber >= 6 && tempRowNumber <= 8) && tempColumnNumber <= 2)
+            {
+                return 6;
+            }
+            else if ((tempRowNumber >= 6 && tempRowNumber <= 8) && (tempColumnNumber >= 3 && tempColumnNumber <= 5))
+            {
+                return 7;
+            }
+            else
+            {
+                return 8;
+            }
+
+        }
+
+        private int GetBlocNumberSixteen(int tempRowNumber, int tempColumnNumber)
+        {
+            if (tempRowNumber <= 3 && tempColumnNumber <= 3)
+            {
+                return 0;
+            }
+            else if (tempRowNumber <= 3 && (tempColumnNumber >= 4 && tempColumnNumber <= 7))
+            {
+                return 1;
+            }
+            else if (tempRowNumber <= 3 && (tempColumnNumber >= 8 && tempColumnNumber <= 11))
+            {
+                return 2;
+            }
+            else if (tempRowNumber <= 3 && (tempColumnNumber >= 12 && tempColumnNumber <= 15))
+            {
+                return 3;
+            }
+            else if ((tempRowNumber >= 4 && tempRowNumber <= 7) && tempColumnNumber <= 3)
+            {
+                return 4;
+            }
+            else if ((tempRowNumber >= 4 && tempRowNumber <= 7) && (tempColumnNumber >= 4 && tempColumnNumber <= 7))
+            {
+                return 5;
+            }
+            else if ((tempRowNumber >= 4 && tempRowNumber <= 7) && (tempColumnNumber >= 8 && tempColumnNumber <= 11))
+            {
+                return 6;
+            }
+            else if ((tempRowNumber >= 4 && tempRowNumber <= 7) && (tempColumnNumber >= 12 && tempColumnNumber <= 15))
+            {
+                return 7;
+            }
+            else if ((tempRowNumber >= 8 && tempRowNumber <= 11) && tempColumnNumber <= 3)
+            {
+                return 8;
+            }
+            else if ((tempRowNumber >= 8 && tempRowNumber <= 11) && (tempColumnNumber >= 4 && tempColumnNumber <= 7))
+            {
+                return 9;
+            }
+            else if ((tempRowNumber >= 8 && tempRowNumber <= 11) && (tempColumnNumber >= 8 && tempColumnNumber <= 11))
+            {
+                return 10;
+            }
+            else if ((tempRowNumber >= 8 && tempRowNumber <= 11) && (tempColumnNumber >= 12 && tempColumnNumber <= 15))
+            {
+                return 11;
+            }
+            else if ((tempRowNumber >= 12 && tempRowNumber <= 15) && tempColumnNumber <= 3)
+            {
+                return 12;
+            }
+            else if ((tempRowNumber >= 12 && tempRowNumber <= 15) && (tempColumnNumber >= 4 && tempColumnNumber <= 7))
+            {
+                return 13;
+            }
+            else if ((tempRowNumber >= 12 && tempRowNumber <= 15) && (tempColumnNumber >= 8 && tempColumnNumber <= 11))
+            {
+                return 14;
+            }
+            else
+            {
+                return 15;
+            }
+
+        }
+
+        #endregion 
     }
 
-    #endregion
+
+
+
 }
