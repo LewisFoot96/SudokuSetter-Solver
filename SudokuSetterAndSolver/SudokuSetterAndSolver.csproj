@@ -165,7 +165,6 @@
   <ItemGroup>
     <Folder Include="Images\" />
     <Folder Include="Puzzles\TestPuzzles\DifficultyTests\" />
-    <Folder Include="Puzzles\TestPuzzles\HiddenTest\" />
     <Folder Include="Puzzles\TestPuzzles\NakedTests\" />
     <Folder Include="Screens\" />
     <Folder Include="SudokuPuzzles\" />
@@ -180,12 +179,12 @@
     <None Include="Resources\SSSGameScreenFullBanner.fw1.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Puzzles\TestPuzzles\HiddenTest\hiddenSingleBlock.xml" />
+    <Content Include="Puzzles\TestPuzzles\HiddenTest\hiddenSingleRowColumn.xml" />
     <Content Include="Puzzles\TestPuzzles\IrregularPuzzles\irregulartest1.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Puzzles\TestPuzzles\testlevel10old.xml" />
-    <Content Include="Puzzles\TestPuzzles\testlevel11old.xml" />
-    <Content Include="Puzzles\TestPuzzles\testlevel12old.xml" />
     <Content Include="Puzzles\TestPuzzles\testlevel13old.xml" />
     <Content Include="Puzzles\TestPuzzles\testlevel14old.xml" />
     <Content Include="Puzzles\TestPuzzles\testlevel15old.xml" />
