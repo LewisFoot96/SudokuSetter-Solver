@@ -21,19 +21,11 @@ namespace SudokuSetterAndSolver
         #endregion
 
         #region Global Variables 
-
-        //Row and column number of the current cell being handled. 
-        int rowNumber = 0;
-        int columnNumber = 0;
-
         //All of the check to see what numbers are valid for that particular square. 
         List<int> validNUmbersInRow = new List<int>();
         List<int> validNumbersInColumn = new List<int>();
         List<int> validNumbersInBlock = new List<int>();
         List<int> validNumbersInCell = new List<int>();
-        List<int> validNumbersInRegion = new List<int>();
-        List<int> nonValidumbersInRegion = new List<int>();
-        List<int> numberPositionsInRegion = new List<int>();
 
         //Random number generate, used where necessary.
         Random randomNumberGenerator = new Random();
@@ -63,15 +55,11 @@ namespace SudokuSetterAndSolver
 
         bool solvedBacktracking = false;
         public string difficluty;
-        //Directory location of the file that is being solved. 
-        string loadFileDirectoryLocation = "C:\\Users\\New\\Documents\\Sudoku\\Application\\SudokuSetterAndSolver\\SudokuSetterAndSolver\\Puzzles\\TestPuzzles\\test22.xml";
 
         //Get all the cells with the corrrect row , column and block number, this will then allow easier handling.
         public puzzle currentPuzzleToBeSolved = new puzzle();
         //THis will be the cell that is currently being handled by the solver. 
         puzzleCell puzzleCellCurrentlyBeingHandled = new puzzleCell();
-        puzzle staticPuzzle = new puzzle();
-
         #endregion
 
         #region General Methods 
@@ -219,10 +207,10 @@ namespace SudokuSetterAndSolver
 
         private void CandidateHandling()
         {
-            //NakedDoubles();
+            NakedDoubles();
             HiddenDoubles();
             difficluty = "hard";
-            //NakedTriples();
+            NakedTriples();
             //Naked Triples 
             //HIdden Triples 
         }
@@ -446,16 +434,18 @@ namespace SudokuSetterAndSolver
             List<List<int>> cadidatesInSingleRow = new List<List<int>>();
             bool nakedDoubleBool = false;
             int nakedDoubleRowCount = 0;
-            for (int rowNumber = 0; rowNumber <= 80; rowNumber++)
-            {
-                cadidatesInSingleRow.Add(candidatesList[rowNumber]);
 
-                //If the row is at an end. 
-                if (rowNumber % 9 == 8 || rowNumber == 8)
+            for (int rowValueNumber = 0; rowValueNumber <= currentPuzzleToBeSolved.gridsize - 1; rowValueNumber++)
+            {
+                for (int cellIndexNumberCount = 0; cellIndexNumberCount <= currentPuzzleToBeSolved.puzzlecells.Count - 1; cellIndexNumberCount++)
                 {
-                    nakedDoubleRowCount += GetNakedDoubles(cadidatesInSingleRow, rowNumber, 0, 0, "row");
-                    cadidatesInSingleRow.Clear();
+                    if (rowValueNumber == currentPuzzleToBeSolved.puzzlecells[cellIndexNumberCount].rownumber)
+                    {
+                        cadidatesInSingleRow.Add(candidatesList[cellIndexNumberCount]);
+                    }
                 }
+                nakedDoubleRowCount += GetNakedDoubles(cadidatesInSingleRow, rowValueNumber, 0, 0, "row");
+                cadidatesInSingleRow.Clear();
             }
             if (nakedDoubleRowCount >= 1)
             {
@@ -470,16 +460,16 @@ namespace SudokuSetterAndSolver
             int nakedDoubleColumnCount = 0;
             List<List<int>> cadidatesInSingleColumn = new List<List<int>>();
             //Search through all of the columns. 
-            for (int columnNumber = 0; columnNumber <= 8; columnNumber++)
+            for (int _columnNumber = 0; _columnNumber <= 8; _columnNumber++)
             {
-                for (int candiateIndexNumber = 0; candiateIndexNumber <= 80; candiateIndexNumber++)
+                for (int candiateIndexNumber = 0; candiateIndexNumber <= currentPuzzleToBeSolved.puzzlecells.Count - 1; candiateIndexNumber++)
                 {
-                    if (columnNumber == candiateIndexNumber || candiateIndexNumber % 9 == columnNumber)
+                    if (_columnNumber == currentPuzzleToBeSolved.puzzlecells[candiateIndexNumber].columnnumber)
                     {
                         cadidatesInSingleColumn.Add(candidatesList[candiateIndexNumber]);
                     }
                 }
-                nakedDoubleColumnCount += GetNakedDoubles(cadidatesInSingleColumn, 0, columnNumber, 0, "column");
+                nakedDoubleColumnCount += GetNakedDoubles(cadidatesInSingleColumn, 0, _columnNumber, 0, "column");
                 cadidatesInSingleColumn.Clear();
             }
 
@@ -495,15 +485,18 @@ namespace SudokuSetterAndSolver
             bool nakedDoubleBlockBool = false;
             int nakedDoubleBlockCount = 0;
             List<List<int>> listOfCanidadtesForEachCellWithinTheBlock = new List<List<int>>();
-            //Gets all the values from each block. 
-            for (int rowNumber = 2; rowNumber <= 8; rowNumber += 3)
+
+            for (int blockNumberValue = 0; blockNumberValue <= currentPuzzleToBeSolved.gridsize - 1; blockNumberValue++)
             {
-                for (int coulmnNumber = 2; coulmnNumber <= 8; coulmnNumber += 3)
+                for (int cellIndexCount = 0; cellIndexCount <= currentPuzzleToBeSolved.puzzlecells.Count - 1; cellIndexCount++)
                 {
-                    listOfCanidadtesForEachCellWithinTheBlock = getSudokuValuesInBox(rowNumber, coulmnNumber); //Get cell values for that block. 
-                    nakedDoubleBlockCount += GetNakedDoubles(listOfCanidadtesForEachCellWithinTheBlock, rowNumber, coulmnNumber, 0, "block");
-                    listOfCanidadtesForEachCellWithinTheBlock.Clear();
+                    if (blockNumberValue == currentPuzzleToBeSolved.puzzlecells[cellIndexCount].blocknumber)
+                    {
+                        listOfCanidadtesForEachCellWithinTheBlock.Add(candidatesList[cellIndexCount]);
+                    }
                 }
+                nakedDoubleBlockCount += GetNakedDoubles(listOfCanidadtesForEachCellWithinTheBlock, blockNumberValue, 0, 0, "block");
+                listOfCanidadtesForEachCellWithinTheBlock.Clear();
             }
             if (nakedDoubleBlockCount >= 1)
             {
@@ -589,29 +582,18 @@ namespace SudokuSetterAndSolver
                                         //If the region is a block, then further handling. 
                                         else
                                         {
-                                            //Method to get the row and column number, using the row number, the index number and the column number 
-                                            int coordinateValue = 1;
-                                            int startRowNumber = rowNumber - 2;
-                                            int startCoulmnNumber = columnNumber - 2;
-                                            int actualRowNumber = 0;
-                                            int actualColumnNumber = 0;
-                                            //Getting row number and column of the current cell. 
-                                            for (; startRowNumber <= rowNumber; startRowNumber++)
+                                            int blockNumberCount = 0;
+                                            for (int cellIndexFindBlockValueCount = 0; cellIndexFindBlockValueCount <= currentPuzzleToBeSolved.puzzlecells.Count - 1; cellIndexFindBlockValueCount++)
                                             {
-                                                for (; startCoulmnNumber <= columnNumber; startCoulmnNumber++)
+                                                if (rowNumber == currentPuzzleToBeSolved.puzzlecells[cellIndexFindBlockValueCount].blocknumber)
                                                 {
-                                                    if (notNullIndexValuesCellsInRow[candidatesIndexValues] + 1 == coordinateValue)
+                                                    if (blockNumberCount == notNullIndexValuesCellsInRow[candidatesIndexValues])
                                                     {
-                                                        actualRowNumber = startRowNumber;
-                                                        actualColumnNumber = startCoulmnNumber;
+                                                        candidatesList[cellIndexFindBlockValueCount] = cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]];
                                                     }
-                                                    coordinateValue++;
+                                                    blockNumberCount++;
                                                 }
-                                                startCoulmnNumber = columnNumber - 2;
                                             }
-                                            nakedDoubleCount++;
-                                            //Removing candidate from cell. 
-                                            candidatesList[9 * actualRowNumber + actualColumnNumber] = cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]];
                                         }
                                         candidateValueIndex = 0;
                                     }
@@ -680,9 +662,9 @@ namespace SudokuSetterAndSolver
             bool hiddenDoubleColumnBool = false;
             int hiddenDoubleColumnCount = 0;
             //Search through all of the columns. 
-            for (int columnNumber = 0; columnNumber <= currentPuzzleToBeSolved.gridsize-1; columnNumber++)
+            for (int columnNumber = 0; columnNumber <= currentPuzzleToBeSolved.gridsize - 1; columnNumber++)
             {
-                for (int candiateIndexNumber = 0; candiateIndexNumber <= currentPuzzleToBeSolved.puzzlecells.Count-1; candiateIndexNumber++)
+                for (int candiateIndexNumber = 0; candiateIndexNumber <= currentPuzzleToBeSolved.puzzlecells.Count - 1; candiateIndexNumber++)
                 {
                     if (columnNumber == currentPuzzleToBeSolved.puzzlecells[candiateIndexNumber].columnnumber)
                     {
@@ -704,19 +686,19 @@ namespace SudokuSetterAndSolver
             bool hiddenDoubleBlockBool = false;
             int hiddenDoubleBlockCount = 0;
             //Gets all the values from each block.
-            for(int blockNumberValue =0;blockNumberValue<=currentPuzzleToBeSolved.gridsize-1;blockNumberValue++ )
+            for (int blockNumberValue = 0; blockNumberValue <= currentPuzzleToBeSolved.gridsize - 1; blockNumberValue++)
             {
-                for(int cellIndexNumber =0; cellIndexNumber<=currentPuzzleToBeSolved.puzzlecells.Count-1;cellIndexNumber++)
+                for (int cellIndexNumber = 0; cellIndexNumber <= currentPuzzleToBeSolved.puzzlecells.Count - 1; cellIndexNumber++)
                 {
-                    if(blockNumberValue == currentPuzzleToBeSolved.puzzlecells[cellIndexNumber].blocknumber)
+                    if (blockNumberValue == currentPuzzleToBeSolved.puzzlecells[cellIndexNumber].blocknumber)
                     {
                         listOfCanidadtesForEachCellWithinTheBlock.Add(candidatesList[cellIndexNumber]);
                     }
                 }
-                hiddenDoubleBlockCount += GetHiddenDoubles(listOfCanidadtesForEachCellWithinTheBlock, rowNumber, 0, "block");
+                hiddenDoubleBlockCount += GetHiddenDoubles(listOfCanidadtesForEachCellWithinTheBlock, blockNumberValue, 0, "block");
                 listOfCanidadtesForEachCellWithinTheBlock.Clear();
             }
-             
+
             if (hiddenDoubleBlockCount >= 1)
             {
                 hiddenDoubleBlockBool = true;
@@ -745,7 +727,7 @@ namespace SudokuSetterAndSolver
             {
                 for (int secondNumber = 1; secondNumber <= 9; secondNumber++)
                 {
-                    if(firstNumber == 3 && secondNumber ==7)
+                    if (firstNumber == 3 && secondNumber == 7)
                     {
 
                     }
@@ -813,29 +795,18 @@ namespace SudokuSetterAndSolver
                                         //If the region is a block, then further handling. 
                                         else
                                         {
-                                            //Method to get the row and column number, using the row number, the index number and the column number 
-                                            int coordinateValue = 1;
-                                            int startRowNumber = rowNumber - 2;
-                                            int startCoulmnNumber = columnNumber - 2;
-                                            int actualRowNumber = 0;
-                                            int actualColumnNumber = 0;
-                                            //Getting row number and column of the current cell. 
-                                            for (; startRowNumber <= rowNumber; startRowNumber++)
+                                            int blockNumberCount = 0;
+                                            for (int cellIndexFindBlockValueCount = 0; cellIndexFindBlockValueCount <= currentPuzzleToBeSolved.puzzlecells.Count - 1; cellIndexFindBlockValueCount++)
                                             {
-                                                for (; startCoulmnNumber <= columnNumber; startCoulmnNumber++)
+                                                if (rowNumber == currentPuzzleToBeSolved.puzzlecells[cellIndexFindBlockValueCount].blocknumber)
                                                 {
-                                                    if (notNullIndexValuesCellsInRow[candidatesIndexValues] + 1 == coordinateValue)
+                                                    if (blockNumberCount == notNullIndexValuesCellsInRow[candidatesIndexValues])
                                                     {
-                                                        actualRowNumber = startRowNumber;
-                                                        actualColumnNumber = startCoulmnNumber;
+                                                        candidatesList[cellIndexFindBlockValueCount] = cells[notNullIndexValuesCellsInRow[candidatesIndexValues]];
                                                     }
-                                                    coordinateValue++;
+                                                    blockNumberCount++;
                                                 }
-                                                startCoulmnNumber = columnNumber - 2;
                                             }
-                                            hiddenDoubleCount++;
-                                            //Removing candidate from cell. 
-                                            candidatesList[9 * actualRowNumber + actualColumnNumber] = cells[notNullIndexValuesCellsInRow[candidatesIndexValues]];
                                         }
                                         candidateValueIndex = 0;
                                     }
@@ -861,16 +832,18 @@ namespace SudokuSetterAndSolver
         {
             //Getting all of the naked doubles for that row. 
             List<List<int>> cadidatesInSingleRow = new List<List<int>>();
-            for (int rowNumber = 0; rowNumber <= 80; rowNumber++)
-            {
-                cadidatesInSingleRow.Add(candidatesList[rowNumber]);
 
-                //If the row is at an end. 
-                if (rowNumber % 9 == 8 || rowNumber == 8)
+            for (int rowNumberValue = 0; rowNumberValue <= currentPuzzleToBeSolved.gridsize - 1; rowNumberValue++)
+            {
+                for (int cellIndexValue = 0; cellIndexValue <= currentPuzzleToBeSolved.puzzlecells.Count - 1; cellIndexValue++)
                 {
-                    GetHiddenTriples(cadidatesInSingleRow, rowNumber, 0, "row");
-                    cadidatesInSingleRow.Clear();
+                    if (rowNumberValue == currentPuzzleToBeSolved.puzzlecells[cellIndexValue].rownumber)
+                    {
+                        cadidatesInSingleRow.Add(candidatesList[cellIndexValue]);
+                    }
                 }
+                GetHiddenTriples(cadidatesInSingleRow, rowNumberValue, 0, "row");
+                cadidatesInSingleRow.Clear();
             }
         }
 
@@ -878,16 +851,16 @@ namespace SudokuSetterAndSolver
         {
             List<List<int>> cadidatesInSingleColumn = new List<List<int>>();
             //Search through all of the columns. 
-            for (int columnNumber = 0; columnNumber <= 8; columnNumber++)
+            for (int _columnNumber = 0; _columnNumber <= currentPuzzleToBeSolved.gridsize - 1; _columnNumber++)
             {
-                for (int candiateIndexNumber = 0; candiateIndexNumber <= 80; candiateIndexNumber++)
+                for (int candiateIndexNumber = 0; candiateIndexNumber <= currentPuzzleToBeSolved.puzzlecells.Count - 1; candiateIndexNumber++)
                 {
-                    if (columnNumber == candiateIndexNumber || candiateIndexNumber % 9 == columnNumber)
+                    if (_columnNumber == currentPuzzleToBeSolved.puzzlecells[candiateIndexNumber].columnnumber)
                     {
                         cadidatesInSingleColumn.Add(candidatesList[candiateIndexNumber]);
                     }
                 }
-                GetHiddenTriples(cadidatesInSingleColumn, 0, columnNumber, "column");
+                GetHiddenTriples(cadidatesInSingleColumn, 0, _columnNumber, "column");
                 cadidatesInSingleColumn.Clear();
             }
         }
@@ -896,14 +869,18 @@ namespace SudokuSetterAndSolver
         {
             List<List<int>> listOfCanidadtesForEachCellWithinTheBlock = new List<List<int>>();
             //Gets all the values from each block. 
-            for (int rowNumber = 2; rowNumber <= 8; rowNumber += 3)
+
+            for (int blockNumberValue = 0; blockNumberValue <= currentPuzzleToBeSolved.gridsize - 1; blockNumberValue++)
             {
-                for (int coulmnNumber = 2; coulmnNumber <= 8; coulmnNumber += 3)
+                for (int cellNumberIndexCount = 0; cellNumberIndexCount <= currentPuzzleToBeSolved.puzzlecells.Count - 1; cellNumberIndexCount++)
                 {
-                    listOfCanidadtesForEachCellWithinTheBlock = getSudokuValuesInBox(rowNumber, coulmnNumber); //Get cell values for that block. 
-                    GetHiddenTriples(listOfCanidadtesForEachCellWithinTheBlock, rowNumber, coulmnNumber, "block");
-                    listOfCanidadtesForEachCellWithinTheBlock.Clear();
+                    if (blockNumberValue == currentPuzzleToBeSolved.puzzlecells[cellNumberIndexCount].blocknumber)
+                    {
+                        listOfCanidadtesForEachCellWithinTheBlock.Add(candidatesList[cellNumberIndexCount]);
+                    }
                 }
+                GetHiddenTriples(listOfCanidadtesForEachCellWithinTheBlock, blockNumberValue, 0, "block");
+                listOfCanidadtesForEachCellWithinTheBlock.Clear();
             }
         }
 
@@ -982,28 +959,18 @@ namespace SudokuSetterAndSolver
                                             //If the region is a block, then further handling. 
                                             else
                                             {
-                                                //Method to get the row and column number, using the row number, the index number and the column number 
-                                                int coordinateValue = 1;
-                                                int startRowNumber = rowNumber - 2;
-                                                int startCoulmnNumber = columnNumber - 2;
-                                                int actualRowNumber = 0;
-                                                int actualColumnNumber = 0;
-                                                //Getting row number and column of the current cell. 
-                                                for (; startRowNumber <= rowNumber; startRowNumber++)
+                                                int blockNumberCount = 0;
+                                                for (int cellIndexFindBlockValueCount = 0; cellIndexFindBlockValueCount <= currentPuzzleToBeSolved.puzzlecells.Count - 1; cellIndexFindBlockValueCount++)
                                                 {
-                                                    for (; startCoulmnNumber <= columnNumber; startCoulmnNumber++)
+                                                    if (rowNumber == currentPuzzleToBeSolved.puzzlecells[cellIndexFindBlockValueCount].blocknumber)
                                                     {
-                                                        if (notNullIndexValuesCellsInRow[candidatesIndexValues] + 1 == coordinateValue)
+                                                        if (blockNumberCount == notNullIndexValuesCellsInRow[candidatesIndexValues])
                                                         {
-                                                            actualRowNumber = startRowNumber;
-                                                            actualColumnNumber = startCoulmnNumber;
+                                                            candidatesList[cellIndexFindBlockValueCount] = cells[notNullIndexValuesCellsInRow[candidatesIndexValues]];
                                                         }
-                                                        coordinateValue++;
+                                                        blockNumberCount++;
                                                     }
-                                                    startCoulmnNumber = columnNumber - 2;
                                                 }
-                                                //Removing candidate from cell. 
-                                                candidatesList[9 * actualRowNumber + actualColumnNumber] = cells[notNullIndexValuesCellsInRow[candidatesIndexValues]];
                                             }
                                             candidateValueIndex = 0;
                                         }
@@ -1045,15 +1012,18 @@ namespace SudokuSetterAndSolver
             List<List<int>> cadidatesInSingleRow = new List<List<int>>();
             bool nakedTripleRowBool = false;
             int nakedTripleRowCount = 0;
-            for (int rowNumber = 0; rowNumber <= 80; rowNumber++)
+
+            for (int rowNumberValue = 0; rowNumberValue <= currentPuzzleToBeSolved.gridsize - 1; rowNumberValue++)
             {
-                cadidatesInSingleRow.Add(candidatesList[rowNumber]);
-                //If the row is at an end. 
-                if (rowNumber % 9 == 8 || rowNumber == 8)
+                for (int cellNumberIndexValue = 0; cellNumberIndexValue <= currentPuzzleToBeSolved.puzzlecells.Count - 1; cellNumberIndexValue++)
                 {
-                    nakedTripleRowCount += GetNakedTriples(cadidatesInSingleRow, rowNumber, 0, 0, "row");
-                    cadidatesInSingleRow.Clear();
+                    if (rowNumberValue == currentPuzzleToBeSolved.puzzlecells[cellNumberIndexValue].rownumber)
+                    {
+                        cadidatesInSingleRow.Add(candidatesList[cellNumberIndexValue]);
+                    }
                 }
+                nakedTripleRowCount += GetNakedTriples(cadidatesInSingleRow, rowNumberValue, 0, 0, "row");
+                cadidatesInSingleRow.Clear();
             }
             if (nakedTripleRowCount >= 1)
             {
@@ -1068,16 +1038,16 @@ namespace SudokuSetterAndSolver
             bool nakedTripleColumnBool = false;
             int nakedTripleColumnCount = 0;
             //Search through all of the columns. 
-            for (int columnNumber = 0; columnNumber <= 8; columnNumber++)
+            for (int _columnNumber = 0; _columnNumber <= currentPuzzleToBeSolved.gridsize - 1; _columnNumber++)
             {
-                for (int candiateIndexNumber = 0; candiateIndexNumber <= 80; candiateIndexNumber++)
+                for (int candiateIndexNumber = 0; candiateIndexNumber <= currentPuzzleToBeSolved.puzzlecells.Count - 1; candiateIndexNumber++)
                 {
-                    if (columnNumber == candiateIndexNumber || candiateIndexNumber % 9 == columnNumber)
+                    if (_columnNumber == currentPuzzleToBeSolved.puzzlecells[candiateIndexNumber].columnnumber)
                     {
                         cadidatesInSingleColumn.Add(candidatesList[candiateIndexNumber]);
                     }
                 }
-                nakedTripleColumnCount += GetNakedTriples(cadidatesInSingleColumn, 0, columnNumber, 0, "column");
+                nakedTripleColumnCount += GetNakedTriples(cadidatesInSingleColumn, 0, _columnNumber, 0, "column");
                 cadidatesInSingleColumn.Clear();
             }
             if (nakedTripleColumnCount >= 1)
@@ -1092,15 +1062,18 @@ namespace SudokuSetterAndSolver
             List<List<int>> listOfCanidadtesForEachCellWithinTheBlock = new List<List<int>>();
             bool nakedTripleBlockBool = false;
             int nakedTripleBlockCount = 0;
-            //Gets all the values from each block. 
-            for (int rowNumber = 2; rowNumber <= 8; rowNumber += 3)
+
+            for (int blockNumberValue = 0; blockNumberValue <= currentPuzzleToBeSolved.gridsize - 1; blockNumberValue++)
             {
-                for (int coulmnNumber = 2; coulmnNumber <= 8; coulmnNumber += 3)
+                for (int cellNumberIndexValue = 0; cellNumberIndexValue <= currentPuzzleToBeSolved.puzzlecells.Count - 1; cellNumberIndexValue++)
                 {
-                    listOfCanidadtesForEachCellWithinTheBlock = getSudokuValuesInBox(rowNumber, coulmnNumber); //Get cells values for that block. 
-                    nakedTripleBlockCount += GetNakedTriples(listOfCanidadtesForEachCellWithinTheBlock, rowNumber, coulmnNumber, 0, "block");
-                    listOfCanidadtesForEachCellWithinTheBlock.Clear();
+                    if (blockNumberValue == currentPuzzleToBeSolved.puzzlecells[cellNumberIndexValue].blocknumber)
+                    {
+                        listOfCanidadtesForEachCellWithinTheBlock.Add(candidatesList[cellNumberIndexValue]);
+                    }
                 }
+                nakedTripleBlockCount += GetNakedTriples(listOfCanidadtesForEachCellWithinTheBlock, blockNumberValue, 0, 0, "block");
+                listOfCanidadtesForEachCellWithinTheBlock.Clear();
             }
             if (nakedTripleBlockCount >= 1)
             {
@@ -1181,29 +1154,18 @@ namespace SudokuSetterAndSolver
                                             }
                                             else
                                             {
-                                                //Method to get the row and column number, using the row number, the index number and the column number 
-                                                int coordinateValue = 1;
-                                                int startRowNumber = rowNumber - 2;
-                                                int startCoulmnNumber = columnNumber - 2;
-                                                int actualRowNumber = 0;
-                                                int actualColumnNumber = 0;
-
-                                                for (; startRowNumber <= rowNumber; startRowNumber++)
+                                                int blockNumberCount = 0;
+                                                for (int cellIndexFindBlockValueCount = 0; cellIndexFindBlockValueCount <= currentPuzzleToBeSolved.puzzlecells.Count - 1; cellIndexFindBlockValueCount++)
                                                 {
-                                                    for (; startCoulmnNumber <= columnNumber; startCoulmnNumber++)
+                                                    if (rowNumber == currentPuzzleToBeSolved.puzzlecells[cellIndexFindBlockValueCount].blocknumber)
                                                     {
-                                                        if (notNullIndexValuesCellsInRow[candidatesIndexValues] + 1 == coordinateValue)
+                                                        if (blockNumberCount == notNullIndexValuesCellsInRow[candidatesIndexValues])
                                                         {
-                                                            actualRowNumber = startRowNumber;
-                                                            actualColumnNumber = startCoulmnNumber;
+                                                            candidatesList[cellIndexFindBlockValueCount] = cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]];
                                                         }
-                                                        coordinateValue++;
+                                                        blockNumberCount++;
                                                     }
-                                                    startCoulmnNumber = columnNumber - 2;
                                                 }
-                                                nakedTripleCount++;
-                                                //Removing candidate from cell. 
-                                                candidatesList[9 * actualRowNumber + actualColumnNumber] = cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]];
                                             }
                                             candidateValueIndex = 0;
                                         }
@@ -1470,30 +1432,6 @@ namespace SudokuSetterAndSolver
         }
         #endregion
 
-        #region Methods for getting values out of blocks, rows and columns, by passing values. 
-
-        private List<List<int>> getSudokuValuesInBox(int rowNumber, int columnNumber)
-        {
-            List<List<int>> numbersPositionsInBlock = new List<List<int>>();
-
-            int candidateValueNumber = 9 * rowNumber + columnNumber;
-            for (int rowRemove = 0; rowRemove <= 2; rowRemove++)
-            {
-                for (int columnRemove = 0; columnRemove <= 2; columnRemove++)
-                {
-                    numbersPositionsInBlock.Add(candidatesList[candidateValueNumber - (columnRemove + rowRemove * 9)]);
-                }
-            }
-
-            //Reversing the list so it is in the correct order. 
-            numbersPositionsInBlock.Reverse();
-
-            return numbersPositionsInBlock;
-
-        }
-
-        #endregion
-
         #region Methods for checking rows columns and blocks using the XML generated class
 
         //Methods for getting the values using the xml file. 
@@ -1600,33 +1538,5 @@ namespace SudokuSetterAndSolver
         }
 
         #endregion
-
-        #region Generic Method
-        private int[,] ConvertListToMultiDimensionalArray(List<int> puzzleInList, int gridSize)
-        {
-            int[,] puzzleArray = new int[gridSize, gridSize];
-            int rowNumber = 0;
-            int columnNumber = 0;
-
-            for (int cellNumber = 0; cellNumber <= puzzleInList.Count - 1; cellNumber++)
-            {
-                puzzleArray[rowNumber, columnNumber] = puzzleInList[cellNumber];
-                if (columnNumber == 8 || columnNumber % 9 == 8)
-                {
-                    rowNumber++;
-                    columnNumber = 0;
-                }
-                else
-                {
-                    columnNumber++;
-                }
-            }
-
-
-            return puzzleArray;
-        }
-
-        #endregion
-
     }
 }
