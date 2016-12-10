@@ -62,5 +62,11 @@ namespace SudokuSetterAndSolver
 
         #endregion
 
+        private void convertFileBtn_Click(object sender, EventArgs e)
+        {
+            ConvertTextFileToXMLFile convertScreen = new ConvertTextFileToXMLFile();
+            convertScreen.Show();
+            this.Hide();
+        }
     }
 }

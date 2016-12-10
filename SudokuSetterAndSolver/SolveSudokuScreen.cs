@@ -110,7 +110,7 @@ namespace SudokuSetterAndSolver
             //The puzzle solving should have a time out on it, if this time out is past, the puzzle is deemed unsolavable. 
 
             sudokuSolver.currentPuzzleToBeSolved = loadedPuzzle;
-            bool puzzleSolved = sudokuSolver.SolveSudokuRuleBasedXML();
+            bool puzzleSolved = sudokuSolver.BacktrackingUsingXmlTemplateFile(false);
             loadedPuzzle = sudokuSolver.currentPuzzleToBeSolved;
 
             if (puzzleSolved == true)

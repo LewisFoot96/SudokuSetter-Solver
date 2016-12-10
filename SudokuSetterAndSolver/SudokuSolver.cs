@@ -19,7 +19,7 @@ namespace SudokuSetterAndSolver
         //Details of the current 
         puzzle puzzleDetails;
         #endregion
-
+        //0,1,2,3 will be the difficulty values. HUman will have a 2 weighting. 
         #region Global Variables 
         //All of the check to see what numbers are valid for that particular square. 
         List<int> validNUmbersInRow = new List<int>();
@@ -56,6 +56,12 @@ namespace SudokuSetterAndSolver
         bool solvedBacktracking = false;
         public string difficluty;
 
+        int totalNumberOfCandidates = 0;
+        int difficultyLevel = 0;
+        int executionTime = 0;
+        int numberOfStaticNumbers = 0;
+        int humanSolvingDifficulty = 0; 
+
         //Get all the cells with the corrrect row , column and block number, this will then allow easier handling.
         public puzzle currentPuzzleToBeSolved = new puzzle();
         //THis will be the cell that is currently being handled by the solver. 
@@ -81,7 +87,8 @@ namespace SudokuSetterAndSolver
 
         public bool SolveSudokuRuleBasedXML()
         {
-            difficluty = "easy";
+            int candidateCount = 0;
+            humanSolvingDifficulty = 0;
             //Contains the list of candiates in each cell from simple analysis, not including human solvint methods procesing. 
             List<List<int>> tempCandiateList = new List<List<int>>();
             tempCandiateList.Clear();
@@ -90,7 +97,6 @@ namespace SudokuSetterAndSolver
 
             for (int cellIndexValueCandidates = 0; cellIndexValueCandidates <= currentPuzzleToBeSolved.puzzlecells.Count - 1; cellIndexValueCandidates++)
             {
-
                 puzzleCellCurrentlyBeingHandled = currentPuzzleToBeSolved.puzzlecells[cellIndexValueCandidates];
 
                 if (puzzleCellCurrentlyBeingHandled.value == 0)
@@ -103,6 +109,7 @@ namespace SudokuSetterAndSolver
                     validNumbersInColumn.Clear();
                     validNUmbersInRow.Clear();
                     tempCandiateList.Add(new List<int>(validNumbersInCell));
+                    candidateCount += validNumbersInCell.Count();
                     validNumbersInCell.Clear();
                 }
                 else
@@ -115,6 +122,16 @@ namespace SudokuSetterAndSolver
             //Check to see if its the first run of the method, and setting the orginal 
             if (methodRunNumber == 0)
             {
+                int staticNumberCountTemp = 0; 
+                for (int nonBlankCellCount = 0; nonBlankCellCount <= currentPuzzleToBeSolved.puzzlecells.Count - 1; nonBlankCellCount++)
+                {
+                    if(currentPuzzleToBeSolved.puzzlecells[nonBlankCellCount].value !=0)
+                    {
+                        staticNumberCountTemp++;
+                    }
+                }
+                totalNumberOfCandidates = candidateCount;
+                numberOfStaticNumbers = staticNumberCountTemp;
                 candidatesList = tempCandiateList;
             }
             else
@@ -155,21 +172,21 @@ namespace SudokuSetterAndSolver
             bool checkSolved = CheckToSeeIfPuzzleSolvedXML();
             if (checkSolved)
             {
-                MessageBox.Show("Human Solving Methods Completed! Puzzle Completed. Difficulty: " + difficluty);
+                //MessageBox.Show("Human Solving Methods Completed! Puzzle Completed. Difficulty: " + difficluty);
                 return true;
             }
             //all the below methods seem to work togher and solve puzzles. 
-            //HiddenSingles();
+            HiddenSingles();
             checkSolved = CheckToSeeIfPuzzleSolvedXML();
             if (checkSolved)
             {
-                MessageBox.Show("Human Solving Methods Completed! Puzzle Completed. Difficulty: " + difficluty);
+                //MessageBox.Show("Human Solving Methods Completed! Puzzle Completed. Difficulty: " + difficluty);
                 return true;
             }
-            difficluty = "medium";
+            humanSolvingDifficulty = 1;
             CandidateHandling();
-            difficluty = "veryhard";
-            MessageBox.Show("Human Solving Methods Completed! Puzzle not completed. Diffiuclty: Very Hard. Backtracking will begin.");
+            humanSolvingDifficulty = 2;
+            //MessageBox.Show("Human Solving Methods Completed! Puzzle not completed. Diffiuclty: Very Hard. Backtracking will begin.");
 
             solvedBacktracking = BacktrackingUsingXmlTemplateFile(false);
             return solvedBacktracking;
@@ -572,7 +589,7 @@ namespace SudokuSetterAndSolver
                                         if (regionTitle == "row")
                                         {
                                             nakedDoubleCount++;
-                                            candidatesList[rowNumber - 8 + notNullIndexValuesCellsInRow[candidatesIndexValues]] = cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]];
+                                            candidatesList[rowNumber * 9 + notNullIndexValuesCellsInRow[candidatesIndexValues]] = cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]];
                                         }
                                         else if (regionTitle == "column")
                                         {
@@ -785,7 +802,7 @@ namespace SudokuSetterAndSolver
                                         if (regionTitle == "row")
                                         {
                                             hiddenDoubleCount++;
-                                            candidatesList[rowNumber - 8 + notNullIndexValuesCellsInRow[candidatesIndexValues]] = cells[notNullIndexValuesCellsInRow[candidatesIndexValues]];
+                                            candidatesList[rowNumber *9 + notNullIndexValuesCellsInRow[candidatesIndexValues]] = cells[notNullIndexValuesCellsInRow[candidatesIndexValues]];
                                         }
                                         else if (regionTitle == "column")
                                         {
@@ -950,7 +967,7 @@ namespace SudokuSetterAndSolver
                                             cells[notNullIndexValuesCellsInRow[candidatesIndexValues]].RemoveAt(candidateValueIndex);
                                             if (regionTitle == "row")
                                             {
-                                                candidatesList[rowNumber - 8 + notNullIndexValuesCellsInRow[candidatesIndexValues]] = cells[notNullIndexValuesCellsInRow[candidatesIndexValues]];
+                                                candidatesList[rowNumber * 9 + notNullIndexValuesCellsInRow[candidatesIndexValues]] = cells[notNullIndexValuesCellsInRow[candidatesIndexValues]];
                                             }
                                             else if (regionTitle == "column")
                                             {
@@ -1535,6 +1552,22 @@ namespace SudokuSetterAndSolver
                     validNumbersInCell.Add(columnValue);
                 }
             }
+        }
+
+        #endregion
+
+        #region Asses Difficulty 
+
+        /// <summary>
+        /// This method will asses the difficulty of the puzzle that has just been solved using the rule based algorihtm. 
+        /// </summary>
+        /// <returns></returns>
+        public string AssesDifficultyOfCurrentPuzzle()
+        {
+            executionTime = 2;
+            //Something like this will be used. 
+            difficultyLevel = executionTime + humanSolvingDifficulty * 2 + numberOfStaticNumbers + totalNumberOfCandidates;
+            return "easy";
         }
 
         #endregion

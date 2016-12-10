@@ -47,6 +47,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CheckValidNumbersForRegions.cs" />
+    <Compile Include="ConvertTextFileToXMLFile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConvertTextFileToXMLFile.Designer.cs">
+      <DependentUpon>ConvertTextFileToXMLFile.cs</DependentUpon>
+    </Compile>
     <Compile Include="CreatePuzzle.cs" />
     <Compile Include="GridManager.cs" />
     <Compile Include="InstructionsCreditsScreen.cs">
@@ -114,6 +120,9 @@
     </Compile>
     <Compile Include="SudokuPuzzleGenerator.cs" />
     <Compile Include="SudokuSolver.cs" />
+    <EmbeddedResource Include="ConvertTextFileToXMLFile.resx">
+      <DependentUpon>ConvertTextFileToXMLFile.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="InstructionsCreditsScreen.resx">
       <DependentUpon>InstructionsCreditsScreen.cs</DependentUpon>
     </EmbeddedResource>
@@ -165,6 +174,7 @@
   <ItemGroup>
     <Folder Include="Images\" />
     <Folder Include="Puzzles\TestPuzzles\DifficultyTests\" />
+    <Folder Include="Puzzles\TestPuzzles\Hard\" />
     <Folder Include="Puzzles\TestPuzzles\NakedTests\" />
     <Folder Include="Screens\" />
     <Folder Include="SudokuPuzzles\" />
@@ -179,6 +189,17 @@
     <None Include="Resources\SSSGameScreenFullBanner.fw1.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Puzzles\TestPuzzles\Easy\TestEasy1.xml" />
+    <Content Include="Puzzles\TestPuzzles\Easy\TestEasy10.xml" />
+    <Content Include="Puzzles\TestPuzzles\Easy\TestEasy2.xml" />
+    <Content Include="Puzzles\TestPuzzles\Easy\TestEasy3.xml" />
+    <Content Include="Puzzles\TestPuzzles\Easy\TestEasy4.xml" />
+    <Content Include="Puzzles\TestPuzzles\Easy\TestEasy5.xml" />
+    <Content Include="Puzzles\TestPuzzles\Easy\TestEasy6.xml" />
+    <Content Include="Puzzles\TestPuzzles\Easy\TestEasy8.xml" />
+    <Content Include="Puzzles\TestPuzzles\Easy\TestEasy9.xml" />
+    <Content Include="Puzzles\TestPuzzles\Extreme\TestExtreme1.xml" />
+    <Content Include="Puzzles\TestPuzzles\Extreme\TestExtreme2.xml" />
     <Content Include="Puzzles\TestPuzzles\HiddenTest\hiddenDoublesAll.xml" />
     <Content Include="Puzzles\TestPuzzles\HiddenTest\hiddenSingleBlock.xml" />
     <Content Include="Puzzles\TestPuzzles\HiddenTest\hiddenSingleRowColumn.xml" />
@@ -186,6 +207,16 @@
     <Content Include="Puzzles\TestPuzzles\IrregularPuzzles\irregulartest1.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Puzzles\TestPuzzles\Medium\TestMedium1.xml" />
+    <Content Include="Puzzles\TestPuzzles\Medium\TestMedium10.xml" />
+    <Content Include="Puzzles\TestPuzzles\Medium\TestMedium2.xml" />
+    <Content Include="Puzzles\TestPuzzles\Medium\TestMedium3.xml" />
+    <Content Include="Puzzles\TestPuzzles\Medium\TestMedium4.xml" />
+    <Content Include="Puzzles\TestPuzzles\Medium\TestMedium5.xml" />
+    <Content Include="Puzzles\TestPuzzles\Medium\TestMedium6.xml" />
+    <Content Include="Puzzles\TestPuzzles\Medium\TestMedium7.xml" />
+    <Content Include="Puzzles\TestPuzzles\Medium\TestMedium8.xml" />
+    <Content Include="Puzzles\TestPuzzles\Medium\TestMedium9.xml" />
     <Content Include="Puzzles\TestPuzzles\testlevel10old.xml" />
     <Content Include="Puzzles\TestPuzzles\testlevel13old.xml" />
     <Content Include="Puzzles\TestPuzzles\testlevel14old.xml" />
@@ -206,6 +237,7 @@
     <Content Include="Puzzles\TestPuzzles\testlevel8old.xml" />
     <Content Include="Puzzles\TestPuzzles\testlevel9old.xml" />
     <Content Include="Puzzles\TestPuzzles\testlevel2.xml" />
+    <Content Include="Puzzles\TestPuzzles\Extreme\TestExtremePuzzle1.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

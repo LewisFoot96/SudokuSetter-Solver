@@ -35,6 +35,7 @@
             this.statisticsScreenBtn = new System.Windows.Forms.Button();
             this.instructionsCreditsScreenBtn = new System.Windows.Forms.Button();
             this.gameBanner = new System.Windows.Forms.PictureBox();
+            this.convertFileBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.gameBanner)).BeginInit();
             this.SuspendLayout();
             // 
@@ -98,6 +99,16 @@
             this.gameBanner.TabIndex = 6;
             this.gameBanner.TabStop = false;
             // 
+            // convertFileBtn
+            // 
+            this.convertFileBtn.Location = new System.Drawing.Point(1016, 377);
+            this.convertFileBtn.Name = "convertFileBtn";
+            this.convertFileBtn.Size = new System.Drawing.Size(250, 136);
+            this.convertFileBtn.TabIndex = 7;
+            this.convertFileBtn.Text = "Convert";
+            this.convertFileBtn.UseVisualStyleBackColor = true;
+            this.convertFileBtn.Click += new System.EventHandler(this.convertFileBtn_Click);
+            // 
             // MainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(240F, 240F);
@@ -106,6 +117,7 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.ClientSize = new System.Drawing.Size(1468, 1012);
+            this.Controls.Add(this.convertFileBtn);
             this.Controls.Add(this.gameBanner);
             this.Controls.Add(this.instructionsCreditsScreenBtn);
             this.Controls.Add(this.statisticsScreenBtn);
@@ -129,6 +141,7 @@
         private System.Windows.Forms.Button statisticsScreenBtn;
         private System.Windows.Forms.Button instructionsCreditsScreenBtn;
         private System.Windows.Forms.PictureBox gameBanner;
+        private System.Windows.Forms.Button convertFileBtn;
     }
 }
 

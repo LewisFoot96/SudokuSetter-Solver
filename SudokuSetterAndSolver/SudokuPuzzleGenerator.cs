@@ -301,8 +301,6 @@ namespace SudokuSetterAndSolver
         #endregion
 
         #region GetValues Methods 
-
-
         #region Get Blocks Methods 
         private int GetBlockFour(int tempRowNumber, int tempColumnNumber)
         {
