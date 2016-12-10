@@ -174,7 +174,6 @@
   <ItemGroup>
     <Folder Include="Images\" />
     <Folder Include="Puzzles\TestPuzzles\DifficultyTests\" />
-    <Folder Include="Puzzles\TestPuzzles\Hard\" />
     <Folder Include="Puzzles\TestPuzzles\NakedTests\" />
     <Folder Include="Screens\" />
     <Folder Include="SudokuPuzzles\" />
@@ -198,8 +197,26 @@
     <Content Include="Puzzles\TestPuzzles\Easy\TestEasy6.xml" />
     <Content Include="Puzzles\TestPuzzles\Easy\TestEasy8.xml" />
     <Content Include="Puzzles\TestPuzzles\Easy\TestEasy9.xml" />
-    <Content Include="Puzzles\TestPuzzles\Extreme\TestExtreme1.xml" />
+    <Content Include="Puzzles\TestPuzzles\Extreme\TestExtreme3.txt" />
+    <Content Include="Puzzles\TestPuzzles\Extreme\TestExtreme4.txt" />
+    <Content Include="Puzzles\TestPuzzles\Extreme\TestExtreme5.txt" />
+    <Content Include="Puzzles\TestPuzzles\Extreme\TestExtreme6.txt" />
+    <Content Include="Puzzles\TestPuzzles\Extreme\TestExtreme7.txt" />
+    <Content Include="Puzzles\TestPuzzles\Extreme\TestExtreme8.txt" />
+    <Content Include="Puzzles\TestPuzzles\Extreme\TestExtreme10.txt" />
+    <Content Include="Puzzles\TestPuzzles\Extreme\TestExtreme9.txt" />
+    <Content Include="Puzzles\TestPuzzles\Extreme\TestExtreme1.txt" />
     <Content Include="Puzzles\TestPuzzles\Extreme\TestExtreme2.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\TestHard1.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\TestHard10.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\TestHard2.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\TestHard3.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\TestHard4.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\TestHard5.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\TestHard6.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\TestHard7.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\TestHard8.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\TestHard9.xml" />
     <Content Include="Puzzles\TestPuzzles\HiddenTest\hiddenDoublesAll.xml" />
     <Content Include="Puzzles\TestPuzzles\HiddenTest\hiddenSingleBlock.xml" />
     <Content Include="Puzzles\TestPuzzles\HiddenTest\hiddenSingleRowColumn.xml" />
@@ -237,7 +254,6 @@
     <Content Include="Puzzles\TestPuzzles\testlevel8old.xml" />
     <Content Include="Puzzles\TestPuzzles\testlevel9old.xml" />
     <Content Include="Puzzles\TestPuzzles\testlevel2.xml" />
-    <Content Include="Puzzles\TestPuzzles\Extreme\TestExtremePuzzle1.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1334,7 +1334,7 @@ namespace SudokuSetterAndSolver
 
             for (startingValue = numberOfCellToBeHandled; startingValue <= logicalOrderOfCellsXml.Count - 1; startingValue++)
             {
-                if (stopWatch.Elapsed.Seconds >= 5)
+                if (stopWatch.Elapsed.Seconds >= 100)
                 {
                     logicalOrderOfCellsXml.Clear();
                     return false;
