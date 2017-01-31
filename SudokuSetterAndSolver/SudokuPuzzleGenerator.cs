@@ -57,38 +57,11 @@ namespace SudokuSetterAndSolver
         }
 
         private void GenerateExampleSudokuGridXML()
-        {
-            ////Creating blank cells. 
-            //for (int getBlankCount = 0; getBlankCount <= 80; getBlankCount++)
-            //{
-            //    listOfCellsNotRemoved.Add(getBlankCount);
-            //    generatedPuzzle.puzzlecells.Add(new puzzleCell());
-            //}
-            //Getting the row, column and block numbers for the cells. 
-
+        {        
             for(int getBlankCellCount=0;getBlankCellCount<=generatedPuzzle.puzzlecells.Count-1;getBlankCellCount++)
             {
                 listOfCellsNotRemoved.Add(getBlankCellCount);
             }
-
-            //for (int cellNumberPopulating = 0; cellNumberPopulating <= generatedPuzzle.puzzlecells.Count - 1; cellNumberPopulating++)
-            //{
-            //    generatedPuzzle.puzzlecells[cellNumberPopulating].rownumber = cellNumberPopulating / generatedPuzzle.gridsize;
-            //    generatedPuzzle.puzzlecells[cellNumberPopulating].columnnumber = cellNumberPopulating % generatedPuzzle.gridsize;
-
-            //    if(generatedPuzzle.gridsize ==9)
-            //    {
-            //        generatedPuzzle.puzzlecells[cellNumberPopulating].blocknumber = GetBlockNumberNine(generatedPuzzle.puzzlecells[cellNumberPopulating].rownumber, generatedPuzzle.puzzlecells[cellNumberPopulating].columnnumber);
-            //    }
-            //    else if (generatedPuzzle.gridsize==16)
-            //    {
-            //        generatedPuzzle.puzzlecells[cellNumberPopulating].blocknumber = GetBlocNumberSixteen(generatedPuzzle.puzzlecells[cellNumberPopulating].rownumber, generatedPuzzle.puzzlecells[cellNumberPopulating].columnnumber);
-            //    }
-            //    else
-            //    {
-            //        generatedPuzzle.puzzlecells[cellNumberPopulating].blocknumber = GetBlockFour(generatedPuzzle.puzzlecells[cellNumberPopulating].rownumber, generatedPuzzle.puzzlecells[cellNumberPopulating].columnnumber);
-            //    }
-            //}
 
             //Solving blank grid. 
             solver.currentPuzzleToBeSolved = generatedPuzzle;
@@ -134,9 +107,7 @@ namespace SudokuSetterAndSolver
                     cellValue = randomNumber.Next(0, generatedPuzzle.puzzlecells.Count - 1);
                 }
                 listOfCellsRemovedValues.Add(cellValue); //Adds the cells that have been blanked previously. 
-
                 RemoveValuesFromListOfNonRemovedCells(cellValue);
-
                 generatedPuzzle.puzzlecells[cellValue].value = 0;
             }
 
@@ -174,7 +145,11 @@ namespace SudokuSetterAndSolver
                 {
                     for (int reverseCellCount = generatedPuzzle.puzzlecells.Count-1; reverseCellCount >= 0; reverseCellCount--)
                     {
-                        //Get a vlaid cell, that a value has been removed from. 
+                        if(listOfCellsNotRemoved.Count >=64)
+                        {
+                            CreateSudokuGridXML();
+                        }
+                        //Get a vlaid cell, that a value has been removed from, the last number that has had a value removed, 
                         bool isRemovedCell = false;
                         for (int removeCellIndex = 0; removeCellIndex <= listOfCellsRemovedValues.Count - 1; removeCellIndex++)
                         {
@@ -321,7 +296,6 @@ namespace SudokuSetterAndSolver
                 return 3;
             }
         }
-
 
         private int GetBlockNumberNine(int tempRowNumber, int tempColumnNumber)
         {
@@ -480,29 +454,6 @@ namespace SudokuSetterAndSolver
 
         #endregion
 
-        #region Evaluate Difficulty
 
-        private string EvaluatePuzzleDifficulty()
-        {
-            //Execution times
-            //total number of candidates
-            //Number os static numbers 
-            //Human model
-            return "";
-        }
-
-        /// <summary>
-        /// Method that evaluates the execution time of the puzzle that has been generated, this will determine the difficulty of the puzzle. 
-        /// </summary>
-        /// <returns></returns>
-        private int EvaluateExecutionTime()
-        {
-            if (executionTime == 1)
-            {
-
-            }
-            return 1;
-        }
-        #endregion 
     }
 }

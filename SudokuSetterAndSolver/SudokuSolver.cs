@@ -57,9 +57,12 @@ namespace SudokuSetterAndSolver
         public string difficluty;
 
         int totalNumberOfCandidates = 0;
+        int totalNumberOfCandidatesDifficulty=0;
         int difficultyLevel = 0;
         int executionTime = 0;
+        int executionTimeDifficulty = 0; 
         int numberOfStaticNumbers = 0;
+        int numberOfStaticNumberDifficulty = 0;
         int humanSolvingDifficulty = 0; 
 
         //Get all the cells with the corrrect row , column and block number, this will then allow easier handling.
@@ -109,7 +112,6 @@ namespace SudokuSetterAndSolver
                     validNumbersInColumn.Clear();
                     validNUmbersInRow.Clear();
                     tempCandiateList.Add(new List<int>(validNumbersInCell));
-                    candidateCount += validNumbersInCell.Count();
                     validNumbersInCell.Clear();
                 }
                 else
@@ -122,17 +124,22 @@ namespace SudokuSetterAndSolver
             //Check to see if its the first run of the method, and setting the orginal 
             if (methodRunNumber == 0)
             {
-                int staticNumberCountTemp = 0; 
                 for (int nonBlankCellCount = 0; nonBlankCellCount <= currentPuzzleToBeSolved.puzzlecells.Count - 1; nonBlankCellCount++)
                 {
                     if(currentPuzzleToBeSolved.puzzlecells[nonBlankCellCount].value !=0)
                     {
-                        staticNumberCountTemp++;
+                        numberOfStaticNumbers++;
                     }
-                }
-                totalNumberOfCandidates = candidateCount;
-                numberOfStaticNumbers = staticNumberCountTemp;
+                }        
                 candidatesList = tempCandiateList;
+
+                for(int firstCandidateInPuzzle = 0;firstCandidateInPuzzle<=candidatesList.Count-1;firstCandidateInPuzzle++)
+                {
+                    if (candidatesList[firstCandidateInPuzzle] != null)
+                    {
+                        totalNumberOfCandidates += candidatesList[firstCandidateInPuzzle].Count;
+                    }
+                }            
             }
             else
             {
@@ -1556,20 +1563,57 @@ namespace SudokuSetterAndSolver
 
         #endregion
 
-        #region Asses Difficulty 
 
-        /// <summary>
-        /// This method will asses the difficulty of the puzzle that has just been solved using the rule based algorihtm. 
-        /// </summary>
-        /// <returns></returns>
-        public string AssesDifficultyOfCurrentPuzzle()
+        #region Evaluate Difficulty
+
+        public string EvaluatePuzzleDifficulty()
         {
-            executionTime = 2;
-            //Something like this will be used. 
-            difficultyLevel = executionTime + humanSolvingDifficulty * 2 + numberOfStaticNumbers + totalNumberOfCandidates;
-            return "easy";
+            //Includes human model, also get the string from the Human model. 
+            EvaluateExecutionTime();
+            
+            //Execution times
+            //total number of candidates
+            //Number os static numbers 
+            //Human model
+            return "";
         }
 
-        #endregion
+        /// <summary>
+        /// Method that evaluates the execution time of the puzzle that has been generated, this will determine the difficulty of the puzzle. 
+        /// </summary>
+        /// <returns></returns>
+        private int EvaluateExecutionTime()
+        {
+            //Change to return int, to get the time if the solving time. 
+
+            Stopwatch tempStopWatch = new Stopwatch();
+
+            tempStopWatch.Reset();
+            tempStopWatch.Start();
+            bool rule = SolveSudokuRuleBasedXML();
+
+            Console.WriteLine(tempStopWatch.Elapsed.TotalSeconds);
+            Console.WriteLine(tempStopWatch.Elapsed.TotalMilliseconds);
+            tempStopWatch.Stop();
+            Console.WriteLine(totalNumberOfCandidates);
+            //Console.WriteLine(numberOfStaticNumbers);
+            //Console.WriteLine(humanSolvingDifficulty);
+            humanSolvingDifficulty = 0;
+            totalNumberOfCandidates = 0;
+            numberOfStaticNumbers = 0;
+            methodRunNumber = 0;
+
+            
+            return 1;
+        }
+
+        private void EvaluateTotalNumberOfCandidatesDifficulty(int totalNumber)
+        {
+            if(totalNumber >=0 && totalNumber <=40)
+            {
+               
+            }
+        }
+        #endregion 
     }
 }

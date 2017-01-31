@@ -40,6 +40,8 @@ namespace SudokuSetterAndSolver
             this.solveBtn = new System.Windows.Forms.Button();
             this.loadFileBtn = new System.Windows.Forms.Button();
             this.fileChooser = new System.Windows.Forms.OpenFileDialog();
+            this.difficultyDetermineBtn = new System.Windows.Forms.Button();
+            this.validatePuzzleBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.gameBanner)).BeginInit();
             this.SuspendLayout();
             // 
@@ -90,6 +92,26 @@ namespace SudokuSetterAndSolver
             this.fileChooser.FileName = "openFileDialog1";
             this.fileChooser.FileOk += new System.ComponentModel.CancelEventHandler(this.fileChooser_FileOk);
             // 
+            // difficultyDetermineBtn
+            // 
+            this.difficultyDetermineBtn.Location = new System.Drawing.Point(399, 846);
+            this.difficultyDetermineBtn.Name = "difficultyDetermineBtn";
+            this.difficultyDetermineBtn.Size = new System.Drawing.Size(181, 92);
+            this.difficultyDetermineBtn.TabIndex = 12;
+            this.difficultyDetermineBtn.Text = "Determine Difficulty";
+            this.difficultyDetermineBtn.UseVisualStyleBackColor = true;
+            this.difficultyDetermineBtn.Click += new System.EventHandler(this.difficultyDetermineBtn_Click);
+            // 
+            // validatePuzzleBtn
+            // 
+            this.validatePuzzleBtn.Location = new System.Drawing.Point(109, 846);
+            this.validatePuzzleBtn.Name = "validatePuzzleBtn";
+            this.validatePuzzleBtn.Size = new System.Drawing.Size(181, 92);
+            this.validatePuzzleBtn.TabIndex = 13;
+            this.validatePuzzleBtn.Text = "Validate";
+            this.validatePuzzleBtn.UseVisualStyleBackColor = true;
+            this.validatePuzzleBtn.Click += new System.EventHandler(this.validatePuzzleBtn_Click);
+            // 
             // SolveSudokuScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(240F, 240F);
@@ -98,6 +120,8 @@ namespace SudokuSetterAndSolver
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.ClientSize = new System.Drawing.Size(1468, 1012);
+            this.Controls.Add(this.validatePuzzleBtn);
+            this.Controls.Add(this.difficultyDetermineBtn);
             this.Controls.Add(this.loadFileBtn);
             this.Controls.Add(this.solveBtn);
             this.Controls.Add(this.mainMenuBtn);
@@ -368,5 +392,7 @@ namespace SudokuSetterAndSolver
         private Button solveBtn;
         private Button loadFileBtn;
         private OpenFileDialog fileChooser;
+        private Button difficultyDetermineBtn;
+        private Button validatePuzzleBtn;
     }
 }

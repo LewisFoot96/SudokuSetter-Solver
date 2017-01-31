@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ namespace SudokuSetterAndSolver
         string fileDirctoryLocation = "";
         PuzzleManager puzzleManager = new PuzzleManager();
         puzzle loadedPuzzle = new puzzle();
-        public static int _puzzleSelection; 
+        public static int _puzzleSelection;
         #endregion
 
         #region Constructor 
@@ -34,7 +35,7 @@ namespace SudokuSetterAndSolver
             }
             else if (_puzzleSelection == 1)
             {
-                
+
                 loadedPuzzle.gridsize = 9;
             }
             else
@@ -42,13 +43,13 @@ namespace SudokuSetterAndSolver
                 loadedPuzzle.gridsize = 4;
             }
 
-           
+
             loadedPuzzle.type = "regualr";
             GenerateBlankGridStandardSudoku();
             if (_puzzleSelection == 0)
             {
                 GenerateLargeSudokuPuzzle();
-                
+
             }
             else if (_puzzleSelection == 1)
             {
@@ -110,7 +111,13 @@ namespace SudokuSetterAndSolver
             //The puzzle solving should have a time out on it, if this time out is past, the puzzle is deemed unsolavable. 
 
             sudokuSolver.currentPuzzleToBeSolved = loadedPuzzle;
+            Stopwatch tempStopWatch = new Stopwatch();
+            tempStopWatch.Reset();
+            tempStopWatch.Start();
             bool puzzleSolved = sudokuSolver.BacktrackingUsingXmlTemplateFile(false);
+            Console.WriteLine(tempStopWatch.Elapsed.TotalSeconds);
+            Console.WriteLine(tempStopWatch.Elapsed.TotalMilliseconds);
+            tempStopWatch.Stop();
             loadedPuzzle = sudokuSolver.currentPuzzleToBeSolved;
 
             if (puzzleSolved == true)
@@ -126,7 +133,7 @@ namespace SudokuSetterAndSolver
                             break;
                         }
                     }
-                }            
+                }
             }
             else
             {
@@ -152,11 +159,11 @@ namespace SudokuSetterAndSolver
             {
                 listOfSudokuValues.Add(cell.value);
             }
-            if(loadedPuzzle.gridsize == 9 )
+            if (loadedPuzzle.gridsize == 9)
             {
                 GenerateStandardSudokuPuzzle();
             }
-            else if(loadedPuzzle.gridsize ==16)
+            else if (loadedPuzzle.gridsize == 16)
             {
                 GenerateLargeSudokuPuzzle();
             }
@@ -173,6 +180,28 @@ namespace SudokuSetterAndSolver
             {
                 textBox.Dispose();
             }
+        }
+
+        private void difficultyDetermineBtn_Click(object sender, EventArgs e)
+        {
+            sudokuSolver.currentPuzzleToBeSolved = loadedPuzzle;
+
+            string difficulty = sudokuSolver.EvaluatePuzzleDifficulty();
+            bool puzzleSolved = sudokuSolver.BacktrackingUsingXmlTemplateFile(false);
+            loadedPuzzle = sudokuSolver.currentPuzzleToBeSolved;
+
+            for (int cellNumberCount = 0; cellNumberCount <= loadedPuzzle.puzzlecells.Count - 1; cellNumberCount++)
+            {
+                foreach (var textBoxCurrent in listOfTextBoxes)
+                {
+                    if (textBoxCurrent.Name == cellNumberCount.ToString())
+                    {
+                        textBoxCurrent.Text = loadedPuzzle.puzzlecells[cellNumberCount].value.ToString();
+                        break;
+                    }
+                }
+            }
+            MessageBox.Show(difficulty);
         }
 
         #endregion
@@ -336,7 +365,131 @@ namespace SudokuSetterAndSolver
 
         }
 
-        #endregion 
+        /// <summary>
+        /// Validate button click that determines whether the solution that has been created is correct and valid, i.e. all of the sudoku contraints are met. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void validatePuzzleBtn_Click(object sender, EventArgs e)
+        {
+            bool validRow = false;
+            bool validColumn = false;
+            bool validBlock = false;
+
+            validRow = ValidateRow();
+            validColumn = ValidateColumn();
+            validBlock = ValidateBlock();
+
+            if(validRow == true && validColumn == true && validBlock == true)
+            {
+                MessageBox.Show("Puzzle solution correct");
+            }
+            else
+            {
+                MessageBox.Show("Puzzle solution incorrect!");
+            }
+        }
+
+        #endregion
+
+        private bool ValidateRow()
+        {
+            List<int> numbersInRow = new List<int>();
+            bool validRows = true;
+            for (int rowNumberValidate =0;rowNumberValidate<=8;rowNumberValidate++)
+            {
+                //Adding all number is that row to the list. 
+                foreach(var cell in loadedPuzzle.puzzlecells)
+                {
+                    if (cell.rownumber == rowNumberValidate)
+                    {
+                        numbersInRow.Add(cell.value);
+                    }
+                }
+                //Check valid numbers 
+                validRows = CheckValidNumbers(numbersInRow);
+                if(validRows == false)
+                {
+                    return false;
+                }
+                numbersInRow.Clear();
+            }
+            return true;
+        }
+
+        private bool ValidateColumn()
+        {
+            List<int> numbersInColumn = new List<int>();
+            bool validColumns = true;
+            for (int columnNumberValidate = 0; columnNumberValidate <= 8; columnNumberValidate++)
+            {
+                //Adding all number is that row to the list. 
+                foreach (var cell in loadedPuzzle.puzzlecells)
+                {
+                    if (cell.columnnumber == columnNumberValidate)
+                    {
+                        numbersInColumn.Add(cell.value);
+                    }
+                }
+                //Check valid numbers 
+                validColumns = CheckValidNumbers(numbersInColumn);
+                if (validColumns == false)
+                {
+                    return false;
+                }
+                numbersInColumn.Clear();
+            }
+            return true;
+        }
+        private bool ValidateBlock()
+        {
+            List<int> numbersInBlock = new List<int>();
+            bool validBlocks = true;
+            for (int blockNumberValidate = 0; blockNumberValidate <= 8; blockNumberValidate++)
+            {
+                //Adding all number is that row to the list. 
+                foreach (var cell in loadedPuzzle.puzzlecells)
+                {
+                    if (cell.blocknumber == blockNumberValidate)
+                    {
+                        numbersInBlock.Add(cell.value);
+                    }
+                }
+                //Check valid numbers 
+                validBlocks = CheckValidNumbers(numbersInBlock);
+                if (validBlocks == false)
+                {
+                    return false;
+                }
+                numbersInBlock.Clear();
+            }
+            return true;
+        }
+
+        private bool CheckValidNumbers(List<int> listOfNumbers)
+        {
+            List<int> numbersUsed = new List<int>();
+            foreach(var number in listOfNumbers)
+            {            
+                if(number ==0)
+                {
+                    return false;
+                }
+                foreach(var usedNumber in numbersUsed)
+                {
+                    if(usedNumber == number)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        numbersUsed.Add(number);
+                    }
+                }
+            }
+            return true;
+        }
+
     }
 
 

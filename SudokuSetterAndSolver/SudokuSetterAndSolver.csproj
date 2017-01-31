@@ -197,16 +197,25 @@
     <Content Include="Puzzles\TestPuzzles\Easy\TestEasy6.xml" />
     <Content Include="Puzzles\TestPuzzles\Easy\TestEasy8.xml" />
     <Content Include="Puzzles\TestPuzzles\Easy\TestEasy9.xml" />
+    <Content Include="Puzzles\TestPuzzles\Extreme\TestExtreme1.xml" />
+    <Content Include="Puzzles\TestPuzzles\Extreme\TestExtreme10.xml" />
     <Content Include="Puzzles\TestPuzzles\Extreme\TestExtreme3.txt" />
+    <Content Include="Puzzles\TestPuzzles\Extreme\TestExtreme3.xml" />
     <Content Include="Puzzles\TestPuzzles\Extreme\TestExtreme4.txt" />
+    <Content Include="Puzzles\TestPuzzles\Extreme\TestExtreme4.xml" />
     <Content Include="Puzzles\TestPuzzles\Extreme\TestExtreme5.txt" />
+    <Content Include="Puzzles\TestPuzzles\Extreme\TestExtreme5.xml" />
     <Content Include="Puzzles\TestPuzzles\Extreme\TestExtreme6.txt" />
+    <Content Include="Puzzles\TestPuzzles\Extreme\TestExtreme6.xml" />
     <Content Include="Puzzles\TestPuzzles\Extreme\TestExtreme7.txt" />
+    <Content Include="Puzzles\TestPuzzles\Extreme\TestExtreme7.xml" />
     <Content Include="Puzzles\TestPuzzles\Extreme\TestExtreme8.txt" />
     <Content Include="Puzzles\TestPuzzles\Extreme\TestExtreme10.txt" />
+    <Content Include="Puzzles\TestPuzzles\Extreme\TestExtreme8.xml" />
     <Content Include="Puzzles\TestPuzzles\Extreme\TestExtreme9.txt" />
     <Content Include="Puzzles\TestPuzzles\Extreme\TestExtreme1.txt" />
     <Content Include="Puzzles\TestPuzzles\Extreme\TestExtreme2.xml" />
+    <Content Include="Puzzles\TestPuzzles\Extreme\TestExtreme9.xml" />
     <Content Include="Puzzles\TestPuzzles\Hard\TestHard1.xml" />
     <Content Include="Puzzles\TestPuzzles\Hard\TestHard10.xml" />
     <Content Include="Puzzles\TestPuzzles\Hard\TestHard2.xml" />
@@ -221,6 +230,8 @@
     <Content Include="Puzzles\TestPuzzles\HiddenTest\hiddenSingleBlock.xml" />
     <Content Include="Puzzles\TestPuzzles\HiddenTest\hiddenSingleRowColumn.xml" />
     <Content Include="Puzzles\TestPuzzles\HiddenTest\test18old.xml" />
+    <Content Include="Puzzles\TestPuzzles\interim.xml" />
+    <Content Include="Puzzles\TestPuzzles\InterimReportExample.txt" />
     <Content Include="Puzzles\TestPuzzles\IrregularPuzzles\irregulartest1.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -254,6 +265,12 @@
     <Content Include="Puzzles\TestPuzzles\testlevel8old.xml" />
     <Content Include="Puzzles\TestPuzzles\testlevel9old.xml" />
     <Content Include="Puzzles\TestPuzzles\testlevel2.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SudokuSetterSolverTestingProject\SudokuSetterSolverTestingProject.csproj">
+      <Project>{d03811e0-6eff-4aaf-bcad-422d285ad608}</Project>
+      <Name>SudokuSetterSolverTestingProject</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
