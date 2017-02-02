@@ -186,7 +186,7 @@ namespace SudokuSetterAndSolver
         {
             sudokuSolver.currentPuzzleToBeSolved = loadedPuzzle;
 
-            string difficulty = sudokuSolver.EvaluatePuzzleDifficulty();
+            sudokuSolver.EvaluatePuzzleDifficulty();
             bool puzzleSolved = sudokuSolver.BacktrackingUsingXmlTemplateFile(false);
             loadedPuzzle = sudokuSolver.currentPuzzleToBeSolved;
 
@@ -201,7 +201,7 @@ namespace SudokuSetterAndSolver
                     }
                 }
             }
-            MessageBox.Show(difficulty);
+            MessageBox.Show(sudokuSolver.difficluty);
         }
 
         #endregion

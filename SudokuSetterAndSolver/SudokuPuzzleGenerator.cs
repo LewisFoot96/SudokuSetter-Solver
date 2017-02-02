@@ -89,11 +89,11 @@ namespace SudokuSetterAndSolver
             int blankCellNumber = 0;
             if(generatedPuzzle.gridsize ==9)
             {
-                blankCellNumber = 35;
+                blankCellNumber = 48;
             }
             else if(generatedPuzzle.gridsize ==16)
             {
-                blankCellNumber = 35; 
+                blankCellNumber = 48; 
             }
             else
             {

@@ -57,13 +57,13 @@ namespace SudokuSetterAndSolver
         public string difficluty;
 
         int totalNumberOfCandidates = 0;
-        int totalNumberOfCandidatesDifficulty=0;
+        int totalNumberOfCandidatesDifficulty = 0;
         int difficultyLevel = 0;
         int executionTime = 0;
-        int executionTimeDifficulty = 0; 
+        int executionTimeDifficulty = 0;
         int numberOfStaticNumbers = 0;
         int numberOfStaticNumberDifficulty = 0;
-        int humanSolvingDifficulty = 0; 
+        int humanSolvingDifficulty = 0;
 
         //Get all the cells with the corrrect row , column and block number, this will then allow easier handling.
         public puzzle currentPuzzleToBeSolved = new puzzle();
@@ -126,20 +126,20 @@ namespace SudokuSetterAndSolver
             {
                 for (int nonBlankCellCount = 0; nonBlankCellCount <= currentPuzzleToBeSolved.puzzlecells.Count - 1; nonBlankCellCount++)
                 {
-                    if(currentPuzzleToBeSolved.puzzlecells[nonBlankCellCount].value !=0)
+                    if (currentPuzzleToBeSolved.puzzlecells[nonBlankCellCount].value != 0)
                     {
                         numberOfStaticNumbers++;
                     }
-                }        
+                }
                 candidatesList = tempCandiateList;
 
-                for(int firstCandidateInPuzzle = 0;firstCandidateInPuzzle<=candidatesList.Count-1;firstCandidateInPuzzle++)
+                for (int firstCandidateInPuzzle = 0; firstCandidateInPuzzle <= candidatesList.Count - 1; firstCandidateInPuzzle++)
                 {
                     if (candidatesList[firstCandidateInPuzzle] != null)
                     {
                         totalNumberOfCandidates += candidatesList[firstCandidateInPuzzle].Count;
                     }
-                }            
+                }
             }
             else
             {
@@ -192,7 +192,7 @@ namespace SudokuSetterAndSolver
             }
             humanSolvingDifficulty = 1;
             CandidateHandling();
-            humanSolvingDifficulty = 2;
+            humanSolvingDifficulty = 3;
             //MessageBox.Show("Human Solving Methods Completed! Puzzle not completed. Diffiuclty: Very Hard. Backtracking will begin.");
 
             solvedBacktracking = BacktrackingUsingXmlTemplateFile(false);
@@ -809,7 +809,7 @@ namespace SudokuSetterAndSolver
                                         if (regionTitle == "row")
                                         {
                                             hiddenDoubleCount++;
-                                            candidatesList[rowNumber *9 + notNullIndexValuesCellsInRow[candidatesIndexValues]] = cells[notNullIndexValuesCellsInRow[candidatesIndexValues]];
+                                            candidatesList[rowNumber * 9 + notNullIndexValuesCellsInRow[candidatesIndexValues]] = cells[notNullIndexValuesCellsInRow[candidatesIndexValues]];
                                         }
                                         else if (regionTitle == "column")
                                         {
@@ -1566,52 +1566,117 @@ namespace SudokuSetterAndSolver
 
         #region Evaluate Difficulty
 
-        public string EvaluatePuzzleDifficulty()
+        public void EvaluatePuzzleDifficulty()
         {
             //Includes human model, also get the string from the Human model. 
-            EvaluateExecutionTime();
-            
-            //Execution times
-            //total number of candidates
-            //Number os static numbers 
-            //Human model
-            return "";
+            Stopwatch tempStopWatch = new Stopwatch();
+            tempStopWatch.Reset();
+            tempStopWatch.Start();
+            bool rule = SolveSudokuRuleBasedXML();
+            Console.WriteLine(tempStopWatch.Elapsed.TotalSeconds);
+            Console.WriteLine(tempStopWatch.Elapsed.TotalMilliseconds);         
+            executionTimeDifficulty = EvaluateExecutionTime(tempStopWatch.Elapsed.TotalSeconds);
+            tempStopWatch.Stop();
+            totalNumberOfCandidatesDifficulty = EvaluateTotalNumberOfCandidatesDifficulty(totalNumberOfCandidates);
+            numberOfStaticNumberDifficulty = EvaluateNumberOfStaticNumbers(numberOfStaticNumbers);
+            FinalDifficulty();
+           
+            humanSolvingDifficulty = 0;
+            executionTimeDifficulty = 0;
+            totalNumberOfCandidates = 0;
+            numberOfStaticNumberDifficulty = 0;
+            numberOfStaticNumbers = 0;
+            methodRunNumber = 0;
         }
 
         /// <summary>
         /// Method that evaluates the execution time of the puzzle that has been generated, this will determine the difficulty of the puzzle. 
         /// </summary>
         /// <returns></returns>
-        private int EvaluateExecutionTime()
+        private int EvaluateExecutionTime(double time)
         {
             //Change to return int, to get the time if the solving time. 
-
-            Stopwatch tempStopWatch = new Stopwatch();
-
-            tempStopWatch.Reset();
-            tempStopWatch.Start();
-            bool rule = SolveSudokuRuleBasedXML();
-
-            Console.WriteLine(tempStopWatch.Elapsed.TotalSeconds);
-            Console.WriteLine(tempStopWatch.Elapsed.TotalMilliseconds);
-            tempStopWatch.Stop();
-            Console.WriteLine(totalNumberOfCandidates);
-            //Console.WriteLine(numberOfStaticNumbers);
-            //Console.WriteLine(humanSolvingDifficulty);
-            humanSolvingDifficulty = 0;
-            totalNumberOfCandidates = 0;
-            numberOfStaticNumbers = 0;
-            methodRunNumber = 0;
-
-            
-            return 1;
+           if(time<= 0.025)
+            {
+                return 0;
+            }
+           else if(time > 0.025 && time <=0.044)
+            {
+                return 1;
+            }
+           else if(time>0.44 && time<=0.067)
+            {
+                return 2;
+            }
+           else
+            {
+                return 3;
+            }
         }
 
-        private void EvaluateTotalNumberOfCandidatesDifficulty(int totalNumber)
+        private int EvaluateTotalNumberOfCandidatesDifficulty(int totalNumber)
         {
-            if(totalNumber >=0 && totalNumber <=40)
+            if (totalNumber >= 0 && totalNumber <= 150)
             {
-               
+                return 0;
+            }
+            else if (totalNumber >= 151 && totalNumber <= 177)
+            {
+                return 1;
+            }
+            else if (totalNumber >= 178 && totalNumber <= 196)
+            {
+                return 2;
+            }
+            else
+            {
+                return 3;
+            }
+        }
+
+        private int EvaluateNumberOfStaticNumbers(int totalNumber)
+        {
+            if (totalNumber >= 40)
+            {
+                return 0;
+            }
+            else if (totalNumber <= 39 && totalNumber >= 32)
+            {
+                return 1;
+            }
+            else if (totalNumber >= 31 && totalNumber <= 26)
+            {
+                return 2;
+            }
+            else
+            {
+                return 3;
+            }
+        }
+
+        private void FinalDifficulty()
+        {
+            int totals = (humanSolvingDifficulty * 2) + totalNumberOfCandidatesDifficulty + executionTimeDifficulty + numberOfStaticNumberDifficulty;
+
+            int difficlutyRating = totals / 5;
+
+            switch (difficlutyRating)
+            {
+                case 0:
+                    difficluty = "Easy";
+                    break;
+                case 1:
+                    difficluty = "Medium";
+                    break;
+                case 2:
+                    difficluty = "Hard";
+                    break;
+                case 3:
+                    difficluty = "Extreme";
+                    break;
+                default:
+                    difficluty = "Easy";
+                    break;
             }
         }
         #endregion 
