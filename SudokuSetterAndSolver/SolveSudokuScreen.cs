@@ -114,7 +114,7 @@ namespace SudokuSetterAndSolver
             Stopwatch tempStopWatch = new Stopwatch();
             tempStopWatch.Reset();
             tempStopWatch.Start();
-            bool puzzleSolved = sudokuSolver.BacktrackingUsingXmlTemplateFile(false);
+            bool puzzleSolved = sudokuSolver.SolveSudokuRuleBasedXML();
             Console.WriteLine(tempStopWatch.Elapsed.TotalSeconds);
             Console.WriteLine(tempStopWatch.Elapsed.TotalMilliseconds);
             tempStopWatch.Stop();

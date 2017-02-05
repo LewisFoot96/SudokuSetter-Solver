@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,6 @@ namespace SudokuSetterAndSolver
 {
     public partial class PlaySudokuScreen : Form
     {
-        int[,] sudokuGrid; 
         TextBox currentSelectedTextBox = new TextBox();
         string fileDirectoryLocation;
         puzzle loadedPuzzle;
@@ -26,13 +26,11 @@ namespace SudokuSetterAndSolver
         {
             loadedPuzzle = new puzzle();
             puzzleManager = new PuzzleManager();
-            fileDirectoryLocation = "C:\\Users\\New\\Documents\\Sudoku\\Application\\SudokuSetterAndSolver\\SudokuSetterAndSolver\\Puzzles\\TestPuzzles\\";
-            fileDirectoryLocation += "test"+ fileNameFromButtonPress + ".xml";
+            fileDirectoryLocation = "C:\\Users\\New\\Documents\\Sudoku\\Application\\SudokuSetterAndSolver\\SudokuSetterAndSolver\\Puzzles\\LevelsPuzzles\\";
+            fileDirectoryLocation = Path.GetFullPath(@"..\..\") + @"\Puzzles\LevelsPuzzles";
+            fileDirectoryLocation += @"\" + fileNameFromButtonPress + ".xml";
             gridSize = 9;
             InitializeComponent();
-            sudokuGrid = new int[gridSize, gridSize];
-            CreateGrid(9);
-            //The string that is passed into here will be the file exntesion value, to load in the correct file. 
         }
 
         private void mainMenuBtn_Click(object sender, EventArgs e)

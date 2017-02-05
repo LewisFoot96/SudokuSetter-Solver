@@ -1574,13 +1574,13 @@ namespace SudokuSetterAndSolver
             tempStopWatch.Start();
             bool rule = SolveSudokuRuleBasedXML();
             Console.WriteLine(tempStopWatch.Elapsed.TotalSeconds);
-            Console.WriteLine(tempStopWatch.Elapsed.TotalMilliseconds);         
+            Console.WriteLine(tempStopWatch.Elapsed.TotalMilliseconds);
             executionTimeDifficulty = EvaluateExecutionTime(tempStopWatch.Elapsed.TotalSeconds);
             tempStopWatch.Stop();
             totalNumberOfCandidatesDifficulty = EvaluateTotalNumberOfCandidatesDifficulty(totalNumberOfCandidates);
             numberOfStaticNumberDifficulty = EvaluateNumberOfStaticNumbers(numberOfStaticNumbers);
             FinalDifficulty();
-           
+
             humanSolvingDifficulty = 0;
             executionTimeDifficulty = 0;
             totalNumberOfCandidates = 0;
@@ -1596,19 +1596,19 @@ namespace SudokuSetterAndSolver
         private int EvaluateExecutionTime(double time)
         {
             //Change to return int, to get the time if the solving time. 
-           if(time<= 0.025)
+            if (time <= 0.025)
             {
                 return 0;
             }
-           else if(time > 0.025 && time <=0.044)
+            else if (time > 0.025 && time <= 0.044)
             {
                 return 1;
             }
-           else if(time>0.44 && time<=0.067)
+            else if (time > 0.44 && time <= 0.067)
             {
                 return 2;
             }
-           else
+            else
             {
                 return 3;
             }
@@ -1656,27 +1656,25 @@ namespace SudokuSetterAndSolver
 
         private void FinalDifficulty()
         {
-            int totals = (humanSolvingDifficulty * 2) + totalNumberOfCandidatesDifficulty + executionTimeDifficulty + numberOfStaticNumberDifficulty;
+            double totals = (humanSolvingDifficulty * 2) + totalNumberOfCandidatesDifficulty + executionTimeDifficulty + numberOfStaticNumberDifficulty;
 
-            int difficlutyRating = totals / 5;
+            double difficlutyRating = totals / 5;
 
-            switch (difficlutyRating)
+            if (difficlutyRating <= 0.5)
             {
-                case 0:
-                    difficluty = "Easy";
-                    break;
-                case 1:
-                    difficluty = "Medium";
-                    break;
-                case 2:
-                    difficluty = "Hard";
-                    break;
-                case 3:
-                    difficluty = "Extreme";
-                    break;
-                default:
-                    difficluty = "Easy";
-                    break;
+                difficluty = "Easy";
+            }
+            else if (difficlutyRating > 0.5 && difficlutyRating <= 1.5)
+            {
+                difficluty = "Medium";
+            }
+            else if (difficlutyRating > 1.5 && difficlutyRating <= 2.5)
+            {
+                difficluty = "Hard";
+            }
+            else
+            {
+                difficluty = "Extreme";
             }
         }
         #endregion 

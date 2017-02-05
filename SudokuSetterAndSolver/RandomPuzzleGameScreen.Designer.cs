@@ -117,6 +117,7 @@ namespace SudokuSetterAndSolver
             sudokuGridGenerator.generatedPuzzle = generatedPuzzle;
             sudokuGridGenerator.CreateSudokuGridXML();
             sudokuSolutionArray = sudokuGridGenerator.orginalSolution;
+
             int rowLocation = 0, columnLocation = 0;
             for (int indexNumber = 0; indexNumber <= generatedPuzzle.puzzlecells.Count - 1; indexNumber++)
             {
@@ -195,6 +196,12 @@ namespace SudokuSetterAndSolver
 
                 listOfTextBoxes.Add(txtBox);
             }
+
+            SudokuSolver sudokuSolver = new SudokuSolver();
+            sudokuSolver.currentPuzzleToBeSolved = generatedPuzzle;
+            sudokuSolver.EvaluatePuzzleDifficulty();
+            string difficulty = sudokuSolver.difficluty;
+            MessageBox.Show(difficulty);
         }
 
         private void GenerateLargeSudokuPuzzle()
