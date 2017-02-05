@@ -43,8 +43,6 @@ namespace SudokuSetterAndSolver
 
         //The number of candidates that are in a cell. 
         int candidateTotalNumber = 1;
-        //current cell being handled 
-        int currentCellNumberHandled = 0;
 
         //Stop watch that will time the algorithm. 
         Stopwatch stopWatch = new Stopwatch();
@@ -52,14 +50,10 @@ namespace SudokuSetterAndSolver
         List<List<int>> candidatesList = new List<List<int>>();
         //counts the number of times the rules based algorithm has been exectuted. 
         int methodRunNumber = 0;
-
         bool solvedBacktracking = false;
         public string difficluty;
-
         int totalNumberOfCandidates = 0;
         int totalNumberOfCandidatesDifficulty = 0;
-        int difficultyLevel = 0;
-        int executionTime = 0;
         int executionTimeDifficulty = 0;
         int numberOfStaticNumbers = 0;
         int numberOfStaticNumberDifficulty = 0;
@@ -90,7 +84,6 @@ namespace SudokuSetterAndSolver
 
         public bool SolveSudokuRuleBasedXML()
         {
-            int candidateCount = 0;
             humanSolvingDifficulty = 0;
             //Contains the list of candiates in each cell from simple analysis, not including human solvint methods procesing. 
             List<List<int>> tempCandiateList = new List<List<int>>();
@@ -1563,11 +1556,11 @@ namespace SudokuSetterAndSolver
 
         #endregion
 
-
         #region Evaluate Difficulty
 
         public void EvaluatePuzzleDifficulty()
         {
+            difficluty = "";
             //Includes human model, also get the string from the Human model. 
             Stopwatch tempStopWatch = new Stopwatch();
             tempStopWatch.Reset();

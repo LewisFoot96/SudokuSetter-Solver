@@ -12,32 +12,52 @@ using System.Xml.Serialization;
 
 namespace SudokuSetterAndSolver
 {
-    //http://www.sudokukingdom.com/
+    //http://www.sudokukingdom.com/ - link to the puzzles I used for the first set if test puzzles. 
     public partial class ConvertTextFileToXMLFile : Form
     {
+        #region Field Variables 
+        //Puzzle values
         char[] characters;
         int[] numbersInPuzzle;
+        //Puzzle that will be stored into the xml file. 
         puzzle xmlPuzzle = new puzzle();
+        //Location to store the test file. 
         string fileDirctoryLocation = "";
+        #endregion
+
+        #region Constructor 
         public ConvertTextFileToXMLFile()
         {
             InitializeComponent();
         }
+        #endregion
 
+        #region Event Handler Methods 
+        /// <summary>
+        /// Open file choose when file is selected. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void selectFileBtn_Click(object sender, EventArgs e)
         {
             fileChooser.ShowDialog();
         }
 
+        /// <summary>
+        /// When the text file is confirmed and selected. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void fileChooser_FileOk(object sender, CancelEventArgs e)
         {
+            //Creating new xml puzzle and setting directiry location of the file. 
             xmlPuzzle = new puzzle();
             fileDirctoryLocation = fileChooser.FileName;
 
             //https://msdn.microsoft.com/en-us/library/ezwyzy7b.aspx
             // Example #1
             // Read the file as one string.
-            string text = System.IO.File.ReadAllText(fileDirctoryLocation);
+            string text = File.ReadAllText(fileDirctoryLocation);
 
             characters = text.ToCharArray();
 
@@ -47,15 +67,21 @@ namespace SudokuSetterAndSolver
             {
                 numbersInPuzzle[arrayCount] = characters[arrayCount] - '0';
             }
-
+            //Method to create puzzle. 
             CreateXMLFIle();
         }
+        #endregion
 
+        #region Methods 
+        /// <summary>
+        /// Method to create the xml puzzle for a list of integers
+        /// </summary>
         private void CreateXMLFIle()
-        {
+        {   //Resetting values. 
             int rowNumber = 0;
             int columnNumber = 0;
             int blockNumber = 0;
+            //Setting grid size, based on input. 
             if (numbersInPuzzle.Length  == 81)
             {
                 xmlPuzzle.gridsize = 9;
@@ -68,11 +94,9 @@ namespace SudokuSetterAndSolver
             {
                 xmlPuzzle.gridsize = 4;
             }
-
+            //Looping through the nymbers in the puzzle. 
             for (int cellIndexNumber = 0; cellIndexNumber <= numbersInPuzzle.Length-1 ; cellIndexNumber++)
-            {
-               
-
+            {   //Getting bloxks numbers 
                 if(xmlPuzzle.gridsize ==9)
                 {
                     blockNumber = GetBlockNumberNine(rowNumber, columnNumber);
@@ -85,31 +109,33 @@ namespace SudokuSetterAndSolver
                 {
                     blockNumber = GetBlockFour(rowNumber, columnNumber);
                 }
-
+                //Creating a cell and setting all of its values. 
                 puzzleCell tempPuzzleCell = new puzzleCell();
                 tempPuzzleCell.blocknumber = blockNumber;
                 tempPuzzleCell.rownumber = rowNumber;
                 tempPuzzleCell.columnnumber = columnNumber;
                 tempPuzzleCell.value = numbersInPuzzle[cellIndexNumber];
                 xmlPuzzle.puzzlecells.Add(tempPuzzleCell);
-                //Get Block NUmbers
+                //Iterations to get correct row and column numbers. 
                 if (cellIndexNumber == 8 || cellIndexNumber % 9 == 8)
                 {
                     rowNumber++;
                     columnNumber = 0;
-
                 }
                 else
                 {
                     columnNumber++;
                 }
-
-
             }
+            //Saving the file in the same area. 
             string filePath = Path.GetDirectoryName(fileDirctoryLocation);
             CreateAndSaveXmlFile(filePath);
         }
 
+        /// <summary>
+        /// Method that saves the created xml puzzle file. 
+        /// </summary>
+        /// <param name="directoryLocation"></param>
         private void CreateAndSaveXmlFile(string directoryLocation)
         {
         //http://stackoverflow.com/questions/6530424/generating-xml-file-using-xsd-file
@@ -121,8 +147,10 @@ namespace SudokuSetterAndSolver
             using (var stream = new StreamWriter(saveFileLocation))
                 serializer.Serialize(stream, xmlPuzzle);
         }
+        #endregion
 
         #region GetBlockNumbers 
+        //Getting the block numbers for the puzzles based in the column and row number of that cell. 
         private int GetBlockFour(int tempRowNumber, int tempColumnNumber)
         {
             if (tempRowNumber <= 1 && tempColumnNumber <= 1)

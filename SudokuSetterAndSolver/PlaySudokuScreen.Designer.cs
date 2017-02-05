@@ -96,122 +96,96 @@ namespace SudokuSetterAndSolver
             this.ResumeLayout(false);
 
         }
+        //Stores all of the textboxes for the screen. 
+        List<TextBox> listOfTextBoxes = new List<TextBox>();
 
+        /// <summary>
+        /// Method to create the 9*9 grid to display the loaded in puzzle. 
+        /// </summary>
+        /// <param name="gridSize"></param>
         private void CreateGrid(int gridSize)
         {
             //Creating the sudoku grid values. 
             loadedPuzzle = puzzleManager.ReadFromXMlFile(fileDirectoryLocation);
             //Temporary list that contains all of the values with the grid. 
-            List<int> listOfSudokuValues = new List<int>();
-            foreach(var cell in loadedPuzzle.puzzlecells)
-            {
-                listOfSudokuValues.Add(cell.value);
-            }
-
-            sudokuGrid = ConvertListToMultiDimensionalArray(listOfSudokuValues, loadedPuzzle.gridsize);
-
-            //Method to convert the list to a multidimensional array. 
-
-            //int[] puzzleArray = loadedPuzzle.puzzlecells.Cast<int>().ToArray();
-            //sudokuGrid = puzzleManager.ConvertArrayToMultiDimensionalArray(puzzleArray);
-
-            //Creating and popualting the grid with the values attained. 
             int rowLocation = 0, columnLocation = 0;
-            for (int i = 0; i < gridSize; i++)
+            for (int indexNumber = 0; indexNumber <= loadedPuzzle.puzzlecells.Count - 1; indexNumber++)
             {
-                for (int j = 0; j < gridSize; j++)
+                //Creating a textbox for the each cell, with the valid details. 
+                TextBox txtBox = new TextBox();
+                this.Controls.Add(txtBox);
+                txtBox.Name = indexNumber.ToString();
+                //txtBox.ReadOnly = true;
+                txtBox.Size = new System.Drawing.Size(38, 38);
+                txtBox.TabIndex = 0;
+                txtBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+                txtBox.Click += new System.EventHandler(this.puzzleSquareClick);
+                txtBox.TextChanged += new System.EventHandler(this.puzzleTextChange);
+                //Key press handler to only allow digits 1-9 in the textboxes. 
+                txtBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(CheckCellEntry);
+                //Limiting the text box to only on character. 
+                txtBox.MaxLength = 1;
+                //Setting the value in the grid text box. 
+                txtBox.Text = loadedPuzzle.puzzlecells[indexNumber].value.ToString();
+
+                //Clouring 
+                txtBox.Font = new Font(txtBox.Font, FontStyle.Bold);
+                txtBox.ForeColor = Color.Black;
+
+                switch (loadedPuzzle.puzzlecells[indexNumber].blocknumber)
                 {
-                    //Creating a textbox for the each cell, with the valid details. 
-                    TextBox txtBox = new TextBox();
-                    this.Controls.Add(txtBox);
-                    txtBox.Name = i.ToString() + j.ToString();
-                    txtBox.ReadOnly = true;
-                    txtBox.Size = new System.Drawing.Size(38, 38);
-                    txtBox.TabIndex = 0;
-                    txtBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-                    txtBox.Click += new System.EventHandler(this.puzzleSquareClick);
-                    txtBox.TextChanged += new System.EventHandler(this.puzzleTextChange);
-                    //Key press handler to only allow digits 1-9 in the textboxes. 
-                    txtBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(CheckCellEntry);
-                    //Limiting the text box to only on character. 
-                    txtBox.MaxLength = 1;
-                    //Setting the value in the grid text box. 
-                    txtBox.Text = sudokuGrid[i, j].ToString();
-
-                    //Clouring 
-                    txtBox.Font = new Font(txtBox.Font, FontStyle.Bold);
-                    txtBox.ForeColor = Color.Black;
-                    if ((i <= 2 && j <= 2) || (i >= 6 && j >= 6))
-                    {
+                    case (0):
+                    case (8):
                         txtBox.BackColor = Color.LightGreen;
-                    }
-                    else if ((i <= 2 && (j >= 3 && j <= 5)) || (i >= 6 && (j >= 3 && j <= 5)))
-                    {
+                        break;
+                    case (1):
+                    case (7):
                         txtBox.BackColor = Color.Pink;
-                    }
-                    else if ((i <= 2 && j >= 6) || (i >= 6 && j <= 2))
-                    {
+                        break;
+                    case (2):
+                    case (6):
                         txtBox.BackColor = Color.LightCyan;
-                    }
-                    else if (((i >= 3 && i <= 5) && j <= 2) || ((i >= 3 && i <= 5) && j >= 6))
-                    {
+                        break;
+                    case (3):
+                    case (5):
                         txtBox.BackColor = Color.LightYellow;
-                    }
-                    else
-                    {
+                        break;
+                    default:
                         txtBox.BackColor = Color.LightBlue;
-                    }
+                        break;
+                }
 
-
-                    //Ensuring static numbers can not be edited. 
-                    if (sudokuGrid[i, j] != 0)
-                    {
-                        txtBox.Enabled = false;
-                    }
-                    else
-                    {
-                        txtBox.Text = "";
-                    }
-                    //Position logic
-                    if (i == 0 && j == 0)
-                    {
-                        rowLocation = rowLocation + 118;
-                        columnLocation = columnLocation + 120;
-                    }
-                    else
-                    {
-                        rowLocation = rowLocation + 38;
-                    }
+                //Ensuring static numbers can not be edited. 
+                if (loadedPuzzle.puzzlecells[indexNumber].value != 0)
+                {
+                    txtBox.Enabled = false;
+                }
+                else
+                {
+                    txtBox.Text = "";
+                }
+                //Position logic
+                if (indexNumber == 0)
+                {
+                    rowLocation = rowLocation + 133;
+                    columnLocation = columnLocation + 120;
                     txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
                 }
-                rowLocation = 80;
-                columnLocation = columnLocation + 17;
-            }
-        }
-
-        private Color GetColour(int gridSize, int blockNumber)
-        {
-            if(gridSize==9)
-            {
-                switch(blockNumber)
+                else if (indexNumber == 8 || indexNumber % 9 == 8)
                 {
-                    case (8):
-                    case (0):
-                        return Color.LightGreen;
-                    case (7):
-                    case (1):
-                        return Color.LightPink;
-                    case (6):
-                    case (2):
-                        return Color.LightCyan;
-                    case (5):
-                    case (3):
-                        return Color.LightYellow;
-                    case (4):
-                        return Color.LightBlue;            
+                    rowLocation += 38;
+                    txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
+                    rowLocation = 95;
+                    columnLocation += 17;
                 }
+                else
+                {
+                    rowLocation += 38;
+                    txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
+                }
+
+                listOfTextBoxes.Add(txtBox);
             }
-            return Color.Gray;
         }
 
         #endregion

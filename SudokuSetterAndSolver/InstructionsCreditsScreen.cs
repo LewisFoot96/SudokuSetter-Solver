@@ -12,16 +12,20 @@ namespace SudokuSetterAndSolver
 {
     public partial class InstructionsCreditsScreen : Form
     {
+        #region Constructor 
         public InstructionsCreditsScreen()
         {
             InitializeComponent();
         }
+        #endregion
 
+        #region Event handling methods
         private void mainMenuBtn_Click(object sender, EventArgs e)
         {
             this.Close();
             MainMenu mainMenu = new MainMenu();
             mainMenu.Show();
         }
+        #endregion 
     }
 }

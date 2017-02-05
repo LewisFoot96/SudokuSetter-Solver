@@ -182,6 +182,11 @@ namespace SudokuSetterAndSolver
             }
         }
 
+        /// <summary>
+        /// If the user wishes to determine the difficulty of the puzzle. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void difficultyDetermineBtn_Click(object sender, EventArgs e)
         {
             sudokuSolver.currentPuzzleToBeSolved = loadedPuzzle;
@@ -204,12 +209,39 @@ namespace SudokuSetterAndSolver
             MessageBox.Show(sudokuSolver.difficluty);
         }
 
+        /// <summary>
+        /// Validate button click that determines whether the solution that has been created is correct and valid, i.e. all of the sudoku contraints are met. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void validatePuzzleBtn_Click(object sender, EventArgs e)
+        {   //Validating puzzle 
+            bool validRow = false;
+            bool validColumn = false;
+            bool validBlock = false;
+            validRow = ValidateRow();
+            validColumn = ValidateColumn();
+            validBlock = ValidateBlock();
+            //If puzzle is correct
+            if (validRow == true && validColumn == true && validBlock == true)
+            {
+                MessageBox.Show("Puzzle solution correct");
+            }
+            else //If puzzle is incorrect
+            {
+                MessageBox.Show("Puzzle solution incorrect!");
+            }
+        }
+
         #endregion
 
         #region Blank Grid Methods
 
+        /// <summary>
+        /// Method to generate a blank sudoku grid 
+        /// </summary>
         private void GenerateBlankGridStandardSudoku()
-        {
+        {   //Creating a blank grid depending on the 
             for (int puzzleRowNumber = 0; puzzleRowNumber <= loadedPuzzle.gridsize - 1; puzzleRowNumber++)
             {
                 for (int puzzleColumnNumber = 0; puzzleColumnNumber <= loadedPuzzle.gridsize - 1; puzzleColumnNumber++)
@@ -233,7 +265,14 @@ namespace SudokuSetterAndSolver
                 }
             }
         }
+ 
 
+
+        #endregion
+
+        #region Block Numbers Methods 
+
+        //Methods to get the block number for the cell that i currently being handled. 
         private int GetBlockFour(int tempRowNumber, int tempColumnNumber)
         {
             if (tempRowNumber <= 1 && tempColumnNumber <= 1)
@@ -364,34 +403,10 @@ namespace SudokuSetterAndSolver
             }
 
         }
-
-        /// <summary>
-        /// Validate button click that determines whether the solution that has been created is correct and valid, i.e. all of the sudoku contraints are met. 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void validatePuzzleBtn_Click(object sender, EventArgs e)
-        {
-            bool validRow = false;
-            bool validColumn = false;
-            bool validBlock = false;
-
-            validRow = ValidateRow();
-            validColumn = ValidateColumn();
-            validBlock = ValidateBlock();
-
-            if(validRow == true && validColumn == true && validBlock == true)
-            {
-                MessageBox.Show("Puzzle solution correct");
-            }
-            else
-            {
-                MessageBox.Show("Puzzle solution incorrect!");
-            }
-        }
-
         #endregion
 
+        #region Validate Puzzles Method 
+        //Methods to validate whether a row, column or block is correct, with the sudoku constraints.
         private bool ValidateRow()
         {
             List<int> numbersInRow = new List<int>();
@@ -416,7 +431,6 @@ namespace SudokuSetterAndSolver
             }
             return true;
         }
-
         private bool ValidateColumn()
         {
             List<int> numbersInColumn = new List<int>();
@@ -466,6 +480,11 @@ namespace SudokuSetterAndSolver
             return true;
         }
 
+        /// <summary>
+        /// Method that checks to ensure the numbers in a region are correct and there is numbers 1-9 exaclty etc. 
+        /// </summary>
+        /// <param name="listOfNumbers"></param>
+        /// <returns></returns>
         private bool CheckValidNumbers(List<int> listOfNumbers)
         {
             List<int> numbersUsed = new List<int>();
@@ -489,10 +508,6 @@ namespace SudokuSetterAndSolver
             }
             return true;
         }
-
+        #endregion 
     }
-
-
-
-
 }

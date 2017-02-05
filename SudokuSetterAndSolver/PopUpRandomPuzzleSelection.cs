@@ -12,8 +12,12 @@ namespace SudokuSetterAndSolver
 {
     public partial class PopUpRandomPuzzleSelection : Form
     {
+        #region Field Variables 
+        //If a puzzle has been selected. 
         private bool _currentPage = false;
+        #endregion
 
+        #region Constructor 
         public PopUpRandomPuzzleSelection()
         {
             _currentPage = false;
@@ -24,12 +28,18 @@ namespace SudokuSetterAndSolver
             _currentPage = currentPage;
             InitializeComponent();
         }
+        #endregion
 
+        #region Event Handler Methods 
+        /// <summary>
+        /// If a puzzle has been selected and the confirm button has been pressed. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void confirmBtn_Click(object sender, EventArgs e)
         {
+            //Dipslaying puzzle on application. 
             this.Close();
-
-
             if (_currentPage == false)
             {
                 RandomPuzzleGameScreen randomPuzzleScreen = new RandomPuzzleGameScreen(puzzleTypeSelection.SelectedIndex);
@@ -41,5 +51,6 @@ namespace SudokuSetterAndSolver
             }
 
         }
+        #endregion 
     }
 }

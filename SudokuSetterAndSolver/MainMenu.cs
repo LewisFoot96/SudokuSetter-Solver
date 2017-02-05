@@ -14,8 +14,9 @@ namespace SudokuSetterAndSolver
 {
     public partial class MainMenu : Form
     {
-        public static int puzzleSelection = 0;
-        public static bool popUpCompleted = false;
+        #region Field Variables 
+        private puzzle generatedPuzzle;
+        #endregion 
         #region Constructor 
         public MainMenu()
         {
@@ -63,35 +64,44 @@ namespace SudokuSetterAndSolver
 
         #endregion
 
+        #region Event handling methods. 
+        /// <summary>
+        /// Brings up convert file pop up. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void convertFileBtn_Click(object sender, EventArgs e)
         {
             ConvertTextFileToXMLFile convertScreen = new ConvertTextFileToXMLFile();
             convertScreen.Show();
             this.Hide();
-        }
+        }  
 
-        private puzzle generatedPuzzle;
-        puzzle solvingPuzzle;
-
+        /// <summary>
+        /// Method that generates 10 puzzles. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void generatePuzzleBtn_Click(object sender, EventArgs e)
         {
+            //Directory location and stop watch to time the creation process. 
             string directoryLocation = "";
             Stopwatch puzzleGenerationTime = new Stopwatch();
             puzzleGenerationTime.Reset();
             puzzleGenerationTime.Start();
-            for (int puzzleNumber = 0; puzzleNumber <= 100; puzzleNumber++)
+            //Creating 10 puzzles using the generator 
+            for (int puzzleNumber = 0; puzzleNumber <= 9; puzzleNumber++)
             {
+                //Creating puzzles. 
                 generatedPuzzle = new puzzle();
-                solvingPuzzle = new puzzle();
                 generatedPuzzle.gridsize = 9;
-                solvingPuzzle.gridsize = 9;
+                //Creating a new puzzle. 
                 SudokuPuzzleGenerator puzzleGenerator = new SudokuPuzzleGenerator(generatedPuzzle.gridsize);
                 GenerateBlankGridStandardSudoku();
                 puzzleGenerator.generatedPuzzle = generatedPuzzle;
                 puzzleGenerator.CreateSudokuGridXML();
-
+                //Getting all of the empty cellsm to be removed later. 
                 List<int> emptyCellList = new List<int>();
-
                 for (int valueInCellNumber =0;valueInCellNumber<=generatedPuzzle.puzzlecells.Count-1;valueInCellNumber++)
                 {
                     if(generatedPuzzle.puzzlecells[valueInCellNumber].value ==0)
@@ -100,18 +110,13 @@ namespace SudokuSetterAndSolver
                     }
                 }
 
-
-                for (int puzzleCellNumber = 0; puzzleCellNumber <= generatedPuzzle.puzzlecells.Count - 1; puzzleCellNumber++)
-                {
-                    solvingPuzzle.puzzlecells[puzzleCellNumber].value = generatedPuzzle.puzzlecells[puzzleCellNumber].value;
-                }
-                //THis fills in the full puzzle. therefore need to create a new puzzle that does not change.       
+                //Getting difficulty of puzzle, and ensuring correctionness.   
                 SudokuSolver solver = new SudokuSolver();
-                solver.currentPuzzleToBeSolved = solvingPuzzle;
+                solver.currentPuzzleToBeSolved = generatedPuzzle;
                 solver.EvaluatePuzzleDifficulty();
                 generatedPuzzle.difficulty = solver.difficluty;
                 generatedPuzzle.type = "normal";
-
+                //Removing the values from the puzzle. 
                 for(int puzzleCellNumber =0;puzzleCellNumber<=generatedPuzzle.puzzlecells.Count-1;puzzleCellNumber++)
                 {
                     foreach(var number in emptyCellList)
@@ -122,10 +127,9 @@ namespace SudokuSetterAndSolver
                         }
                     }
                 }
-
+                //Setting file path based on the difficulty of the puzzle. 
                 directoryLocation = Path.GetFullPath(@"..\..\") + @"\Puzzles\GeneratedPuzzles";
                 string subFolderLocation = "";
-
                 if (generatedPuzzle.difficulty == "Easy")
                 {
                     subFolderLocation = @"\EasyPuzzles";
@@ -149,16 +153,18 @@ namespace SudokuSetterAndSolver
                 int fCount = Directory.GetFiles(directoryLocation, "*", SearchOption.TopDirectoryOnly).Length;
                 fCount += 1;
                 directoryLocation += @"\" + subFolderLocation + fCount + ".xml";
-
-
+                //Svaing puzzle. 
                 PuzzleManager.WriteToXmlFile(generatedPuzzle, directoryLocation);
-            }
-            
+            }         
             puzzleGenerationTime.Stop();
         }
+        #endregion 
 
         #region Create and Clear Blank Puzzle 
 
+        /// <summary>
+        /// Method generates a blank sudoku grid. 
+        /// </summary>
         private void GenerateBlankGridStandardSudoku()
         {
             for (int puzzleRowNumber = 0; puzzleRowNumber <= generatedPuzzle.gridsize - 1; puzzleRowNumber++)
@@ -181,7 +187,6 @@ namespace SudokuSetterAndSolver
                         tempPuzzleCell.blocknumber = GetBlocNumberSixteen(puzzleRowNumber, puzzleColumnNumber);
                     }
                     generatedPuzzle.puzzlecells.Add(tempPuzzleCell);
-                    solvingPuzzle.puzzlecells.Add(tempPuzzleCell);
                 }
             }
         }
@@ -189,6 +194,7 @@ namespace SudokuSetterAndSolver
         #endregion
 
         #region Get Blocks Methods 
+        //Method that get the block numbers for a cell using the column and row number. 
         private int GetBlockFour(int tempRowNumber, int tempColumnNumber)
         {
             if (tempRowNumber <= 1 && tempColumnNumber <= 1)

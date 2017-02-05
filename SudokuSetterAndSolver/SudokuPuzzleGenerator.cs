@@ -9,19 +9,11 @@ namespace SudokuSetterAndSolver
     class SudokuPuzzleGenerator
     {
         #region Global Vairbales 
-        //The number of static numbers should intially be used to determine the difficulty, then the other methods will contribute to the difficulty determination.
-
+        //Grid size, whether solved and orginal solution. 
         int _gridSize = 0;
         bool solved = false;
-        string puzzlePifficulty = "";
-        int executionTime;
-        int executionTimeDifficulty;
-        int totalCandidates;
-        int totalNumberCandidatesDifficulty;
-        int humanModelDifficultyLevel;
-        int staticNumbersTotal;
-        int staticNumbersDifficulty;
         public List<int> orginalSolution = new List<int>();
+        //Cells handling
         List<int> listOfCellsRemovedValues = new List<int>();
         List<int> listOfCellsNotRemoved = new List<int>();
         #endregion
@@ -45,9 +37,13 @@ namespace SudokuSetterAndSolver
 
         #region Main Methods 
 
+        /// <summary>
+        /// Creating a new sudoku puzzle. 
+        /// </summary>
+        /// <returns></returns>
         public puzzle CreateSudokuGridXML()
         {         
-            //Clearing generated cell and creating a new one one, and returning this. 
+            //Clearing generated cell and creating a new one one, and returning this. Resetting values.
             solved = false; 
             listOfCellsRemovedValues.Clear();
             listOfCellsNotRemoved.Clear();
@@ -56,8 +52,12 @@ namespace SudokuSetterAndSolver
             return generatedPuzzle;
         }
 
+        /// <summary>
+        /// Generate the puzzle. 
+        /// </summary>
         private void GenerateExampleSudokuGridXML()
-        {        
+        {   
+            //Getting all blank cells at the start.      
             for(int getBlankCellCount=0;getBlankCellCount<=generatedPuzzle.puzzlecells.Count-1;getBlankCellCount++)
             {
                 listOfCellsNotRemoved.Add(getBlankCellCount);
@@ -66,12 +66,12 @@ namespace SudokuSetterAndSolver
             //Solving blank grid. 
             solver.currentPuzzleToBeSolved = generatedPuzzle;
             solved = solver.BacktrackingUsingXmlTemplateFile(true);
-
+            //Setting the orginal solution of the puzzle. 
             for (int orginalSolutionCounter = 0; orginalSolutionCounter <= generatedPuzzle.puzzlecells.Count - 1; orginalSolutionCounter++)
             {
                 orginalSolution.Add(generatedPuzzle.puzzlecells[orginalSolutionCounter].value);
             }
-
+            //Digging holes within the solved puzzle. 
             DigHolesXML();
 
             //Need to added the grid from the intitial solution and then remove values. 
@@ -79,72 +79,55 @@ namespace SudokuSetterAndSolver
             {
                 generatedPuzzle.puzzlecells[cellIndexValue].value = orginalSolution[cellIndexValue];
             }
-            RemoveValuesFromPuzzle();    
+            RemoveValuesFromPuzzle();  //remvoing values to make puzzle valid.   
         }
 
+        /// <summary>
+        /// Method to dig holes within the puzzle. 
+        /// </summary>
         private void DigHolesXML()
         {
+            //Creating variables 
             bool isEqualToOrginal = false;
             int cellValue = 0;
             int blankCellNumber = 0;
+            //Depending on grid size, remove a certain amount of numbers from the puzzle initially. 
             if(generatedPuzzle.gridsize ==9)
             {
-                blankCellNumber = 48;
+                blankCellNumber = 47;
             }
             else if(generatedPuzzle.gridsize ==16)
             {
-                blankCellNumber = 48; 
+                blankCellNumber = 60; 
             }
             else
             {
                 blankCellNumber = 6;
             }
-            //Initially remove 10 candidates from the cells. 
+            //Initially set number of candidates from puzzle. 
             for (int initialHolesRemoved = 0; initialHolesRemoved <= blankCellNumber; initialHolesRemoved++)
             {
                 while (generatedPuzzle.puzzlecells[cellValue].value == 0)
                 {
                     cellValue = randomNumber.Next(0, generatedPuzzle.puzzlecells.Count - 1);
                 }
+                //Updating puzzle and cell handlers. 
                 listOfCellsRemovedValues.Add(cellValue); //Adds the cells that have been blanked previously. 
                 RemoveValuesFromListOfNonRemovedCells(cellValue);
                 generatedPuzzle.puzzlecells[cellValue].value = 0;
             }
 
+            //Checking to see if puzzle is solvable. 
             solver.currentPuzzleToBeSolved = generatedPuzzle;
             solved = solver.BacktrackingUsingXmlTemplateFile(false);
-
             if (solved == true)
             {
+                //Check to see if solution is eqaual to the orignal solution, to ensure only one solution possible. 
                 isEqualToOrginal = CheckValidSolutionXML();
-                ////If the puzzle is not equal to the orginal solution, then remove values, until it does. 
-                //while (isEqualToOrginal == false)
-                //{
-                //    cellValue = randomNumber.Next(0, listOfCellsNotRemoved.Count - 1);
-
-                //    listOfCellsRemovedValues.Add(cellValue ); //Adds the cells that have been blanked previously. 
-                //    RemoveValuesFromListOfNonRemovedCells(cellValue);
-                //    RemoveValuesFromPuzzle();
-
-
-                //    solver.currentPuzzleToBeSolved = generatedPuzzle;
-                //    solved = solver.BacktrackingUsingXmlTemplateFile(false);
-
-                //    if (solved == false || listOfCellsNotRemoved.Count <=17)
-                //    {
-                //        generatedPuzzle.puzzlecells.Clear();
-                //        CreateSudokuGridXML();
-
-                //    }
-
-                //    //If the puzzle is equal to the initial solution then it may be a valid puzzle. 
-                //    isEqualToOrginal = CheckValidSolutionXML();
-                //}
-
                 if (isEqualToOrginal == true)
-                {
+                {   //Finding the cell to induce further backtracking 
                     for (int reverseCellCount = generatedPuzzle.puzzlecells.Count-1; reverseCellCount >= 0; reverseCellCount--)
-                    {
+                    {   //If too many values have been removed. 
                         if(listOfCellsNotRemoved.Count >=64)
                         {
                             CreateSudokuGridXML();
@@ -162,15 +145,15 @@ namespace SudokuSetterAndSolver
                         {
                             continue;
                         }
-
+                        //Setting prervious number, so can not be used. 
                         int previousNumberReverse = generatedPuzzle.puzzlecells[reverseCellCount].value;
                         generatedPuzzle.puzzlecells[reverseCellCount].value = 0;
-
+                        //Getting valid numebrs for that cell. 
                         List<int> validNumbersInRow = CheckValidNumbersForRegions.GetValuesForRowXmlPuzzleTemplate(generatedPuzzle, generatedPuzzle.puzzlecells[reverseCellCount]);
                         List<int> validNumbersInColumn = CheckValidNumbersForRegions.GetValuesForColumnXmlPuzzleTemplate(generatedPuzzle, generatedPuzzle.puzzlecells[reverseCellCount]);
                         List<int> validNumbersInBlock = CheckValidNumbersForRegions.GetValuesForBlockXmlPuzzleTemplate(generatedPuzzle, generatedPuzzle.puzzlecells[reverseCellCount]);
                         List<int> validNumbers = CheckValidNumbersForRegions.GetValidNumbers(validNumbersInColumn, validNumbersInRow, validNumbersInBlock);
-
+                        //If the cell contains more than 1 candidate then the backtracking can occur. 
                         if (validNumbers.Count >= 2)
                         {
                             //If there is a cell with 2 or more candidates, where the current value is not the last valid number in that list. 
@@ -200,24 +183,21 @@ namespace SudokuSetterAndSolver
                         }
                     }
                 }
-                else
+                else //Create new puzzle. 
                 {
-                    //generatedPuzzle.puzzlecells.Clear();
                     foreach(var clearCell in generatedPuzzle.puzzlecells)
                     {
                         clearCell.value = 0;
                     }
-
                     CreateSudokuGridXML();
                 }
             }
-            else
+            else //Create new puzzle 
             {
                 foreach (var clearCell in generatedPuzzle.puzzlecells)
                 {
                     clearCell.value = 0;
                 }
-                // generatedPuzzle.puzzlecells.Clear();
                 CreateSudokuGridXML();
             }
         }
@@ -241,6 +221,10 @@ namespace SudokuSetterAndSolver
         #endregion
 
         #region Remove Values Methods 
+        /// <summary>
+        /// Method that updates cell hadnling list, to say the list of non removed values from cells. 
+        /// </summary>
+        /// <param name="cellValue"></param>
         private void RemoveValuesFromListOfNonRemovedCells(int cellValue)
         {
             for (int notRemoveCellIndex = 0; notRemoveCellIndex <= listOfCellsNotRemoved.Count - 1; notRemoveCellIndex++)
@@ -251,7 +235,6 @@ namespace SudokuSetterAndSolver
                     return;
                 }
             }
-
         }
 
         /// <summary>
@@ -275,8 +258,8 @@ namespace SudokuSetterAndSolver
 
         #endregion
 
-        #region GetValues Methods 
         #region Get Blocks Methods 
+        //Method to get the correct block number based on the row and column number of the cell currently being handled. 
         private int GetBlockFour(int tempRowNumber, int tempColumnNumber)
         {
             if (tempRowNumber <= 1 && tempColumnNumber <= 1)
@@ -408,10 +391,7 @@ namespace SudokuSetterAndSolver
 
         }
 
-        #endregion
-
-
-
+      
         private int GetBlockNumber(int tempRowNumber, int tempColumnNumber)
         {
             if (tempRowNumber <= 2 && tempColumnNumber <= 2)
@@ -453,7 +433,5 @@ namespace SudokuSetterAndSolver
         }
 
         #endregion
-
-
     }
 }

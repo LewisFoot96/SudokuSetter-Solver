@@ -7,205 +7,14 @@ using System.Threading.Tasks;
 namespace SudokuSetterAndSolver
 {
     class CheckValidNumbersForRegions
-    {    
-        public static List<int> checkBlock(int[,] sudokuPuzzleExample, int squareRowNumber, int squareColumnNumber)
-        {
-            List<int> validNumbersInBlock = new List<int>();
-            List<int> nonValidNumbersInBlock = new List<int>();
-            List<int> numbersPositionsInBlock = new List<int>();
+    {
+        #region Method 
 
-            int squareRowNumberLogic = squareRowNumber + 1;
-            int squareColumnNumberLogic = squareColumnNumber + 1;
-
-            //Need to work out how to get all the values out of each box. 
-
-            if (squareRowNumberLogic == 2 || squareRowNumberLogic == 5 || squareRowNumberLogic == 8)
-            {
-                if (squareColumnNumberLogic == 2 || squareColumnNumberLogic == 5 || squareColumnNumberLogic == 8)
-                {
-                    //Middle square 
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber, squareColumnNumber + 1]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber, squareColumnNumber - 1]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber - 1, squareColumnNumber - 1]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber + 1, squareColumnNumber + 1]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber + 1, squareColumnNumber]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber - 1, squareColumnNumber]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber - 1, squareColumnNumber + 1]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber + 1, squareColumnNumber - 1]);
-                }
-                else if (squareColumnNumberLogic == 3 || squareColumnNumberLogic == 6 || squareColumnNumberLogic == 9)
-                {
-                    //Middle right square
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber, squareColumnNumber - 1]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber, squareColumnNumber - 2]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber - 1, squareColumnNumber]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber + 1, squareColumnNumber]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber - 1, squareColumnNumber - 1]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber + 1, squareColumnNumber - 1]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber - 1, squareColumnNumber - 2]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber + 1, squareColumnNumber - 2]);
-                }
-                else
-                {
-                    //Middle left
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber, squareColumnNumber + 1]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber, squareColumnNumber + 2]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber + 1, squareColumnNumber]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber - 1, squareColumnNumber]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber + 1, squareColumnNumber + 1]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber - 1, squareColumnNumber + 1]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber + 1, squareColumnNumber + 2]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber - 1, squareColumnNumber + 2]);
-                }
-                //This if it is at the middle of a block. 
-            }
-            else if (squareRowNumberLogic == 3 || squareRowNumberLogic == 6 || squareRowNumberLogic == 9)
-            {
-                if (squareColumnNumberLogic == 2 || squareColumnNumberLogic == 5 || squareColumnNumberLogic == 8)
-                {
-                    //Bottom middle 
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber, squareColumnNumber - 1]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber, squareColumnNumber + 1]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber - 1, squareColumnNumber - 1]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber - 2, squareColumnNumber - 1]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber - 2, squareColumnNumber]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber - 1, squareColumnNumber]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber - 1, squareColumnNumber + 1]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber - 2, squareColumnNumber + 1]);
-                }
-                else if (squareColumnNumberLogic == 3 || squareColumnNumberLogic == 6 || squareColumnNumberLogic == 9)
-                {
-                    //Botom righ corner 
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber - 2, squareColumnNumber - 2]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber - 2, squareColumnNumber]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber, squareColumnNumber - 2]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber - 1, squareColumnNumber]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber, squareColumnNumber - 1]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber - 1, squareColumnNumber - 1]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber - 2, squareColumnNumber - 1]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber - 1, squareColumnNumber - 2]);
-                }
-                else
-                {
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber, squareColumnNumber + 1]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber, squareColumnNumber + 2]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber - 1, squareColumnNumber]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber - 2, squareColumnNumber]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber - 1, squareColumnNumber + 1]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber - 1, squareColumnNumber + 2]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber - 2, squareColumnNumber + 2]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber - 2, squareColumnNumber + 1]);
-                }
-            }
-            else
-            {
-                if (squareColumnNumberLogic == 2 || squareColumnNumberLogic == 5 || squareColumnNumberLogic == 8)
-                {
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber, squareColumnNumber + 1]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber, squareColumnNumber - 1]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber + 1, squareColumnNumber + 1]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber + 2, squareColumnNumber + 1]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber + 2, squareColumnNumber]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber + 1, squareColumnNumber]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber + 1, squareColumnNumber - 1]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber + 2, squareColumnNumber - 1]);
-                }
-                else if (squareColumnNumberLogic == 3 || squareColumnNumberLogic == 6 || squareColumnNumberLogic == 9)
-                {
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber, squareColumnNumber - 1]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber, squareColumnNumber - 2]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber + 1, squareColumnNumber]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber + 2, squareColumnNumber]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber + 1, squareColumnNumber - 1]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber + 1, squareColumnNumber - 2]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber + 2, squareColumnNumber - 2]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber + 2, squareColumnNumber - 1]);
-                }
-                else
-                {
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber + 2, squareColumnNumber + 2]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber + 2, squareColumnNumber]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber, squareColumnNumber + 2]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber + 1, squareColumnNumber]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber, squareColumnNumber + 1]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber + 1, squareColumnNumber + 1]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber + 2, squareColumnNumber + 1]);
-                    numbersPositionsInBlock.Add(sudokuPuzzleExample[squareRowNumber + 1, squareColumnNumber + 2]);
-                }
-            }
-
-            foreach (var value in numbersPositionsInBlock)
-            {
-                if (value == 0)
-                {
-
-                }
-                else
-                {
-                    nonValidNumbersInBlock.Add(value);
-                }
-            }
-            validNumbersInBlock = GetValidNumbers(nonValidNumbersInBlock);
-            return validNumbersInBlock;
-        }
-
-        public static List<int> checkColumn(int[,] sudokuPuzzleExample, int squareRowNumber, int squareColumnNumber)
-        {
-            List<int> validNumbersInColumn = new List<int>();
-            List<int> nonValidNumbersInColumn = new List<int>();
-            List<int> numbersInColumn = new List<int>();
-
-            for (int z = 0; z <= 8; z++)
-            {
-                numbersInColumn.Add(sudokuPuzzleExample[z, squareColumnNumber]);
-            }
-
-            foreach (var value in numbersInColumn)
-            {
-                if (value == 0)
-                {
-
-                }
-                else
-                {
-                    nonValidNumbersInColumn.Add(value);
-                }
-            }
-            //Getting all the valid numbers i.e. the numbers that are not already in the column. 
-            validNumbersInColumn = GetValidNumbers(nonValidNumbersInColumn);
-            return validNumbersInColumn;
-        }
-
-        public static List<int> checkRow(int[,] sudokuExamplePuzzle, int squareRowNumber, int squareColumnNumber)
-        {
-            List<int> validNumbersInRow = new List<int>();
-            List<int> nonValidNumbersInRow = new List<int>();
-            List<int> numbersInRow = new List<int>();
-
-            for (int z = 0; z <= 8; z++)
-            {
-
-                numbersInRow.Add(sudokuExamplePuzzle[squareRowNumber, z]);
-
-            }
-
-            foreach (var value in numbersInRow)
-            {
-                if (value == 0)
-                {
-
-                }
-                else
-                {
-                    nonValidNumbersInRow.Add(value);
-                }
-            }
-            //Getting all the valid numbers i.e. the numbers that are not already in the column. 
-            validNumbersInRow = GetValidNumbers(nonValidNumbersInRow);
-            return validNumbersInRow;
-        }
-
-        //Methods that gets all the valid values dependant on the values that are currently in the row, column or block. 
+        /// <summary>
+        /// Method that gets all of the valid cell based upon the cells that are not avaliable. 
+        /// </summary>
+        /// <param name="nonValidNumbers"></param>
+        /// <returns></returns>
         public static List<int> GetValidNumbers(List<int> nonValidNumbers)
         {
             List<int> validNumbers = new List<int>();
@@ -220,10 +29,17 @@ namespace SudokuSetterAndSolver
             return validNumbers;
         }
 
+        /// <summary>
+        /// Method to create a list of values that are within the region of the current cell being handled. 
+        /// </summary>
+        /// <param name="columnNumbers"></param>
+        /// <param name="rowNumbers"></param>
+        /// <param name="blockNumbers"></param>
+        /// <returns></returns>
         public static List<int> GetValidNumbers(List<int> columnNumbers, List<int> rowNumbers, List<int> blockNumbers)
         {
+            //Getting the numbers that are valid. 
             List<int> validNumbers = new List<int>();
-
             foreach (var columnValue in columnNumbers)
             {
                 if (rowNumbers.Contains(columnValue) && blockNumbers.Contains(columnValue))
@@ -231,17 +47,21 @@ namespace SudokuSetterAndSolver
                     validNumbers.Add(columnValue);
                 }
             }
-
             return validNumbers;
         }
 
-        //Methods for getting the values using the xml file. 
+       /// <summary>
+       /// Method that gets all of the numbers within a specific row. 
+       /// </summary>
+       /// <param name="currentPuzzleToBeSolved">puzzle</param>
+       /// <param name="puzzleCellCurrentlyBeingHandled">current cell</param>
+       /// <returns></returns>
         public static  List<int> GetValuesForRowXmlPuzzleTemplate(puzzle currentPuzzleToBeSolved, puzzleCell puzzleCellCurrentlyBeingHandled)
         {
             List<int> numbersInRow = new List<int>();
             List<int> nonValidNumberInRow = new List<int>();
             List<int> validNumbersInRow = new List<int>();
-
+            //Get row and value
             foreach (var cell in currentPuzzleToBeSolved.puzzlecells)
             {
                 if (cell.rownumber == puzzleCellCurrentlyBeingHandled.rownumber)
@@ -249,7 +69,6 @@ namespace SudokuSetterAndSolver
                     numbersInRow.Add(cell.value);
                 }
             }
-
             foreach (var valueInCell in numbersInRow)
             {
                 if (valueInCell != 0)
@@ -257,17 +76,22 @@ namespace SudokuSetterAndSolver
                     nonValidNumberInRow.Add(valueInCell);
                 }
             }
-
+            //Return non valid values. 
             return validNumbersInRow = GetValidNumbers(nonValidNumberInRow);
-
         }
 
+        /// <summary>
+        /// Method that gets the values in a common based on the cell that is being handled.
+        /// </summary>
+        /// <param name="currentPuzzleToBeSolved">puzzle</param>
+        /// <param name="puzzleCellCurrentlyBeingHandled">current cell</param>
+        /// <returns></returns>
         public static List<int> GetValuesForColumnXmlPuzzleTemplate(puzzle currentPuzzleToBeSolved, puzzleCell puzzleCellCurrentlyBeingHandled)
         {
             List<int> numbersInColumn = new List<int>();
             List<int> nonValidNumberInColumn = new List<int>();
             List<int> validNumbersInColumn = new List<int>();
-
+            //Get column and values. 
             foreach (var cell in currentPuzzleToBeSolved.puzzlecells)
             {
                 if (cell.columnnumber == puzzleCellCurrentlyBeingHandled.columnnumber)
@@ -275,7 +99,6 @@ namespace SudokuSetterAndSolver
                     numbersInColumn.Add(cell.value);
                 }
             }
-
             foreach (var valueInCell in numbersInColumn)
             {
                 if (valueInCell != 0)
@@ -283,16 +106,22 @@ namespace SudokuSetterAndSolver
                     nonValidNumberInColumn.Add(valueInCell);
                 }
             }
-
+            //return non valud values. 
             return validNumbersInColumn = GetValidNumbers(nonValidNumberInColumn);
         }
 
+        /// <summary>
+        /// Method that gets all the values in the block based on the current cell being handled. 
+        /// </summary>
+        /// <param name="currentPuzzleToBeSolved">puzzle</param>
+        /// <param name="puzzleCellCurrentlyBeingHandled">current cell</param>
+        /// <returns></returns>
         public static List<int> GetValuesForBlockXmlPuzzleTemplate(puzzle currentPuzzleToBeSolved, puzzleCell puzzleCellCurrentlyBeingHandled)
         {
             List<int> numbersInBlock = new List<int>();
             List<int> nonValidNumberInBlock = new List<int>();
             List<int> validNumbersInBlock = new List<int>();
-
+            //Getting blocks and the number in the block.
             foreach (var cell in currentPuzzleToBeSolved.puzzlecells)
             {
                 if (cell.blocknumber == puzzleCellCurrentlyBeingHandled.blocknumber)
@@ -300,7 +129,6 @@ namespace SudokuSetterAndSolver
                     numbersInBlock.Add(cell.value);
                 }
             }
-
             foreach (var valueInCell in numbersInBlock)
             {
                 if (valueInCell != 0)
@@ -308,8 +136,9 @@ namespace SudokuSetterAndSolver
                     nonValidNumberInBlock.Add(valueInCell);
                 }
             }
-
+            //Returning the numbers that are in the block, the ones that cannot be valid numbers within the cell that is currently being handled. 
             return validNumbersInBlock = GetValidNumbers(nonValidNumberInBlock);
         }
+        #endregion
     }
 }

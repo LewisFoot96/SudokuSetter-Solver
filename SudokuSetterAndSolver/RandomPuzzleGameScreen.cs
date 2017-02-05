@@ -22,7 +22,6 @@ namespace SudokuSetterAndSolver
         public List<TextBox> listOfTextBoxes = new List<TextBox>();
         SudokuSolver sudokuSolver = new SudokuSolver();
         puzzle generatedPuzzle = new puzzle();
-
         #endregion
 
         #region Global Variables 
@@ -34,6 +33,7 @@ namespace SudokuSetterAndSolver
         #region Constructor 
         public RandomPuzzleGameScreen(int puzzleSelection)
         {
+            //Puzzle selection is the type of puzzle that will be created. 
             _puzzleSelection = puzzleSelection;
             InitializeComponent();
             CreateSudokuGrid();
@@ -58,7 +58,7 @@ namespace SudokuSetterAndSolver
         }
 
         /// <summary>
-        /// Method to handel the key presses witin the sudoku cells, to ensure only number 1-9 are entrered. 
+        /// Method to handle the key presses witin the sudoku cells, to ensure only number 1-9 are entrered. 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -183,19 +183,18 @@ namespace SudokuSetterAndSolver
         /// </summary>
         private void CreateSudokuGrid()
         {
+            //Determinging which sudoku puzzle is generated based upon the users selection. 
             if (_puzzleSelection == 2)
             {
                 generatedPuzzle.gridsize = 9;
                 GenerateBlankGridStandardSudoku();
                 GenerateStandardSudokuPuzzle();
-
             }
             else if (_puzzleSelection == 0)
             {
                 generatedPuzzle.gridsize = 9;
-
+                //Seleting which irregular template to use. 
                 Random newRandomNumber = new Random();
-
                 int irregularRandom = newRandomNumber.Next(0, 1);
                 if (irregularRandom == 1)
                 {
@@ -221,8 +220,12 @@ namespace SudokuSetterAndSolver
             }
         }
 
+        /// <summary>
+        /// Method that create a blank sudoku grid for the random puzzle. 
+        /// </summary>
         private void GenerateBlankGridStandardSudoku()
         {
+            //Creating the puzzle and all cells, in line with the choosen size. 
             for (int puzzleRowNumber = 0; puzzleRowNumber <= generatedPuzzle.gridsize - 1; puzzleRowNumber++)
             {
                 for (int puzzleColumnNumber = 0; puzzleColumnNumber <= generatedPuzzle.gridsize - 1; puzzleColumnNumber++)
@@ -249,6 +252,7 @@ namespace SudokuSetterAndSolver
         #endregion
 
         #region Get Blocks Methods 
+        //Methods that get the block number for the cell that is being handled. 
         private int GetBlockFour(int tempRowNumber, int tempColumnNumber)
         {
             if (tempRowNumber <= 1 && tempColumnNumber <= 1)

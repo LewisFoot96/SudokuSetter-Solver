@@ -13,10 +13,17 @@ namespace SudokuSetterAndSolver
 {
     public partial class PlaySudokuScreen : Form
     {
+        #region Field Variables 
         TextBox currentSelectedTextBox = new TextBox();
+        //Will contain the location of the file that is for the selected level. 
         string fileDirectoryLocation;
+        //Loaded puzzle for that level
         puzzle loadedPuzzle;
-        PuzzleManager puzzleManager; 
+        //Manages the reading and writing of puzzles to xml files. 
+        PuzzleManager puzzleManager;
+        #endregion
+
+        #region Constructor 
         public PlaySudokuScreen()
         {
             InitializeComponent();       
@@ -26,13 +33,22 @@ namespace SudokuSetterAndSolver
         {
             loadedPuzzle = new puzzle();
             puzzleManager = new PuzzleManager();
-            fileDirectoryLocation = "C:\\Users\\New\\Documents\\Sudoku\\Application\\SudokuSetterAndSolver\\SudokuSetterAndSolver\\Puzzles\\LevelsPuzzles\\";
+            loadedPuzzle.gridsize = gridSize;
+            //Getting directory location of the loaded puzzle. 
             fileDirectoryLocation = Path.GetFullPath(@"..\..\") + @"\Puzzles\LevelsPuzzles";
-            fileDirectoryLocation += @"\" + fileNameFromButtonPress + ".xml";
-            gridSize = 9;
+            fileDirectoryLocation += @"\" + fileNameFromButtonPress + ".xml";      
             InitializeComponent();
-        }
+            CreateGrid(9);
+        } 
 
+        #endregion
+
+        #region Event Handling Methods 
+        /// <summary>
+        /// Going back to main menu.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void mainMenuBtn_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -56,7 +72,7 @@ namespace SudokuSetterAndSolver
         }
 
         /// <summary>
-        /// Method to handel the key presses witin the sudoku cells, to ensure only number 1-9 are entrered. 
+        /// Method to handle the key presses witin the sudoku cells, to ensure only number 1-9 are entrered. 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -69,29 +85,7 @@ namespace SudokuSetterAndSolver
                 e.Handled = true;
         }
 
-        private int[,] ConvertListToMultiDimensionalArray(List<int> puzzleInList, int gridSize)
-        {
-            int[,] puzzleArray = new int[gridSize, gridSize];
-            int rowNumber = 0;
-            int columnNumber = 0;
-
-            for (int cellNumber = 0; cellNumber <= puzzleInList.Count - 1; cellNumber++)
-            {
-                puzzleArray[rowNumber, columnNumber] = puzzleInList[cellNumber];
-                if (columnNumber == 8 || columnNumber % 9 == 8)
-                {
-                    rowNumber++;
-                    columnNumber = 0;
-                }
-                else
-                {
-                    columnNumber++;
-                }
-            }
-
-
-            return puzzleArray;
-        }
+        #endregion 
 
     }
 }

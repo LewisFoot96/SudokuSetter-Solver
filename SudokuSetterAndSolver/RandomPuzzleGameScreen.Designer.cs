@@ -111,7 +111,11 @@ namespace SudokuSetterAndSolver
             ((System.ComponentModel.ISupportInitialize)(this.gameBanner)).EndInit();
             this.ResumeLayout(false);
         }
+        #endregion
 
+        #region Generating Puzzles
+        
+        ///Method to generate random stadnard puzzle  
         private void GenerateStandardSudokuPuzzle()
         {
             sudokuGridGenerator.generatedPuzzle = generatedPuzzle;
@@ -203,7 +207,9 @@ namespace SudokuSetterAndSolver
             string difficulty = sudokuSolver.difficluty;
             MessageBox.Show(difficulty);
         }
-
+        /// <summary>
+        /// Method to generate random large puzzle. 
+        /// </summary>
         private void GenerateLargeSudokuPuzzle()
         {
             sudokuGridGenerator.generatedPuzzle = generatedPuzzle;
@@ -291,7 +297,9 @@ namespace SudokuSetterAndSolver
             }
 
         }
-
+        /// <summary>
+        /// Method to generate random small sudoku puzzle. 
+        /// </summary>
         private void GenerateSmallSudokuPuzzle()
         {
             sudokuGridGenerator.generatedPuzzle = generatedPuzzle;
@@ -373,7 +381,7 @@ namespace SudokuSetterAndSolver
             }
         }
 
-        #endregion
+        #endregion 
         private System.Windows.Forms.Button mainMenuBtn;
         private PictureBox gameBanner;
         private Button submitPuzzleBtn;
