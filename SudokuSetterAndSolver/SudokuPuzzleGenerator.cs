@@ -98,7 +98,7 @@ namespace SudokuSetterAndSolver
             }
             else if(generatedPuzzle.gridsize ==16)
             {
-                blankCellNumber = 60; 
+                blankCellNumber = 30; 
             }
             else
             {

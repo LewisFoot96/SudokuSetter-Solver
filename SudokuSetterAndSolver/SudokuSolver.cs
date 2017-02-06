@@ -1568,6 +1568,9 @@ namespace SudokuSetterAndSolver
             bool rule = SolveSudokuRuleBasedXML();
             Console.WriteLine(tempStopWatch.Elapsed.TotalSeconds);
             Console.WriteLine(tempStopWatch.Elapsed.TotalMilliseconds);
+            Console.WriteLine(numberOfStaticNumbers);
+            Console.WriteLine(totalNumberOfCandidates);
+            Console.WriteLine(humanSolvingDifficulty);
             executionTimeDifficulty = EvaluateExecutionTime(tempStopWatch.Elapsed.TotalSeconds);
             tempStopWatch.Stop();
             totalNumberOfCandidatesDifficulty = EvaluateTotalNumberOfCandidatesDifficulty(totalNumberOfCandidates);

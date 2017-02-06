@@ -13,6 +13,7 @@ using System.Xml.Serialization;
 namespace SudokuSetterAndSolver
 {
     //http://www.sudokukingdom.com/ - link to the puzzles I used for the first set if test puzzles. 
+    //Second Test: http://www.sudoku-it.com/en/
     public partial class ConvertTextFileToXMLFile : Form
     {
         #region Field Variables 
