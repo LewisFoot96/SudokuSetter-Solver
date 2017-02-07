@@ -21,12 +21,13 @@ namespace SudokuSetterAndSolver
         puzzle loadedPuzzle;
         //Manages the reading and writing of puzzles to xml files. 
         PuzzleManager puzzleManager;
+        List<int> puzzleSolution = new List<int>();
         #endregion
 
         #region Constructor 
         public PlaySudokuScreen()
         {
-            InitializeComponent();       
+            InitializeComponent();
         }
 
         public PlaySudokuScreen(string fileNameFromButtonPress, int gridSize)
@@ -36,10 +37,10 @@ namespace SudokuSetterAndSolver
             loadedPuzzle.gridsize = gridSize;
             //Getting directory location of the loaded puzzle. 
             fileDirectoryLocation = Path.GetFullPath(@"..\..\") + @"\Puzzles\LevelsPuzzles";
-            fileDirectoryLocation += @"\" + fileNameFromButtonPress + ".xml";      
+            fileDirectoryLocation += @"\" + fileNameFromButtonPress + ".xml";
             InitializeComponent();
             CreateGrid(9);
-        } 
+        }
 
         #endregion
 
@@ -85,7 +86,68 @@ namespace SudokuSetterAndSolver
                 e.Handled = true;
         }
 
-        #endregion 
+        /// <summary>
+        /// Method if the user submits a puzzle attempt. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void submitPuzzleBtn_Click(object sender, EventArgs e)
+        {
+            UpdatePuzzle();
+            if (puzzleSolution.Count > 0)
+            {
+                bool result = CheckPuzzleSolution();
+                if (result == true)
+                {
+                    MessageBox.Show("Puzzle correct! Well done!");
+                }
+                else
+                {
+                    MessageBox.Show("Puzzle incorrect! Please Try again!");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Puzzle incorrect! Please Try again!");
+            }
 
+        }
+
+        #endregion
+
+        #region Methods 
+
+        /// <summary>
+        /// Method to update the puzzle with the current values entered into the textboxes. 
+        /// </summary>
+        private void UpdatePuzzle()
+        {
+            for (int index = 0; index <= listOfTextBoxes.Count - 1; index++)
+            {
+                if (listOfTextBoxes[index].Text == "")
+                {
+                    loadedPuzzle.puzzlecells[index].value = 0;
+                }
+                else {
+                    loadedPuzzle.puzzlecells[index].value = int.Parse(listOfTextBoxes[index].Text);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Method to check whether the solution the user has entered is correct. 
+        /// </summary>
+        private bool CheckPuzzleSolution()
+        {
+            for (int index = 0; index <= loadedPuzzle.puzzlecells.Count - 1; index++)
+            {
+                if (loadedPuzzle.puzzlecells[index].value != puzzleSolution[index])
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        #endregion 
     }
 }

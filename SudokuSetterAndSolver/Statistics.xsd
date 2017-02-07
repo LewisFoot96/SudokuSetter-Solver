@@ -11,8 +11,9 @@
       <xs:sequence>
         <xs:element name ="fastestsolvetime" type="xs:decimal"/>
         <xs:element name ="puzzlecompleted" type="xs:int"/>
+        <xs:element name ="numberOfExtremePuzzleCompleted" type="xs:int"/>
         <!-- Will contain the number of the level that was last completed. -->
-        <xs:element name ="levelcompleted" type="xs:int"/>
+        <xs:element name ="levelcompleted" type="xs:int"/>    
       </xs:sequence>
     </xs:complexType>
   </xs:element>

@@ -112,6 +112,10 @@
     <Compile Include="SolveSudokuScreen.Designer.cs">
       <DependentUpon>SolveSudokuScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="Statistics.cs">
+      <DependentUpon>Statistics.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="StatisticsManager.cs" />
     <Compile Include="StatisticsScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -332,26 +336,7 @@
     <Content Include="Puzzles\TestPuzzles\Medium\TestMedium7.xml" />
     <Content Include="Puzzles\TestPuzzles\Medium\TestMedium8.xml" />
     <Content Include="Puzzles\TestPuzzles\Medium\TestMedium9.xml" />
-    <Content Include="Puzzles\TestPuzzles\testlevel10old.xml" />
-    <Content Include="Puzzles\TestPuzzles\testlevel13old.xml" />
-    <Content Include="Puzzles\TestPuzzles\testlevel14old.xml" />
-    <Content Include="Puzzles\TestPuzzles\testlevel15old.xml" />
-    <Content Include="Puzzles\TestPuzzles\testlevel16old.xml" />
-    <Content Include="Puzzles\TestPuzzles\test17old.xml" />
-    <Content Include="Puzzles\TestPuzzles\test18old.xml" />
-    <Content Include="Puzzles\TestPuzzles\test19old.xml" />
-    <Content Include="Puzzles\TestPuzzles\testlevel1.xml" />
-    <Content Include="Puzzles\TestPuzzles\test20old.xml" />
-    <Content Include="Puzzles\TestPuzzles\test21old.xml" />
-    <Content Include="Puzzles\TestPuzzles\test22old.xml" />
-    <Content Include="Puzzles\TestPuzzles\testlevel3old.xml" />
-    <Content Include="Puzzles\TestPuzzles\testlevel4old.xml" />
-    <Content Include="Puzzles\TestPuzzles\testlevel5old.xml" />
-    <Content Include="Puzzles\TestPuzzles\testlevel6old.xml" />
-    <Content Include="Puzzles\TestPuzzles\testlevel7old.xml" />
-    <Content Include="Puzzles\TestPuzzles\testlevel8old.xml" />
-    <Content Include="Puzzles\TestPuzzles\testlevel9old.xml" />
-    <Content Include="Puzzles\TestPuzzles\testlevel2.xml" />
+    <Content Include="Statistics.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SudokuSetterSolverTestingProject\SudokuSetterSolverTestingProject.csproj">

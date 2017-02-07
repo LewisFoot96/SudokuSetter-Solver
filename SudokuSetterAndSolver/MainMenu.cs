@@ -157,6 +157,7 @@ namespace SudokuSetterAndSolver
                 PuzzleManager.WriteToXmlFile(generatedPuzzle, directoryLocation);
             }         
             puzzleGenerationTime.Stop();
+            MessageBox.Show("10 Puzzles Successfully Created");
         }
         #endregion 
 

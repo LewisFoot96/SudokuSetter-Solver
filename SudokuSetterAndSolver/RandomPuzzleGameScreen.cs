@@ -117,13 +117,48 @@ namespace SudokuSetterAndSolver
 
         private bool CheckSubmittedPuzzleXML()
         {
+            //Update generated puzzle 
+            UpdateGeneratedPuzzle();
             for (int indexValue = 0; indexValue <= generatedPuzzle.puzzlecells.Count - 1; indexValue++)
             {
                 if (generatedPuzzle.puzzlecells[indexValue].value != sudokuSolutionArray[indexValue])
                 {
-                    return false;
+                    bool validRow = false;
+                    bool validColumn = false;
+                    bool validBlock = false;
+                    validRow = ValidateRow();
+                    validColumn = ValidateColumn();
+                    validBlock = ValidateBlock();
+                    if (validBlock == true && validColumn == true && validRow == true)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
             }
+            return true;
+        }
+
+        private void UpdateGeneratedPuzzle()
+        {
+            for (int index = 0; index <= listOfTextBoxes.Count - 1; index++)
+            {
+                if (listOfTextBoxes[index].Text == "")
+                {
+                    generatedPuzzle.puzzlecells[index].value = 0;
+                }
+                else
+                {
+                    generatedPuzzle.puzzlecells[index].value = Int32.Parse(listOfTextBoxes[index].Text);
+                }
+            }
+        }
+
+        private bool ValidateSolution()
+        {
             return true;
         }
 
@@ -157,6 +192,7 @@ namespace SudokuSetterAndSolver
         private void newPuzzleBtn_Click(object sender, EventArgs e)
         {
             ClearGrid();
+            listOfTextBoxes.Clear();
             generatedPuzzle.puzzlecells.Clear();
             PopUpRandomPuzzleSelection popUpPuzzleSelection = new PopUpRandomPuzzleSelection(true);
             popUpPuzzleSelection.ShowDialog();
@@ -532,6 +568,111 @@ namespace SudokuSetterAndSolver
         }
 
 
+        #endregion
+
+        #region Validate Puzzles Method 
+        //Methods to validate whether a row, column or block is correct, with the sudoku constraints.
+        private bool ValidateRow()
+        {
+            List<int> numbersInRow = new List<int>();
+            bool validRows = true;
+            for (int rowNumberValidate = 0; rowNumberValidate <= 8; rowNumberValidate++)
+            {
+                //Adding all number is that row to the list. 
+                foreach (var cell in generatedPuzzle.puzzlecells)
+                {
+                    if (cell.rownumber == rowNumberValidate)
+                    {
+                        numbersInRow.Add(cell.value);
+                    }
+                }
+                //Check valid numbers 
+                validRows = CheckValidNumbers(numbersInRow);
+                if (validRows == false)
+                {
+                    return false;
+                }
+                numbersInRow.Clear();
+            }
+            return true;
+        }
+        private bool ValidateColumn()
+        {
+            List<int> numbersInColumn = new List<int>();
+            bool validColumns = true;
+            for (int columnNumberValidate = 0; columnNumberValidate <= 8; columnNumberValidate++)
+            {
+                //Adding all number is that row to the list. 
+                foreach (var cell in generatedPuzzle.puzzlecells)
+                {
+                    if (cell.columnnumber == columnNumberValidate)
+                    {
+                        numbersInColumn.Add(cell.value);
+                    }
+                }
+                //Check valid numbers 
+                validColumns = CheckValidNumbers(numbersInColumn);
+                if (validColumns == false)
+                {
+                    return false;
+                }
+                numbersInColumn.Clear();
+            }
+            return true;
+        }
+        private bool ValidateBlock()
+        {
+            List<int> numbersInBlock = new List<int>();
+            bool validBlocks = true;
+            for (int blockNumberValidate = 0; blockNumberValidate <= 8; blockNumberValidate++)
+            {
+                //Adding all number is that row to the list. 
+                foreach (var cell in generatedPuzzle.puzzlecells)
+                {
+                    if (cell.blocknumber == blockNumberValidate)
+                    {
+                        numbersInBlock.Add(cell.value);
+                    }
+                }
+                //Check valid numbers 
+                validBlocks = CheckValidNumbers(numbersInBlock);
+                if (validBlocks == false)
+                {
+                    return false;
+                }
+                numbersInBlock.Clear();
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Method that checks to ensure the numbers in a region are correct and there is numbers 1-9 exaclty etc. 
+        /// </summary>
+        /// <param name="listOfNumbers"></param>
+        /// <returns></returns>
+        private bool CheckValidNumbers(List<int> listOfNumbers)
+        {
+            List<int> numbersUsed = new List<int>();
+            foreach (var number in listOfNumbers)
+            {
+                if (number == 0)
+                {
+                    return false;
+                }
+                foreach (var usedNumber in numbersUsed)
+                {
+                    if (usedNumber == number)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        numbersUsed.Add(number);
+                    }
+                }
+            }
+            return true;
+        }
         #endregion 
     }
 }

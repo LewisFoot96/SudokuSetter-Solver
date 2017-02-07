@@ -46,7 +46,7 @@
             // 
             // mainMenuBtn
             // 
-            this.mainMenuBtn.Location = new System.Drawing.Point(688, 898);
+            this.mainMenuBtn.Location = new System.Drawing.Point(634, 892);
             this.mainMenuBtn.Name = "mainMenuBtn";
             this.mainMenuBtn.Size = new System.Drawing.Size(170, 91);
             this.mainMenuBtn.TabIndex = 8;
@@ -68,6 +68,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "StatisticsScreen";
             this.Text = "StatisticsScreen";
+            this.Load += new System.EventHandler(this.StatisticsScreen_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gameBanner)).EndInit();
             this.ResumeLayout(false);
 

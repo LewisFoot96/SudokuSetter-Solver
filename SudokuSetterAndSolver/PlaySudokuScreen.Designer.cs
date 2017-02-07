@@ -72,6 +72,7 @@ namespace SudokuSetterAndSolver
             this.submitPuzzleBtn.TabIndex = 9;
             this.submitPuzzleBtn.Text = "Submit Puzzle";
             this.submitPuzzleBtn.UseVisualStyleBackColor = true;
+            this.submitPuzzleBtn.Click += new System.EventHandler(this.submitPuzzleBtn_Click);
             // 
             // timer3
             // 
