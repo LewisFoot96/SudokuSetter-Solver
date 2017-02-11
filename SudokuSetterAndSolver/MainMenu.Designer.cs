@@ -128,6 +128,7 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.ClientSize = new System.Drawing.Size(1468, 1012);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.generatePuzzleBtn);
             this.Controls.Add(this.convertFileBtn);
             this.Controls.Add(this.gameBanner);
@@ -155,6 +156,7 @@
         private System.Windows.Forms.PictureBox gameBanner;
         private System.Windows.Forms.Button convertFileBtn;
         private System.Windows.Forms.Button generatePuzzleBtn;
+        private System.Windows.Forms.Button button1;
     }
 }
 

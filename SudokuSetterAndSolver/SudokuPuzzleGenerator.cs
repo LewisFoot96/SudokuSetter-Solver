@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SudokuSetterAndSolver
 {
-    class SudokuPuzzleGenerator
+    public class SudokuPuzzleGenerator
     {
         #region Global Vairbales 
         //Grid size, whether solved and orginal solution. 
