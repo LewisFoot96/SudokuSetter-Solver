@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace SudokuSetterAndSolver
         protected List<TextBox> listOfTextBoxes = new List<TextBox>();
         protected SudokuPuzzleGenerator sudokuPuzzleGenerator = new SudokuPuzzleGenerator(9);
         protected List<int> sudokuSolutionArray = new List<int>();
+        protected int errorSubmitCount = 0;
         #endregion
 
         #region Constrcutor
@@ -161,19 +163,127 @@ namespace SudokuSetterAndSolver
             }
         }
 
+        protected bool CheckSubmittedPuzzleXML()
+        {
+            //Update generated puzzle 
+            UpdatePuzzle();
+            for (int indexValue = 0; indexValue <= loadedPuzzle.puzzlecells.Count - 1; indexValue++)
+            {
+                if (loadedPuzzle.puzzlecells[indexValue].value != sudokuSolutionArray[indexValue])
+                {
+                    bool validRow = false;
+                    bool validColumn = false;
+                    bool validBlock = false;
+                    validRow = ValidateRow();
+                    validColumn = ValidateColumn();
+                    validBlock = ValidateBlock();
+                    if (validBlock == true && validColumn == true && validRow == true)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
         /// <summary>
         /// Method to check whether the solution the user has entered is correct. 
         /// </summary>
         protected bool CheckPuzzleSolution()
         {
+            List<int> errorCell = new List<int>();
             for (int index = 0; index <= loadedPuzzle.puzzlecells.Count - 1; index++)
             {
                 if (loadedPuzzle.puzzlecells[index].value != sudokuSolutionArray[index])
                 {
-                    return false;
+                    errorCell.Add(index);
+                 
                 }
             }
-            return true;
+            if (errorCell.Count > 0)
+            {
+                //Set error cells
+                SetErrorCells(errorCell);
+               
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        private void SetErrorCells(List<int> errorCellNumbers)
+        {
+            for (int cellNumber = 0; cellNumber <= listOfTextBoxes.Count - 1; cellNumber++)
+            {
+                if (listOfTextBoxes[cellNumber].BackColor == Color.Red)
+                {
+                    //Resetting colours of grid. 
+                    //Getting colour of cell. 
+                    if (loadedPuzzle.gridsize == 9)
+                    {
+                        GetStandardPuzzleColour(cellNumber);
+                    }
+                    else if (loadedPuzzle.gridsize == 4)
+                    {
+                        GetSmallPuzzleColour(cellNumber);
+                    }
+                    else
+                    {
+                        GetLargePuzzleColour(cellNumber);
+                    }
+                }
+                foreach (var errorCell in errorCellNumbers)
+                {
+                   
+                    if(cellNumber == errorCell && loadedPuzzle.puzzlecells[cellNumber].value !=0)
+                    {
+                        errorSubmitCount += 1;
+                        listOfTextBoxes[cellNumber].BackColor = Color.Red;
+                    }               
+                }
+            }
+        }
+
+        #endregion
+
+        #region Solve Puzzle 
+
+        protected void SolvePuzzle()
+        {
+            sudokuSolver.currentPuzzleToBeSolved = loadedPuzzle;
+            Stopwatch tempStopWatch = new Stopwatch();
+            tempStopWatch.Reset();
+            tempStopWatch.Start();
+            bool puzzleSolved = sudokuSolver.SolveSudokuRuleBasedXML();
+            Console.WriteLine(tempStopWatch.Elapsed.TotalSeconds);
+            Console.WriteLine(tempStopWatch.Elapsed.TotalMilliseconds);
+            tempStopWatch.Stop();
+            loadedPuzzle = sudokuSolver.currentPuzzleToBeSolved;
+
+            if (puzzleSolved == true)
+            {
+                for (int cellNumberCount = 0; cellNumberCount <= loadedPuzzle.puzzlecells.Count - 1; cellNumberCount++)
+                {
+                    foreach (var textBoxCurrent in listOfTextBoxes)
+                    {
+                        if (textBoxCurrent.Name == cellNumberCount.ToString())
+                        {
+                            textBoxCurrent.Text = loadedPuzzle.puzzlecells[cellNumberCount].value.ToString();
+                            break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("No solution, invalid solution");
+            }
         }
 
         #endregion 
@@ -451,6 +561,87 @@ namespace SudokuSetterAndSolver
 
         #endregion
 
+        #region Get Cell Colour Methods 
+
+        private void GetStandardPuzzleColour(int textBoxNumber)
+        {
+            switch (loadedPuzzle.puzzlecells[textBoxNumber].blocknumber)
+            {
+                case (0):
+                case (8):
+                    listOfTextBoxes[textBoxNumber].BackColor = Color.LightGreen;
+                    break;
+                case (1):
+                case (7):
+                    listOfTextBoxes[textBoxNumber].BackColor = Color.Pink;
+                    break;
+                case (2):
+                case (6):
+                    listOfTextBoxes[textBoxNumber].BackColor = Color.LightCyan;
+                    break;
+                case (3):
+                case (5):
+                    listOfTextBoxes[textBoxNumber].BackColor = Color.LightYellow;
+                    break;
+                default:
+                    listOfTextBoxes[textBoxNumber].BackColor = Color.LightBlue;
+                    break;
+            }
+        }
+
+        private void GetLargePuzzleColour(int textBoxNumber)
+        {
+            switch (loadedPuzzle.puzzlecells[textBoxNumber].blocknumber)
+            {
+                case (0):
+                case (3):
+                case (12):
+                case (15):
+                    listOfTextBoxes[textBoxNumber].BackColor = Color.LightGreen;
+                    break;
+                case (1):
+                case (4):
+                case (14):
+                case (11):
+                    listOfTextBoxes[textBoxNumber].BackColor = Color.Pink;
+                    break;
+                case (2):
+                case (8):
+                case (7):
+                case (13):
+                    listOfTextBoxes[textBoxNumber].BackColor = Color.LightYellow;
+                    break;
+                default:
+                    listOfTextBoxes[textBoxNumber].BackColor = Color.LightBlue;
+                    break;
+            }
+
+        }
+
+        private void GetSmallPuzzleColour(int textBoxNumber)
+        {
+            switch (loadedPuzzle.puzzlecells[textBoxNumber].blocknumber)
+            {
+                case (0):
+                    listOfTextBoxes[textBoxNumber].BackColor = Color.LightGreen;
+                    break;
+                case (1):
+                    listOfTextBoxes[textBoxNumber].BackColor = Color.Pink;
+                    break;
+                case (2):
+                    listOfTextBoxes[textBoxNumber].BackColor = Color.LightCyan;
+                    break;
+                case (3):
+                    listOfTextBoxes[textBoxNumber].BackColor = Color.LightYellow;
+                    break;
+                default:
+                    listOfTextBoxes[textBoxNumber].BackColor = Color.LightBlue;
+                    break;
+            }
+        }
+
+        #endregion
+
         #region Generating Puzzles
         ///Method to generate random stadnard puzzle  
         protected void GenerateStandardSudokuPuzzle()
@@ -460,6 +651,7 @@ namespace SudokuSetterAndSolver
             {
                 //Creating a textbox for the each cell, with the valid details. 
                 TextBox txtBox = new TextBox();
+                listOfTextBoxes.Add(txtBox);
                 this.Controls.Add(txtBox);
                 txtBox.Name = indexNumber.ToString();
                 //txtBox.ReadOnly = true;
@@ -479,28 +671,7 @@ namespace SudokuSetterAndSolver
                 txtBox.Font = new Font(txtBox.Font, FontStyle.Bold);
                 txtBox.ForeColor = Color.Black;
 
-                switch (loadedPuzzle.puzzlecells[indexNumber].blocknumber)
-                {
-                    case (0):
-                    case (8):
-                        txtBox.BackColor = Color.LightGreen;
-                        break;
-                    case (1):
-                    case (7):
-                        txtBox.BackColor = Color.Pink;
-                        break;
-                    case (2):
-                    case (6):
-                        txtBox.BackColor = Color.LightCyan;
-                        break;
-                    case (3):
-                    case (5):
-                        txtBox.BackColor = Color.LightYellow;
-                        break;
-                    default:
-                        txtBox.BackColor = Color.LightBlue;
-                        break;
-                }
+                GetStandardPuzzleColour(indexNumber);
 
                 //Ensuring static numbers can not be edited. 
                 if (loadedPuzzle.puzzlecells[indexNumber].value != 0)
@@ -531,7 +702,7 @@ namespace SudokuSetterAndSolver
                     txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
                 }
 
-                listOfTextBoxes.Add(txtBox);
+              
             }
 
             SudokuSolver sudokuSolver = new SudokuSolver();
@@ -572,31 +743,7 @@ namespace SudokuSetterAndSolver
                 txtBox.Font = new Font(txtBox.Font, FontStyle.Bold);
                 txtBox.ForeColor = Color.Black;
 
-                switch (loadedPuzzle.puzzlecells[indexNumber].blocknumber)
-                {
-                    case (0):
-                    case (3):
-                    case (12):
-                    case (15):
-                        txtBox.BackColor = Color.LightGreen;
-                        break;
-                    case (1):
-                    case (4):
-                    case (14):
-                    case (11):
-                        txtBox.BackColor = Color.Pink;
-                        break;
-                    case (2):
-                    case (8):
-                    case (7):
-                    case (13):
-                        txtBox.BackColor = Color.LightYellow;
-                        break;
-                    default:
-                        txtBox.BackColor = Color.LightBlue;
-                        break;
-                }
-
+                GetLargePuzzleColour(indexNumber);
                 //Ensuring static numbers can not be edited. 
                 if (loadedPuzzle.puzzlecells[indexNumber].value != 0)
                 {
@@ -663,24 +810,7 @@ namespace SudokuSetterAndSolver
                 txtBox.Font = new Font(txtBox.Font, FontStyle.Bold);
                 txtBox.ForeColor = Color.Black;
 
-                switch (loadedPuzzle.puzzlecells[indexNumber].blocknumber)
-                {
-                    case (0):
-                        txtBox.BackColor = Color.LightGreen;
-                        break;
-                    case (1):
-                        txtBox.BackColor = Color.Pink;
-                        break;
-                    case (2):
-                        txtBox.BackColor = Color.LightCyan;
-                        break;
-                    case (3):
-                        txtBox.BackColor = Color.LightYellow;
-                        break;
-                    default:
-                        txtBox.BackColor = Color.LightBlue;
-                        break;
-                }
+                GetSmallPuzzleColour(indexNumber);
 
                 //Ensuring static numbers can not be edited. 
                 if (loadedPuzzle.puzzlecells[indexNumber].value != 0)
@@ -713,7 +843,6 @@ namespace SudokuSetterAndSolver
                 listOfTextBoxes.Add(txtBox);
             }
         }
-
         #endregion
 
         #region IrregularPuzzles

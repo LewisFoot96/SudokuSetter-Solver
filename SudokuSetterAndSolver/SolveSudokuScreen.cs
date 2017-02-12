@@ -61,38 +61,7 @@ namespace SudokuSetterAndSolver
         /// <param name="e"></param>
         private void solveBtn_Click(object sender, EventArgs e)
         {
-            //In here need to make a call to the recursive backtracking algorithm, to solve the puzzle that the user has entered.
-            //The puzzle solving should have a time out on it, if this time out is past, the puzzle is deemed unsolavable. 
-
-            sudokuSolver.currentPuzzleToBeSolved = loadedPuzzle;
-            Stopwatch tempStopWatch = new Stopwatch();
-            tempStopWatch.Reset();
-            tempStopWatch.Start();
-            bool puzzleSolved = sudokuSolver.SolveSudokuRuleBasedXML();
-            Console.WriteLine(tempStopWatch.Elapsed.TotalSeconds);
-            Console.WriteLine(tempStopWatch.Elapsed.TotalMilliseconds);
-            tempStopWatch.Stop();
-            loadedPuzzle = sudokuSolver.currentPuzzleToBeSolved;
-
-            if (puzzleSolved == true)
-            {
-
-                for (int cellNumberCount = 0; cellNumberCount <= loadedPuzzle.puzzlecells.Count - 1; cellNumberCount++)
-                {
-                    foreach (var textBoxCurrent in listOfTextBoxes)
-                    {
-                        if (textBoxCurrent.Name == cellNumberCount.ToString())
-                        {
-                            textBoxCurrent.Text = loadedPuzzle.puzzlecells[cellNumberCount].value.ToString();
-                            break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                MessageBox.Show("No solution, invalid solution");
-            }
+            SolvePuzzle();
         }
 
         private void loadFileBtn_Click(object sender, EventArgs e)

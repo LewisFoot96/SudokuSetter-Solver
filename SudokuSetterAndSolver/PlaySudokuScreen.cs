@@ -16,6 +16,7 @@ namespace SudokuSetterAndSolver
         #region Constructor 
         public PlaySudokuScreen()
         {
+            errorSubmitCount = 0;
             InitializeComponent();
         }
 
@@ -43,6 +44,8 @@ namespace SudokuSetterAndSolver
         private void submitPuzzleBtn_Click(object sender, EventArgs e)
         {
             UpdatePuzzle();
+            //Check puzzle enetered by the user against the pre set solution. 
+           
             if (sudokuSolutionArray.Count > 0)
             {
                 bool result = CheckPuzzleSolution();

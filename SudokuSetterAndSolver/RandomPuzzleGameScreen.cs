@@ -21,6 +21,7 @@ namespace SudokuSetterAndSolver
         #region Constructor 
         public RandomPuzzleGameScreen(int puzzleSelection)
         {
+            errorSubmitCount = 0;
             //Puzzle selection is the type of puzzle that will be created. 
             _puzzleSelection = puzzleSelection;
             InitializeComponent();
@@ -38,29 +39,13 @@ namespace SudokuSetterAndSolver
         /// <param name="e"></param>
         private void submitPuzzleBtn_Click(object sender, EventArgs e)
         {
-            for (int indexNumber = 0; indexNumber <= loadedPuzzle.puzzlecells.Count - 1; indexNumber++)
-            {
-                string cellName = indexNumber.ToString();
-                foreach (var textBox in listOfTextBoxes)
-                {
-                    if (cellName == textBox.Name)
-                    {
-                        if (textBox.Text != "")
-                        {
-                            loadedPuzzle.puzzlecells[indexNumber].value = Int32.Parse(textBox.Text);
-                        }
-                        else
-                        {
-                            loadedPuzzle.puzzlecells[indexNumber].value = 0;
-                        }
-                    }
-                }
-            }
+            UpdatePuzzle();
             //Check puzzle enetered by the user against the pre set solution. 
-            bool correctPuzzle = CheckSubmittedPuzzleXML();
+            bool correctPuzzle = CheckPuzzleSolution();
             if (correctPuzzle == true)
             {
-                MessageBox.Show("Puzzle Completed! Well Done!");
+                MessageBox.Show("Puzzle Completed! Well Done! Error count: " + errorSubmitCount);
+
             }
             else
             {
@@ -68,120 +53,21 @@ namespace SudokuSetterAndSolver
             }
         }
 
-        private bool CheckSubmittedPuzzleXML()
-        {
-            //Update generated puzzle 
-            UpdateloadedPuzzle();
-            for (int indexValue = 0; indexValue <= loadedPuzzle.puzzlecells.Count - 1; indexValue++)
-            {
-                if (loadedPuzzle.puzzlecells[indexValue].value != sudokuSolutionArray[indexValue])
-                {
-                    bool validRow = false;
-                    bool validColumn = false;
-                    bool validBlock = false;
-                    validRow = ValidateRow();
-                    validColumn = ValidateColumn();
-                    validBlock = ValidateBlock();
-                    if (validBlock == true && validColumn == true && validRow == true)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-
-        private void UpdateloadedPuzzle()
-        {
-            for (int index = 0; index <= listOfTextBoxes.Count - 1; index++)
-            {
-                if (listOfTextBoxes[index].Text == "")
-                {
-                    loadedPuzzle.puzzlecells[index].value = 0;
-                }
-                else
-                {
-                    loadedPuzzle.puzzlecells[index].value = Int32.Parse(listOfTextBoxes[index].Text);
-                }
-            }
-        }
-
-        private bool ValidateSolution()
-        {
-            return true;
-        }
-
-        private void solveloadedPuzzleBtn_Click(object sender, EventArgs e)
-        {
-            sudokuSolver.currentPuzzleToBeSolved = loadedPuzzle;
-            bool puzzleSolved = sudokuSolver.BacktrackingUsingXmlTemplateFile(false);
-            loadedPuzzle = sudokuSolver.currentPuzzleToBeSolved;
-
-            if (puzzleSolved == true)
-            {
-                for (int cellLocationNumber = 0; cellLocationNumber <= loadedPuzzle.puzzlecells.Count - 1; cellLocationNumber++)
-                {
-                    foreach (var textBoxCurrent in listOfTextBoxes)
-                    {
-                        if (textBoxCurrent.Name == cellLocationNumber.ToString())
-                        {
-                            textBoxCurrent.Text = loadedPuzzle.puzzlecells[cellLocationNumber].value.ToString();
-                        }
-                    }
-                }
-            }
-            else
-            {
-                MessageBox.Show("No solution, invalid solution");
-            }
-
-        }
-
         private void newPuzzleBtn_Click(object sender, EventArgs e)
         {
+            errorSubmitCount = 0;
             ClearGrid();
             listOfTextBoxes.Clear();
             loadedPuzzle.puzzlecells.Clear();
             PopUpRandomPuzzleSelection popUpPuzzleSelection = new PopUpRandomPuzzleSelection(true);
             popUpPuzzleSelection.ShowDialog();
             LoadPuzzleSelection();
-
         }
 
         private void solveGeneratedPuzzleBtn_Click(object sender, EventArgs e)
         {
-            sudokuSolver.currentPuzzleToBeSolved = loadedPuzzle;
-            Stopwatch tempStopWatch = new Stopwatch();
-            tempStopWatch.Reset();
-            tempStopWatch.Start();
-            bool puzzleSolved = sudokuSolver.SolveSudokuRuleBasedXML();
-            Console.WriteLine(tempStopWatch.Elapsed.TotalSeconds);
-            Console.WriteLine(tempStopWatch.Elapsed.TotalMilliseconds);
-            tempStopWatch.Stop();
-            loadedPuzzle = sudokuSolver.currentPuzzleToBeSolved;
-
-            if (puzzleSolved == true)
-            {
-                for (int cellNumberCount = 0; cellNumberCount <= loadedPuzzle.puzzlecells.Count - 1; cellNumberCount++)
-                {
-                    foreach (var textBoxCurrent in listOfTextBoxes)
-                    {
-                        if (textBoxCurrent.Name == cellNumberCount.ToString())
-                        {
-                            textBoxCurrent.Text = loadedPuzzle.puzzlecells[cellNumberCount].value.ToString();
-                            break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                MessageBox.Show("No solution, invalid solution");
-            }
+            UpdatePuzzle();
+            SolvePuzzle();
         }
         #endregion
 

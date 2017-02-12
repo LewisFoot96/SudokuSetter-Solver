@@ -192,7 +192,7 @@
     <Folder Include="SudokuPuzzles\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Puzzles\PuzzleSchema.xsd">
+    <None Include="PuzzleSchema.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Resources\SSSGameScreenFullBanner.fw.png" />

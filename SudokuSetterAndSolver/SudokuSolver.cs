@@ -16,8 +16,6 @@ namespace SudokuSetterAndSolver
         #region Objects 
         //Puzzle manager, that handles the loading and wiritng to xml files for the game. 
         PuzzleManager puzzleManager = new PuzzleManager();
-        //Details of the current 
-        puzzle puzzleDetails;
         #endregion
         //0,1,2,3 will be the difficulty values. HUman will have a 2 weighting. 
         #region Global Variables 
