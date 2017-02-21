@@ -45,24 +45,16 @@ namespace SudokuSetterAndSolver
         {
             UpdatePuzzle();
             //Check puzzle enetered by the user against the pre set solution. 
-           
-            if (sudokuSolutionArray.Count > 0)
+
+            bool result = CheckPuzzleSolution();
+            if (result == true)
             {
-                bool result = CheckPuzzleSolution();
-                if (result == true)
-                {
-                    MessageBox.Show("Puzzle correct! Well done!");
-                }
-                else
-                {
-                    MessageBox.Show("Puzzle incorrect! Please Try again!");
-                }
+                MessageBox.Show("Puzzle correct! Well done!");
             }
             else
             {
                 MessageBox.Show("Puzzle incorrect! Please Try again!");
             }
-
         }
 
         #endregion 

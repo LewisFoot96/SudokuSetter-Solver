@@ -12,7 +12,6 @@ namespace SudokuSetterAndSolver
         //Grid size, whether solved and orginal solution. 
         int _gridSize = 0;
         bool solved = false;
-        public List<int> orginalSolution = new List<int>();
         //Cells handling
         List<int> listOfCellsRemovedValues = new List<int>();
         List<int> listOfCellsNotRemoved = new List<int>();
@@ -47,7 +46,6 @@ namespace SudokuSetterAndSolver
             solved = false; 
             listOfCellsRemovedValues.Clear();
             listOfCellsNotRemoved.Clear();
-            orginalSolution.Clear();
             GenerateExampleSudokuGridXML();
             return generatedPuzzle;
         }
@@ -65,11 +63,12 @@ namespace SudokuSetterAndSolver
 
             //Solving blank grid. 
             solver.currentPuzzleToBeSolved = generatedPuzzle;
+           
             solved = solver.BacktrackingUsingXmlTemplateFile(true);
             //Setting the orginal solution of the puzzle. 
             for (int orginalSolutionCounter = 0; orginalSolutionCounter <= generatedPuzzle.puzzlecells.Count - 1; orginalSolutionCounter++)
             {
-                orginalSolution.Add(generatedPuzzle.puzzlecells[orginalSolutionCounter].value);
+                generatedPuzzle.puzzlecells[orginalSolutionCounter].solutionvalue = generatedPuzzle.puzzlecells[orginalSolutionCounter].value;
             }
             //Digging holes within the solved puzzle. 
             DigHolesXML();
@@ -77,7 +76,7 @@ namespace SudokuSetterAndSolver
             //Need to added the grid from the intitial solution and then remove values. 
             for(int cellIndexValue =0; cellIndexValue<=generatedPuzzle.puzzlecells.Count-1;cellIndexValue++)
             {
-                generatedPuzzle.puzzlecells[cellIndexValue].value = orginalSolution[cellIndexValue];
+                generatedPuzzle.puzzlecells[cellIndexValue].value = generatedPuzzle.puzzlecells[cellIndexValue].solutionvalue;
             }
             RemoveValuesFromPuzzle();  //remvoing values to make puzzle valid.   
         }
@@ -210,7 +209,7 @@ namespace SudokuSetterAndSolver
         {
             for (int checkPuzzleCounter = 0; checkPuzzleCounter <= generatedPuzzle.puzzlecells.Count - 1; checkPuzzleCounter++)
             {
-                if (generatedPuzzle.puzzlecells[checkPuzzleCounter].value != orginalSolution[checkPuzzleCounter])
+                if (generatedPuzzle.puzzlecells[checkPuzzleCounter].value != generatedPuzzle.puzzlecells[checkPuzzleCounter].solutionvalue)
                 {
                     return false;
                 }

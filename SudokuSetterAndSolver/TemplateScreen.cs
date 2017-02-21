@@ -142,7 +142,6 @@ namespace SudokuSetterAndSolver
         {
             sudokuPuzzleGenerator.generatedPuzzle = loadedPuzzle;
             sudokuPuzzleGenerator.CreateSudokuGridXML();
-            sudokuSolutionArray = sudokuPuzzleGenerator.orginalSolution;
         }
 
         /// <summary>
@@ -169,7 +168,7 @@ namespace SudokuSetterAndSolver
             UpdatePuzzle();
             for (int indexValue = 0; indexValue <= loadedPuzzle.puzzlecells.Count - 1; indexValue++)
             {
-                if (loadedPuzzle.puzzlecells[indexValue].value != sudokuSolutionArray[indexValue])
+                if (loadedPuzzle.puzzlecells[indexValue].value != loadedPuzzle.puzzlecells[indexValue].solutionvalue)
                 {
                     bool validRow = false;
                     bool validColumn = false;
@@ -198,7 +197,7 @@ namespace SudokuSetterAndSolver
             List<int> errorCell = new List<int>();
             for (int index = 0; index <= loadedPuzzle.puzzlecells.Count - 1; index++)
             {
-                if (loadedPuzzle.puzzlecells[index].value != sudokuSolutionArray[index])
+                if (loadedPuzzle.puzzlecells[index].value != loadedPuzzle.puzzlecells[index].solutionvalue)
                 {
                     errorCell.Add(index);
                  
@@ -718,7 +717,6 @@ namespace SudokuSetterAndSolver
         {
             sudokuPuzzleGenerator.generatedPuzzle = loadedPuzzle;
             sudokuPuzzleGenerator.CreateSudokuGridXML();
-            sudokuSolutionArray = sudokuPuzzleGenerator.orginalSolution;
             int rowLocation = 0, columnLocation = 0;
             for (int indexNumber = 0; indexNumber <= loadedPuzzle.puzzlecells.Count - 1; indexNumber++)
             {
@@ -784,7 +782,6 @@ namespace SudokuSetterAndSolver
         {
             sudokuPuzzleGenerator.generatedPuzzle = loadedPuzzle;
             sudokuPuzzleGenerator.CreateSudokuGridXML();
-            sudokuSolutionArray = sudokuPuzzleGenerator.orginalSolution;
             int rowLocation = 0, columnLocation = 0;
             for (int indexNumber = 0; indexNumber <= loadedPuzzle.puzzlecells.Count - 1; indexNumber++)
             {

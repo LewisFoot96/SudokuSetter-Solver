@@ -119,6 +119,7 @@ namespace SudokuSetterAndSolver
                 //Removing the values from the puzzle. 
                 for(int puzzleCellNumber =0;puzzleCellNumber<=generatedPuzzle.puzzlecells.Count-1;puzzleCellNumber++)
                 {
+                    
                     foreach(var number in emptyCellList)
                     {
                         if(puzzleCellNumber == number)
@@ -329,5 +330,12 @@ namespace SudokuSetterAndSolver
 
         #endregion
 
+        private void addSolutionsBtn_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            SolutionsAddForm addForm = new SolutionsAddForm();
+            addForm.Show();
+         
+        }
     }
 }

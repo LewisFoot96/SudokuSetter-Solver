@@ -106,6 +106,12 @@
     <Compile Include="RandomPuzzleGameScreen.Designer.cs">
       <DependentUpon>RandomPuzzleGameScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="SolutionsAddForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SolutionsAddForm.Designer.cs">
+      <DependentUpon>SolutionsAddForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SolveSudokuScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -158,6 +164,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RandomPuzzleGameScreen.resx">
       <DependentUpon>RandomPuzzleGameScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SolutionsAddForm.resx">
+      <DependentUpon>SolutionsAddForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SolveSudokuScreen.resx">
       <DependentUpon>SolveSudokuScreen.cs</DependentUpon>

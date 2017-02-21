@@ -37,6 +37,7 @@
             this.gameBanner = new System.Windows.Forms.PictureBox();
             this.convertFileBtn = new System.Windows.Forms.Button();
             this.generatePuzzleBtn = new System.Windows.Forms.Button();
+            this.addSolutionsBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.gameBanner)).BeginInit();
             this.SuspendLayout();
             // 
@@ -120,6 +121,16 @@
             this.generatePuzzleBtn.UseVisualStyleBackColor = true;
             this.generatePuzzleBtn.Click += new System.EventHandler(this.generatePuzzleBtn_Click);
             // 
+            // addSolutionsBtn
+            // 
+            this.addSolutionsBtn.Location = new System.Drawing.Point(1016, 753);
+            this.addSolutionsBtn.Name = "addSolutionsBtn";
+            this.addSolutionsBtn.Size = new System.Drawing.Size(250, 145);
+            this.addSolutionsBtn.TabIndex = 9;
+            this.addSolutionsBtn.Text = "Solutions";
+            this.addSolutionsBtn.UseVisualStyleBackColor = true;
+            this.addSolutionsBtn.Click += new System.EventHandler(this.addSolutionsBtn_Click);
+            // 
             // MainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(240F, 240F);
@@ -128,6 +139,7 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.ClientSize = new System.Drawing.Size(1468, 1012);
+            this.Controls.Add(this.addSolutionsBtn);
             this.Controls.Add(this.generatePuzzleBtn);
             this.Controls.Add(this.convertFileBtn);
             this.Controls.Add(this.gameBanner);
@@ -155,6 +167,7 @@
         private System.Windows.Forms.PictureBox gameBanner;
         private System.Windows.Forms.Button convertFileBtn;
         private System.Windows.Forms.Button generatePuzzleBtn;
+        private System.Windows.Forms.Button addSolutionsBtn;
     }
 }
 
