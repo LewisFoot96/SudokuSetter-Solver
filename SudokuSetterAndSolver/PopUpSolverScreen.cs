@@ -32,14 +32,11 @@ namespace SudokuSetterAndSolver
 
             if (_currentPage == false)
             {
-                SolveSudokuScreen._puzzleSelection = solveSudokuSelectionCb.SelectedIndex;
-                SolveSudokuScreen solverPuzzleScreen = new SolveSudokuScreen();
-                solverPuzzleScreen.Show();
+                MainScreen._puzzleSelectionSolve = solveSudokuSelectionCb.SelectedIndex;
             }
             else
             {
-                SolveSudokuScreen._puzzleSelection = solveSudokuSelectionCb.SelectedIndex;
-                RandomPuzzleGameScreen._puzzleSelection = solveSudokuSelectionCb.SelectedIndex;
+                MainScreen._puzzleSelectionSolve = solveSudokuSelectionCb.SelectedIndex;
             }
         }
     }

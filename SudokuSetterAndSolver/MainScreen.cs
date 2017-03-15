@@ -21,6 +21,7 @@ namespace SudokuSetterAndSolver
         protected PuzzleManager puzzleManager = new PuzzleManager();
         protected puzzle loadedPuzzle = new puzzle();
         public static int _puzzleSelection;
+        public static int _puzzleSelectionSolve;
         protected List<TextBox> listOfTextBoxes = new List<TextBox>();
         protected SudokuPuzzleGenerator sudokuPuzzleGenerator = new SudokuPuzzleGenerator(9);
         protected List<int> sudokuSolutionArray = new List<int>();
@@ -48,6 +49,8 @@ namespace SudokuSetterAndSolver
 
         #endregion
 
+        #region Menu Option Event Handlers
+
         private void newPuzzleToolStripMenuItem_Click(object sender, EventArgs e)
         {
             PopUpRandomPuzzleSelection randomPuzzlePopUp = new PopUpRandomPuzzleSelection();
@@ -61,15 +64,90 @@ namespace SudokuSetterAndSolver
         private void solvePuzzleToolStripMenuItem_Click(object sender, EventArgs e)
         {
             PopUpSolverScreen solverPopUp = new PopUpSolverScreen();
-            solverPopUp.Show();
+            solverPopUp.ShowDialog();
+            if (_puzzleSelectionSolve == 0)
+            {
+                loadedPuzzle.gridsize = 16;
+            }
+            else if (_puzzleSelectionSolve == 1)
+            {
+
+                loadedPuzzle.gridsize = 9;
+            }
+            else
+            {
+                loadedPuzzle.gridsize = 4;
+            }
+
+            loadedPuzzle.type = "regualr";
+            GenerateBlankGridStandardSudoku();
+            if (_puzzleSelectionSolve == 0)
+            {
+                GenerateLargeSudokuPuzzle();
+
+            }
+            else if (_puzzleSelectionSolve == 1)
+            {
+                GenerateStandardSudokuPuzzle();
+            }
+            else
+            {
+                GenerateSmallSudokuPuzzle();
+            }
+            CreateSolveButtons();
         }
+
+        #endregion
 
         #region Levels Logic 
 
+        /// <summary>
+        /// Method to get the current level the user is up to. 
+        /// </summary>
         private void LevelsUpdate()
         {
             StatisticsManager.ReadFromStatisticsFile();
             currentLevel = StatisticsManager.currentStats.levelcompleted;
+        }
+
+        private void LevelsSelectClick(object sender, EventArgs e)
+        {
+            CreateLevelPuzzleButtons();
+            ClearGrid();
+            listOfTextBoxes.Clear();
+            loadedPuzzle.puzzlecells.Clear();
+            var menuOption = (ToolStripMenuItem)sender;
+            //This is where i will need to load the puzzle. 
+            loadedPuzzle = new puzzle();
+            puzzleManager = new PuzzleManager();
+            loadedPuzzle.gridsize = 9;
+            //Getting directory location of the loaded puzzle. 
+            fileDirctoryLocation = Path.GetFullPath(@"..\..\") + @"\Puzzles\LevelsPuzzles";
+            fileDirctoryLocation += @"\" + menuOption.Text + ".xml";
+            LoadPuzzleFile();
+        }
+
+        /// <summary>
+        /// Metthod to disable levels user cannot acces. 
+        /// </summary>
+        /// <param name="item"></param>
+        private void SetEnabledMenuOptions(ToolStripMenuItem item)
+        {
+            //Going through the levels menu
+            foreach (ToolStripMenuItem dropDownItem in item.DropDownItems)
+            {
+                if (dropDownItem.HasDropDownItems)
+                {
+                    foreach (ToolStripMenuItem subItem in dropDownItem.DropDownItems)
+                    {
+                        if (levelCount > currentLevel)
+                        {
+                            subItem.Enabled = false;
+                        }
+                        levelCount++;
+                    }
+                }
+            }
         }
         #endregion
 
@@ -112,6 +190,129 @@ namespace SudokuSetterAndSolver
             UpdatePuzzle();
             SolvePuzzle();
         }
+        #endregion
+
+        #region Event Methods Solve Puzzle
+
+        private void loadFileBtn_Click(object sender, EventArgs e)
+        {
+            fileChooser.ShowDialog();
+        }
+
+        private void fileChooser_FileOk(object sender, CancelEventArgs e)
+        {
+            ClearTextBoxesGrid();
+            listOfTextBoxes.Clear();
+            fileDirctoryLocation = fileChooser.FileName;
+            loadedPuzzle = puzzleManager.ReadFromXMlFile(fileDirctoryLocation);
+
+            List<int> listOfSudokuValues = new List<int>();
+
+            foreach (var cell in loadedPuzzle.puzzlecells)
+            {
+                listOfSudokuValues.Add(cell.value);
+            }
+            if (loadedPuzzle.gridsize == 9)
+            {
+                GenerateStandardSudokuPuzzle();
+            }
+            else if (loadedPuzzle.gridsize == 16)
+            {
+                GenerateLargeSudokuPuzzle();
+            }
+            else
+            {
+                GenerateSmallSudokuPuzzle();
+            }
+        }
+
+        private void ClearTextBoxesGrid()
+        {
+            //currently remove all textboxes when a new puzzle is selected, this may need to be changed. 
+            foreach (var textBox in listOfTextBoxes)
+            {
+                textBox.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// If the user wishes to determine the difficulty of the puzzle. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void difficultyDetermineBtn_Click(object sender, EventArgs e)
+        {
+            sudokuSolver.currentPuzzleToBeSolved = loadedPuzzle;
+
+            sudokuSolver.EvaluatePuzzleDifficulty();
+            bool puzzleSolved = sudokuSolver.BacktrackingUsingXmlTemplateFile(false);
+            loadedPuzzle = sudokuSolver.currentPuzzleToBeSolved;
+
+            for (int cellNumberCount = 0; cellNumberCount <= loadedPuzzle.puzzlecells.Count - 1; cellNumberCount++)
+            {
+                foreach (var textBoxCurrent in listOfTextBoxes)
+                {
+                    if (textBoxCurrent.Name == cellNumberCount.ToString())
+                    {
+                        textBoxCurrent.Text = loadedPuzzle.puzzlecells[cellNumberCount].value.ToString();
+                        break;
+                    }
+                }
+            }
+            MessageBox.Show(sudokuSolver.difficluty);
+        }
+
+        /// <summary>
+        /// Validate button click that determines whether the solution that has been created is correct and valid, i.e. all of the sudoku contraints are met. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void validatePuzzleBtn_Click(object sender, EventArgs e)
+        {   //Validating puzzle 
+            bool validRow = false;
+            bool validColumn = false;
+            bool validBlock = false;
+            validRow = ValidateRow();
+            validColumn = ValidateColumn();
+            validBlock = ValidateBlock();
+            //If puzzle is correct
+            if (validRow == true && validColumn == true && validBlock == true)
+            {
+                MessageBox.Show("Puzzle solution correct");
+            }
+            else //If puzzle is incorrect
+            {
+                MessageBox.Show("Puzzle solution incorrect!");
+            }
+        }
+
+        #endregion
+
+        #region Event Methods Levels Puzzle 
+
+        /// <summary>
+        /// Method to see if the puzzle entered by the user is correct. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void submitLevelPuzzleBtn_Click(object sender, EventArgs e)
+        {
+            UpdatePuzzle();
+            //Check puzzle enetered by the user against the pre set solution. 
+            bool correctPuzzle = CheckPuzzleSolution();
+            if (correctPuzzle == true)
+            {
+                MessageBox.Show("Puzzle Completed! Well Done! Error count: " + errorSubmitCount);
+
+                //Need to then handle Setting the current level the user is on. 
+
+            }
+            else
+            {
+                MessageBox.Show("Puzzle incorrect. Please try again.");
+            }
+        }
+
         #endregion
 
         #region Methods Random Puzzle 
@@ -1066,45 +1267,5 @@ namespace SudokuSetterAndSolver
             }
         }
         #endregion
-
-        private void LevelsSelectClick(object sender, EventArgs e)
-        {
-            ClearGrid();
-            listOfTextBoxes.Clear();
-            loadedPuzzle.puzzlecells.Clear();
-            var menuOption = (ToolStripMenuItem)sender;
-            //This is where i will need to load the puzzle. 
-            loadedPuzzle = new puzzle();
-            puzzleManager = new PuzzleManager();
-            loadedPuzzle.gridsize = 9;
-            //Getting directory location of the loaded puzzle. 
-            fileDirctoryLocation = Path.GetFullPath(@"..\..\") + @"\Puzzles\LevelsPuzzles";
-            fileDirctoryLocation += @"\" + menuOption.Text + ".xml";
-            LoadPuzzleFile();
-        }
-
-        /// <summary>
-        /// Metthod to disable levels user cannot acces. 
-        /// </summary>
-        /// <param name="item"></param>
-        private void SetEnabledMenuOptions(ToolStripMenuItem item)
-        {
-            //Going through the levels menu
-            foreach (ToolStripMenuItem dropDownItem in item.DropDownItems)
-            {
-                if (dropDownItem.HasDropDownItems)
-                {
-                    foreach (ToolStripMenuItem subItem in dropDownItem.DropDownItems)
-                    {
-                        if (levelCount > currentLevel)
-                        {
-                            subItem.Enabled = false;
-                        }
-                        levelCount++;
-                    }
-                }
-            }
-        }
-
     }
 }

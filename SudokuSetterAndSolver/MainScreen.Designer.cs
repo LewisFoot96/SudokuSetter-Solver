@@ -337,6 +337,93 @@ namespace SudokuSetterAndSolver
 
         }
 
+        private void CreateLevelPuzzleButtons()
+        {
+            this.submitLevelPuzzleBtn = new System.Windows.Forms.Button();
+
+            // 
+            // submitPuzzleBtn
+            // 
+            this.submitLevelPuzzleBtn.Location = new System.Drawing.Point(165, 210);
+            this.submitLevelPuzzleBtn.Name = "submitLevelPuzzleBtn";
+            this.submitLevelPuzzleBtn.Size = new System.Drawing.Size(60, 35);
+            this.submitLevelPuzzleBtn.TabIndex = 87;
+            this.submitLevelPuzzleBtn.Text = "Submit Puzzle";
+            this.submitLevelPuzzleBtn.UseVisualStyleBackColor = true;
+            this.submitLevelPuzzleBtn.Click += new System.EventHandler(this.submitLevelPuzzleBtn_Click);
+
+
+            this.Controls.Add(this.submitLevelPuzzleBtn);
+            this.Controls.SetChildIndex(this.submitLevelPuzzleBtn, 0);
+        }
+
+        private void CreateSolveButtons()
+        {
+            this.solveGeneratedPuzzleBtn = new System.Windows.Forms.Button();
+            this.loadFileBtn = new System.Windows.Forms.Button();
+            this.fileChooser = new System.Windows.Forms.OpenFileDialog();
+            this.difficultyDetermineBtn = new System.Windows.Forms.Button();
+            this.validatePuzzleBtn = new System.Windows.Forms.Button();
+
+            // 
+            // solveGeneratedPuzzleBtn
+            // 
+            this.solveGeneratedPuzzleBtn.Location = new System.Drawing.Point(165, 210);
+            this.solveGeneratedPuzzleBtn.Name = "solveGeneratedPuzzleBtn";
+            this.solveGeneratedPuzzleBtn.Size = new System.Drawing.Size(60, 35);
+            this.solveGeneratedPuzzleBtn.TabIndex = 88;
+            this.solveGeneratedPuzzleBtn.Text = "Solve";
+            this.solveGeneratedPuzzleBtn.UseVisualStyleBackColor = true;
+            this.solveGeneratedPuzzleBtn.Click += new System.EventHandler(this.solveGeneratedPuzzleBtn_Click);
+            // 
+            // loadFileBtn
+            // 
+            this.loadFileBtn.ForeColor = System.Drawing.SystemColors.InfoText;
+            this.loadFileBtn.Location = new System.Drawing.Point(225, 210);
+            this.loadFileBtn.Name = "loadFileBtn";
+            this.loadFileBtn.Size = new System.Drawing.Size(60, 35);
+            this.loadFileBtn.TabIndex = 11;
+            this.loadFileBtn.Text = "Load File";
+            this.loadFileBtn.UseVisualStyleBackColor = true;
+            this.loadFileBtn.Click += new System.EventHandler(this.loadFileBtn_Click);
+            // 
+            // fileChooser
+            // 
+            this.fileChooser.FileName = "openFileDialog1";
+            this.fileChooser.FileOk += new System.ComponentModel.CancelEventHandler(this.fileChooser_FileOk);
+            // 
+            // difficultyDetermineBtn
+            // 
+            this.difficultyDetermineBtn.ForeColor = System.Drawing.SystemColors.InfoText;
+            this.difficultyDetermineBtn.Location = new System.Drawing.Point(105, 210);
+            this.difficultyDetermineBtn.Name = "difficultyDetermineBtn";
+            this.difficultyDetermineBtn.Size = new System.Drawing.Size(60, 35);
+            this.difficultyDetermineBtn.TabIndex = 12;
+            this.difficultyDetermineBtn.Text = "Difficulty";
+            this.difficultyDetermineBtn.UseVisualStyleBackColor = true;
+            this.difficultyDetermineBtn.Click += new System.EventHandler(this.difficultyDetermineBtn_Click);
+            // 
+            // validatePuzzleBtn
+            // 
+            this.validatePuzzleBtn.ForeColor = System.Drawing.SystemColors.InfoText;
+            this.validatePuzzleBtn.Location = new System.Drawing.Point(55, 210);
+            this.validatePuzzleBtn.Name = "validatePuzzleBtn";
+            this.validatePuzzleBtn.Size = new System.Drawing.Size(60, 35);
+            this.validatePuzzleBtn.TabIndex = 13;
+            this.validatePuzzleBtn.Text = "Validate";
+            this.validatePuzzleBtn.UseVisualStyleBackColor = true;
+            this.validatePuzzleBtn.Click += new System.EventHandler(this.validatePuzzleBtn_Click);
+
+            this.Controls.Add(this.validatePuzzleBtn);
+            this.Controls.Add(this.difficultyDetermineBtn);
+            this.Controls.Add(this.loadFileBtn);
+            this.Controls.Add(this.solveGeneratedPuzzleBtn);
+            this.Controls.SetChildIndex(this.solveGeneratedPuzzleBtn, 0);
+            this.Controls.SetChildIndex(this.loadFileBtn, 0);
+            this.Controls.SetChildIndex(this.difficultyDetermineBtn, 0);
+            this.Controls.SetChildIndex(this.validatePuzzleBtn, 0);
+        }
+
         #endregion
 
         private System.Windows.Forms.MenuStrip mainMenuStrip;
@@ -346,8 +433,13 @@ namespace SudokuSetterAndSolver
         private System.Windows.Forms.ToolStripMenuItem solvePuzzleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem levelsToolStripMenuItem;
         private Button submitPuzzleBtn;
+        private Button submitLevelPuzzleBtn;
         private Button solveGeneratedPuzzleBtn;
         private Button newPuzzleBtn;
+        private Button loadFileBtn;
+        private OpenFileDialog fileChooser;
+        private Button difficultyDetermineBtn;
+        private Button validatePuzzleBtn;
         private ToolStripMenuItem easyToolStripMenuItem;
         private ToolStripMenuItem level1ToolStripMenuItem;
         private ToolStripMenuItem level2ToolStripMenuItem;
