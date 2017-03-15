@@ -130,7 +130,6 @@ namespace SudokuSetterAndSolver
             this.level1ToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
             this.level1ToolStripMenuItem.Text = "Level 1";
             this.level1ToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
-            levelCount++;
             // 
             // level2ToolStripMenuItem
             // 
@@ -138,11 +137,6 @@ namespace SudokuSetterAndSolver
             this.level2ToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
             this.level2ToolStripMenuItem.Text = "Level 2";
             this.level2ToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
-            if(levelCount>currentLevel)
-            {
-                this.level2ToolStripMenuItem.Enabled = false;
-            }
-            levelCount++;
             // 
             // level3ToolStripMenuItem
             // 
@@ -150,11 +144,6 @@ namespace SudokuSetterAndSolver
             this.level3ToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
             this.level3ToolStripMenuItem.Text = "Level 3";
             this.level3ToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
-            if (levelCount > currentLevel)
-            {
-                this.level3ToolStripMenuItem.Enabled = false;
-            }
-            levelCount++;
             // 
             // mediumToolStripMenuItem
             // 
@@ -172,11 +161,6 @@ namespace SudokuSetterAndSolver
             this.level1ToolStripMenuItem1.Size = new System.Drawing.Size(327, 46);
             this.level1ToolStripMenuItem1.Text = "Level 4";
             this.level1ToolStripMenuItem1.Click += new System.EventHandler(this.LevelsSelectClick);
-            if (levelCount > currentLevel)
-            {
-                this.level1ToolStripMenuItem1.Enabled = false;
-            }
-            levelCount++;
 
             // 
             // level2ToolStripMenuItem1
@@ -185,11 +169,6 @@ namespace SudokuSetterAndSolver
             this.level2ToolStripMenuItem1.Size = new System.Drawing.Size(327, 46);
             this.level2ToolStripMenuItem1.Text = "Level 5";
             this.level2ToolStripMenuItem1.Click += new System.EventHandler(this.LevelsSelectClick);
-            if (levelCount > currentLevel)
-            {
-                this.level2ToolStripMenuItem1.Enabled = false;
-            }
-            levelCount++;
             // 
             // level6ToolStripMenuItem
             // 
@@ -197,11 +176,6 @@ namespace SudokuSetterAndSolver
             this.level6ToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
             this.level6ToolStripMenuItem.Text = "Level 6";
             this.level6ToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
-            if (levelCount > currentLevel)
-            {
-                this.level6ToolStripMenuItem.Enabled = false;
-            }
-            levelCount++;
             // 
             // hardToolStripMenuItem
             // 
@@ -219,11 +193,6 @@ namespace SudokuSetterAndSolver
             this.level7ToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
             this.level7ToolStripMenuItem.Text = "Level 7 ";
             this.level7ToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
-            if (levelCount > currentLevel)
-            {
-                this.level7ToolStripMenuItem.Enabled = false;
-            }
-            levelCount++;
             // 
             // level8ToolStripMenuItem
             // 
@@ -231,11 +200,6 @@ namespace SudokuSetterAndSolver
             this.level8ToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
             this.level8ToolStripMenuItem.Text = "Level 8";
             this.level8ToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
-            if (levelCount > currentLevel)
-            {
-                this.level8ToolStripMenuItem.Enabled = false;
-            }
-            levelCount++;
             // 
             // level9ToolStripMenuItem
             // 
@@ -243,11 +207,6 @@ namespace SudokuSetterAndSolver
             this.level9ToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
             this.level9ToolStripMenuItem.Text = "Level 9";
             this.level9ToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
-            if (levelCount > currentLevel)
-            {
-                this.level9ToolStripMenuItem.Enabled = false;
-            }
-            levelCount++;
             // 
             // insaneToolStripMenuItem
             // 
@@ -265,11 +224,6 @@ namespace SudokuSetterAndSolver
             this.level10ToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
             this.level10ToolStripMenuItem.Text = "Level 10";
             this.level10ToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
-            if (levelCount > currentLevel)
-            {
-                this.level10ToolStripMenuItem.Enabled = false;
-            }
-            levelCount++;
             // 
             // level11ToolStripMenuItem
             // 
@@ -277,11 +231,6 @@ namespace SudokuSetterAndSolver
             this.level11ToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
             this.level11ToolStripMenuItem.Text = "Level 11";
             this.level11ToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
-            if (levelCount > currentLevel)
-            {
-                this.level11ToolStripMenuItem.Enabled = false;
-            }
-            levelCount++;
             // 
             // level12ToolStripMenuItem
             // 
@@ -289,11 +238,6 @@ namespace SudokuSetterAndSolver
             this.level12ToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
             this.level12ToolStripMenuItem.Text = "Level 12";
             this.level12ToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
-            if (levelCount > currentLevel)
-            {
-                this.level12ToolStripMenuItem.Enabled = false;
-            }
-            levelCount++;
             // 
             // uniqueToolStripMenuItem
             // 
@@ -312,11 +256,6 @@ namespace SudokuSetterAndSolver
             this.irregularToolStripMenuItem.Text = "Irregular";
             this.irregularToolStripMenuItem.Enabled = false;
             this.irregularToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
-            if (levelCount > currentLevel)
-            {
-                this.irregularToolStripMenuItem.Enabled = false;
-            }
-            levelCount++;
             // 
             // irregular2ToolStripMenuItem
             // 
@@ -324,11 +263,6 @@ namespace SudokuSetterAndSolver
             this.irregular2ToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
             this.irregular2ToolStripMenuItem.Text = "Irregular 2";
             this.irregular2ToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
-            if (levelCount > currentLevel)
-            {
-                this.irregular2ToolStripMenuItem.Enabled = false;
-            }
-            levelCount++;
             // 
             // smallGridToolStripMenuItem
             // 
@@ -336,11 +270,6 @@ namespace SudokuSetterAndSolver
             this.smallGridToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
             this.smallGridToolStripMenuItem.Text = "Small Grid";
             this.smallGridToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
-            if (levelCount > currentLevel)
-            {
-                this.smallGridToolStripMenuItem.Enabled = false;
-            }
-            levelCount++;
             // 
             // MainScreen
             // 

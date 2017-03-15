@@ -40,6 +40,10 @@ namespace SudokuSetterAndSolver
             levelCount = 1;
             //Contains logic to enable the correct levels.          
             InitializeComponent();
+
+            //Set enabled menu options
+            levelCount = 1;
+            SetEnabledMenuOptions(levelsToolStripMenuItem);
         }
 
         #endregion
@@ -1065,7 +1069,35 @@ namespace SudokuSetterAndSolver
 
         private void LevelsSelectClick(object sender, EventArgs e)
         {
+            var menuOption = (ToolStripMenuItem)sender;
             //This is where i will need to load the puzzle. 
+            this.Hide();
+            //Sneding the button name which will provide a link to the puzzle that will be loaded into the system. 
+            PlaySudokuScreen playSudokuScreen = new PlaySudokuScreen(menuOption.Name, 9);
+            playSudokuScreen.Show();
+        }
+
+        /// <summary>
+        /// Metthod to disable levels user cannot acces. 
+        /// </summary>
+        /// <param name="item"></param>
+        private void SetEnabledMenuOptions(ToolStripMenuItem item)
+        {
+            //Going through the levels menu
+            foreach (ToolStripMenuItem dropDownItem in item.DropDownItems)
+            {
+                if (dropDownItem.HasDropDownItems)
+                {
+                    foreach (ToolStripMenuItem subItem in dropDownItem.DropDownItems)
+                    {
+                        if (levelCount > currentLevel)
+                        {
+                            subItem.Enabled = false;
+                        }
+                        levelCount++;
+                    }
+                }
+            }
         }
 
     }
