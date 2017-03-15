@@ -56,6 +56,10 @@ namespace SudokuSetterAndSolver
         int numberOfStaticNumbers = 0;
         int numberOfStaticNumberDifficulty = 0;
         int humanSolvingDifficulty = 0;
+        int backtrackingNodesCount = 0;
+        int singlesCount = 0;
+        int doublesCount = 0;
+        int triplesCount = 0;
 
         //Get all the cells with the corrrect row , column and block number, this will then allow easier handling.
         public puzzle currentPuzzleToBeSolved = new puzzle();
@@ -83,6 +87,7 @@ namespace SudokuSetterAndSolver
         public bool SolveSudokuRuleBasedXML()
         {
             humanSolvingDifficulty = 0;
+            singlesCount++;
             //Contains the list of candiates in each cell from simple analysis, not including human solvint methods procesing. 
             List<List<int>> tempCandiateList = new List<List<int>>();
             tempCandiateList.Clear();
@@ -226,6 +231,7 @@ namespace SudokuSetterAndSolver
             HiddenDoubles();
             difficluty = "hard";
             NakedTriples();
+            
             //Naked Triples 
             //HIdden Triples 
         }
@@ -439,6 +445,7 @@ namespace SudokuSetterAndSolver
 
             if (nakedDoubleRowBool == true || nakedDoubleColumnBool == true || nakedDoubleBlockBool == true)
             {
+                doublesCount++;
                 SolveSudokuRuleBasedXML();
             }
         }
@@ -642,6 +649,7 @@ namespace SudokuSetterAndSolver
             //If there is hidden doubles then begin the initial method again. 
             if (hiddenDoubleBlockBool == true || hiddenDoubleColumnBool == true || hiddenDoubleRowBool == true)
             {
+                doublesCount++;
                 SolveSudokuRuleBasedXML();
             }
         }
@@ -843,6 +851,11 @@ namespace SudokuSetterAndSolver
 
         #region Hidden Triples
 
+        private void HiddenTriples()
+        {
+            //Need to create this method. 
+        }
+
         private void HiddenTriplesRow()
         {
             //Getting all of the naked doubles for that row. 
@@ -1017,6 +1030,7 @@ namespace SudokuSetterAndSolver
 
             if (nakedTripleRowBool == true || nakedTripleColumnBool == true || nakedTripleBlockBool == true)
             {
+                triplesCount++;
                 SolveSudokuRuleBasedXML();
             }
         }
@@ -1350,6 +1364,7 @@ namespace SudokuSetterAndSolver
 
                 if (validNumbersInCell.Count == 0)
                 {
+                    backtrackingNodesCount++;
                     previousNumberInCell = currentPuzzleToBeSolved.puzzlecells[logicalOrderOfCellsXml[startingValue - 1]].value;
                     currentPuzzleToBeSolved.puzzlecells[logicalOrderOfCellsXml[numberOfCellToBeHandled - 1]].value = 0;
                     startingValue -= 2;
@@ -1379,6 +1394,7 @@ namespace SudokuSetterAndSolver
                                 logicalOrderOfCellsXml.Clear();
                                 return false;
                             }
+                            backtrackingNodesCount++;
                             previousNumberInCell = currentPuzzleToBeSolved.puzzlecells[logicalOrderOfCellsXml[startingValue - 1]].value;
                             currentPuzzleToBeSolved.puzzlecells[logicalOrderOfCellsXml[numberOfCellToBeHandled - 1]].value = 0;
                             startingValue -= 2;
@@ -1558,6 +1574,11 @@ namespace SudokuSetterAndSolver
 
         public void EvaluatePuzzleDifficulty()
         {
+            if(backtrackingNodesCount >0)
+            {
+
+            }
+           
             difficluty = "";
             //Includes human model, also get the string from the Human model. 
             Stopwatch tempStopWatch = new Stopwatch();
@@ -1569,6 +1590,8 @@ namespace SudokuSetterAndSolver
             Console.WriteLine(numberOfStaticNumbers);
             Console.WriteLine(totalNumberOfCandidates);
             Console.WriteLine(humanSolvingDifficulty);
+            Console.WriteLine(singlesCount + doublesCount + triplesCount);
+
             executionTimeDifficulty = EvaluateExecutionTime(tempStopWatch.Elapsed.TotalSeconds);
             tempStopWatch.Stop();
             totalNumberOfCandidatesDifficulty = EvaluateTotalNumberOfCandidatesDifficulty(totalNumberOfCandidates);
@@ -1646,6 +1669,14 @@ namespace SudokuSetterAndSolver
             {
                 return 3;
             }
+        }
+
+        private void CalculateHumanDifficultyValue()
+        {
+            int totaloccurences = singlesCount + doublesCount + triplesCount;
+            int totalValue = (singlesCount * 1) + (doublesCount * 3) + (triplesCount * 9);
+
+            int difficulty = totalValue / totaloccurences;
         }
 
         private void FinalDifficulty()

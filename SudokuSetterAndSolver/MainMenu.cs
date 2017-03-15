@@ -337,5 +337,12 @@ namespace SudokuSetterAndSolver
             addForm.Show();
          
         }
+
+        private void newMenuBtn_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            MainScreen mainScreen = new MainScreen();
+            mainScreen.Show();
+        }
     }
 }

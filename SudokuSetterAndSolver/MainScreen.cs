@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace SudokuSetterAndSolver
 {
-    public partial class TemplateScreen : Form
+    public partial class MainScreen : Form
     {
         #region Field Variables 
         protected TextBox currentSelectedTextBox = new TextBox();
@@ -25,16 +25,104 @@ namespace SudokuSetterAndSolver
         protected SudokuPuzzleGenerator sudokuPuzzleGenerator = new SudokuPuzzleGenerator(9);
         protected List<int> sudokuSolutionArray = new List<int>();
         protected int errorSubmitCount = 0;
+        private static int puzzleSelectionType;
+        private StatisticsManager statsManager;
+        int currentLevel;
+        int levelCount;
+        #endregion 
+        #region Constructor 
+        public MainScreen()
+        {
+            statsManager = new StatisticsManager();
+            //Gets the current level the user has completed. 
+            LevelsUpdate();
+            //Determines which levels should be playable
+            levelCount = 1;
+            //Contains logic to enable the correct levels.          
+            InitializeComponent();
+        }
+
         #endregion
 
-        #region Constrcutor
-        public TemplateScreen()
+        private void newPuzzleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            InitializeComponent();
+            PopUpRandomPuzzleSelection randomPuzzlePopUp = new PopUpRandomPuzzleSelection();
+            randomPuzzlePopUp.ShowDialog();
+            //Load buttons
+            CreateRandomPuzzleButtons();
+            //Create blank puzzle 
+            LoadPuzzleSelection();  
+        }
+
+        private void solvePuzzleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PopUpSolverScreen solverPopUp = new PopUpSolverScreen();
+            solverPopUp.Show();
+        }
+
+        #region Levels Logic 
+
+        private void LevelsUpdate()
+        {
+            StatisticsManager.ReadFromStatisticsFile();
+            currentLevel = StatisticsManager.currentStats.levelcompleted;
         }
         #endregion
 
-        #region Event Handler Methods
+        #region Event Methods Random Puzzle 
+
+        /// <summary>
+        /// Method to see if the puzzle entered by the user is correct. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void submitPuzzleBtn_Click(object sender, EventArgs e)
+        {
+            UpdatePuzzle();
+            //Check puzzle enetered by the user against the pre set solution. 
+            bool correctPuzzle = CheckPuzzleSolution();
+            if (correctPuzzle == true)
+            {
+                MessageBox.Show("Puzzle Completed! Well Done! Error count: " + errorSubmitCount);
+
+            }
+            else
+            {
+                MessageBox.Show("Puzzle incorrect. Please try again.");
+            }
+        }
+
+        private void newPuzzleBtn_Click(object sender, EventArgs e)
+        {
+            errorSubmitCount = 0;
+            ClearGrid();
+            listOfTextBoxes.Clear();
+            loadedPuzzle.puzzlecells.Clear();
+            PopUpRandomPuzzleSelection popUpPuzzleSelection = new PopUpRandomPuzzleSelection(true);
+            popUpPuzzleSelection.ShowDialog();
+            LoadPuzzleSelection();
+        }
+
+        private void solveGeneratedPuzzleBtn_Click(object sender, EventArgs e)
+        {
+            UpdatePuzzle();
+            SolvePuzzle();
+        }
+        #endregion
+
+        #region Methods Random Puzzle 
+
+        private void ClearGrid()
+        {
+            //currently remove all textboxes when a new puzzle is selected, this may need to be changed. 
+            foreach (var textBox in listOfTextBoxes)
+            {
+                textBox.Dispose();
+            }
+        }
+        #endregion
+
+        #region Event Handler Methods Template
 
         protected void puzzleTextChange(object sender, EventArgs e)
         {
@@ -74,19 +162,7 @@ namespace SudokuSetterAndSolver
 
         #endregion
 
-        #region Methods 
-
-        private void ClearGrid()
-        {
-            //currently remove all textboxes when a new puzzle is selected, this may need to be changed. 
-            foreach (var textBox in listOfTextBoxes)
-            {
-                textBox.Dispose();
-            }
-        }  
-        #endregion
-
-        #region Load Puzzle Method
+        #region Load Puzzle Methods
 
         protected void LoadPuzzleFile()
         {
@@ -200,14 +276,14 @@ namespace SudokuSetterAndSolver
                 if (loadedPuzzle.puzzlecells[index].value != loadedPuzzle.puzzlecells[index].solutionvalue)
                 {
                     errorCell.Add(index);
-                 
+
                 }
             }
             if (errorCell.Count > 0)
             {
                 //Set error cells
                 SetErrorCells(errorCell);
-               
+
                 return false;
             }
             else
@@ -239,12 +315,12 @@ namespace SudokuSetterAndSolver
                 }
                 foreach (var errorCell in errorCellNumbers)
                 {
-                   
-                    if(cellNumber == errorCell && loadedPuzzle.puzzlecells[cellNumber].value !=0)
+
+                    if (cellNumber == errorCell && loadedPuzzle.puzzlecells[cellNumber].value != 0)
                     {
                         errorSubmitCount += 1;
                         listOfTextBoxes[cellNumber].BackColor = Color.Red;
-                    }               
+                    }
                 }
             }
         }
@@ -684,29 +760,31 @@ namespace SudokuSetterAndSolver
                 //Position logic
                 if (indexNumber == 0)
                 {
-                    rowLocation = rowLocation + 133;
-                    columnLocation = columnLocation + 120;
+                    rowLocation = rowLocation + 83;
+                    columnLocation = columnLocation + 50;
                     txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
                 }
                 else if (indexNumber == 8 || indexNumber % 9 == 8)
                 {
                     rowLocation += 38;
                     txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
-                    rowLocation = 95;
+                    rowLocation = 45;
                     columnLocation += 17;
                 }
                 else
                 {
                     rowLocation += 38;
                     txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
-                }            
+                }
+
+
             }
 
             SudokuSolver sudokuSolver = new SudokuSolver();
             sudokuSolver.currentPuzzleToBeSolved = loadedPuzzle;
             sudokuSolver.EvaluatePuzzleDifficulty();
             string difficulty = sudokuSolver.difficluty;
-            MessageBox.Show(difficulty);
+            //MessageBox.Show(difficulty);
         }
         /// <summary>
         /// Method to generate random large puzzle. 
@@ -984,5 +1062,11 @@ namespace SudokuSetterAndSolver
             }
         }
         #endregion
+
+        private void LevelsSelectClick(object sender, EventArgs e)
+        {
+            //This is where i will need to load the puzzle. 
+        }
+
     }
 }

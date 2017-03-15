@@ -42,12 +42,15 @@ namespace SudokuSetterAndSolver
             this.Close();
             if (_currentPage == false)
             {
-                RandomPuzzleGameScreen randomPuzzleScreen = new RandomPuzzleGameScreen(puzzleTypeSelection.SelectedIndex);
-                randomPuzzleScreen.Show();
+                //RandomPuzzleGameScreen randomPuzzleScreen = new RandomPuzzleGameScreen(puzzleTypeSelection.SelectedIndex);
+                //randomPuzzleScreen.Show();
+
+                MainScreen._puzzleSelection = puzzleTypeSelection.SelectedIndex; 
             }
             else
             {
                 RandomPuzzleGameScreen._puzzleSelection = puzzleTypeSelection.SelectedIndex;
+                MainScreen._puzzleSelection = puzzleTypeSelection.SelectedIndex;
             }
 
         }

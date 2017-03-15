@@ -38,6 +38,7 @@
             this.convertFileBtn = new System.Windows.Forms.Button();
             this.generatePuzzleBtn = new System.Windows.Forms.Button();
             this.addSolutionsBtn = new System.Windows.Forms.Button();
+            this.newMenuBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.gameBanner)).BeginInit();
             this.SuspendLayout();
             // 
@@ -131,6 +132,16 @@
             this.addSolutionsBtn.UseVisualStyleBackColor = true;
             this.addSolutionsBtn.Click += new System.EventHandler(this.addSolutionsBtn_Click);
             // 
+            // newMenuBtn
+            // 
+            this.newMenuBtn.Location = new System.Drawing.Point(125, 568);
+            this.newMenuBtn.Name = "newMenuBtn";
+            this.newMenuBtn.Size = new System.Drawing.Size(266, 119);
+            this.newMenuBtn.TabIndex = 10;
+            this.newMenuBtn.Text = "New Menu ";
+            this.newMenuBtn.UseVisualStyleBackColor = true;
+            this.newMenuBtn.Click += new System.EventHandler(this.newMenuBtn_Click);
+            // 
             // MainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(240F, 240F);
@@ -139,6 +150,7 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.ClientSize = new System.Drawing.Size(1468, 1012);
+            this.Controls.Add(this.newMenuBtn);
             this.Controls.Add(this.addSolutionsBtn);
             this.Controls.Add(this.generatePuzzleBtn);
             this.Controls.Add(this.convertFileBtn);
@@ -168,6 +180,7 @@
         private System.Windows.Forms.Button convertFileBtn;
         private System.Windows.Forms.Button generatePuzzleBtn;
         private System.Windows.Forms.Button addSolutionsBtn;
+        private System.Windows.Forms.Button newMenuBtn;
     }
 }
 
