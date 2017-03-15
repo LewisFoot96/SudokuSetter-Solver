@@ -68,7 +68,7 @@ namespace SudokuSetterAndSolver
             this.levelsToolStripMenuItem});
             this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.mainMenuStrip.Name = "mainMenuStrip";
-            this.mainMenuStrip.Size = new System.Drawing.Size(1468, 49);
+            this.mainMenuStrip.Size = new System.Drawing.Size(1468, 52);
             this.mainMenuStrip.TabIndex = 0;
             this.mainMenuStrip.Text = "mainMenuStrip";
             // 
@@ -79,7 +79,7 @@ namespace SudokuSetterAndSolver
             this.solvePuzzleToolStripMenuItem,
             this.clearPuzzleToolStripMenuItem});
             this.fIleToolStripMenuItem.Name = "fIleToolStripMenuItem";
-            this.fIleToolStripMenuItem.Size = new System.Drawing.Size(83, 45);
+            this.fIleToolStripMenuItem.Size = new System.Drawing.Size(83, 48);
             this.fIleToolStripMenuItem.Text = "File ";
             // 
             // newPuzzleToolStripMenuItem
@@ -111,7 +111,7 @@ namespace SudokuSetterAndSolver
             this.insaneToolStripMenuItem,
             this.uniqueToolStripMenuItem});
             this.levelsToolStripMenuItem.Name = "levelsToolStripMenuItem";
-            this.levelsToolStripMenuItem.Size = new System.Drawing.Size(110, 45);
+            this.levelsToolStripMenuItem.Size = new System.Drawing.Size(110, 48);
             this.levelsToolStripMenuItem.Text = "Levels";
             // 
             // easyToolStripMenuItem
@@ -128,21 +128,21 @@ namespace SudokuSetterAndSolver
             // 
             this.level1ToolStripMenuItem.Name = "level1ToolStripMenuItem";
             this.level1ToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
-            this.level1ToolStripMenuItem.Text = "Level 1";
+            this.level1ToolStripMenuItem.Text = "level1";
             this.level1ToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
             // 
             // level2ToolStripMenuItem
             // 
             this.level2ToolStripMenuItem.Name = "level2ToolStripMenuItem";
             this.level2ToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
-            this.level2ToolStripMenuItem.Text = "Level 2";
+            this.level2ToolStripMenuItem.Text = "level2";
             this.level2ToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
             // 
             // level3ToolStripMenuItem
             // 
             this.level3ToolStripMenuItem.Name = "level3ToolStripMenuItem";
             this.level3ToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
-            this.level3ToolStripMenuItem.Text = "Level 3";
+            this.level3ToolStripMenuItem.Text = "level3";
             this.level3ToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
             // 
             // mediumToolStripMenuItem
@@ -159,22 +159,21 @@ namespace SudokuSetterAndSolver
             // 
             this.level1ToolStripMenuItem1.Name = "level1ToolStripMenuItem1";
             this.level1ToolStripMenuItem1.Size = new System.Drawing.Size(327, 46);
-            this.level1ToolStripMenuItem1.Text = "Level 4";
+            this.level1ToolStripMenuItem1.Text = "level4";
             this.level1ToolStripMenuItem1.Click += new System.EventHandler(this.LevelsSelectClick);
-
             // 
             // level2ToolStripMenuItem1
             // 
             this.level2ToolStripMenuItem1.Name = "level2ToolStripMenuItem1";
             this.level2ToolStripMenuItem1.Size = new System.Drawing.Size(327, 46);
-            this.level2ToolStripMenuItem1.Text = "Level 5";
+            this.level2ToolStripMenuItem1.Text = "level5";
             this.level2ToolStripMenuItem1.Click += new System.EventHandler(this.LevelsSelectClick);
             // 
             // level6ToolStripMenuItem
             // 
             this.level6ToolStripMenuItem.Name = "level6ToolStripMenuItem";
             this.level6ToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
-            this.level6ToolStripMenuItem.Text = "Level 6";
+            this.level6ToolStripMenuItem.Text = "level6";
             this.level6ToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
             // 
             // hardToolStripMenuItem
@@ -191,21 +190,21 @@ namespace SudokuSetterAndSolver
             // 
             this.level7ToolStripMenuItem.Name = "level7ToolStripMenuItem";
             this.level7ToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
-            this.level7ToolStripMenuItem.Text = "Level 7 ";
+            this.level7ToolStripMenuItem.Text = "level7 ";
             this.level7ToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
             // 
             // level8ToolStripMenuItem
             // 
             this.level8ToolStripMenuItem.Name = "level8ToolStripMenuItem";
             this.level8ToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
-            this.level8ToolStripMenuItem.Text = "Level 8";
+            this.level8ToolStripMenuItem.Text = "level8";
             this.level8ToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
             // 
             // level9ToolStripMenuItem
             // 
             this.level9ToolStripMenuItem.Name = "level9ToolStripMenuItem";
             this.level9ToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
-            this.level9ToolStripMenuItem.Text = "Level 9";
+            this.level9ToolStripMenuItem.Text = "level9";
             this.level9ToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
             // 
             // insaneToolStripMenuItem
@@ -222,21 +221,21 @@ namespace SudokuSetterAndSolver
             // 
             this.level10ToolStripMenuItem.Name = "level10ToolStripMenuItem";
             this.level10ToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
-            this.level10ToolStripMenuItem.Text = "Level 10";
+            this.level10ToolStripMenuItem.Text = "level10";
             this.level10ToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
             // 
             // level11ToolStripMenuItem
             // 
             this.level11ToolStripMenuItem.Name = "level11ToolStripMenuItem";
             this.level11ToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
-            this.level11ToolStripMenuItem.Text = "Level 11";
+            this.level11ToolStripMenuItem.Text = "level11";
             this.level11ToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
             // 
             // level12ToolStripMenuItem
             // 
             this.level12ToolStripMenuItem.Name = "level12ToolStripMenuItem";
             this.level12ToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
-            this.level12ToolStripMenuItem.Text = "Level 12";
+            this.level12ToolStripMenuItem.Text = "level12";
             this.level12ToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
             // 
             // uniqueToolStripMenuItem
@@ -253,22 +252,21 @@ namespace SudokuSetterAndSolver
             // 
             this.irregularToolStripMenuItem.Name = "irregularToolStripMenuItem";
             this.irregularToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
-            this.irregularToolStripMenuItem.Text = "Irregular";
-            this.irregularToolStripMenuItem.Enabled = false;
+            this.irregularToolStripMenuItem.Text = "irregular";
             this.irregularToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
             // 
             // irregular2ToolStripMenuItem
             // 
             this.irregular2ToolStripMenuItem.Name = "irregular2ToolStripMenuItem";
             this.irregular2ToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
-            this.irregular2ToolStripMenuItem.Text = "Irregular 2";
+            this.irregular2ToolStripMenuItem.Text = "irregular2";
             this.irregular2ToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
             // 
             // smallGridToolStripMenuItem
             // 
             this.smallGridToolStripMenuItem.Name = "smallGridToolStripMenuItem";
             this.smallGridToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
-            this.smallGridToolStripMenuItem.Text = "Small Grid";
+            this.smallGridToolStripMenuItem.Text = "smallgrid";
             this.smallGridToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
             // 
             // MainScreen

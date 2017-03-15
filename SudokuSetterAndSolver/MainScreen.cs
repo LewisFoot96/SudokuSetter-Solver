@@ -1069,12 +1069,18 @@ namespace SudokuSetterAndSolver
 
         private void LevelsSelectClick(object sender, EventArgs e)
         {
+            ClearGrid();
+            listOfTextBoxes.Clear();
+            loadedPuzzle.puzzlecells.Clear();
             var menuOption = (ToolStripMenuItem)sender;
             //This is where i will need to load the puzzle. 
-            this.Hide();
-            //Sneding the button name which will provide a link to the puzzle that will be loaded into the system. 
-            PlaySudokuScreen playSudokuScreen = new PlaySudokuScreen(menuOption.Name, 9);
-            playSudokuScreen.Show();
+            loadedPuzzle = new puzzle();
+            puzzleManager = new PuzzleManager();
+            loadedPuzzle.gridsize = 9;
+            //Getting directory location of the loaded puzzle. 
+            fileDirctoryLocation = Path.GetFullPath(@"..\..\") + @"\Puzzles\LevelsPuzzles";
+            fileDirctoryLocation += @"\" + menuOption.Text + ".xml";
+            LoadPuzzleFile();
         }
 
         /// <summary>

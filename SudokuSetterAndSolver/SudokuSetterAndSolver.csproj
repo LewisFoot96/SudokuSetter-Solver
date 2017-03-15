@@ -260,8 +260,11 @@
     <Content Include="Puzzles\GeneratedPuzzles\MediumPuzzles\MediumPuzzles8.xml" />
     <Content Include="Puzzles\GeneratedPuzzles\MediumPuzzles\MediumPuzzles9.xml" />
     <Content Include="Puzzles\LevelsPuzzles\level13.xml" />
+    <Content Include="Puzzles\LevelsPuzzles\irregular.xml" />
     <Content Include="Puzzles\LevelsPuzzles\level14.xml" />
+    <Content Include="Puzzles\LevelsPuzzles\irregular2.xml" />
     <Content Include="Puzzles\LevelsPuzzles\level15.xml" />
+    <Content Include="Puzzles\LevelsPuzzles\smallgrid.xml" />
     <Content Include="Puzzles\LevelsPuzzles\level16.xml" />
     <Content Include="Puzzles\LevelsPuzzles\level9.xml" />
     <Content Include="Puzzles\LevelsPuzzles\level10.xml" />
