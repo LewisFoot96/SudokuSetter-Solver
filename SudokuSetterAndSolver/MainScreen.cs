@@ -320,6 +320,7 @@ namespace SudokuSetterAndSolver
         /// <param name="e"></param>
         private void hintsBtn_Click(object sender, EventArgs e)
         {
+            UpdatePuzzle();
             StatisticsManager.ReadFromStatisticsFile();
             int hintNumber = StatisticsManager.currentStats.hintNumber;
 
@@ -338,6 +339,32 @@ namespace SudokuSetterAndSolver
 
         private void RevealValueFromHint()
         {
+            //Getting a blank cell and revealing a number
+            for (int cellNumber = 0; cellNumber <= loadedPuzzle.puzzlecells.Count - 1; cellNumber++)
+            {
+                if(loadedPuzzle.puzzlecells[cellNumber].value ==0)
+                {
+                    loadedPuzzle.puzzlecells[cellNumber].value = loadedPuzzle.puzzlecells[cellNumber].solutionvalue;
+                    break;
+                }
+            }
+
+            //Updating puzzle in line with loaded puzzle. 
+            for (int cellNumberCount = 0; cellNumberCount <= loadedPuzzle.puzzlecells.Count - 1; cellNumberCount++)
+            {
+                foreach (var textBoxCurrent in listOfTextBoxes)
+                {
+                    if (textBoxCurrent.Name == cellNumberCount.ToString())
+                    {
+                        if (loadedPuzzle.puzzlecells[cellNumberCount].value != 0)
+                        {
+                            textBoxCurrent.Text = loadedPuzzle.puzzlecells[cellNumberCount].value.ToString();
+                            textBoxCurrent.Enabled = false;
+                        }
+                        break;
+                    }
+                }
+            }
 
         }
 
