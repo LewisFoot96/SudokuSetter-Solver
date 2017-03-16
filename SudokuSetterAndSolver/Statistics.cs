@@ -32,6 +32,8 @@ public partial class statistics {
     
     private int levelcompletedField;
     
+    private int hintNumberField;
+    
     /// <remarks/>
     public decimal fastestsolvetime {
         get {
@@ -69,6 +71,16 @@ public partial class statistics {
         }
         set {
             this.levelcompletedField = value;
+        }
+    }
+    
+    /// <remarks/>
+    public int hintNumber {
+        get {
+            return this.hintNumberField;
+        }
+        set {
+            this.hintNumberField = value;
         }
     }
 }

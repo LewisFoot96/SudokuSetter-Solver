@@ -313,9 +313,37 @@ namespace SudokuSetterAndSolver
             }
         }
 
+        /// <summary>
+        /// Method to get hints for the puzzle. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void hintsBtn_Click(object sender, EventArgs e)
+        {
+            StatisticsManager.ReadFromStatisticsFile();
+            int hintNumber = StatisticsManager.currentStats.hintNumber;
+
+            if(hintNumber>0)
+            {
+                RevealValueFromHint();
+                StatisticsManager.currentStats.hintNumber = hintNumber - 1;
+                StatisticsManager.WriteToStatisticsFile();
+            }
+            else
+            {
+                MessageBox.Show("No hints left!");
+            }
+            
+        }
+
+        private void RevealValueFromHint()
+        {
+
+        }
+
         #endregion
 
-        #region Methods Random Puzzle 
+            #region Methods Random Puzzle 
 
         private void ClearGrid()
         {
