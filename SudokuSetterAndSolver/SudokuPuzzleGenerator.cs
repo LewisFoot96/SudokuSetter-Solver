@@ -93,7 +93,7 @@ namespace SudokuSetterAndSolver
             //Depending on grid size, remove a certain amount of numbers from the puzzle initially. 
             if(generatedPuzzle.gridsize ==9)
             {
-                blankCellNumber = 47;
+                blankCellNumber = 49;
             }
             else if(generatedPuzzle.gridsize ==16)
             {

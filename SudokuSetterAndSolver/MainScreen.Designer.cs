@@ -341,11 +341,23 @@ namespace SudokuSetterAndSolver
         {
             this.submitLevelPuzzleBtn = new System.Windows.Forms.Button();
             this.hintsBtn = new Button();
+            this.solvePuzzleInformationDisplay = new TextBox();
+
+            //
+            // solvePuzzleInformationDisplay
+            //
+            this.solvePuzzleInformationDisplay.Text = "This is test text";
+            this.solvePuzzleInformationDisplay.Size = new System.Drawing.Size(350, 35);
+            this.solvePuzzleInformationDisplay.Name = "solvePuzzleInformationDisplay";
+            this.solvePuzzleInformationDisplay.Location = new System.Drawing.Point(80, 30);
+            this.solvePuzzleInformationDisplay.Enabled = false;
+            this.solvePuzzleInformationDisplay.BorderStyle = BorderStyle.None;
+            this.solvePuzzleInformationDisplay.BackColor = System.Drawing.Color.LightGreen;
 
             // 
             // submitPuzzleBtn
             // 
-            this.submitLevelPuzzleBtn.Location = new System.Drawing.Point(165, 210);
+            this.submitLevelPuzzleBtn.Location = new System.Drawing.Point(194, 210);
             this.submitLevelPuzzleBtn.Name = "submitLevelPuzzleBtn";
             this.submitLevelPuzzleBtn.Size = new System.Drawing.Size(60, 35);
             this.submitLevelPuzzleBtn.TabIndex = 87;
@@ -356,7 +368,7 @@ namespace SudokuSetterAndSolver
             // 
             // hintsBtn
             // 
-            this.hintsBtn.Location = new System.Drawing.Point(225, 210);
+            this.hintsBtn.Location = new System.Drawing.Point(254, 210);
             this.hintsBtn.Name = "hintsBtn";
             this.hintsBtn.Size = new System.Drawing.Size(60, 35);
             this.hintsBtn.TabIndex = 87;
@@ -369,6 +381,8 @@ namespace SudokuSetterAndSolver
             this.Controls.SetChildIndex(this.submitLevelPuzzleBtn, 0);
             this.Controls.Add(this.hintsBtn);
             this.Controls.SetChildIndex(this.hintsBtn, 1);
+            this.Controls.Add(this.solvePuzzleInformationDisplay);
+            this.Controls.SetChildIndex(this.solvePuzzleInformationDisplay, 2);
         }
 
         private void CreateSolveButtons()
@@ -382,7 +396,7 @@ namespace SudokuSetterAndSolver
             // 
             // solveGeneratedPuzzleBtn
             // 
-            this.solveGeneratedPuzzleBtn.Location = new System.Drawing.Point(165, 210);
+            this.solveGeneratedPuzzleBtn.Location = new System.Drawing.Point(252, 210);
             this.solveGeneratedPuzzleBtn.Name = "solveGeneratedPuzzleBtn";
             this.solveGeneratedPuzzleBtn.Size = new System.Drawing.Size(60, 35);
             this.solveGeneratedPuzzleBtn.TabIndex = 88;
@@ -393,7 +407,7 @@ namespace SudokuSetterAndSolver
             // loadFileBtn
             // 
             this.loadFileBtn.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.loadFileBtn.Location = new System.Drawing.Point(225, 210);
+            this.loadFileBtn.Location = new System.Drawing.Point(312, 210);
             this.loadFileBtn.Name = "loadFileBtn";
             this.loadFileBtn.Size = new System.Drawing.Size(60, 35);
             this.loadFileBtn.TabIndex = 11;
@@ -409,7 +423,7 @@ namespace SudokuSetterAndSolver
             // difficultyDetermineBtn
             // 
             this.difficultyDetermineBtn.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.difficultyDetermineBtn.Location = new System.Drawing.Point(105, 210);
+            this.difficultyDetermineBtn.Location = new System.Drawing.Point(192, 210);
             this.difficultyDetermineBtn.Name = "difficultyDetermineBtn";
             this.difficultyDetermineBtn.Size = new System.Drawing.Size(60, 35);
             this.difficultyDetermineBtn.TabIndex = 12;
@@ -420,7 +434,7 @@ namespace SudokuSetterAndSolver
             // validatePuzzleBtn
             // 
             this.validatePuzzleBtn.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.validatePuzzleBtn.Location = new System.Drawing.Point(55, 210);
+            this.validatePuzzleBtn.Location = new System.Drawing.Point(132, 210);
             this.validatePuzzleBtn.Name = "validatePuzzleBtn";
             this.validatePuzzleBtn.Size = new System.Drawing.Size(60, 35);
             this.validatePuzzleBtn.TabIndex = 13;
@@ -455,6 +469,9 @@ namespace SudokuSetterAndSolver
         private Button difficultyDetermineBtn;
         private Button validatePuzzleBtn;
         private Button hintsBtn;
+        private TextBox randomPuzzleInformationDisplay;
+        private TextBox levelPuzzleInformationDisplay;
+        private TextBox solvePuzzleInformationDisplay;
         private ToolStripMenuItem easyToolStripMenuItem;
         private ToolStripMenuItem level1ToolStripMenuItem;
         private ToolStripMenuItem level2ToolStripMenuItem;

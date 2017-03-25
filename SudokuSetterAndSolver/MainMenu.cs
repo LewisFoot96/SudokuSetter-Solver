@@ -17,6 +17,7 @@ namespace SudokuSetterAndSolver
         #region Field Variables 
         private puzzle generatedPuzzle;
         #endregion 
+
         #region Constructor 
         public MainMenu()
         {
@@ -90,7 +91,7 @@ namespace SudokuSetterAndSolver
             puzzleGenerationTime.Reset();
             puzzleGenerationTime.Start();
             //Creating 10 puzzles using the generator 
-            for (int puzzleNumber = 0; puzzleNumber <= 9; puzzleNumber++)
+            for (int puzzleNumber = 0; puzzleNumber <= 99; puzzleNumber++)
             {
                 //Creating puzzles. 
                 generatedPuzzle = new puzzle();

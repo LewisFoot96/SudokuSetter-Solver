@@ -1164,8 +1164,10 @@ namespace SudokuSetterAndSolver
                                         break;
                                     }
                                 }
+                                //If the cell is not contained within te match list remove the correct values from this cell. 
                                 if (tripleCell == false)
                                 {
+                                    //Goinng through all of the candidate within this cell, not in the triple. 
                                     for (int candidateValueIndex = 0; candidateValueIndex <= cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]].Count - 1; candidateValueIndex++)
                                     {
                                         if (cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]][candidateValueIndex] == firstNumber || cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]][candidateValueIndex] == secondNumber || cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]][candidateValueIndex] == thirdNumber)
@@ -1174,7 +1176,7 @@ namespace SudokuSetterAndSolver
                                             if (regionTitle == "row")
                                             {
                                                 nakedTripleCount++;
-                                                candidatesList[rowNumber - 8 + notNullIndexValuesCellsInRow[candidatesIndexValues]] = cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]];
+                                                candidatesList[rowNumber *9 + notNullIndexValuesCellsInRow[candidatesIndexValues]] = cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]];
                                             }
                                             else if (regionTitle == "column")
                                             {
