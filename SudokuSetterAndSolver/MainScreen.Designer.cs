@@ -30,6 +30,7 @@ namespace SudokuSetterAndSolver
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainScreen));
             this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
             this.fIleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -57,6 +58,9 @@ namespace SudokuSetterAndSolver
             this.irregularToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.irregular2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.smallGridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.puzzleTimer = new System.Windows.Forms.Timer(this.components);
+            this.timerText = new System.Windows.Forms.TextBox();
+            this.puzzlesInformationTb = new System.Windows.Forms.TextBox();
             this.mainMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -66,11 +70,8 @@ namespace SudokuSetterAndSolver
             this.mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fIleToolStripMenuItem,
             this.levelsToolStripMenuItem});
-            this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.mainMenuStrip, "mainMenuStrip");
             this.mainMenuStrip.Name = "mainMenuStrip";
-            this.mainMenuStrip.Size = new System.Drawing.Size(1468, 52);
-            this.mainMenuStrip.TabIndex = 0;
-            this.mainMenuStrip.Text = "mainMenuStrip";
             // 
             // fIleToolStripMenuItem
             // 
@@ -79,28 +80,24 @@ namespace SudokuSetterAndSolver
             this.solvePuzzleToolStripMenuItem,
             this.clearPuzzleToolStripMenuItem});
             this.fIleToolStripMenuItem.Name = "fIleToolStripMenuItem";
-            this.fIleToolStripMenuItem.Size = new System.Drawing.Size(83, 48);
-            this.fIleToolStripMenuItem.Text = "File ";
+            resources.ApplyResources(this.fIleToolStripMenuItem, "fIleToolStripMenuItem");
             // 
             // newPuzzleToolStripMenuItem
             // 
             this.newPuzzleToolStripMenuItem.Name = "newPuzzleToolStripMenuItem";
-            this.newPuzzleToolStripMenuItem.Size = new System.Drawing.Size(297, 46);
-            this.newPuzzleToolStripMenuItem.Text = "New Puzzle";
+            resources.ApplyResources(this.newPuzzleToolStripMenuItem, "newPuzzleToolStripMenuItem");
             this.newPuzzleToolStripMenuItem.Click += new System.EventHandler(this.newPuzzleToolStripMenuItem_Click);
             // 
             // solvePuzzleToolStripMenuItem
             // 
             this.solvePuzzleToolStripMenuItem.Name = "solvePuzzleToolStripMenuItem";
-            this.solvePuzzleToolStripMenuItem.Size = new System.Drawing.Size(297, 46);
-            this.solvePuzzleToolStripMenuItem.Text = "Solve Puzzle";
+            resources.ApplyResources(this.solvePuzzleToolStripMenuItem, "solvePuzzleToolStripMenuItem");
             this.solvePuzzleToolStripMenuItem.Click += new System.EventHandler(this.solvePuzzleToolStripMenuItem_Click);
             // 
             // clearPuzzleToolStripMenuItem
             // 
             this.clearPuzzleToolStripMenuItem.Name = "clearPuzzleToolStripMenuItem";
-            this.clearPuzzleToolStripMenuItem.Size = new System.Drawing.Size(297, 46);
-            this.clearPuzzleToolStripMenuItem.Text = "Clear Puzzle";
+            resources.ApplyResources(this.clearPuzzleToolStripMenuItem, "clearPuzzleToolStripMenuItem");
             // 
             // levelsToolStripMenuItem
             // 
@@ -111,8 +108,7 @@ namespace SudokuSetterAndSolver
             this.insaneToolStripMenuItem,
             this.uniqueToolStripMenuItem});
             this.levelsToolStripMenuItem.Name = "levelsToolStripMenuItem";
-            this.levelsToolStripMenuItem.Size = new System.Drawing.Size(110, 48);
-            this.levelsToolStripMenuItem.Text = "Levels";
+            resources.ApplyResources(this.levelsToolStripMenuItem, "levelsToolStripMenuItem");
             // 
             // easyToolStripMenuItem
             // 
@@ -121,28 +117,24 @@ namespace SudokuSetterAndSolver
             this.level2ToolStripMenuItem,
             this.level3ToolStripMenuItem});
             this.easyToolStripMenuItem.Name = "easyToolStripMenuItem";
-            this.easyToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
-            this.easyToolStripMenuItem.Text = "Easy";
+            resources.ApplyResources(this.easyToolStripMenuItem, "easyToolStripMenuItem");
             // 
             // level1ToolStripMenuItem
             // 
             this.level1ToolStripMenuItem.Name = "level1ToolStripMenuItem";
-            this.level1ToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
-            this.level1ToolStripMenuItem.Text = "level1";
+            resources.ApplyResources(this.level1ToolStripMenuItem, "level1ToolStripMenuItem");
             this.level1ToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
             // 
             // level2ToolStripMenuItem
             // 
             this.level2ToolStripMenuItem.Name = "level2ToolStripMenuItem";
-            this.level2ToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
-            this.level2ToolStripMenuItem.Text = "level2";
+            resources.ApplyResources(this.level2ToolStripMenuItem, "level2ToolStripMenuItem");
             this.level2ToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
             // 
             // level3ToolStripMenuItem
             // 
             this.level3ToolStripMenuItem.Name = "level3ToolStripMenuItem";
-            this.level3ToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
-            this.level3ToolStripMenuItem.Text = "level3";
+            resources.ApplyResources(this.level3ToolStripMenuItem, "level3ToolStripMenuItem");
             this.level3ToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
             // 
             // mediumToolStripMenuItem
@@ -152,28 +144,24 @@ namespace SudokuSetterAndSolver
             this.level2ToolStripMenuItem1,
             this.level6ToolStripMenuItem});
             this.mediumToolStripMenuItem.Name = "mediumToolStripMenuItem";
-            this.mediumToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
-            this.mediumToolStripMenuItem.Text = "Medium";
+            resources.ApplyResources(this.mediumToolStripMenuItem, "mediumToolStripMenuItem");
             // 
             // level1ToolStripMenuItem1
             // 
             this.level1ToolStripMenuItem1.Name = "level1ToolStripMenuItem1";
-            this.level1ToolStripMenuItem1.Size = new System.Drawing.Size(327, 46);
-            this.level1ToolStripMenuItem1.Text = "level4";
+            resources.ApplyResources(this.level1ToolStripMenuItem1, "level1ToolStripMenuItem1");
             this.level1ToolStripMenuItem1.Click += new System.EventHandler(this.LevelsSelectClick);
             // 
             // level2ToolStripMenuItem1
             // 
             this.level2ToolStripMenuItem1.Name = "level2ToolStripMenuItem1";
-            this.level2ToolStripMenuItem1.Size = new System.Drawing.Size(327, 46);
-            this.level2ToolStripMenuItem1.Text = "level5";
+            resources.ApplyResources(this.level2ToolStripMenuItem1, "level2ToolStripMenuItem1");
             this.level2ToolStripMenuItem1.Click += new System.EventHandler(this.LevelsSelectClick);
             // 
             // level6ToolStripMenuItem
             // 
             this.level6ToolStripMenuItem.Name = "level6ToolStripMenuItem";
-            this.level6ToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
-            this.level6ToolStripMenuItem.Text = "level6";
+            resources.ApplyResources(this.level6ToolStripMenuItem, "level6ToolStripMenuItem");
             this.level6ToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
             // 
             // hardToolStripMenuItem
@@ -183,28 +171,24 @@ namespace SudokuSetterAndSolver
             this.level8ToolStripMenuItem,
             this.level9ToolStripMenuItem});
             this.hardToolStripMenuItem.Name = "hardToolStripMenuItem";
-            this.hardToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
-            this.hardToolStripMenuItem.Text = "Hard";
+            resources.ApplyResources(this.hardToolStripMenuItem, "hardToolStripMenuItem");
             // 
             // level7ToolStripMenuItem
             // 
             this.level7ToolStripMenuItem.Name = "level7ToolStripMenuItem";
-            this.level7ToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
-            this.level7ToolStripMenuItem.Text = "level7 ";
+            resources.ApplyResources(this.level7ToolStripMenuItem, "level7ToolStripMenuItem");
             this.level7ToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
             // 
             // level8ToolStripMenuItem
             // 
             this.level8ToolStripMenuItem.Name = "level8ToolStripMenuItem";
-            this.level8ToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
-            this.level8ToolStripMenuItem.Text = "level8";
+            resources.ApplyResources(this.level8ToolStripMenuItem, "level8ToolStripMenuItem");
             this.level8ToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
             // 
             // level9ToolStripMenuItem
             // 
             this.level9ToolStripMenuItem.Name = "level9ToolStripMenuItem";
-            this.level9ToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
-            this.level9ToolStripMenuItem.Text = "level9";
+            resources.ApplyResources(this.level9ToolStripMenuItem, "level9ToolStripMenuItem");
             this.level9ToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
             // 
             // insaneToolStripMenuItem
@@ -214,28 +198,24 @@ namespace SudokuSetterAndSolver
             this.level11ToolStripMenuItem,
             this.level12ToolStripMenuItem});
             this.insaneToolStripMenuItem.Name = "insaneToolStripMenuItem";
-            this.insaneToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
-            this.insaneToolStripMenuItem.Text = "Insane";
+            resources.ApplyResources(this.insaneToolStripMenuItem, "insaneToolStripMenuItem");
             // 
             // level10ToolStripMenuItem
             // 
             this.level10ToolStripMenuItem.Name = "level10ToolStripMenuItem";
-            this.level10ToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
-            this.level10ToolStripMenuItem.Text = "level10";
+            resources.ApplyResources(this.level10ToolStripMenuItem, "level10ToolStripMenuItem");
             this.level10ToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
             // 
             // level11ToolStripMenuItem
             // 
             this.level11ToolStripMenuItem.Name = "level11ToolStripMenuItem";
-            this.level11ToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
-            this.level11ToolStripMenuItem.Text = "level11";
+            resources.ApplyResources(this.level11ToolStripMenuItem, "level11ToolStripMenuItem");
             this.level11ToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
             // 
             // level12ToolStripMenuItem
             // 
             this.level12ToolStripMenuItem.Name = "level12ToolStripMenuItem";
-            this.level12ToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
-            this.level12ToolStripMenuItem.Text = "level12";
+            resources.ApplyResources(this.level12ToolStripMenuItem, "level12ToolStripMenuItem");
             this.level12ToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
             // 
             // uniqueToolStripMenuItem
@@ -245,43 +225,56 @@ namespace SudokuSetterAndSolver
             this.irregular2ToolStripMenuItem,
             this.smallGridToolStripMenuItem});
             this.uniqueToolStripMenuItem.Name = "uniqueToolStripMenuItem";
-            this.uniqueToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
-            this.uniqueToolStripMenuItem.Text = "Unique";
+            resources.ApplyResources(this.uniqueToolStripMenuItem, "uniqueToolStripMenuItem");
             // 
             // irregularToolStripMenuItem
             // 
             this.irregularToolStripMenuItem.Name = "irregularToolStripMenuItem";
-            this.irregularToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
-            this.irregularToolStripMenuItem.Text = "irregular";
+            resources.ApplyResources(this.irregularToolStripMenuItem, "irregularToolStripMenuItem");
             this.irregularToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
             // 
             // irregular2ToolStripMenuItem
             // 
             this.irregular2ToolStripMenuItem.Name = "irregular2ToolStripMenuItem";
-            this.irregular2ToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
-            this.irregular2ToolStripMenuItem.Text = "irregular2";
+            resources.ApplyResources(this.irregular2ToolStripMenuItem, "irregular2ToolStripMenuItem");
             this.irregular2ToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
             // 
             // smallGridToolStripMenuItem
             // 
             this.smallGridToolStripMenuItem.Name = "smallGridToolStripMenuItem";
-            this.smallGridToolStripMenuItem.Size = new System.Drawing.Size(327, 46);
-            this.smallGridToolStripMenuItem.Text = "smallgrid";
+            resources.ApplyResources(this.smallGridToolStripMenuItem, "smallGridToolStripMenuItem");
             this.smallGridToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
+            // 
+            // puzzleTimer
+            // 
+            this.puzzleTimer.Interval = 1000;
+            this.puzzleTimer.Tick += new System.EventHandler(this.puzzleTimer_Tick);
+            // 
+            // timerText
+            // 
+            this.timerText.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            resources.ApplyResources(this.timerText, "timerText");
+            this.timerText.Name = "timerText";
+            // 
+            // puzzlesInformationTb
+            // 
+            this.puzzlesInformationTb.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            resources.ApplyResources(this.puzzlesInformationTb, "puzzlesInformationTb");
+            this.puzzlesInformationTb.Name = "puzzlesInformationTb";
             // 
             // MainScreen
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(240F, 240F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.ClientSize = new System.Drawing.Size(1468, 1412);
+            this.Controls.Add(this.puzzlesInformationTb);
+            this.Controls.Add(this.timerText);
             this.Controls.Add(this.mainMenuStrip);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.mainMenuStrip;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "MainScreen";
-            this.Text = "Main Menu";
             this.mainMenuStrip.ResumeLayout(false);
             this.mainMenuStrip.PerformLayout();
             this.ResumeLayout(false);
@@ -298,7 +291,7 @@ namespace SudokuSetterAndSolver
             // 
             // submitPuzzleBtn
             // 
-            this.submitPuzzleBtn.Location = new System.Drawing.Point(225,210);
+            this.submitPuzzleBtn.Location = new System.Drawing.Point(225,230);
             this.submitPuzzleBtn.Name = "submitPuzzleBtn";
             this.submitPuzzleBtn.Size = new System.Drawing.Size(60, 35);
             this.submitPuzzleBtn.TabIndex = 87;
@@ -308,7 +301,7 @@ namespace SudokuSetterAndSolver
             // 
             // solveGeneratedPuzzleBtn
             // 
-            this.solveGeneratedPuzzleBtn.Location = new System.Drawing.Point(165, 210);
+            this.solveGeneratedPuzzleBtn.Location = new System.Drawing.Point(165, 230);
             this.solveGeneratedPuzzleBtn.Name = "solveGeneratedPuzzleBtn";
             this.solveGeneratedPuzzleBtn.Size = new System.Drawing.Size(60, 35);
             this.solveGeneratedPuzzleBtn.TabIndex = 88;
@@ -318,7 +311,7 @@ namespace SudokuSetterAndSolver
             // 
             // newPuzzleBtn
             // 
-            this.newPuzzleBtn.Location = new System.Drawing.Point(285, 210);
+            this.newPuzzleBtn.Location = new System.Drawing.Point(285, 230);
             this.newPuzzleBtn.Name = "newPuzzleBtn";
             this.newPuzzleBtn.Size = new System.Drawing.Size(60, 35);
             this.newPuzzleBtn.TabIndex = 89;
@@ -341,23 +334,11 @@ namespace SudokuSetterAndSolver
         {
             this.submitLevelPuzzleBtn = new System.Windows.Forms.Button();
             this.hintsBtn = new Button();
-            this.solvePuzzleInformationDisplay = new TextBox();
-
-            //
-            // solvePuzzleInformationDisplay
-            //
-            this.solvePuzzleInformationDisplay.Text = "This is test text";
-            this.solvePuzzleInformationDisplay.Size = new System.Drawing.Size(350, 35);
-            this.solvePuzzleInformationDisplay.Name = "solvePuzzleInformationDisplay";
-            this.solvePuzzleInformationDisplay.Location = new System.Drawing.Point(80, 30);
-            this.solvePuzzleInformationDisplay.Enabled = false;
-            this.solvePuzzleInformationDisplay.BorderStyle = BorderStyle.None;
-            this.solvePuzzleInformationDisplay.BackColor = System.Drawing.Color.LightGreen;
 
             // 
             // submitPuzzleBtn
             // 
-            this.submitLevelPuzzleBtn.Location = new System.Drawing.Point(194, 210);
+            this.submitLevelPuzzleBtn.Location = new System.Drawing.Point(194, 230);
             this.submitLevelPuzzleBtn.Name = "submitLevelPuzzleBtn";
             this.submitLevelPuzzleBtn.Size = new System.Drawing.Size(60, 35);
             this.submitLevelPuzzleBtn.TabIndex = 87;
@@ -368,7 +349,7 @@ namespace SudokuSetterAndSolver
             // 
             // hintsBtn
             // 
-            this.hintsBtn.Location = new System.Drawing.Point(254, 210);
+            this.hintsBtn.Location = new System.Drawing.Point(254, 230);
             this.hintsBtn.Name = "hintsBtn";
             this.hintsBtn.Size = new System.Drawing.Size(60, 35);
             this.hintsBtn.TabIndex = 87;
@@ -381,8 +362,6 @@ namespace SudokuSetterAndSolver
             this.Controls.SetChildIndex(this.submitLevelPuzzleBtn, 0);
             this.Controls.Add(this.hintsBtn);
             this.Controls.SetChildIndex(this.hintsBtn, 1);
-            this.Controls.Add(this.solvePuzzleInformationDisplay);
-            this.Controls.SetChildIndex(this.solvePuzzleInformationDisplay, 2);
         }
 
         private void CreateSolveButtons()
@@ -396,7 +375,7 @@ namespace SudokuSetterAndSolver
             // 
             // solveGeneratedPuzzleBtn
             // 
-            this.solveGeneratedPuzzleBtn.Location = new System.Drawing.Point(252, 210);
+            this.solveGeneratedPuzzleBtn.Location = new System.Drawing.Point(252, 230);
             this.solveGeneratedPuzzleBtn.Name = "solveGeneratedPuzzleBtn";
             this.solveGeneratedPuzzleBtn.Size = new System.Drawing.Size(60, 35);
             this.solveGeneratedPuzzleBtn.TabIndex = 88;
@@ -407,7 +386,7 @@ namespace SudokuSetterAndSolver
             // loadFileBtn
             // 
             this.loadFileBtn.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.loadFileBtn.Location = new System.Drawing.Point(312, 210);
+            this.loadFileBtn.Location = new System.Drawing.Point(312, 230);
             this.loadFileBtn.Name = "loadFileBtn";
             this.loadFileBtn.Size = new System.Drawing.Size(60, 35);
             this.loadFileBtn.TabIndex = 11;
@@ -423,7 +402,7 @@ namespace SudokuSetterAndSolver
             // difficultyDetermineBtn
             // 
             this.difficultyDetermineBtn.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.difficultyDetermineBtn.Location = new System.Drawing.Point(192, 210);
+            this.difficultyDetermineBtn.Location = new System.Drawing.Point(192, 230);
             this.difficultyDetermineBtn.Name = "difficultyDetermineBtn";
             this.difficultyDetermineBtn.Size = new System.Drawing.Size(60, 35);
             this.difficultyDetermineBtn.TabIndex = 12;
@@ -434,7 +413,7 @@ namespace SudokuSetterAndSolver
             // validatePuzzleBtn
             // 
             this.validatePuzzleBtn.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.validatePuzzleBtn.Location = new System.Drawing.Point(132, 210);
+            this.validatePuzzleBtn.Location = new System.Drawing.Point(132, 230);
             this.validatePuzzleBtn.Name = "validatePuzzleBtn";
             this.validatePuzzleBtn.Size = new System.Drawing.Size(60, 35);
             this.validatePuzzleBtn.TabIndex = 13;
@@ -469,9 +448,6 @@ namespace SudokuSetterAndSolver
         private Button difficultyDetermineBtn;
         private Button validatePuzzleBtn;
         private Button hintsBtn;
-        private TextBox randomPuzzleInformationDisplay;
-        private TextBox levelPuzzleInformationDisplay;
-        private TextBox solvePuzzleInformationDisplay;
         private ToolStripMenuItem easyToolStripMenuItem;
         private ToolStripMenuItem level1ToolStripMenuItem;
         private ToolStripMenuItem level2ToolStripMenuItem;
@@ -492,6 +468,9 @@ namespace SudokuSetterAndSolver
         private ToolStripMenuItem irregularToolStripMenuItem;
         private ToolStripMenuItem irregular2ToolStripMenuItem;
         private ToolStripMenuItem smallGridToolStripMenuItem;
+        private Timer puzzleTimer;
+        private TextBox timerText;
+        private TextBox puzzlesInformationTb;
     }
 
 

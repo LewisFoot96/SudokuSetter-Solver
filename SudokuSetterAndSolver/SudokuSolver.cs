@@ -61,6 +61,7 @@ namespace SudokuSetterAndSolver
         int doublesCount = 0;
         int triplesCount = 0;
 
+        bool backtrackingBool = false;
         //Get all the cells with the corrrect row , column and block number, this will then allow easier handling.
         public puzzle currentPuzzleToBeSolved = new puzzle();
         //THis will be the cell that is currently being handled by the solver. 
@@ -86,8 +87,9 @@ namespace SudokuSetterAndSolver
 
         public bool SolveSudokuRuleBasedXML()
         {
+            backtrackingBool = false;
             humanSolvingDifficulty = 0;
-            singlesCount++;
+            
             //Contains the list of candiates in each cell from simple analysis, not including human solvint methods procesing. 
             List<List<int>> tempCandiateList = new List<List<int>>();
             tempCandiateList.Clear();
@@ -142,6 +144,7 @@ namespace SudokuSetterAndSolver
                 CompareCandidateLists(tempCandiateList); //comparing the candidate list and the temp, to get the current values.
             }
 
+            bool nakedBool = false;
             for (int indexOfCandidateValue = 0; indexOfCandidateValue <= candidatesList.Count - 1; indexOfCandidateValue++)
             {
                 if (candidatesList[indexOfCandidateValue] != null)
@@ -149,6 +152,7 @@ namespace SudokuSetterAndSolver
                     if (candidatesList[indexOfCandidateValue].Count == 1) //Naked singles 
                     {
                         nakedSinglesCount++;
+                        nakedBool = true;
                         foreach (int nakedValue in candidatesList[indexOfCandidateValue]) //Insert naked single. 
                         {
                             currentPuzzleToBeSolved.puzzlecells[indexOfCandidateValue].value = nakedValue;
@@ -156,6 +160,10 @@ namespace SudokuSetterAndSolver
                         }
                     }
                 }
+            }
+            if(nakedBool)
+            {
+                singlesCount++;
             }
             methodRunNumber++;
 
@@ -191,6 +199,7 @@ namespace SudokuSetterAndSolver
             humanSolvingDifficulty = 3;
             //MessageBox.Show("Human Solving Methods Completed! Puzzle not completed. Diffiuclty: Very Hard. Backtracking will begin.");
 
+            backtrackingBool = true; 
             solvedBacktracking = BacktrackingUsingXmlTemplateFile(false);
             return solvedBacktracking;
         }
@@ -250,16 +259,19 @@ namespace SudokuSetterAndSolver
             hiddenRowBool = HiddenRowSingles();
             if (hiddenRowBool == true)
             {
+                singlesCount++;
                 SolveSudokuRuleBasedXML();
             }
             hiddenColumnBool = HiddenColumnSingles();
             if (hiddenColumnBool == true)
             {
+                singlesCount++;
                 SolveSudokuRuleBasedXML();
             }
             hiddenBlockBool = HiddenBlockSingles();
             if (hiddenBlockBool == true)
             {
+                singlesCount++;
                 SolveSudokuRuleBasedXML();
             }
         }
@@ -1591,13 +1603,19 @@ namespace SudokuSetterAndSolver
             Console.WriteLine(tempStopWatch.Elapsed.TotalMilliseconds);
             Console.WriteLine(numberOfStaticNumbers);
             Console.WriteLine(totalNumberOfCandidates);
-            Console.WriteLine(humanSolvingDifficulty);
-            Console.WriteLine(singlesCount + doublesCount + triplesCount);
+            
+            Console.WriteLine("" +singlesCount +" " + doublesCount + " "+triplesCount);
 
             executionTimeDifficulty = EvaluateExecutionTime(tempStopWatch.Elapsed.TotalSeconds);
             tempStopWatch.Stop();
             totalNumberOfCandidatesDifficulty = EvaluateTotalNumberOfCandidatesDifficulty(totalNumberOfCandidates);
             numberOfStaticNumberDifficulty = EvaluateNumberOfStaticNumbers(numberOfStaticNumbers);
+            humanSolvingDifficulty = CalculateHumanDifficultyValue();
+            Console.WriteLine(humanSolvingDifficulty);
+            if(backtrackingBool)
+            {
+                Console.WriteLine("Backtracking used.");
+            }
             FinalDifficulty();
 
             humanSolvingDifficulty = 0;
@@ -1606,6 +1624,9 @@ namespace SudokuSetterAndSolver
             numberOfStaticNumberDifficulty = 0;
             numberOfStaticNumbers = 0;
             methodRunNumber = 0;
+            singlesCount = 0;
+            doublesCount = 0;
+            triplesCount = 0;
         }
 
         /// <summary>
@@ -1615,15 +1636,15 @@ namespace SudokuSetterAndSolver
         private int EvaluateExecutionTime(double time)
         {
             //Change to return int, to get the time if the solving time. 
-            if (time <= 0.025)
+            if (time <= 0.02)
             {
                 return 0;
             }
-            else if (time > 0.025 && time <= 0.044)
+            else if (time > 0.02 && time <= 0.04)
             {
                 return 1;
             }
-            else if (time > 0.44 && time <= 0.067)
+            else if (time > 0.4 && time <= 0.06)
             {
                 return 2;
             }
@@ -1673,12 +1694,17 @@ namespace SudokuSetterAndSolver
             }
         }
 
-        private void CalculateHumanDifficultyValue()
+        private int CalculateHumanDifficultyValue()
         {
-            int totaloccurences = singlesCount + doublesCount + triplesCount;
-            int totalValue = (singlesCount * 1) + (doublesCount * 3) + (triplesCount * 9);
-
-            int difficulty = totalValue / totaloccurences;
+            //Getting the human difficulty from the number of occurrences of singles, doubles and triples. 
+            decimal totaloccurences = singlesCount + doublesCount + triplesCount;
+            decimal totalValue = (singlesCount * 1) + (doublesCount * 9) + (triplesCount * 27);
+            decimal tempDifficulty = totalValue / totaloccurences;
+            decimal roundedValue = Math.Round(tempDifficulty, 0);
+            //Converting to int
+            int difficultyResult = Convert.ToInt32(roundedValue);
+            //Retunring the result in terms of the difficlity metrics. 
+            return difficultyResult -1;
         }
 
         private void FinalDifficulty()

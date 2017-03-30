@@ -7,6 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -24,16 +25,25 @@ namespace SudokuSetterAndSolver
         public static int _puzzleSelectionSolve;
         protected List<TextBox> listOfTextBoxes = new List<TextBox>();
         protected SudokuPuzzleGenerator sudokuPuzzleGenerator = new SudokuPuzzleGenerator(9);
-        protected List<int> sudokuSolutionArray = new List<int>();
         protected int errorSubmitCount = 0;
         private static int puzzleSelectionType;
         private StatisticsManager statsManager;
+
+        int currentTime = 0;
+
+        //Level Variables 
         int currentLevel;
         int levelCount;
+        int levelSelected;
+
+        //Current details of the puzzle. 
         string puzzleCurrentDetails;
+
+        //Scores
         int startScore = 0;
         int currentScore = 0; 
         #endregion 
+
         #region Constructor 
         public MainScreen()
         {
@@ -123,7 +133,7 @@ namespace SudokuSetterAndSolver
         {
             StatisticsManager.ReadFromStatisticsFile();
             //Setting up the score and the difficulty of the current puzzle the user is solving. 
-            solvePuzzleInformationDisplay.Text = "Puzzle Difficulty= " +loadedPuzzle.difficulty + " Error count= " +errorSubmitCount + " Score= " +currentScore + 
+            puzzlesInformationTb.Text = "Puzzle Difficulty= " +loadedPuzzle.difficulty + " Error count= " +errorSubmitCount + " Score= " +currentScore + 
                 " Hints: "+ StatisticsManager.currentStats.hintNumber;
         }
 
@@ -141,17 +151,24 @@ namespace SudokuSetterAndSolver
         }
 
         private void LevelsSelectClick(object sender, EventArgs e)
-        {        
+        {
+            //Resetting the solving time. 
+            currentTime = 0;
             ClearScreen();
             CreateLevelPuzzleButtons();
             var menuOption = (ToolStripMenuItem)sender;
-            //This is where i will need to load the puzzle. 
             loadedPuzzle = new puzzle();
             puzzleManager = new PuzzleManager();
             loadedPuzzle.gridsize = 9;
             //Getting directory location of the loaded puzzle. 
             fileDirctoryLocation = Path.GetFullPath(@"..\..\") + @"\Puzzles\LevelsPuzzles";
             fileDirctoryLocation += @"\" + menuOption.Text + ".xml";
+
+            //Get the level selected. 
+            string levelString = Regex.Match(menuOption.Text, @"\d+").Value;
+            levelSelected = Int32.Parse(levelString);
+            
+            //Loading the puzzle from storage. 
             LoadPuzzleFile();       
 
             switch (loadedPuzzle.difficulty.ToLower())
@@ -173,6 +190,11 @@ namespace SudokuSetterAndSolver
                     break;
             }
             SetInformationText();
+            //Resetting time and making the timer text box visible. 
+            puzzleTimer.Stop();
+            puzzleTimer.Start();
+            timerText.Visible = true;
+            puzzlesInformationTb.Visible = true;
         }
 
         /// <summary>
@@ -345,15 +367,22 @@ namespace SudokuSetterAndSolver
         /// <param name="e"></param>
         private void submitLevelPuzzleBtn_Click(object sender, EventArgs e)
         {
-            
+            //Updating the puzzle object with the values within the textboxes on the puzzle.           
             UpdatePuzzle();
             //Check puzzle enetered by the user against the pre set solution. 
             bool correctPuzzle = CheckPuzzleSolution();
             if (correctPuzzle == true)
             {
-                MessageBox.Show("Puzzle Completed! Well Done! Error count: " + errorSubmitCount);
+                //Stoping the puzzle timer. 
+                puzzleTimer.Stop();
+                MessageBox.Show("Puzzle Completed! Well Done! Error count: " + errorSubmitCount +" Level:"+(currentLevel+1)+" completed");
 
-                //Need to then handle Setting the current level the user is on. 
+                //If the user completes the level that is last on their list, unlock the next one. 
+                if(currentLevel == levelSelected)
+                {
+                    StatisticsManager.currentStats.levelcompleted = currentLevel++;
+                    StatisticsManager.WriteToStatisticsFile();
+                }
 
             }
             else
@@ -379,6 +408,7 @@ namespace SudokuSetterAndSolver
                 RevealValueFromHint();
                 StatisticsManager.currentStats.hintNumber = hintNumber - 1;
                 StatisticsManager.WriteToStatisticsFile();
+                LevelsUpdate();
             }
             else
             {
@@ -415,7 +445,6 @@ namespace SudokuSetterAndSolver
                     }
                 }
             }
-
         }
 
         #endregion
@@ -481,6 +510,29 @@ namespace SudokuSetterAndSolver
                 e.Handled = false;
             else
                 e.Handled = true;
+        }
+
+        #endregion
+
+        #region Timer
+
+        /// <summary>
+        /// Method that handles the timer on the screen. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void puzzleTimer_Tick(object sender, EventArgs e)
+        {
+            //http://stackoverflow.com/questions/463642/what-is-the-best-way-to-convert-seconds-into-hourminutessecondsmilliseconds
+            currentTime++;
+            //Every mintute decrese the score 
+            if (currentTime % 60 == 0)
+            {
+                currentScore -= 1;
+            }
+            TimeSpan time = TimeSpan.FromSeconds(currentTime);
+            timerText.Text = time.ToString(@"hh\:mm\:ss");
+            SetInformationText();
         }
 
         #endregion
@@ -661,7 +713,7 @@ namespace SudokuSetterAndSolver
             Stopwatch tempStopWatch = new Stopwatch();
             tempStopWatch.Reset();
             tempStopWatch.Start();
-            bool puzzleSolved = sudokuSolver.SolveSudokuRuleBasedXML();
+            bool puzzleSolved = sudokuSolver.BacktrackingUsingXmlTemplateFile(false);
             Console.WriteLine(tempStopWatch.Elapsed.TotalSeconds);
             Console.WriteLine(tempStopWatch.Elapsed.TotalMilliseconds);
             tempStopWatch.Stop();
@@ -1087,7 +1139,7 @@ namespace SudokuSetterAndSolver
                 if (indexNumber == 0)
                 {
                     rowLocation = rowLocation + 83;
-                    columnLocation = columnLocation + 50;
+                    columnLocation = columnLocation + 65;
                     txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
                 }
                 else if (indexNumber == 8 || indexNumber % 9 == 8)
@@ -1108,8 +1160,8 @@ namespace SudokuSetterAndSolver
 
             SudokuSolver sudokuSolver = new SudokuSolver();
             sudokuSolver.currentPuzzleToBeSolved = loadedPuzzle;
-            sudokuSolver.EvaluatePuzzleDifficulty();
-            string difficulty = sudokuSolver.difficluty;
+            //sudokuSolver.EvaluatePuzzleDifficulty();
+            //string difficulty = sudokuSolver.difficluty;
             //MessageBox.Show(difficulty);
         }
         /// <summary>
@@ -1225,7 +1277,7 @@ namespace SudokuSetterAndSolver
                 if (indexNumber == 0)
                 {
                     rowLocation = rowLocation + 163;
-                    columnLocation = columnLocation + 50;
+                    columnLocation = columnLocation + 65;
                     txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
                 }
                 else if (indexNumber == 3 || indexNumber % 4 == 3)

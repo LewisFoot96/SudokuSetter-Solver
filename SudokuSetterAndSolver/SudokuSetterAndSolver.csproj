@@ -142,6 +142,7 @@
     <Compile Include="TemplateScreen.Designer.cs">
       <DependentUpon>TemplateScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="TipTemplate.cs" />
     <EmbeddedResource Include="ConvertTextFileToXMLFile.resx">
       <DependentUpon>ConvertTextFileToXMLFile.cs</DependentUpon>
     </EmbeddedResource>
@@ -367,12 +368,6 @@
     <Content Include="Puzzles\TestPuzzles\Medium\TestMedium8.xml" />
     <Content Include="Puzzles\TestPuzzles\Medium\TestMedium9.xml" />
     <Content Include="Statistics.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SudokuSetterSolverTestingProject\SudokuSetterSolverTestingProject.csproj">
-      <Project>{d03811e0-6eff-4aaf-bcad-422d285ad608}</Project>
-      <Name>SudokuSetterSolverTestingProject</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
