@@ -60,6 +60,7 @@ namespace SudokuSetterAndSolver
         int singlesCount = 0;
         int doublesCount = 0;
         int triplesCount = 0;
+        int hiddenCount = 0;
 
         bool backtrackingBool = false;
         //Get all the cells with the corrrect row , column and block number, this will then allow easier handling.
@@ -89,7 +90,7 @@ namespace SudokuSetterAndSolver
         {
             backtrackingBool = false;
             humanSolvingDifficulty = 0;
-            
+
             //Contains the list of candiates in each cell from simple analysis, not including human solvint methods procesing. 
             List<List<int>> tempCandiateList = new List<List<int>>();
             tempCandiateList.Clear();
@@ -161,7 +162,7 @@ namespace SudokuSetterAndSolver
                     }
                 }
             }
-            if(nakedBool)
+            if (nakedBool)
             {
                 singlesCount++;
             }
@@ -199,7 +200,7 @@ namespace SudokuSetterAndSolver
             humanSolvingDifficulty = 3;
             //MessageBox.Show("Human Solving Methods Completed! Puzzle not completed. Diffiuclty: Very Hard. Backtracking will begin.");
 
-            backtrackingBool = true; 
+            backtrackingBool = true;
             solvedBacktracking = BacktrackingUsingXmlTemplateFile(false);
             return solvedBacktracking;
         }
@@ -240,7 +241,7 @@ namespace SudokuSetterAndSolver
             HiddenDoubles();
             difficluty = "hard";
             NakedTriples();
-            
+
             //Naked Triples 
             //HIdden Triples 
         }
@@ -259,19 +260,19 @@ namespace SudokuSetterAndSolver
             hiddenRowBool = HiddenRowSingles();
             if (hiddenRowBool == true)
             {
-                singlesCount++;
+                hiddenCount++;
                 SolveSudokuRuleBasedXML();
             }
             hiddenColumnBool = HiddenColumnSingles();
             if (hiddenColumnBool == true)
             {
-                singlesCount++;
+                hiddenCount++;
                 SolveSudokuRuleBasedXML();
             }
             hiddenBlockBool = HiddenBlockSingles();
             if (hiddenBlockBool == true)
             {
-                singlesCount++;
+                hiddenCount++;
                 SolveSudokuRuleBasedXML();
             }
         }
@@ -1188,7 +1189,7 @@ namespace SudokuSetterAndSolver
                                             if (regionTitle == "row")
                                             {
                                                 nakedTripleCount++;
-                                                candidatesList[rowNumber *9 + notNullIndexValuesCellsInRow[candidatesIndexValues]] = cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]];
+                                                candidatesList[rowNumber * 9 + notNullIndexValuesCellsInRow[candidatesIndexValues]] = cadidatesInSingleRow[notNullIndexValuesCellsInRow[candidatesIndexValues]];
                                             }
                                             else if (regionTitle == "column")
                                             {
@@ -1477,6 +1478,186 @@ namespace SudokuSetterAndSolver
         }
         #endregion
 
+        #region Neighbourhood Operator
+
+        public void NeighBourHoodOperatoralgorithm()
+        {
+            List<int> cellIndexes = new List<int>();
+            //Entering the numbers, ensuring the block constraint is met. 
+            for (int cellNumber = 0; cellNumber <= currentPuzzleToBeSolved.puzzlecells.Count - 1; cellNumber++)
+            {
+                if (currentPuzzleToBeSolved.puzzlecells[cellNumber].value == 0)
+                {
+                    puzzleCellCurrentlyBeingHandled = currentPuzzleToBeSolved.puzzlecells[cellNumber];
+                    GetValuesForBlockXmlPuzzleTemplate();
+                    currentPuzzleToBeSolved.puzzlecells[cellNumber].value = validNumbersInBlock[0];
+                    cellIndexes.Add(cellNumber);
+                }
+            }
+            for(int print =0;print<=currentPuzzleToBeSolved.puzzlecells.Count-1;print++)
+            {
+                Console.Write(currentPuzzleToBeSolved.puzzlecells[print].value);
+            }
+            Random randomBlockNumber = new Random();
+            int numberOfErros = GetPuzzleErrors(); 
+
+            while (numberOfErros != 0)
+            {
+                int tempNumberOfErrors = numberOfErros;
+                //Apply operator 
+                
+                List<int> blockValues = new List<int>();
+
+                while (blockValues.Count <= 1)
+                {
+                    int blockNumber = randomBlockNumber.Next(0, 8);
+                    for (int nonStaticCellNumber = 0; nonStaticCellNumber <= cellIndexes.Count - 1; nonStaticCellNumber++)
+                    {
+                        if (currentPuzzleToBeSolved.puzzlecells[cellIndexes[ nonStaticCellNumber]].blocknumber == blockNumber)
+                        {
+                            blockValues.Add(nonStaticCellNumber);
+                        }
+                    }
+                }
+
+                //Making sure they are different values 
+                int firstRandom = randomNumberGenerator.Next(0, blockValues.Count);
+                int secondRandom = randomNumberGenerator.Next(0, blockValues.Count);
+                while (firstRandom == secondRandom)
+                {
+                    firstRandom = randomNumberGenerator.Next(0, blockValues.Count);
+                    secondRandom = randomNumberGenerator.Next(0, blockValues.Count);
+                }
+                //Swap values
+                int firstValue = currentPuzzleToBeSolved.puzzlecells[blockValues[firstRandom]].value;
+                int secondValue = currentPuzzleToBeSolved.puzzlecells[blockValues[secondRandom]].value;
+                currentPuzzleToBeSolved.puzzlecells[blockValues[firstRandom]].value = secondValue;
+                currentPuzzleToBeSolved.puzzlecells[blockValues[secondRandom]].value = firstValue;
+
+               //Re-assessing the errors count and then commiting change if correct. 
+                numberOfErros = GetPuzzleErrors();
+
+                if(numberOfErros >tempNumberOfErrors)
+                {
+                    numberOfErros = tempNumberOfErrors;
+                    //Undo change and do next neighbourhood operator
+                    currentPuzzleToBeSolved.puzzlecells[blockValues[firstRandom]].value = firstValue;
+                    currentPuzzleToBeSolved.puzzlecells[blockValues[secondRandom]].value = secondValue;
+                }
+                else if(numberOfErros < tempNumberOfErrors)
+                {
+                    Console.WriteLine("Better");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Method to get the erros count of the current puzzle. 
+        /// </summary>
+        /// <returns></returns>
+        private int GetPuzzleErrors()
+        {
+            int errorCount = 0;
+            errorCount += GetRowErrors();
+            errorCount += GetColumnErrors();
+            return errorCount;
+        }
+
+        private int GetRowErrors()
+        {
+            int errorCount = 0;
+            //Puzzle is now filled with values but there may be errors. 
+            for (int tempRowNumber = 0; tempRowNumber <= currentPuzzleToBeSolved.gridsize - 1; tempRowNumber++)
+            {
+                List<int> rowNumberValues = new List<int>();
+                for (int getColumnNumber = 0; getColumnNumber <= currentPuzzleToBeSolved.puzzlecells.Count - 1; getColumnNumber++)
+                {
+                    //Adding all the values in the column. 
+                    if (currentPuzzleToBeSolved.puzzlecells[getColumnNumber].rownumber == tempRowNumber)
+                    {
+                        rowNumberValues.Add(currentPuzzleToBeSolved.puzzlecells[getColumnNumber].value);
+                    }
+                }
+
+                //Lookin for the errors within the row
+                List<int> rowCount = new List<int>();
+                //Getting the occurences of each 
+                for (int value = 1; value <= currentPuzzleToBeSolved.gridsize; value++)
+                {
+                    int numberCountForValue = 0;
+                    for (int rowListValueTemp = 0; rowListValueTemp <= rowNumberValues.Count - 1; rowListValueTemp++)
+                    {
+                        if (value == rowNumberValues[rowListValueTemp])
+                        {
+                            numberCountForValue++;
+                        }
+                    }
+                    rowCount.Add(numberCountForValue);
+                }
+                int correctOccurence = 0;
+                //If the number count if more than 1, add an error. 
+                for (int rowErrorCountValue = 0; rowErrorCountValue <= rowCount.Count - 1; rowErrorCountValue++)
+                {
+                    if (rowCount[rowErrorCountValue] == 1)
+                    {
+                        correctOccurence++;
+                    }
+                }
+                //Setting then number of errors for that row. 
+                errorCount += (currentPuzzleToBeSolved.gridsize - correctOccurence);
+
+            }
+            return errorCount;
+        }
+
+        private int GetColumnErrors()
+        {
+            int errorCount = 0;
+            //Puzzle is now filled with values but there may be errors. 
+            for (int tempColumnNumber = 0; tempColumnNumber <= currentPuzzleToBeSolved.gridsize - 1; tempColumnNumber++)
+            {
+                List<int> columnNumberValues = new List<int>();
+                for (int getRowNumber = 0; getRowNumber <= currentPuzzleToBeSolved.puzzlecells.Count - 1; getRowNumber++)
+                {
+                    //Adding all the values in the column. 
+                   if(currentPuzzleToBeSolved.puzzlecells[getRowNumber].columnnumber == tempColumnNumber)
+                    {
+                        columnNumberValues.Add(currentPuzzleToBeSolved.puzzlecells[getRowNumber].value);
+                    }
+                }
+
+                //Lookin for the errors within the row
+                List<int>columnCount = new List<int>();
+                //Getting the occurences of each 
+                for (int value = 1; value <= currentPuzzleToBeSolved.gridsize; value++)
+                {
+                    int numberCountForValue = 0;
+                    for (int rowListValueTemp = 0; rowListValueTemp <= columnNumberValues.Count - 1; rowListValueTemp++)
+                    {
+                        if (value == columnNumberValues[rowListValueTemp])
+                        {
+                            numberCountForValue++;
+                        }
+                    }
+                    columnCount.Add(numberCountForValue);
+                }
+                int correctOccurence = 0;
+                //If the number count if more than 1, add an error. 
+                for (int rowErrorCountValue = 0; rowErrorCountValue <= columnCount.Count - 1; rowErrorCountValue++)
+                {
+                    if (columnCount[rowErrorCountValue] == 1)
+                    {
+                        correctOccurence++;
+                    }
+                }
+                //Setting then number of errors for that row. 
+                errorCount += (currentPuzzleToBeSolved.gridsize - correctOccurence);
+
+            }
+            return errorCount;
+        }
+
+        #endregion
         #region Methods for checking rows columns and blocks using the XML generated class
 
         //Methods for getting the values using the xml file. 
@@ -1588,11 +1769,11 @@ namespace SudokuSetterAndSolver
 
         public void EvaluatePuzzleDifficulty()
         {
-            if(backtrackingNodesCount >0)
+            if (backtrackingNodesCount > 0)
             {
 
             }
-           
+
             difficluty = "";
             //Includes human model, also get the string from the Human model. 
             Stopwatch tempStopWatch = new Stopwatch();
@@ -1603,8 +1784,8 @@ namespace SudokuSetterAndSolver
             Console.WriteLine(tempStopWatch.Elapsed.TotalMilliseconds);
             Console.WriteLine(numberOfStaticNumbers);
             Console.WriteLine(totalNumberOfCandidates);
-            
-            Console.WriteLine("" +singlesCount +" " + doublesCount + " "+triplesCount);
+
+            Console.WriteLine("" + singlesCount + " " + hiddenCount + " " + doublesCount + " " + triplesCount);
 
             executionTimeDifficulty = EvaluateExecutionTime(tempStopWatch.Elapsed.TotalSeconds);
             tempStopWatch.Stop();
@@ -1612,7 +1793,7 @@ namespace SudokuSetterAndSolver
             numberOfStaticNumberDifficulty = EvaluateNumberOfStaticNumbers(numberOfStaticNumbers);
             humanSolvingDifficulty = CalculateHumanDifficultyValue();
             Console.WriteLine(humanSolvingDifficulty);
-            if(backtrackingBool)
+            if (backtrackingBool)
             {
                 Console.WriteLine("Backtracking used.");
             }
@@ -1625,6 +1806,7 @@ namespace SudokuSetterAndSolver
             numberOfStaticNumbers = 0;
             methodRunNumber = 0;
             singlesCount = 0;
+            hiddenCount = 0;
             doublesCount = 0;
             triplesCount = 0;
         }
@@ -1704,7 +1886,7 @@ namespace SudokuSetterAndSolver
             //Converting to int
             int difficultyResult = Convert.ToInt32(roundedValue);
             //Retunring the result in terms of the difficlity metrics. 
-            return difficultyResult -1;
+            return difficultyResult - 1;
         }
 
         private void FinalDifficulty()

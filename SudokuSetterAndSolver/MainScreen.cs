@@ -66,13 +66,47 @@ namespace SudokuSetterAndSolver
 
         private void newPuzzleToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //Clearing the screen and displaying the puzzle selection pop up. 
             ClearScreen();
             PopUpRandomPuzzleSelection randomPuzzlePopUp = new PopUpRandomPuzzleSelection();
             randomPuzzlePopUp.ShowDialog();
             //Load buttons         
             CreateRandomPuzzleButtons();
+            //Setting screen title 
+            this.Text = "Random Puzzle";
             //Create blank puzzle 
-            LoadPuzzleSelection();  
+            LoadPuzzleSelection();
+            StartTimerAndAddInfo();
+            SetStartingScore();
+        }
+
+        private void LevelsSelectClick(object sender, EventArgs e)
+        {
+            //Resetting the solving time. 
+            currentTime = 0;
+            ClearScreen();
+            CreateLevelPuzzleButtons();
+            var menuOption = (ToolStripMenuItem)sender;
+            loadedPuzzle = new puzzle();
+            puzzleManager = new PuzzleManager();
+            loadedPuzzle.gridsize = 9;
+            //Getting directory location of the loaded puzzle. 
+            fileDirctoryLocation = Path.GetFullPath(@"..\..\") + @"\Puzzles\LevelsPuzzles";
+            fileDirctoryLocation += @"\" + menuOption.Text + ".xml";
+
+            //Get the level selected. 
+            string levelString = Regex.Match(menuOption.Text, @"\d+").Value;
+            levelSelected = Int32.Parse(levelString);
+
+            //Loading the puzzle from storage. 
+            LoadPuzzleFile();
+
+            //Setting starting score for game
+            SetStartingScore();
+           
+            //Diplay set up
+            this.Text = "Level:" + levelSelected.ToString();
+            StartTimerAndAddInfo();
         }
 
         private void solvePuzzleToolStripMenuItem_Click(object sender, EventArgs e)
@@ -133,8 +167,27 @@ namespace SudokuSetterAndSolver
         {
             StatisticsManager.ReadFromStatisticsFile();
             //Setting up the score and the difficulty of the current puzzle the user is solving. 
-            puzzlesInformationTb.Text = "Puzzle Difficulty= " +loadedPuzzle.difficulty + " Error count= " +errorSubmitCount + " Score= " +currentScore + 
+            puzzlesInformationTb.Text = "Difficulty= " +loadedPuzzle.difficulty + " Error count= " +errorSubmitCount + " Score= " +currentScore + 
                 " Hints: "+ StatisticsManager.currentStats.hintNumber;
+        }
+
+        private void StartTimerAndAddInfo()
+        {
+            SetInformationText();
+            //Resetting time and making the timer text box visible. 
+            puzzleTimer.Stop();
+            puzzleTimer.Start();
+            timerText.Visible = true;
+            puzzlesInformationTb.Visible = true;
+        }
+
+        private void SetSolvingDetailsToTextBox()
+        {
+            puzzlesInformationTb.Visible = true;
+            //Setting up the score and the difficulty of the current puzzle the user is solving. 
+            puzzlesInformationTb.Text = "Difficulty= " + loadedPuzzle.difficulty + " Solving Time= " 
+                + errorSubmitCount + " Mutilpe Solutions " + currentScore;
+
         }
 
         #endregion 
@@ -150,52 +203,7 @@ namespace SudokuSetterAndSolver
             currentLevel = StatisticsManager.currentStats.levelcompleted;
         }
 
-        private void LevelsSelectClick(object sender, EventArgs e)
-        {
-            //Resetting the solving time. 
-            currentTime = 0;
-            ClearScreen();
-            CreateLevelPuzzleButtons();
-            var menuOption = (ToolStripMenuItem)sender;
-            loadedPuzzle = new puzzle();
-            puzzleManager = new PuzzleManager();
-            loadedPuzzle.gridsize = 9;
-            //Getting directory location of the loaded puzzle. 
-            fileDirctoryLocation = Path.GetFullPath(@"..\..\") + @"\Puzzles\LevelsPuzzles";
-            fileDirctoryLocation += @"\" + menuOption.Text + ".xml";
-
-            //Get the level selected. 
-            string levelString = Regex.Match(menuOption.Text, @"\d+").Value;
-            levelSelected = Int32.Parse(levelString);
-            
-            //Loading the puzzle from storage. 
-            LoadPuzzleFile();       
-
-            switch (loadedPuzzle.difficulty.ToLower())
-            {
-                case "easy":
-                    currentScore = 20;
-                    break;
-                case "medium":
-                    currentScore = 30;
-                    break;
-                case "hard":
-                    currentScore = 40;
-                    break;
-                case "insane":
-                    currentScore = 50;
-                    break;
-                default:
-                    currentScore = 20;
-                    break;
-            }
-            SetInformationText();
-            //Resetting time and making the timer text box visible. 
-            puzzleTimer.Stop();
-            puzzleTimer.Start();
-            timerText.Visible = true;
-            puzzlesInformationTb.Visible = true;
-        }
+       
 
         /// <summary>
         /// Metthod to disable levels user cannot acces. 
@@ -315,8 +323,7 @@ namespace SudokuSetterAndSolver
             sudokuSolver.currentPuzzleToBeSolved = loadedPuzzle;
 
             sudokuSolver.EvaluatePuzzleDifficulty();
-            bool puzzleSolved = sudokuSolver.BacktrackingUsingXmlTemplateFile(false);
-            loadedPuzzle = sudokuSolver.currentPuzzleToBeSolved;
+            loadedPuzzle.difficulty = sudokuSolver.difficluty;
 
             for (int cellNumberCount = 0; cellNumberCount <= loadedPuzzle.puzzlecells.Count - 1; cellNumberCount++)
             {
@@ -329,7 +336,7 @@ namespace SudokuSetterAndSolver
                     }
                 }
             }
-            MessageBox.Show(sudokuSolver.difficluty);
+            SetSolvingDetailsToTextBox();
         }
 
         /// <summary>
@@ -537,6 +544,33 @@ namespace SudokuSetterAndSolver
 
         #endregion
 
+        #region Scores Methods 
+
+        private void SetStartingScore()
+        {
+            currentScore = 0;
+            switch (loadedPuzzle.difficulty.ToLower())
+            {
+                case "easy":
+                    currentScore = 20;
+                    break;
+                case "medium":
+                    currentScore = 30;
+                    break;
+                case "hard":
+                    currentScore = 40;
+                    break;
+                case "insane":
+                    currentScore = 50;
+                    break;
+                default:
+                    currentScore = 20;
+                    break;
+            }
+        }
+
+        #endregion
+
         #region Load Puzzle Methods
 
         protected void LoadPuzzleFile()
@@ -713,7 +747,8 @@ namespace SudokuSetterAndSolver
             Stopwatch tempStopWatch = new Stopwatch();
             tempStopWatch.Reset();
             tempStopWatch.Start();
-            bool puzzleSolved = sudokuSolver.BacktrackingUsingXmlTemplateFile(false);
+            bool puzzleSolved = false;
+            sudokuSolver.NeighBourHoodOperatoralgorithm();
             Console.WriteLine(tempStopWatch.Elapsed.TotalSeconds);
             Console.WriteLine(tempStopWatch.Elapsed.TotalMilliseconds);
             tempStopWatch.Stop();
@@ -1157,12 +1192,6 @@ namespace SudokuSetterAndSolver
 
 
             }
-
-            SudokuSolver sudokuSolver = new SudokuSolver();
-            sudokuSolver.currentPuzzleToBeSolved = loadedPuzzle;
-            //sudokuSolver.EvaluatePuzzleDifficulty();
-            //string difficulty = sudokuSolver.difficluty;
-            //MessageBox.Show(difficulty);
         }
         /// <summary>
         /// Method to generate random large puzzle. 
