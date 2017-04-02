@@ -748,7 +748,7 @@ namespace SudokuSetterAndSolver
             tempStopWatch.Reset();
             tempStopWatch.Start();
             bool puzzleSolved = false;
-            sudokuSolver.NeighBourHoodOperatoralgorithm();
+             puzzleSolved = sudokuSolver.BacktrackingUsingXmlTemplateFile(false);
             Console.WriteLine(tempStopWatch.Elapsed.TotalSeconds);
             Console.WriteLine(tempStopWatch.Elapsed.TotalMilliseconds);
             tempStopWatch.Stop();
