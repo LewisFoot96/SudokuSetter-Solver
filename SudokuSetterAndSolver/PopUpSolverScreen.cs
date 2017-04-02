@@ -12,32 +12,21 @@ namespace SudokuSetterAndSolver
 {
     public partial class PopUpSolverScreen : Form
     {
-        private bool _currentPage = false;
+        public static bool isPuzzleSelected = false;
         public PopUpSolverScreen()
         {
-            _currentPage = false;
+            isPuzzleSelected = false;
             InitializeComponent();
         }
 
-        public PopUpSolverScreen(bool currentPage)
-        {
-            _currentPage = currentPage;
-            InitializeComponent();
-
-        }
 
         private void confirmSolverSelectionBtn_Click(object sender, EventArgs e)
         {
             this.Close();
 
-            if (_currentPage == false)
-            {
-                MainScreen._puzzleSelectionSolve = solveSudokuSelectionCb.SelectedIndex;
-            }
-            else
-            {
-                MainScreen._puzzleSelectionSolve = solveSudokuSelectionCb.SelectedIndex;
-            }
+            isPuzzleSelected = true;
+
+            MainScreen._puzzleSelectionSolve = solveSudokuSelectionCb.SelectedIndex;
         }
     }
 }

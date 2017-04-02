@@ -59,7 +59,7 @@ namespace SudokuSetterAndSolver
             ClearGrid();
             listOfTextBoxes.Clear();
             loadedPuzzle.puzzlecells.Clear();
-            PopUpRandomPuzzleSelection popUpPuzzleSelection = new PopUpRandomPuzzleSelection(true);
+            PopUpRandomPuzzleSelection popUpPuzzleSelection = new PopUpRandomPuzzleSelection();
             popUpPuzzleSelection.ShowDialog();
             LoadPuzzleSelection();
         }

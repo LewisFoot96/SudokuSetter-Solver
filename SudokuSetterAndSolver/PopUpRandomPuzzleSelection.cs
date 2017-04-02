@@ -14,18 +14,13 @@ namespace SudokuSetterAndSolver
     {
         #region Field Variables 
         //If a puzzle has been selected. 
-        private bool _currentPage = false;
+        public static bool isPuzzleTypeSelected = false;
         #endregion
 
         #region Constructor 
         public PopUpRandomPuzzleSelection()
         {
-            _currentPage = false;
-            InitializeComponent();
-        }
-        public PopUpRandomPuzzleSelection(bool currentPage)
-        {
-            _currentPage = currentPage;
+            isPuzzleTypeSelected = false;
             InitializeComponent();
         }
         #endregion
@@ -38,17 +33,11 @@ namespace SudokuSetterAndSolver
         /// <param name="e"></param>
         private void confirmBtn_Click(object sender, EventArgs e)
         {
+            isPuzzleTypeSelected = true;
             //Dipslaying puzzle on application. 
             this.Close();
-            if (_currentPage == false)
-            {
-                MainScreen._puzzleSelection = puzzleTypeSelection.SelectedIndex; 
-            }
-            else
-            {
-                MainScreen._puzzleSelection = puzzleTypeSelection.SelectedIndex;
-            }
 
+            MainScreen._puzzleSelection = puzzleTypeSelection.SelectedIndex;
         }
         #endregion 
     }

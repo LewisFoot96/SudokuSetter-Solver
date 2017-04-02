@@ -41,8 +41,8 @@ namespace SudokuSetterAndSolver
 
         //Scores
         int startScore = 0;
-        int currentScore = 0; 
-        #endregion 
+        int currentScore = 0;
+        #endregion
 
         #region Constructor 
         public MainScreen()
@@ -66,18 +66,22 @@ namespace SudokuSetterAndSolver
 
         private void newPuzzleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //Clearing the screen and displaying the puzzle selection pop up. 
-            ClearScreen();
+
             PopUpRandomPuzzleSelection randomPuzzlePopUp = new PopUpRandomPuzzleSelection();
             randomPuzzlePopUp.ShowDialog();
-            //Load buttons         
-            CreateRandomPuzzleButtons();
-            //Setting screen title 
-            this.Text = "Random Puzzle";
-            //Create blank puzzle 
-            LoadPuzzleSelection();
-            StartTimerAndAddInfo();
-            SetStartingScore();
+            if (PopUpRandomPuzzleSelection.isPuzzleTypeSelected)
+            {
+                // Clearing the screen and displaying the puzzle selection pop up.
+                ClearScreen();
+                //Load buttons         
+                CreateRandomPuzzleButtons();
+                //Setting screen title 
+                this.Text = "Random Puzzle";
+                //Create blank puzzle 
+                LoadPuzzleSelection();
+                StartTimerAndAddInfo();
+                SetStartingScore();
+            }
         }
 
         private void LevelsSelectClick(object sender, EventArgs e)
@@ -103,7 +107,7 @@ namespace SudokuSetterAndSolver
 
             //Setting starting score for game
             SetStartingScore();
-           
+
             //Diplay set up
             this.Text = "Level:" + levelSelected.ToString();
             StartTimerAndAddInfo();
@@ -111,39 +115,43 @@ namespace SudokuSetterAndSolver
 
         private void solvePuzzleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ClearScreen();
+           
             PopUpSolverScreen solverPopUp = new PopUpSolverScreen();
             solverPopUp.ShowDialog();
-            if (_puzzleSelectionSolve == 0)
+            if (PopUpSolverScreen.isPuzzleSelected)
             {
-                loadedPuzzle.gridsize = 16;
-            }
-            else if (_puzzleSelectionSolve == 1)
-            {
+                ClearScreen();
+                if (_puzzleSelectionSolve == 0)
+                {
+                    loadedPuzzle.gridsize = 16;
+                }
+                else if (_puzzleSelectionSolve == 1)
+                {
 
-                loadedPuzzle.gridsize = 9;
-            }
-            else
-            {
-                loadedPuzzle.gridsize = 4;
-            }
+                    loadedPuzzle.gridsize = 9;
+                }
+                else
+                {
+                    loadedPuzzle.gridsize = 4;
+                }
 
-            loadedPuzzle.type = "regualr";
-            GenerateBlankGridStandardSudoku();
-            if (_puzzleSelectionSolve == 0)
-            {
-                GenerateLargeSudokuPuzzle();
+                loadedPuzzle.type = "regualr";
+                GenerateBlankGridStandardSudoku();
+                if (_puzzleSelectionSolve == 0)
+                {
+                    GenerateLargeSudokuPuzzle();
 
+                }
+                else if (_puzzleSelectionSolve == 1)
+                {
+                    GenerateStandardSudokuPuzzle(false);
+                }
+                else
+                {
+                    GenerateSmallSudokuPuzzle();
+                }
+                CreateSolveButtons();
             }
-            else if (_puzzleSelectionSolve == 1)
-            {
-                GenerateStandardSudokuPuzzle();
-            }
-            else
-            {
-                GenerateSmallSudokuPuzzle();
-            }
-            CreateSolveButtons();
         }
 
         #endregion
@@ -156,7 +164,7 @@ namespace SudokuSetterAndSolver
             DeleteButtons();
             listOfTextBoxes.Clear();
             loadedPuzzle.puzzlecells.Clear();
-           // solvePuzzleInformationDisplay.Dispose();
+            // solvePuzzleInformationDisplay.Dispose();
         }
 
         #endregion
@@ -167,8 +175,8 @@ namespace SudokuSetterAndSolver
         {
             StatisticsManager.ReadFromStatisticsFile();
             //Setting up the score and the difficulty of the current puzzle the user is solving. 
-            puzzlesInformationTb.Text = "Difficulty= " +loadedPuzzle.difficulty + " Error count= " +errorSubmitCount + " Score= " +currentScore + 
-                " Hints: "+ StatisticsManager.currentStats.hintNumber;
+            puzzlesInformationTb.Text = "Difficulty= " + loadedPuzzle.difficulty + " Error count= " + errorSubmitCount + " Score= " + currentScore +
+                " Hints: " + StatisticsManager.currentStats.hintNumber;
         }
 
         private void StartTimerAndAddInfo()
@@ -185,7 +193,7 @@ namespace SudokuSetterAndSolver
         {
             puzzlesInformationTb.Visible = true;
             //Setting up the score and the difficulty of the current puzzle the user is solving. 
-            puzzlesInformationTb.Text = "Difficulty= " + loadedPuzzle.difficulty + " Solving Time= " 
+            puzzlesInformationTb.Text = "Difficulty= " + loadedPuzzle.difficulty + " Solving Time= "
                 + errorSubmitCount + " Mutilpe Solutions " + currentScore;
 
         }
@@ -203,7 +211,7 @@ namespace SudokuSetterAndSolver
             currentLevel = StatisticsManager.currentStats.levelcompleted;
         }
 
-       
+
 
         /// <summary>
         /// Metthod to disable levels user cannot acces. 
@@ -254,13 +262,18 @@ namespace SudokuSetterAndSolver
 
         private void newPuzzleBtn_Click(object sender, EventArgs e)
         {
-            errorSubmitCount = 0;
-            ClearGrid();
-            listOfTextBoxes.Clear();
-            loadedPuzzle.puzzlecells.Clear();
-            PopUpRandomPuzzleSelection popUpPuzzleSelection = new PopUpRandomPuzzleSelection(true);
+
+            PopUpRandomPuzzleSelection popUpPuzzleSelection = new PopUpRandomPuzzleSelection();
             popUpPuzzleSelection.ShowDialog();
-            LoadPuzzleSelection();
+            //Making sure one has been selected. 
+            if (PopUpRandomPuzzleSelection.isPuzzleTypeSelected)
+            {
+                errorSubmitCount = 0;
+                ClearGrid();
+                listOfTextBoxes.Clear();
+                loadedPuzzle.puzzlecells.Clear();
+                LoadPuzzleSelection();
+            }
         }
 
         private void solveGeneratedPuzzleBtn_Click(object sender, EventArgs e)
@@ -292,7 +305,7 @@ namespace SudokuSetterAndSolver
             }
             if (loadedPuzzle.gridsize == 9)
             {
-                GenerateStandardSudokuPuzzle();
+                GenerateStandardSudokuPuzzle(false);
             }
             else if (loadedPuzzle.gridsize == 16)
             {
@@ -382,10 +395,10 @@ namespace SudokuSetterAndSolver
             {
                 //Stoping the puzzle timer. 
                 puzzleTimer.Stop();
-                MessageBox.Show("Puzzle Completed! Well Done! Error count: " + errorSubmitCount +" Level:"+(currentLevel+1)+" completed");
+                MessageBox.Show("Puzzle Completed! Well Done! Error count: " + errorSubmitCount + " Level:" + (currentLevel + 1) + " completed");
 
                 //If the user completes the level that is last on their list, unlock the next one. 
-                if(currentLevel == levelSelected)
+                if (currentLevel == levelSelected)
                 {
                     StatisticsManager.currentStats.levelcompleted = currentLevel++;
                     StatisticsManager.WriteToStatisticsFile();
@@ -410,7 +423,7 @@ namespace SudokuSetterAndSolver
             StatisticsManager.ReadFromStatisticsFile();
             int hintNumber = StatisticsManager.currentStats.hintNumber;
 
-            if(hintNumber>0)
+            if (hintNumber > 0)
             {
                 RevealValueFromHint();
                 StatisticsManager.currentStats.hintNumber = hintNumber - 1;
@@ -421,7 +434,7 @@ namespace SudokuSetterAndSolver
             {
                 MessageBox.Show("No hints left!");
             }
-            SetInformationText();          
+            SetInformationText();
         }
 
         private void RevealValueFromHint()
@@ -429,7 +442,7 @@ namespace SudokuSetterAndSolver
             //Getting a blank cell and revealing a number
             for (int cellNumber = 0; cellNumber <= loadedPuzzle.puzzlecells.Count - 1; cellNumber++)
             {
-                if(loadedPuzzle.puzzlecells[cellNumber].value ==0)
+                if (loadedPuzzle.puzzlecells[cellNumber].value == 0)
                 {
                     loadedPuzzle.puzzlecells[cellNumber].value = loadedPuzzle.puzzlecells[cellNumber].solutionvalue;
                     break;
@@ -577,7 +590,7 @@ namespace SudokuSetterAndSolver
         {
             //Creating the sudoku grid values. 
             loadedPuzzle = puzzleManager.ReadFromXMlFile(fileDirctoryLocation);
-            GenerateStandardSudokuPuzzle();
+            GenerateStandardSudokuPuzzle(true);
         }
 
         protected void LoadPuzzleSelection()
@@ -588,7 +601,7 @@ namespace SudokuSetterAndSolver
                 loadedPuzzle.gridsize = 9;
                 GenerateBlankGridStandardSudoku();
                 GeneratePuzzle();
-                GenerateStandardSudokuPuzzle();
+                GenerateStandardSudokuPuzzle(true);
             }
             else if (_puzzleSelection == 0)
             {
@@ -604,7 +617,7 @@ namespace SudokuSetterAndSolver
                 {
                     //GenerateSecondTemplateIrregular();
                 }
-                GenerateStandardSudokuPuzzle();
+                GenerateStandardSudokuPuzzle(true);
             }
             else if (_puzzleSelection == 1)
             {
@@ -743,34 +756,56 @@ namespace SudokuSetterAndSolver
 
         protected void SolvePuzzle()
         {
-            sudokuSolver.currentPuzzleToBeSolved = loadedPuzzle;
-            Stopwatch tempStopWatch = new Stopwatch();
-            tempStopWatch.Reset();
-            tempStopWatch.Start();
-            bool puzzleSolved = false;
-             puzzleSolved = sudokuSolver.BacktrackingUsingXmlTemplateFile(false);
-            Console.WriteLine(tempStopWatch.Elapsed.TotalSeconds);
-            Console.WriteLine(tempStopWatch.Elapsed.TotalMilliseconds);
-            tempStopWatch.Stop();
-            loadedPuzzle = sudokuSolver.currentPuzzleToBeSolved;
+            bool validatePuzzle = false;
 
-            if (puzzleSolved == true)
+            //Validating puzzle 
+            bool validRow = false;
+            bool validColumn = false;
+            bool validBlock = false;
+            validRow = ValidateRow();
+            validColumn = ValidateColumn();
+            validBlock = ValidateBlock();
+            //If puzzle is correct
+            if (validRow == true && validColumn == true && validBlock == true)
             {
-                for (int cellNumberCount = 0; cellNumberCount <= loadedPuzzle.puzzlecells.Count - 1; cellNumberCount++)
+                validatePuzzle = true;
+            }
+
+            if (validatePuzzle)
+            {
+                sudokuSolver.currentPuzzleToBeSolved = loadedPuzzle;
+                Stopwatch tempStopWatch = new Stopwatch();
+                tempStopWatch.Reset();
+                tempStopWatch.Start();
+                bool puzzleSolved = false;
+                puzzleSolved = sudokuSolver.BacktrackingUsingXmlTemplateFile(false);
+                Console.WriteLine(tempStopWatch.Elapsed.TotalSeconds);
+                Console.WriteLine(tempStopWatch.Elapsed.TotalMilliseconds);
+                tempStopWatch.Stop();
+                loadedPuzzle = sudokuSolver.currentPuzzleToBeSolved;
+
+                if (puzzleSolved == true)
                 {
-                    foreach (var textBoxCurrent in listOfTextBoxes)
+                    for (int cellNumberCount = 0; cellNumberCount <= loadedPuzzle.puzzlecells.Count - 1; cellNumberCount++)
                     {
-                        if (textBoxCurrent.Name == cellNumberCount.ToString())
+                        foreach (var textBoxCurrent in listOfTextBoxes)
                         {
-                            textBoxCurrent.Text = loadedPuzzle.puzzlecells[cellNumberCount].value.ToString();
-                            break;
+                            if (textBoxCurrent.Name == cellNumberCount.ToString())
+                            {
+                                textBoxCurrent.Text = loadedPuzzle.puzzlecells[cellNumberCount].value.ToString();
+                                break;
+                            }
                         }
                     }
+                }
+                else
+                {
+                    MessageBox.Show("No solution, invalid solution");
                 }
             }
             else
             {
-                MessageBox.Show("No solution, invalid solution");
+                MessageBox.Show("Puzzle incorrectly entered. Please check and try again!");
             }
         }
 
@@ -1132,7 +1167,7 @@ namespace SudokuSetterAndSolver
 
         #region Generating Puzzles
         ///Method to generate random stadnard puzzle  
-        protected void GenerateStandardSudokuPuzzle()
+        protected void GenerateStandardSudokuPuzzle(bool activePuzzle)
         {
             int rowLocation = 0, columnLocation = 0;
             for (int indexNumber = 0; indexNumber <= loadedPuzzle.puzzlecells.Count - 1; indexNumber++)
@@ -1191,6 +1226,13 @@ namespace SudokuSetterAndSolver
                 }
 
 
+            }
+            if (activePuzzle)
+            {
+                SudokuSolver sudokuSolver = new SudokuSolver();
+                sudokuSolver.currentPuzzleToBeSolved = loadedPuzzle;
+                sudokuSolver.EvaluatePuzzleDifficulty();
+                loadedPuzzle.difficulty = sudokuSolver.difficluty;
             }
         }
         /// <summary>
@@ -1321,7 +1363,7 @@ namespace SudokuSetterAndSolver
                     rowLocation += 46;
                     txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
                 }
-               
+
             }
         }
         #endregion
