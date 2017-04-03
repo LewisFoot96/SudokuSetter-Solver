@@ -67,6 +67,8 @@
             this.Controls.Add(this.tipImageBox);
             this.Controls.Add(this.tipTextTb);
             this.Controls.Add(this.tipTitleTb);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "TipScreen";
             this.Text = "TipScreen";
             ((System.ComponentModel.ISupportInitialize)(this.tipImageBox)).EndInit();

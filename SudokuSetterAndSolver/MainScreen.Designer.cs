@@ -334,6 +334,7 @@ namespace SudokuSetterAndSolver
         {
             this.submitLevelPuzzleBtn = new System.Windows.Forms.Button();
             this.hintsBtn = new Button();
+            this.tipBtn = new Button();
 
             // 
             // submitPuzzleBtn
@@ -357,11 +358,24 @@ namespace SudokuSetterAndSolver
             this.hintsBtn.UseVisualStyleBackColor = true;
             this.hintsBtn.Click += new System.EventHandler(this.hintsBtn_Click);
 
+            //
+            // tipBtn
+            //
+            this.tipBtn.Location = new System.Drawing.Point(304, 230);
+            this.tipBtn.Name = "tipBtn";
+            this.tipBtn.Size = new System.Drawing.Size(60, 35);
+            this.tipBtn.TabIndex = 88;
+            this.tipBtn.Text = "Tip";
+            this.tipBtn.UseVisualStyleBackColor = true;
+            this.tipBtn.Click += new System.EventHandler(this.tipBtn_Click);
+
 
             this.Controls.Add(this.submitLevelPuzzleBtn);
             this.Controls.SetChildIndex(this.submitLevelPuzzleBtn, 0);
             this.Controls.Add(this.hintsBtn);
             this.Controls.SetChildIndex(this.hintsBtn, 1);
+            this.Controls.Add(this.tipBtn);
+            this.Controls.SetChildIndex(this.tipBtn, 2);
         }
 
         private void CreateSolveButtons()
@@ -448,6 +462,7 @@ namespace SudokuSetterAndSolver
         private Button difficultyDetermineBtn;
         private Button validatePuzzleBtn;
         private Button hintsBtn;
+        private Button tipBtn;
         private ToolStripMenuItem easyToolStripMenuItem;
         private ToolStripMenuItem level1ToolStripMenuItem;
         private ToolStripMenuItem level2ToolStripMenuItem;

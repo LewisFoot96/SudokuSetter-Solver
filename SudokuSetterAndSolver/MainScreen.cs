@@ -437,6 +437,21 @@ namespace SudokuSetterAndSolver
             SetInformationText();
         }
 
+        /// <summary>
+        /// Method to get hints for the puzzle. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tipBtn_Click(object sender, EventArgs e)
+        {
+            //Getting a random tip to display. 
+            Random tipRandomNumber = new Random();
+            int tipValue = tipRandomNumber.Next(1, 8);
+            //Displaying the tip. 
+            TipScreen tipScreen = new TipScreen(tipValue);          
+            tipScreen.ShowDialog();
+        }
+
         private void RevealValueFromHint()
         {
             //Getting a blank cell and revealing a number

@@ -424,6 +424,14 @@
     <Content Include="Puzzles\TestPuzzles\Medium\TestMedium8.xml" />
     <Content Include="Puzzles\TestPuzzles\Medium\TestMedium9.xml" />
     <Content Include="Statistics.xml" />
+    <Content Include="Tips\tip2.xml" />
+    <Content Include="Tips\tip3.xml" />
+    <Content Include="Tips\tip4.xml" />
+    <Content Include="Tips\tip5.xml" />
+    <Content Include="Tips\tip6.xml" />
+    <Content Include="Tips\tip8.xml" />
+    <Content Include="Tips\tip7.xml" />
+    <Content Include="Tips\tip1.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
