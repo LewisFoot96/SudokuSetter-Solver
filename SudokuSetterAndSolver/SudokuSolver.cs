@@ -1349,6 +1349,20 @@ namespace SudokuSetterAndSolver
                 candidateTotalNumber++;
             }
 
+            ////Order cells based on blocks 
+
+            //for(int blockNumberTemp =0;blockNumberTemp<=currentPuzzleToBeSolved.gridsize-1;blockNumberTemp++)
+            //{
+            //    for (int cellReferenceNumber=0;cellReferenceNumber<=currentPuzzleToBeSolved.puzzlecells.Count-1;cellReferenceNumber++)
+            //    {
+            //        if(currentPuzzleToBeSolved.puzzlecells[cellReferenceNumber].blocknumber ==blockNumberTemp)
+            //        {
+            //            logicalOrderOfCellsXml.Add(cellReferenceNumber);
+            //        }
+
+            //    }
+            //}
+
 
             //Resetting the starting value, so it cycles through all of the cells. 
             startingValue = 0;
@@ -1361,7 +1375,8 @@ namespace SudokuSetterAndSolver
 
             for (startingValue = numberOfCellToBeHandled; startingValue <= logicalOrderOfCellsXml.Count - 1; startingValue++)
             {
-                if (stopWatch.Elapsed.Seconds >= 100)
+
+                if (stopWatch.Elapsed.Seconds >= 10000)
                 {
                     logicalOrderOfCellsXml.Clear();
                     return false;

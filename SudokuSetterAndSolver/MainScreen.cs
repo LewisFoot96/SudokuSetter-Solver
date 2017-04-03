@@ -80,7 +80,7 @@ namespace SudokuSetterAndSolver
                 //Create blank puzzle 
                 LoadPuzzleSelection();
                 StartTimerAndAddInfo();
-                SetStartingScore();
+                //SetStartingScore();
             }
         }
 
@@ -590,7 +590,7 @@ namespace SudokuSetterAndSolver
         {
             //Creating the sudoku grid values. 
             loadedPuzzle = puzzleManager.ReadFromXMlFile(fileDirctoryLocation);
-            GenerateStandardSudokuPuzzle(true);
+            GenerateStandardSudokuPuzzle(false);
         }
 
         protected void LoadPuzzleSelection()
@@ -611,13 +611,15 @@ namespace SudokuSetterAndSolver
                 int irregularRandom = newRandomNumber.Next(0, 1);
                 if (irregularRandom == 1)
                 {
-                    //GenerateFirstTemplateIrregular();
+                    GenerateFirstTemplateIrregular();
                 }
                 else
                 {
-                    //GenerateSecondTemplateIrregular();
+                    GenerateSecondTemplateIrregular();
                 }
-                GenerateStandardSudokuPuzzle(true);
+                
+               GeneratePuzzle();
+                GenerateStandardSudokuPuzzle(false);
             }
             else if (_puzzleSelection == 1)
             {
@@ -1063,10 +1065,10 @@ namespace SudokuSetterAndSolver
             List<int> numbersUsed = new List<int>();
             foreach (var number in listOfNumbers)
             {
-                if (number == 0)
-                {
-                    return false;
-                }
+                //if (number == 0)
+                //{
+                //    return false;
+                //}
                 foreach (var usedNumber in numbersUsed)
                 {
                     if (usedNumber == number)

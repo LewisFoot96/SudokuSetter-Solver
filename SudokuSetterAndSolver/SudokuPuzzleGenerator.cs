@@ -63,8 +63,12 @@ namespace SudokuSetterAndSolver
 
             //Solving blank grid. 
             solver.currentPuzzleToBeSolved = generatedPuzzle;
-           
+
             solved = solver.BacktrackingUsingXmlTemplateFile(true);
+            for(int cellNumber =0;cellNumber<=generatedPuzzle.puzzlecells.Count-1;cellNumber++)
+            {
+                Console.Write(generatedPuzzle.puzzlecells[cellNumber].value);
+            }
             //Setting the orginal solution of the puzzle. 
             for (int orginalSolutionCounter = 0; orginalSolutionCounter <= generatedPuzzle.puzzlecells.Count - 1; orginalSolutionCounter++)
             {

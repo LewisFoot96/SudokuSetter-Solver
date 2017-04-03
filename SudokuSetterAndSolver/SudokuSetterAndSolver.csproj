@@ -142,6 +142,15 @@
     <Compile Include="TemplateScreen.Designer.cs">
       <DependentUpon>TemplateScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="TipScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TipScreen.Designer.cs">
+      <DependentUpon>TipScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Tipsxsd.cs">
+      <DependentUpon>Tipsxsd.xsd</DependentUpon>
+    </Compile>
     <Compile Include="TipTemplate.cs" />
     <EmbeddedResource Include="ConvertTextFileToXMLFile.resx">
       <DependentUpon>ConvertTextFileToXMLFile.cs</DependentUpon>
@@ -187,6 +196,9 @@
     <EmbeddedResource Include="TemplateScreen.resx">
       <DependentUpon>TemplateScreen.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TipScreen.resx">
+      <DependentUpon>TipScreen.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -196,6 +208,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Tipsxsd.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Statistics.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -209,6 +224,7 @@
     <Folder Include="Puzzles\TestPuzzles\NakedTests\" />
     <Folder Include="Screens\" />
     <Folder Include="SudokuPuzzles\" />
+    <Folder Include="Tips\Images\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PuzzleSchema.xsd">
