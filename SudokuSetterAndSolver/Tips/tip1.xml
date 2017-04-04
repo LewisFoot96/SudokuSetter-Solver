@@ -2,5 +2,5 @@
 <tip xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://tempuri.org/Statistics.xsd">
   <tiptitle>Naked Singles</tiptitle>
   <tipcontent>This is a method whereby all of the candidate numbers are entered into the puzzle, see image on the right. If there is a box where only one number is a potential candidate, then this must be value assigned to the square.</tipcontent>
-  <tippicturedirectorylocation>C:\Users\New\Documents\Sudoku\Application\SudokuSetterAndSolver\SudokuSetterAndSolver\Tips\Images\NakedSingles.png</tippicturedirectorylocation>
+  <tippicturedirectorylocation>NakedSingles.png</tippicturedirectorylocation>
 </tip>

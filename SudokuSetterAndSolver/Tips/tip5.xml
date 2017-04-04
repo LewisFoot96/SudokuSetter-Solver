@@ -2,5 +2,5 @@
 <tip xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://tempuri.org/Statistics.xsd">
   <tiptitle>Naked Triple</tiptitle>
   <tipcontent>Naked triples are where three squares contain the same three candidates. See the image to the right. This means that these values are not longer candidates for the other squares wihtin that specific rowm column or block.</tipcontent>
-  <tippicturedirectorylocation>C:\Users\New\Documents\Sudoku\Application\SudokuSetterAndSolver\SudokuSetterAndSolver\Tips\Images\NakedTriples.png</tippicturedirectorylocation>
+  <tippicturedirectorylocation>NakedTriples.png</tippicturedirectorylocation>
 </tip>

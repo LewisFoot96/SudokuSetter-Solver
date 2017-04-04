@@ -2,5 +2,5 @@
 <tip xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://tempuri.org/Statistics.xsd">
   <tiptitle>Locked Candidates</tiptitle>
   <tipcontent>Locked candidates, are candidates that are locked to specific values due to the candidates of other squares. See the images on the right for an example. From the image, it can be analysed that within row f, a 2 has to occur in either f7 or f8, as the 2 is locked, due to there being a requirement for box def789 to contain a 2, and f7 and f8 being the only candidates for this. Therefore, a 2 cannot be a candidate in any other box within the row, cancelling out the ‘2’ for being a candidate in square f5 and therefore a 3 should be assigned to that square.</tipcontent>
-  <tippicturedirectorylocation>C:\Users\New\Documents\Sudoku\Application\SudokuSetterAndSolver\SudokuSetterAndSolver\Tips\Images\LockedCandidates.png</tippicturedirectorylocation>
+  <tippicturedirectorylocation>LockedCandidates.png</tippicturedirectorylocation>
 </tip>

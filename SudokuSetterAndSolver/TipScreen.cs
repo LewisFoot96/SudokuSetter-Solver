@@ -34,6 +34,18 @@ namespace SudokuSetterAndSolver
             ReadFromTipFile();
             tipTitleTb.Text = loadedTip.tiptitle;
             tipTextTb.Text = loadedTip.tipcontent;
+
+            //Creating the new image. 
+            string imagePath = Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory())) + @"\Tips\Images\"+ loadedTip.tippicturedirectorylocation;
+
+            try
+            {
+                tipImageBox.Image = Image.FromFile(imagePath);
+            }
+            catch(Exception e)
+            {
+                Console.Write("Image can not be found");
+            }
         }
 
         /// <summary>

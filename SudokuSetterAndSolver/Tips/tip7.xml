@@ -2,5 +2,5 @@
 <tip xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://tempuri.org/Statistics.xsd">
   <tiptitle>X Wings</tiptitle>
   <tipcontent>An x-wing conﬁguration occurs when the same candidate occurs exactly twice in two rows and in the same columns of those two rows. (Or similarly, if you exchange the words “row” and “column” in the previous sentence.). See the image on the right for an example.</tipcontent>
-  <tippicturedirectorylocation>C:\Users\New\Documents\Sudoku\Application\SudokuSetterAndSolver\SudokuSetterAndSolver\Tips\XWings.png</tippicturedirectorylocation>
+  <tippicturedirectorylocation>XWings.png</tippicturedirectorylocation>
 </tip>

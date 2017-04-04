@@ -446,7 +446,7 @@ namespace SudokuSetterAndSolver
         {
             //Getting a random tip to display. 
             Random tipRandomNumber = new Random();
-            int tipValue = tipRandomNumber.Next(1, 8);
+            int tipValue = tipRandomNumber.Next(1, 10);
             //Displaying the tip. 
             TipScreen tipScreen = new TipScreen(tipValue);          
             tipScreen.ShowDialog();
