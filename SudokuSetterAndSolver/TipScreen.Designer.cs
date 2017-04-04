@@ -70,7 +70,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "TipScreen";
-            this.Text = "TipScreen";
+            this.Text = "Tip";
             ((System.ComponentModel.ISupportInitialize)(this.tipImageBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

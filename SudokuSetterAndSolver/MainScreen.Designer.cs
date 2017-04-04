@@ -287,11 +287,12 @@ namespace SudokuSetterAndSolver
             this.submitPuzzleBtn = new System.Windows.Forms.Button();
             this.solveGeneratedPuzzleBtn = new System.Windows.Forms.Button();
             this.newPuzzleBtn = new System.Windows.Forms.Button();
+            this.tipBtn = new Button();
 
             // 
             // submitPuzzleBtn
             // 
-            this.submitPuzzleBtn.Location = new System.Drawing.Point(225,230);
+            this.submitPuzzleBtn.Location = new System.Drawing.Point(195,230);
             this.submitPuzzleBtn.Name = "submitPuzzleBtn";
             this.submitPuzzleBtn.Size = new System.Drawing.Size(60, 35);
             this.submitPuzzleBtn.TabIndex = 87;
@@ -301,7 +302,7 @@ namespace SudokuSetterAndSolver
             // 
             // solveGeneratedPuzzleBtn
             // 
-            this.solveGeneratedPuzzleBtn.Location = new System.Drawing.Point(165, 230);
+            this.solveGeneratedPuzzleBtn.Location = new System.Drawing.Point(135, 230);
             this.solveGeneratedPuzzleBtn.Name = "solveGeneratedPuzzleBtn";
             this.solveGeneratedPuzzleBtn.Size = new System.Drawing.Size(60, 35);
             this.solveGeneratedPuzzleBtn.TabIndex = 88;
@@ -311,7 +312,7 @@ namespace SudokuSetterAndSolver
             // 
             // newPuzzleBtn
             // 
-            this.newPuzzleBtn.Location = new System.Drawing.Point(285, 230);
+            this.newPuzzleBtn.Location = new System.Drawing.Point(255, 230);
             this.newPuzzleBtn.Name = "newPuzzleBtn";
             this.newPuzzleBtn.Size = new System.Drawing.Size(60, 35);
             this.newPuzzleBtn.TabIndex = 89;
@@ -319,15 +320,26 @@ namespace SudokuSetterAndSolver
             this.newPuzzleBtn.UseVisualStyleBackColor = true;
             this.newPuzzleBtn.Click += new System.EventHandler(this.newPuzzleBtn_Click);
 
+            //
+            // tipBtn
+            //
+            this.tipBtn.Location = new System.Drawing.Point(315, 230);
+            this.tipBtn.Name = "tipBtn";
+            this.tipBtn.Size = new System.Drawing.Size(60, 35);
+            this.tipBtn.TabIndex = 88;
+            this.tipBtn.Text = "Tip";
+            this.tipBtn.UseVisualStyleBackColor = true;
+            this.tipBtn.Click += new System.EventHandler(this.tipBtn_Click);
+
 
             this.Controls.Add(this.newPuzzleBtn);
             this.Controls.Add(this.solveGeneratedPuzzleBtn);
             this.Controls.Add(this.submitPuzzleBtn);
-            this.Controls.SetChildIndex(this.submitPuzzleBtn, 0);
-            this.Controls.SetChildIndex(this.solveGeneratedPuzzleBtn, 0);
-            this.Controls.SetChildIndex(this.newPuzzleBtn, 0);
-
-
+            this.Controls.SetChildIndex(this.submitPuzzleBtn, 1);
+            this.Controls.SetChildIndex(this.solveGeneratedPuzzleBtn, 2);
+            this.Controls.SetChildIndex(this.newPuzzleBtn, 3);
+            this.Controls.Add(this.tipBtn);
+            this.Controls.SetChildIndex(this.tipBtn, 4);
         }
 
         private void CreateLevelPuzzleButtons()
@@ -339,7 +351,7 @@ namespace SudokuSetterAndSolver
             // 
             // submitPuzzleBtn
             // 
-            this.submitLevelPuzzleBtn.Location = new System.Drawing.Point(194, 230);
+            this.submitLevelPuzzleBtn.Location = new System.Drawing.Point(164, 230);
             this.submitLevelPuzzleBtn.Name = "submitLevelPuzzleBtn";
             this.submitLevelPuzzleBtn.Size = new System.Drawing.Size(60, 35);
             this.submitLevelPuzzleBtn.TabIndex = 87;
@@ -350,7 +362,7 @@ namespace SudokuSetterAndSolver
             // 
             // hintsBtn
             // 
-            this.hintsBtn.Location = new System.Drawing.Point(254, 230);
+            this.hintsBtn.Location = new System.Drawing.Point(224, 230);
             this.hintsBtn.Name = "hintsBtn";
             this.hintsBtn.Size = new System.Drawing.Size(60, 35);
             this.hintsBtn.TabIndex = 87;
@@ -361,7 +373,7 @@ namespace SudokuSetterAndSolver
             //
             // tipBtn
             //
-            this.tipBtn.Location = new System.Drawing.Point(304, 230);
+            this.tipBtn.Location = new System.Drawing.Point(284, 230);
             this.tipBtn.Name = "tipBtn";
             this.tipBtn.Size = new System.Drawing.Size(60, 35);
             this.tipBtn.TabIndex = 88;
