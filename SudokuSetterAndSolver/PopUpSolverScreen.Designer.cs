@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PopUpSolverScreen));
             this.solveSudokuSelectionCb = new System.Windows.Forms.ComboBox();
             this.confirmSolverSelectionBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -39,14 +40,14 @@
             "16*16",
             "9*9",
             "4*4"});
-            this.solveSudokuSelectionCb.Location = new System.Drawing.Point(97, 77);
+            this.solveSudokuSelectionCb.Location = new System.Drawing.Point(145, 63);
             this.solveSudokuSelectionCb.Name = "solveSudokuSelectionCb";
             this.solveSudokuSelectionCb.Size = new System.Drawing.Size(254, 39);
             this.solveSudokuSelectionCb.TabIndex = 0;
             // 
             // confirmSolverSelectionBtn
             // 
-            this.confirmSolverSelectionBtn.Location = new System.Drawing.Point(113, 155);
+            this.confirmSolverSelectionBtn.Location = new System.Drawing.Point(157, 135);
             this.confirmSolverSelectionBtn.Name = "confirmSolverSelectionBtn";
             this.confirmSolverSelectionBtn.Size = new System.Drawing.Size(228, 86);
             this.confirmSolverSelectionBtn.TabIndex = 1;
@@ -58,11 +59,15 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(557, 288);
+            this.BackColor = System.Drawing.Color.Aqua;
+            this.ClientSize = new System.Drawing.Size(535, 261);
             this.Controls.Add(this.confirmSolverSelectionBtn);
             this.Controls.Add(this.solveSudokuSelectionCb);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "PopUpSolverScreen";
-            this.Text = "Sudoku Solve Selection";
+            this.Text = "Solve Select";
             this.ResumeLayout(false);
 
         }

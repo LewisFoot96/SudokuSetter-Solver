@@ -124,6 +124,12 @@
     <Compile Include="SolveSudokuScreen.Designer.cs">
       <DependentUpon>SolveSudokuScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="SplashScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SplashScreen.Designer.cs">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
+    </Compile>
     <Compile Include="Statistics.cs">
       <DependentUpon>Statistics.xsd</DependentUpon>
     </Compile>
@@ -189,6 +195,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SolveSudokuScreen.resx">
       <DependentUpon>SolveSudokuScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SplashScreen.resx">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StatisticsScreen.resx">
       <DependentUpon>StatisticsScreen.cs</DependentUpon>
