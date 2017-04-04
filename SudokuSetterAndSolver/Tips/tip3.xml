@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tip xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://tempuri.org/Statistics.xsd">
   <tiptitle>Naked Doubles</tiptitle>
-  <tipcontent>Naked singles are.</tipcontent>
+  <tipcontent>Naked doubles are where two squares contain the same two candidates. See the image to the right. This means that these values are not longer candidates for the other squares wihtin that specific rowm column or block.</tipcontent>
   <tippicturedirectorylocation>C:\Users\New\Documents\Sudoku\Application\SudokuSetterAndSolver\SudokuSetterAndSolver\Tips\Images\NakedDoubles.png</tippicturedirectorylocation>
 </tip>

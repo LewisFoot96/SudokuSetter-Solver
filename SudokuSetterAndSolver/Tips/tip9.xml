@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tip xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://tempuri.org/Statistics.xsd">
+  <tiptitle>Virtual Lines</tiptitle>
+  <tipcontent>The virtual lines method is whereby the number within a square is determined through evaluating the number that is ‘left’ within the row or column, e.g. in the image to the right, 7 is required to be entered in a9, to complete the row within the puzzle. </tipcontent>
+  <tippicturedirectorylocation>C:\Users\New\Documents\Sudoku\Application\SudokuSetterAndSolver\SudokuSetterAndSolver\Tips\Images\VirtualLines.png</tippicturedirectorylocation>
+</tip>

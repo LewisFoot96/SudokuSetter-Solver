@@ -429,6 +429,8 @@
     <Content Include="Tips\tip4.xml" />
     <Content Include="Tips\tip5.xml" />
     <Content Include="Tips\tip6.xml" />
+    <Content Include="Tips\tip10.xml" />
+    <Content Include="Tips\tip9.xml" />
     <Content Include="Tips\tip8.xml" />
     <Content Include="Tips\tip7.xml" />
     <Content Include="Tips\tip1.xml" />
