@@ -41,14 +41,14 @@
             "16*16",
             "9*9",
             "4*4"});
-            this.puzzleTypeSelection.Location = new System.Drawing.Point(145, 63);
+            this.puzzleTypeSelection.Location = new System.Drawing.Point(260, 63);
             this.puzzleTypeSelection.Name = "puzzleTypeSelection";
             this.puzzleTypeSelection.Size = new System.Drawing.Size(254, 39);
             this.puzzleTypeSelection.TabIndex = 0;
             // 
             // confirmBtn
             // 
-            this.confirmBtn.Location = new System.Drawing.Point(157, 135);
+            this.confirmBtn.Location = new System.Drawing.Point(272, 135);
             this.confirmBtn.Name = "confirmBtn";
             this.confirmBtn.Size = new System.Drawing.Size(228, 86);
             this.confirmBtn.TabIndex = 1;
@@ -58,12 +58,12 @@
             // 
             // PopUpRandomPuzzleSelection
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.Aqua;
             this.ClientSize = new System.Drawing.Size(535, 261);
             this.Controls.Add(this.confirmBtn);
             this.Controls.Add(this.puzzleTypeSelection);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;

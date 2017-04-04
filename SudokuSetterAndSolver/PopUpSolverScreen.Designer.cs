@@ -40,14 +40,14 @@
             "16*16",
             "9*9",
             "4*4"});
-            this.solveSudokuSelectionCb.Location = new System.Drawing.Point(145, 63);
+            this.solveSudokuSelectionCb.Location = new System.Drawing.Point(247, 61);
             this.solveSudokuSelectionCb.Name = "solveSudokuSelectionCb";
             this.solveSudokuSelectionCb.Size = new System.Drawing.Size(254, 39);
             this.solveSudokuSelectionCb.TabIndex = 0;
             // 
             // confirmSolverSelectionBtn
             // 
-            this.confirmSolverSelectionBtn.Location = new System.Drawing.Point(157, 135);
+            this.confirmSolverSelectionBtn.Location = new System.Drawing.Point(259, 133);
             this.confirmSolverSelectionBtn.Name = "confirmSolverSelectionBtn";
             this.confirmSolverSelectionBtn.Size = new System.Drawing.Size(228, 86);
             this.confirmSolverSelectionBtn.TabIndex = 1;
@@ -57,12 +57,13 @@
             // 
             // PopUpSolverScreen
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(240F, 240F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.Aqua;
-            this.ClientSize = new System.Drawing.Size(535, 261);
+            this.ClientSize = new System.Drawing.Size(527, 261);
             this.Controls.Add(this.confirmSolverSelectionBtn);
             this.Controls.Add(this.solveSudokuSelectionCb);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
