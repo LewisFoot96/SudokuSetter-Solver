@@ -123,7 +123,7 @@ namespace SudokuSetterAndSolver
                 ClearScreen();
                 if (_puzzleSelectionSolve == 0)
                 {
-                    loadedPuzzle.gridsize = 16;
+                    loadedPuzzle.gridsize = 9;
                 }
                 else if (_puzzleSelectionSolve == 1)
                 {
@@ -139,7 +139,7 @@ namespace SudokuSetterAndSolver
                 GenerateBlankGridStandardSudoku();
                 if (_puzzleSelectionSolve == 0)
                 {
-                    GenerateLargeSudokuPuzzle();
+                    GenerateStandardSudokuPuzzle(false);
 
                 }
                 else if (_puzzleSelectionSolve == 1)
@@ -306,10 +306,6 @@ namespace SudokuSetterAndSolver
             if (loadedPuzzle.gridsize == 9)
             {
                 GenerateStandardSudokuPuzzle(false);
-            }
-            else if (loadedPuzzle.gridsize == 16)
-            {
-                GenerateLargeSudokuPuzzle();
             }
             else
             {
@@ -611,7 +607,7 @@ namespace SudokuSetterAndSolver
         protected void LoadPuzzleSelection()
         {
             //Determinging which sudoku puzzle is generated based upon the users selection. 
-            if (_puzzleSelection == 2)
+            if (_puzzleSelection == 1)
             {
                 loadedPuzzle.gridsize = 9;
                 GenerateBlankGridStandardSudoku();
@@ -635,13 +631,6 @@ namespace SudokuSetterAndSolver
                 
                GeneratePuzzle();
                 GenerateStandardSudokuPuzzle(false);
-            }
-            else if (_puzzleSelection == 1)
-            {
-                loadedPuzzle.gridsize = 16;
-                GenerateBlankGridStandardSudoku();
-                GeneratePuzzle();
-                GenerateLargeSudokuPuzzle();
             }
             else
             {
@@ -1252,71 +1241,7 @@ namespace SudokuSetterAndSolver
                 loadedPuzzle.difficulty = sudokuSolver.difficluty;
             }
         }
-        /// <summary>
-        /// Method to generate random large puzzle. 
-        /// </summary>
-        protected void GenerateLargeSudokuPuzzle()
-        {
-            sudokuPuzzleGenerator.generatedPuzzle = loadedPuzzle;
-            sudokuPuzzleGenerator.CreateSudokuGridXML();
-            int rowLocation = 0, columnLocation = 0;
-            for (int indexNumber = 0; indexNumber <= loadedPuzzle.puzzlecells.Count - 1; indexNumber++)
-            {
-                //Creating a textbox for the each cell, with the valid details. 
-                TextBox txtBox = new TextBox();
-                this.Controls.Add(txtBox);
-                txtBox.Name = indexNumber.ToString();
-                txtBox.Size = new System.Drawing.Size(26, 26);
-                txtBox.TabIndex = 0;
-                txtBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-                txtBox.Font = new Font(txtBox.Font.FontFamily, 7);
-                txtBox.Click += new System.EventHandler(this.puzzleSquareClick);
-                txtBox.TextChanged += new System.EventHandler(this.puzzleTextChange);
-                //Key press handler to only allow digits 1-9 in the textboxes. 
-                txtBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(CheckCellEntry);
-                //Limiting the text box to only on character. 
-                txtBox.MaxLength = 1;
-                //Setting the value in the grid text box. 
-                txtBox.Text = loadedPuzzle.puzzlecells[indexNumber].value.ToString();
 
-                //Clouring 
-                txtBox.Font = new Font(txtBox.Font, FontStyle.Bold);
-                txtBox.ForeColor = Color.Black;
-
-                GetLargePuzzleColour(indexNumber);
-                //Ensuring static numbers can not be edited. 
-                if (loadedPuzzle.puzzlecells[indexNumber].value != 0)
-                {
-                    txtBox.Enabled = false;
-                }
-                else
-                {
-                    txtBox.Text = "";
-                }
-                //Position logic
-                if (indexNumber == 0)
-                {
-                    rowLocation = rowLocation + 106;
-                    columnLocation = columnLocation + 100;
-                    txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
-                }
-                else if (indexNumber == 15 || indexNumber % 16 == 15)
-                {
-                    rowLocation += 26;
-                    txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
-                    columnLocation += 13;
-                    rowLocation = 80;
-                }
-                else
-                {
-                    rowLocation += 26;
-                    txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
-                }
-
-                listOfTextBoxes.Add(txtBox);
-            }
-
-        }
         /// <summary>
         /// Method to generate random small sudoku puzzle. 
         /// </summary>

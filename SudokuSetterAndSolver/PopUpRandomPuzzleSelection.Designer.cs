@@ -38,17 +38,16 @@
             this.puzzleTypeSelection.FormattingEnabled = true;
             this.puzzleTypeSelection.Items.AddRange(new object[] {
             "Irregular",
-            "16*16",
             "9*9",
             "4*4"});
-            this.puzzleTypeSelection.Location = new System.Drawing.Point(260, 63);
+            this.puzzleTypeSelection.Location = new System.Drawing.Point(251, 63);
             this.puzzleTypeSelection.Name = "puzzleTypeSelection";
             this.puzzleTypeSelection.Size = new System.Drawing.Size(254, 39);
             this.puzzleTypeSelection.TabIndex = 0;
             // 
             // confirmBtn
             // 
-            this.confirmBtn.Location = new System.Drawing.Point(272, 135);
+            this.confirmBtn.Location = new System.Drawing.Point(263, 135);
             this.confirmBtn.Name = "confirmBtn";
             this.confirmBtn.Size = new System.Drawing.Size(228, 86);
             this.confirmBtn.TabIndex = 1;
@@ -58,7 +57,8 @@
             // 
             // PopUpRandomPuzzleSelection
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(240F, 240F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.Aqua;
             this.ClientSize = new System.Drawing.Size(535, 261);
             this.Controls.Add(this.confirmBtn);
