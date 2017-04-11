@@ -68,6 +68,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "PopUpRandomPuzzleSelection";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Puzzle Select";
             this.ResumeLayout(false);
 

@@ -68,6 +68,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "PopUpSolverScreen";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Solve Select";
             this.ResumeLayout(false);
 
