@@ -731,13 +731,9 @@ namespace SudokuSetterAndSolver
                     {
                         GetStandardPuzzleColour(cellNumber);
                     }
-                    else if (loadedPuzzle.gridsize == 4)
-                    {
-                        GetSmallPuzzleColour(cellNumber);
-                    }
                     else
                     {
-                        GetLargePuzzleColour(cellNumber);
+                        GetSmallPuzzleColour(cellNumber);
                     }
                 }
                 foreach (var errorCell in errorCellNumbers)
@@ -1118,34 +1114,7 @@ namespace SudokuSetterAndSolver
             }
         }
 
-        private void GetLargePuzzleColour(int textBoxNumber)
-        {
-            switch (loadedPuzzle.puzzlecells[textBoxNumber].blocknumber)
-            {
-                case (0):
-                case (3):
-                case (12):
-                case (15):
-                    listOfTextBoxes[textBoxNumber].BackColor = Color.LightGreen;
-                    break;
-                case (1):
-                case (4):
-                case (14):
-                case (11):
-                    listOfTextBoxes[textBoxNumber].BackColor = Color.Pink;
-                    break;
-                case (2):
-                case (8):
-                case (7):
-                case (13):
-                    listOfTextBoxes[textBoxNumber].BackColor = Color.LightYellow;
-                    break;
-                default:
-                    listOfTextBoxes[textBoxNumber].BackColor = Color.LightBlue;
-                    break;
-            }
-
-        }
+       
 
         private void GetSmallPuzzleColour(int textBoxNumber)
         {
