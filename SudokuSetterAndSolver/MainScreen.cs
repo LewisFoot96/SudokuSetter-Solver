@@ -72,6 +72,8 @@ namespace SudokuSetterAndSolver
             {
                 // Clearing the screen and displaying the puzzle selection pop up.
                 ClearScreen();
+                puzzlesInformationTb.Visible = true;
+                timerText.Visible = true;
                 //Load buttons         
                 CreateRandomPuzzleButtons();
                 //Setting screen title 
@@ -88,6 +90,8 @@ namespace SudokuSetterAndSolver
             //Resetting the solving time. 
             currentTime = 0;
             ClearScreen();
+            puzzlesInformationTb.Visible = true;
+            timerText.Visible = true;
             CreateLevelPuzzleButtons();
             var menuOption = (ToolStripMenuItem)sender;
             loadedPuzzle = new puzzle();
@@ -163,7 +167,9 @@ namespace SudokuSetterAndSolver
             DeleteButtons();
             listOfTextBoxes.Clear();
             loadedPuzzle.puzzlecells.Clear();
-            // solvePuzzleInformationDisplay.Dispose();
+            staticsDispalyTb.Visible = false;
+            puzzlesInformationTb.Visible = false;
+            timerText.Visible = false;
         }
 
         #endregion
@@ -181,6 +187,7 @@ namespace SudokuSetterAndSolver
         private void StartTimerAndAddInfo()
         {
             SetInformationText();
+            currentTime = 0;
             //Resetting time and making the timer text box visible. 
             puzzleTimer.Stop();
             puzzleTimer.Start();
@@ -1592,21 +1599,26 @@ namespace SudokuSetterAndSolver
 
         private void statisticsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            ClearScreen();
             //Load statistics textbox
             staticsDispalyTb.Visible = true;
-            this.Text = "Statistics : Siwel Sudoku";
-            ClearScreen();
+            this.Text = "Statistics : Siwel Sudoku";      
             LoadStaticsAndDisplay();
         }
 
         private void LoadStaticsAndDisplay()
         {
+            //Dispalying all of the stats 
             StatisticsManager.ReadFromStatisticsFile();
             staticsDispalyTb.Text += "Hints:"+ StatisticsManager.currentStats.hintNumber + "\r\n";
             staticsDispalyTb.Text += "Fastest solving time:" + StatisticsManager.currentStats.fastestsolvetime + "\r\n";
             staticsDispalyTb.Text += "Levls completed:" + StatisticsManager.currentStats.levelcompleted + "\r\n";
             staticsDispalyTb.Text += "Extreme Puzzle Completed:" + StatisticsManager.currentStats.numberOfExtremePuzzleCompleted + "\r\n";
             staticsDispalyTb.Text += "Number of puzzle completed:" + StatisticsManager.currentStats.puzzlecompleted + "\r\n";
+            staticsDispalyTb.Text += "Extreme Puzzle High Score:" + StatisticsManager.currentStats.extremeHighScore + "\r\n";
+            staticsDispalyTb.Text += "Hard Puzzle High Score:" + StatisticsManager.currentStats.hardHighScore + "\r\n";
+            staticsDispalyTb.Text += "Medium Puzzle High Score:" + StatisticsManager.currentStats.mediumHighScore + "\r\n";
+            staticsDispalyTb.Text += "Easy Puzzle High Score:" + StatisticsManager.currentStats.easyHighScore + "\r\n";
         }
     }
 }
