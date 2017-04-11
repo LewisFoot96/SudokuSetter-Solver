@@ -327,7 +327,7 @@ namespace SudokuSetterAndSolver
             this.tipBtn.Name = "tipBtn";
             this.tipBtn.Size = new System.Drawing.Size(60, 35);
             this.tipBtn.TabIndex = 88;
-            this.tipBtn.Text = "Tip";
+            this.tipBtn.Text = "Tip\r\n (5 hints)";
             this.tipBtn.UseVisualStyleBackColor = true;
             this.tipBtn.Click += new System.EventHandler(this.tipBtn_Click);
 

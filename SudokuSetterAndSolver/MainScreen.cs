@@ -440,12 +440,27 @@ namespace SudokuSetterAndSolver
         /// <param name="e"></param>
         private void tipBtn_Click(object sender, EventArgs e)
         {
-            //Getting a random tip to display. 
-            Random tipRandomNumber = new Random();
-            int tipValue = tipRandomNumber.Next(1, 10);
-            //Displaying the tip. 
-            TipScreen tipScreen = new TipScreen(tipValue);          
-            tipScreen.ShowDialog();
+            //Getting the current statisitcs. 
+            StatisticsManager.ReadFromStatisticsFile();
+            int currentHintNumber = StatisticsManager.currentStats.hintNumber;
+            if(currentHintNumber >=5)
+            {
+                //Decreasing number of hints by 5 and storing this. 
+                currentHintNumber -=5;
+                StatisticsManager.currentStats.hintNumber = currentHintNumber;
+                StatisticsManager.WriteToStatisticsFile();
+                //Getting a random tip to display. 
+                Random tipRandomNumber = new Random();
+                int tipValue = tipRandomNumber.Next(1, 10);
+                //Displaying the tip. 
+                TipScreen tipScreen = new TipScreen(tipValue);
+                tipScreen.ShowDialog();
+            }
+            else
+            {
+                //If the user does not have enough hints for a tip. 
+                MessageBox.Show("Not enough hints. Hint number = " + currentHintNumber);
+            }        
         }
 
         private void RevealValueFromHint()
