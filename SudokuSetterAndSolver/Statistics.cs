@@ -34,6 +34,14 @@ public partial class statistics {
     
     private int hintNumberField;
     
+    private int extremeHighScoreField;
+    
+    private int hardHighScoreField;
+    
+    private int mediumHighScoreField;
+    
+    private int easyHighScoreField;
+    
     /// <remarks/>
     public decimal fastestsolvetime {
         get {
@@ -81,6 +89,46 @@ public partial class statistics {
         }
         set {
             this.hintNumberField = value;
+        }
+    }
+    
+    /// <remarks/>
+    public int extremeHighScore {
+        get {
+            return this.extremeHighScoreField;
+        }
+        set {
+            this.extremeHighScoreField = value;
+        }
+    }
+    
+    /// <remarks/>
+    public int hardHighScore {
+        get {
+            return this.hardHighScoreField;
+        }
+        set {
+            this.hardHighScoreField = value;
+        }
+    }
+    
+    /// <remarks/>
+    public int mediumHighScore {
+        get {
+            return this.mediumHighScoreField;
+        }
+        set {
+            this.mediumHighScoreField = value;
+        }
+    }
+    
+    /// <remarks/>
+    public int easyHighScore {
+        get {
+            return this.easyHighScoreField;
+        }
+        set {
+            this.easyHighScoreField = value;
         }
     }
 }

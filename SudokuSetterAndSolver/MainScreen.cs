@@ -66,7 +66,6 @@ namespace SudokuSetterAndSolver
 
         private void newPuzzleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
             PopUpRandomPuzzleSelection randomPuzzlePopUp = new PopUpRandomPuzzleSelection();
             randomPuzzlePopUp.ShowDialog();
             if (PopUpRandomPuzzleSelection.isPuzzleTypeSelected)
@@ -76,7 +75,7 @@ namespace SudokuSetterAndSolver
                 //Load buttons         
                 CreateRandomPuzzleButtons();
                 //Setting screen title 
-                this.Text = "Random Puzzle";
+                this.Text = "Random Puzzle : Siwel Sudoku";
                 //Create blank puzzle 
                 LoadPuzzleSelection();
                 StartTimerAndAddInfo();
@@ -102,6 +101,8 @@ namespace SudokuSetterAndSolver
             string levelString = Regex.Match(menuOption.Text, @"\d+").Value;
             levelSelected = Int32.Parse(levelString);
 
+            this.Text = "Level " + levelSelected + " : Siwel Sudoku";
+
             //Loading the puzzle from storage. 
             LoadPuzzleFile();
 
@@ -115,11 +116,11 @@ namespace SudokuSetterAndSolver
 
         private void solvePuzzleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           
             PopUpSolverScreen solverPopUp = new PopUpSolverScreen();
             solverPopUp.ShowDialog();
             if (PopUpSolverScreen.isPuzzleSelected)
             {
+                this.Text = "Solve Puzzle : Siwel Sudoku";
                 ClearScreen();
                 if (_puzzleSelectionSolve == 0)
                 {
@@ -140,7 +141,6 @@ namespace SudokuSetterAndSolver
                 if (_puzzleSelectionSolve == 0)
                 {
                     GenerateStandardSudokuPuzzle(false);
-
                 }
                 else if (_puzzleSelectionSolve == 1)
                 {
@@ -153,7 +153,6 @@ namespace SudokuSetterAndSolver
                 CreateSolveButtons();
             }
         }
-
         #endregion
 
         #region ClearScreen
@@ -438,15 +437,40 @@ namespace SudokuSetterAndSolver
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        private void hintsRegionBtn_Click(object sender, EventArgs e)
+        {
+            UpdatePuzzle();
+            StatisticsManager.ReadFromStatisticsFile();
+            int hintNumber = StatisticsManager.currentStats.hintNumber;
+            //Providing the hint adn revealing the region. 
+            if (hintNumber > 0)
+            {
+                RevealValueFromRegionHint();
+                StatisticsManager.currentStats.hintNumber = hintNumber - 5;
+                StatisticsManager.WriteToStatisticsFile();
+                LevelsUpdate();
+            }
+            else
+            {
+                MessageBox.Show("No hints left!");
+            }
+            SetInformationText();
+        }
+
+        /// <summary>
+        /// Method to get hints for the puzzle. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void tipBtn_Click(object sender, EventArgs e)
         {
             //Getting the current statisitcs. 
             StatisticsManager.ReadFromStatisticsFile();
             int currentHintNumber = StatisticsManager.currentStats.hintNumber;
-            if(currentHintNumber >=5)
+            if (currentHintNumber >= 5)
             {
                 //Decreasing number of hints by 5 and storing this. 
-                currentHintNumber -=5;
+                currentHintNumber -= 5;
                 StatisticsManager.currentStats.hintNumber = currentHintNumber;
                 StatisticsManager.WriteToStatisticsFile();
                 //Getting a random tip to display. 
@@ -460,7 +484,134 @@ namespace SudokuSetterAndSolver
             {
                 //If the user does not have enough hints for a tip. 
                 MessageBox.Show("Not enough hints. Hint number = " + currentHintNumber);
-            }        
+            }
+        }
+
+        private void RevealValueFromRegionHint()
+        {
+            //Random value to select a region, 
+            Random randomRegion = new Random();
+            int randomRegionValue = randomRegion.Next(1, 3);
+            List<int> regionValues = new List<int>();
+            //Making sure the region has blank values before completin it. 
+            int blankCount = 0;
+            //Filling in a region, from a random choice. 
+            if (randomRegionValue == 1)
+            {
+                for (int rowNumberTemp = 0; rowNumberTemp <= loadedPuzzle.gridsize - 1; rowNumberTemp++)
+                {
+                    //row
+                    for (int cellNumber = 0; cellNumber <= loadedPuzzle.puzzlecells.Count - 1; cellNumber++)
+                    {
+                        if (loadedPuzzle.puzzlecells[cellNumber].rownumber == rowNumberTemp)
+                        {
+                            regionValues.Add(loadedPuzzle.puzzlecells[cellNumber].value);
+                        }
+                    }
+                    for (int rowNumberValueIndex = 0; rowNumberValueIndex <= regionValues.Count - 1; rowNumberValueIndex++)
+                    {
+                        if (regionValues[rowNumberValueIndex] == 0)
+                        {
+                            blankCount++;
+                        }
+                    }
+                    if (blankCount >= 1)
+                    {
+                        //Complete region 
+                        for (int cellNumber = 0; cellNumber <= loadedPuzzle.puzzlecells.Count - 1; cellNumber++)
+                        {
+                            if (loadedPuzzle.puzzlecells[cellNumber].rownumber == rowNumberTemp)
+                            {
+                                loadedPuzzle.puzzlecells[cellNumber].value = loadedPuzzle.puzzlecells[cellNumber].solutionvalue;
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+            else if (randomRegionValue == 2)
+            {
+                //column
+                for (int columnNumberTemp = 0; columnNumberTemp <= loadedPuzzle.gridsize - 1; columnNumberTemp++)
+                {
+                    for (int cellNumber = 0; cellNumber <= loadedPuzzle.puzzlecells.Count - 1; cellNumber++)
+                    {
+                        if (loadedPuzzle.puzzlecells[cellNumber].columnnumber == columnNumberTemp)
+                        {
+                            regionValues.Add(loadedPuzzle.puzzlecells[cellNumber].value);
+                        }
+                    }
+                    for (int columnNumberValueIndex = 0; columnNumberValueIndex <= regionValues.Count - 1; columnNumberValueIndex++)
+                    {
+                        if (regionValues[columnNumberValueIndex] == 0)
+                        {
+                            blankCount++;
+                        }
+                    }
+                    if (blankCount >= 1)
+                    {
+                        //Complete region 
+                        for (int cellNumber = 0; cellNumber <= loadedPuzzle.puzzlecells.Count - 1; cellNumber++)
+                        {
+                            if (loadedPuzzle.puzzlecells[cellNumber].columnnumber == columnNumberTemp)
+                            {
+                                loadedPuzzle.puzzlecells[cellNumber].value = loadedPuzzle.puzzlecells[cellNumber].solutionvalue;
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                //block 
+                for (int blockNumberTemp = 0; blockNumberTemp <= loadedPuzzle.gridsize - 1; blockNumberTemp++)
+                {
+                    for (int cellNumber = 0; cellNumber <= loadedPuzzle.puzzlecells.Count - 1; cellNumber++)
+                    {
+                        if (loadedPuzzle.puzzlecells[cellNumber].blocknumber == blockNumberTemp)
+                        {
+                            regionValues.Add(loadedPuzzle.puzzlecells[cellNumber].value);
+                        }
+                    }
+                    for (int blockNumberValueIndex = 0; blockNumberValueIndex <= regionValues.Count - 1; blockNumberValueIndex++)
+                    {
+                        if (regionValues[blockNumberValueIndex] == 0)
+                        {
+                            blankCount++;
+                        }
+                    }
+                    if (blankCount >= 1)
+                    {
+                        //Complete region 
+                        for (int cellNumber = 0; cellNumber <= loadedPuzzle.puzzlecells.Count - 1; cellNumber++)
+                        {
+                            if (loadedPuzzle.puzzlecells[cellNumber].blocknumber == blockNumberTemp)
+                            {
+                                loadedPuzzle.puzzlecells[cellNumber].value = loadedPuzzle.puzzlecells[cellNumber].solutionvalue;
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+          
+            //Updating puzzle in line with loaded puzzle. 
+            for (int cellNumberCount = 0; cellNumberCount <= loadedPuzzle.puzzlecells.Count - 1; cellNumberCount++)
+            {
+                foreach (var textBoxCurrent in listOfTextBoxes)
+                {
+                    if (textBoxCurrent.Name == cellNumberCount.ToString())
+                    {
+                        if (loadedPuzzle.puzzlecells[cellNumberCount].value != 0)
+                        {
+                            textBoxCurrent.Text = loadedPuzzle.puzzlecells[cellNumberCount].value.ToString();
+                            textBoxCurrent.Enabled = false;
+                        }
+                        break;
+                    }
+                }
+            }
         }
 
         private void RevealValueFromHint()
@@ -643,8 +794,8 @@ namespace SudokuSetterAndSolver
                 {
                     GenerateSecondTemplateIrregular();
                 }
-                
-               GeneratePuzzle();
+
+                GeneratePuzzle();
                 GenerateStandardSudokuPuzzle(false);
             }
             else
@@ -1129,7 +1280,7 @@ namespace SudokuSetterAndSolver
             }
         }
 
-       
+
 
         private void GetSmallPuzzleColour(int textBoxNumber)
         {
@@ -1438,5 +1589,24 @@ namespace SudokuSetterAndSolver
             }
         }
         #endregion
+
+        private void statisticsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Load statistics textbox
+            staticsDispalyTb.Visible = true;
+            this.Text = "Statistics : Siwel Sudoku";
+            ClearScreen();
+            LoadStaticsAndDisplay();
+        }
+
+        private void LoadStaticsAndDisplay()
+        {
+            StatisticsManager.ReadFromStatisticsFile();
+            staticsDispalyTb.Text += "Hints:"+ StatisticsManager.currentStats.hintNumber + "\r\n";
+            staticsDispalyTb.Text += "Fastest solving time:" + StatisticsManager.currentStats.fastestsolvetime + "\r\n";
+            staticsDispalyTb.Text += "Levls completed:" + StatisticsManager.currentStats.levelcompleted + "\r\n";
+            staticsDispalyTb.Text += "Extreme Puzzle Completed:" + StatisticsManager.currentStats.numberOfExtremePuzzleCompleted + "\r\n";
+            staticsDispalyTb.Text += "Number of puzzle completed:" + StatisticsManager.currentStats.puzzlecompleted + "\r\n";
+        }
     }
 }

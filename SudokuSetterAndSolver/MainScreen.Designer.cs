@@ -61,6 +61,8 @@ namespace SudokuSetterAndSolver
             this.puzzleTimer = new System.Windows.Forms.Timer(this.components);
             this.timerText = new System.Windows.Forms.TextBox();
             this.puzzlesInformationTb = new System.Windows.Forms.TextBox();
+            this.statisticsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.staticsDispalyTb = new System.Windows.Forms.TextBox();
             this.mainMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -69,7 +71,8 @@ namespace SudokuSetterAndSolver
             this.mainMenuStrip.ImageScalingSize = new System.Drawing.Size(40, 40);
             this.mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fIleToolStripMenuItem,
-            this.levelsToolStripMenuItem});
+            this.levelsToolStripMenuItem,
+            this.statisticsToolStripMenuItem});
             resources.ApplyResources(this.mainMenuStrip, "mainMenuStrip");
             this.mainMenuStrip.Name = "mainMenuStrip";
             // 
@@ -262,11 +265,24 @@ namespace SudokuSetterAndSolver
             resources.ApplyResources(this.puzzlesInformationTb, "puzzlesInformationTb");
             this.puzzlesInformationTb.Name = "puzzlesInformationTb";
             // 
+            // statisticsToolStripMenuItem
+            // 
+            this.statisticsToolStripMenuItem.Name = "statisticsToolStripMenuItem";
+            resources.ApplyResources(this.statisticsToolStripMenuItem, "statisticsToolStripMenuItem");
+            this.statisticsToolStripMenuItem.Click += new System.EventHandler(this.statisticsToolStripMenuItem_Click);
+            // 
+            // staticsDispalyTb
+            // 
+            this.staticsDispalyTb.BackColor = System.Drawing.Color.Aqua;
+            resources.ApplyResources(this.staticsDispalyTb, "staticsDispalyTb");
+            this.staticsDispalyTb.Name = "staticsDispalyTb";
+            // 
             // MainScreen
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.Controls.Add(this.staticsDispalyTb);
             this.Controls.Add(this.puzzlesInformationTb);
             this.Controls.Add(this.timerText);
             this.Controls.Add(this.mainMenuStrip);
@@ -347,11 +363,12 @@ namespace SudokuSetterAndSolver
             this.submitLevelPuzzleBtn = new System.Windows.Forms.Button();
             this.hintsBtn = new Button();
             this.tipBtn = new Button();
+            this.hintsRegionBtn = new Button();
 
             // 
             // submitPuzzleBtn
             // 
-            this.submitLevelPuzzleBtn.Location = new System.Drawing.Point(164, 230);
+            this.submitLevelPuzzleBtn.Location = new System.Drawing.Point(134, 230);
             this.submitLevelPuzzleBtn.Name = "submitLevelPuzzleBtn";
             this.submitLevelPuzzleBtn.Size = new System.Drawing.Size(60, 35);
             this.submitLevelPuzzleBtn.TabIndex = 87;
@@ -362,22 +379,33 @@ namespace SudokuSetterAndSolver
             // 
             // hintsBtn
             // 
-            this.hintsBtn.Location = new System.Drawing.Point(224, 230);
+            this.hintsBtn.Location = new System.Drawing.Point(194, 230);
             this.hintsBtn.Name = "hintsBtn";
             this.hintsBtn.Size = new System.Drawing.Size(60, 35);
             this.hintsBtn.TabIndex = 87;
-            this.hintsBtn.Text = "Hint";
+            this.hintsBtn.Text = " Cell\r\n (1 hint)";
             this.hintsBtn.UseVisualStyleBackColor = true;
             this.hintsBtn.Click += new System.EventHandler(this.hintsBtn_Click);
+
+            // 
+            // hintsRegionBtn
+            // 
+            this.hintsRegionBtn.Location = new System.Drawing.Point(254, 230);
+            this.hintsRegionBtn.Name = "hintsRegionBtn";
+            this.hintsRegionBtn.Size = new System.Drawing.Size(60, 35);
+            this.hintsRegionBtn.TabIndex = 87;
+            this.hintsRegionBtn.Text = "Region\r\n (5 hints)";
+            this.hintsRegionBtn.UseVisualStyleBackColor = true;
+            this.hintsRegionBtn.Click += new System.EventHandler(this.hintsRegionBtn_Click);
 
             //
             // tipBtn
             //
-            this.tipBtn.Location = new System.Drawing.Point(284, 230);
+            this.tipBtn.Location = new System.Drawing.Point(314, 230);
             this.tipBtn.Name = "tipBtn";
             this.tipBtn.Size = new System.Drawing.Size(60, 35);
             this.tipBtn.TabIndex = 88;
-            this.tipBtn.Text = "Tip";
+            this.tipBtn.Text = "Tip\r\n (5 hints)";
             this.tipBtn.UseVisualStyleBackColor = true;
             this.tipBtn.Click += new System.EventHandler(this.tipBtn_Click);
 
@@ -386,8 +414,10 @@ namespace SudokuSetterAndSolver
             this.Controls.SetChildIndex(this.submitLevelPuzzleBtn, 0);
             this.Controls.Add(this.hintsBtn);
             this.Controls.SetChildIndex(this.hintsBtn, 1);
+            this.Controls.Add(this.hintsRegionBtn);
+            this.Controls.SetChildIndex(this.hintsRegionBtn, 2);
             this.Controls.Add(this.tipBtn);
-            this.Controls.SetChildIndex(this.tipBtn, 2);
+            this.Controls.SetChildIndex(this.tipBtn, 3);
         }
 
         private void CreateSolveButtons()
@@ -474,6 +504,7 @@ namespace SudokuSetterAndSolver
         private Button difficultyDetermineBtn;
         private Button validatePuzzleBtn;
         private Button hintsBtn;
+        private Button hintsRegionBtn;
         private Button tipBtn;
         private ToolStripMenuItem easyToolStripMenuItem;
         private ToolStripMenuItem level1ToolStripMenuItem;
@@ -498,6 +529,8 @@ namespace SudokuSetterAndSolver
         private Timer puzzleTimer;
         private TextBox timerText;
         private TextBox puzzlesInformationTb;
+        private ToolStripMenuItem statisticsToolStripMenuItem;
+        private TextBox staticsDispalyTb;
     }
 
 

@@ -121,156 +121,6 @@
     <value>17, 17</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="newPuzzleToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>297, 46</value>
-  </data>
-  <data name="newPuzzleToolStripMenuItem.Text" xml:space="preserve">
-    <value>New Puzzle</value>
-  </data>
-  <data name="solvePuzzleToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>297, 46</value>
-  </data>
-  <data name="solvePuzzleToolStripMenuItem.Text" xml:space="preserve">
-    <value>Solve Puzzle</value>
-  </data>
-  <data name="clearPuzzleToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>297, 46</value>
-  </data>
-  <data name="clearPuzzleToolStripMenuItem.Text" xml:space="preserve">
-    <value>Clear Puzzle</value>
-  </data>
-  <data name="fIleToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 45</value>
-  </data>
-  <data name="fIleToolStripMenuItem.Text" xml:space="preserve">
-    <value>Puzzle</value>
-  </data>
-  <data name="level1ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>209, 46</value>
-  </data>
-  <data name="level1ToolStripMenuItem.Text" xml:space="preserve">
-    <value>level1</value>
-  </data>
-  <data name="level2ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>209, 46</value>
-  </data>
-  <data name="level2ToolStripMenuItem.Text" xml:space="preserve">
-    <value>level2</value>
-  </data>
-  <data name="level3ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>209, 46</value>
-  </data>
-  <data name="level3ToolStripMenuItem.Text" xml:space="preserve">
-    <value>level3</value>
-  </data>
-  <data name="easyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 46</value>
-  </data>
-  <data name="easyToolStripMenuItem.Text" xml:space="preserve">
-    <value>Easy</value>
-  </data>
-  <data name="level1ToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>209, 46</value>
-  </data>
-  <data name="level1ToolStripMenuItem1.Text" xml:space="preserve">
-    <value>level4</value>
-  </data>
-  <data name="level2ToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>209, 46</value>
-  </data>
-  <data name="level2ToolStripMenuItem1.Text" xml:space="preserve">
-    <value>level5</value>
-  </data>
-  <data name="level6ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>209, 46</value>
-  </data>
-  <data name="level6ToolStripMenuItem.Text" xml:space="preserve">
-    <value>level6</value>
-  </data>
-  <data name="mediumToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 46</value>
-  </data>
-  <data name="mediumToolStripMenuItem.Text" xml:space="preserve">
-    <value>Medium</value>
-  </data>
-  <data name="level7ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>217, 46</value>
-  </data>
-  <data name="level7ToolStripMenuItem.Text" xml:space="preserve">
-    <value>level7 </value>
-  </data>
-  <data name="level8ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>217, 46</value>
-  </data>
-  <data name="level8ToolStripMenuItem.Text" xml:space="preserve">
-    <value>level8</value>
-  </data>
-  <data name="level9ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>217, 46</value>
-  </data>
-  <data name="level9ToolStripMenuItem.Text" xml:space="preserve">
-    <value>level9</value>
-  </data>
-  <data name="hardToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 46</value>
-  </data>
-  <data name="hardToolStripMenuItem.Text" xml:space="preserve">
-    <value>Hard</value>
-  </data>
-  <data name="level10ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 46</value>
-  </data>
-  <data name="level10ToolStripMenuItem.Text" xml:space="preserve">
-    <value>level10</value>
-  </data>
-  <data name="level11ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 46</value>
-  </data>
-  <data name="level11ToolStripMenuItem.Text" xml:space="preserve">
-    <value>level11</value>
-  </data>
-  <data name="level12ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 46</value>
-  </data>
-  <data name="level12ToolStripMenuItem.Text" xml:space="preserve">
-    <value>level12</value>
-  </data>
-  <data name="insaneToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 46</value>
-  </data>
-  <data name="insaneToolStripMenuItem.Text" xml:space="preserve">
-    <value>Insane</value>
-  </data>
-  <data name="irregularToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>259, 46</value>
-  </data>
-  <data name="irregularToolStripMenuItem.Text" xml:space="preserve">
-    <value>irregular</value>
-  </data>
-  <data name="irregular2ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>259, 46</value>
-  </data>
-  <data name="irregular2ToolStripMenuItem.Text" xml:space="preserve">
-    <value>irregular2</value>
-  </data>
-  <data name="smallGridToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>259, 46</value>
-  </data>
-  <data name="smallGridToolStripMenuItem.Text" xml:space="preserve">
-    <value>smallgrid</value>
-  </data>
-  <data name="uniqueToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 46</value>
-  </data>
-  <data name="uniqueToolStripMenuItem.Text" xml:space="preserve">
-    <value>Unique</value>
-  </data>
-  <data name="levelsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>110, 45</value>
-  </data>
-  <data name="levelsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Levels</value>
-  </data>
   <data name="mainMenuStrip.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -294,7 +144,157 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;mainMenuStrip.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
+  </data>
+  <data name="fIleToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>115, 45</value>
+  </data>
+  <data name="fIleToolStripMenuItem.Text" xml:space="preserve">
+    <value>Puzzle</value>
+  </data>
+  <data name="newPuzzleToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>297, 46</value>
+  </data>
+  <data name="newPuzzleToolStripMenuItem.Text" xml:space="preserve">
+    <value>New Puzzle</value>
+  </data>
+  <data name="solvePuzzleToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>297, 46</value>
+  </data>
+  <data name="solvePuzzleToolStripMenuItem.Text" xml:space="preserve">
+    <value>Solve Puzzle</value>
+  </data>
+  <data name="clearPuzzleToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>297, 46</value>
+  </data>
+  <data name="clearPuzzleToolStripMenuItem.Text" xml:space="preserve">
+    <value>Clear Puzzle</value>
+  </data>
+  <data name="levelsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>110, 45</value>
+  </data>
+  <data name="levelsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Levels</value>
+  </data>
+  <data name="easyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>244, 46</value>
+  </data>
+  <data name="easyToolStripMenuItem.Text" xml:space="preserve">
+    <value>Easy</value>
+  </data>
+  <data name="level1ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>209, 46</value>
+  </data>
+  <data name="level1ToolStripMenuItem.Text" xml:space="preserve">
+    <value>level1</value>
+  </data>
+  <data name="level2ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>209, 46</value>
+  </data>
+  <data name="level2ToolStripMenuItem.Text" xml:space="preserve">
+    <value>level2</value>
+  </data>
+  <data name="level3ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>209, 46</value>
+  </data>
+  <data name="level3ToolStripMenuItem.Text" xml:space="preserve">
+    <value>level3</value>
+  </data>
+  <data name="mediumToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>244, 46</value>
+  </data>
+  <data name="mediumToolStripMenuItem.Text" xml:space="preserve">
+    <value>Medium</value>
+  </data>
+  <data name="level1ToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>209, 46</value>
+  </data>
+  <data name="level1ToolStripMenuItem1.Text" xml:space="preserve">
+    <value>level4</value>
+  </data>
+  <data name="level2ToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>209, 46</value>
+  </data>
+  <data name="level2ToolStripMenuItem1.Text" xml:space="preserve">
+    <value>level5</value>
+  </data>
+  <data name="level6ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>209, 46</value>
+  </data>
+  <data name="level6ToolStripMenuItem.Text" xml:space="preserve">
+    <value>level6</value>
+  </data>
+  <data name="hardToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>244, 46</value>
+  </data>
+  <data name="hardToolStripMenuItem.Text" xml:space="preserve">
+    <value>Hard</value>
+  </data>
+  <data name="level7ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>217, 46</value>
+  </data>
+  <data name="level7ToolStripMenuItem.Text" xml:space="preserve">
+    <value>level7 </value>
+  </data>
+  <data name="level8ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>217, 46</value>
+  </data>
+  <data name="level8ToolStripMenuItem.Text" xml:space="preserve">
+    <value>level8</value>
+  </data>
+  <data name="level9ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>217, 46</value>
+  </data>
+  <data name="level9ToolStripMenuItem.Text" xml:space="preserve">
+    <value>level9</value>
+  </data>
+  <data name="insaneToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>244, 46</value>
+  </data>
+  <data name="insaneToolStripMenuItem.Text" xml:space="preserve">
+    <value>Insane</value>
+  </data>
+  <data name="level10ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>225, 46</value>
+  </data>
+  <data name="level10ToolStripMenuItem.Text" xml:space="preserve">
+    <value>level10</value>
+  </data>
+  <data name="level11ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>225, 46</value>
+  </data>
+  <data name="level11ToolStripMenuItem.Text" xml:space="preserve">
+    <value>level11</value>
+  </data>
+  <data name="level12ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>225, 46</value>
+  </data>
+  <data name="level12ToolStripMenuItem.Text" xml:space="preserve">
+    <value>level12</value>
+  </data>
+  <data name="uniqueToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>244, 46</value>
+  </data>
+  <data name="uniqueToolStripMenuItem.Text" xml:space="preserve">
+    <value>Unique</value>
+  </data>
+  <data name="irregularToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>259, 46</value>
+  </data>
+  <data name="irregularToolStripMenuItem.Text" xml:space="preserve">
+    <value>irregular</value>
+  </data>
+  <data name="irregular2ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>259, 46</value>
+  </data>
+  <data name="irregular2ToolStripMenuItem.Text" xml:space="preserve">
+    <value>irregular2</value>
+  </data>
+  <data name="smallGridToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>259, 46</value>
+  </data>
+  <data name="smallGridToolStripMenuItem.Text" xml:space="preserve">
+    <value>smallgrid</value>
   </data>
   <metadata name="puzzleTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>308, 17</value>
@@ -328,7 +328,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;timerText.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="puzzlesInformationTb.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -358,6 +358,45 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;puzzlesInformationTb.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="statisticsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 45</value>
+  </data>
+  <data name="statisticsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Statistics</value>
+  </data>
+  <data name="staticsDispalyTb.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="staticsDispalyTb.Location" type="System.Drawing.Point, System.Drawing">
+    <value>102, 79</value>
+  </data>
+  <data name="staticsDispalyTb.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="staticsDispalyTb.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1040, 537</value>
+  </data>
+  <data name="staticsDispalyTb.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="staticsDispalyTb.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="staticsDispalyTb.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;staticsDispalyTb.Name" xml:space="preserve">
+    <value>staticsDispalyTb</value>
+  </data>
+  <data name="&gt;&gt;staticsDispalyTb.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;staticsDispalyTb.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;staticsDispalyTb.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -475,7 +514,7 @@
     <value>CenterScreen</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Main Menu</value>
+    <value>Main Menu : Siwel Sudoku</value>
   </data>
   <data name="&gt;&gt;fIleToolStripMenuItem.Name" xml:space="preserve">
     <value>fIleToolStripMenuItem</value>
@@ -632,6 +671,12 @@
   </data>
   <data name="&gt;&gt;puzzleTimer.Type" xml:space="preserve">
     <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;statisticsToolStripMenuItem.Name" xml:space="preserve">
+    <value>statisticsToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;statisticsToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>MainScreen</value>
