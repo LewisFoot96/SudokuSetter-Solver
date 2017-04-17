@@ -141,9 +141,22 @@ namespace SudokuSetterAndSolver
                 }
 
                 loadedPuzzle.type = "regualr";
-                GenerateBlankGridStandardSudoku();
+                if (_puzzleSelectionSolve >= 1)
+                {
+                    GenerateBlankGridStandardSudoku();
+                }
+                Random irregularRandom = new Random();
+                int irregularRandomValue = irregularRandom.Next(1, 2);
                 if (_puzzleSelectionSolve == 0)
                 {
+                    if (irregularRandomValue == 1)
+                    {
+                        GenerateFirstTemplateIrregular();
+                    }
+                    else
+                    {
+                        GenerateSecondTemplateIrregular();
+                    }
                     GenerateStandardSudokuPuzzle(false);
                 }
                 else if (_puzzleSelectionSolve == 1)
@@ -201,9 +214,7 @@ namespace SudokuSetterAndSolver
             //Setting up the score and the difficulty of the current puzzle the user is solving. 
             puzzlesInformationTb.Text = "Difficulty= " + loadedPuzzle.difficulty + " Solving Time= "
                 + errorSubmitCount + " Mutilpe Solutions " + currentScore;
-
         }
-
         #endregion 
 
         #region Levels Logic 
@@ -216,8 +227,6 @@ namespace SudokuSetterAndSolver
             StatisticsManager.ReadFromStatisticsFile();
             currentLevel = StatisticsManager.currentStats.levelcompleted;
         }
-
-
 
         /// <summary>
         /// Metthod to disable levels user cannot acces. 
@@ -268,7 +277,6 @@ namespace SudokuSetterAndSolver
 
         private void newPuzzleBtn_Click(object sender, EventArgs e)
         {
-
             PopUpRandomPuzzleSelection popUpPuzzleSelection = new PopUpRandomPuzzleSelection();
             popUpPuzzleSelection.ShowDialog();
             //Making sure one has been selected. 
@@ -602,7 +610,7 @@ namespace SudokuSetterAndSolver
                     }
                 }
             }
-          
+
             //Updating puzzle in line with loaded puzzle. 
             for (int cellNumberCount = 0; cellNumberCount <= loadedPuzzle.puzzlecells.Count - 1; cellNumberCount++)
             {
@@ -801,6 +809,7 @@ namespace SudokuSetterAndSolver
                 {
                     GenerateSecondTemplateIrregular();
                 }
+               
 
                 GeneratePuzzle();
                 GenerateStandardSudokuPuzzle(false);
@@ -1455,6 +1464,13 @@ namespace SudokuSetterAndSolver
         #region IrregularPuzzles
         protected void GenerateFirstTemplateIrregular()
         {
+            //puzzle irregularSolvedPuzzle = new puzzle();
+            //string directoryLocation;
+
+            //directoryLocation = Path.GetFullPath(@"..\..\") + @"\Puzzles\TestPuzzles\IrregularPuzzles";
+            //directoryLocation += @"\irregulartest1.xml";
+            //irregularSolvedPuzzle = puzzleManager.ReadFromXMlFile(directoryLocation);
+            //Creting the irregular puzzle. 
             for (int puzzleRowNumber = 0; puzzleRowNumber <= loadedPuzzle.gridsize - 1; puzzleRowNumber++)
             {
                 for (int puzzleColumnNumber = 0; puzzleColumnNumber <= loadedPuzzle.gridsize - 1; puzzleColumnNumber++)
@@ -1462,44 +1478,7 @@ namespace SudokuSetterAndSolver
                     puzzleCell tempPuzzleCell = new puzzleCell();
                     tempPuzzleCell.rownumber = puzzleRowNumber;
                     tempPuzzleCell.columnnumber = puzzleColumnNumber;
-
-                    //if((puzzleRowNumber==0 && puzzleColumnNumber ==2) || (puzzleRowNumber == 2 && puzzleColumnNumber == 8) || (puzzleRowNumber == 3 && puzzleColumnNumber == 7) || (puzzleRowNumber == 7 && puzzleColumnNumber == 5))
-                    //{
-                    //    tempPuzzleCell.value = 1;
-                    //}
-                    //else if ((puzzleRowNumber == 1 && puzzleColumnNumber == 5) || (puzzleRowNumber == 5 && puzzleColumnNumber == 0) || (puzzleRowNumber == 7 && puzzleColumnNumber == 3) || (puzzleRowNumber == 8 && puzzleColumnNumber == 6))
-                    //{
-                    //    tempPuzzleCell.value = 2;
-                    //}
-                    //else if ((puzzleRowNumber == 1 && puzzleColumnNumber == 4) || (puzzleRowNumber == 4 && puzzleColumnNumber == 1) )
-                    //{
-                    //    tempPuzzleCell.value = 3;
-                    //}
-                    //else if ((puzzleRowNumber == 4 && puzzleColumnNumber == 7) || (puzzleRowNumber == 6 && puzzleColumnNumber == 0))
-                    //{
-                    //    tempPuzzleCell.value = 4;
-                    //}
-                    //else if ((puzzleRowNumber == 2 && puzzleColumnNumber == 0) || (puzzleRowNumber == 4 && puzzleColumnNumber == 6) || (puzzleRowNumber == 6 && puzzleColumnNumber == 8) || (puzzleRowNumber == 8 && puzzleColumnNumber == 5))
-                    //{
-                    //    tempPuzzleCell.value = 5;
-                    //}
-                    //else if ((puzzleRowNumber == 0 && puzzleColumnNumber == 3) || (puzzleRowNumber == 3 && puzzleColumnNumber == 8) || (puzzleRowNumber == 5 && puzzleColumnNumber == 7) || (puzzleRowNumber == 6 && puzzleColumnNumber == 4))
-                    //{
-                    //    tempPuzzleCell.value = 6;
-                    //}
-                    //else if ((puzzleRowNumber == 5 && puzzleColumnNumber == 1) )
-                    //{
-                    //    tempPuzzleCell.value = 7;
-                    //}
-                    //else if ((puzzleRowNumber == 1 && puzzleColumnNumber == 3) || (puzzleRowNumber == 2 && puzzleColumnNumber == 4) || (puzzleRowNumber == 4 && puzzleColumnNumber == 2) )
-                    //{
-                    //    tempPuzzleCell.value = 8;
-                    //}
-                    //else if ((puzzleRowNumber == 0 && puzzleColumnNumber == 6) || (puzzleRowNumber == 3 && puzzleColumnNumber == 1) || (puzzleRowNumber == 7 && puzzleColumnNumber == 4) || (puzzleRowNumber == 8 && puzzleColumnNumber == 2))
-                    //{
-                    //    tempPuzzleCell.value = 9;
-                    //}
-
+                    //tempPuzzleCell.value = irregularSolvedPuzzle.puzzlecells[puzzleRowNumber * 9 + puzzleColumnNumber].solutionvalue;
                     if ((puzzleRowNumber == 0 && puzzleColumnNumber == 0) || (puzzleRowNumber == 1 && puzzleColumnNumber == 0) || (puzzleRowNumber == 1 && puzzleColumnNumber == 1) || (puzzleRowNumber == 1 && puzzleColumnNumber == 2) || (puzzleRowNumber == 1 && puzzleColumnNumber == 3) || (puzzleRowNumber == 2 && puzzleColumnNumber == 0) || (puzzleRowNumber == 2 && puzzleColumnNumber == 1) || (puzzleRowNumber == 2 && puzzleColumnNumber == 3) || (puzzleRowNumber == 3 && puzzleColumnNumber == 0))
                     {
                         tempPuzzleCell.blocknumber = 0;
@@ -1547,6 +1526,12 @@ namespace SudokuSetterAndSolver
 
         protected void GenerateSecondTemplateIrregular()
         {
+            //puzzle irregularSolvedPuzzle = new puzzle();
+            //string directoryLocation;
+
+            //directoryLocation = Path.GetFullPath(@"..\..\") + @"\Puzzles\TestPuzzles\IrregularPuzzles";
+            //directoryLocation += @"\irregulartest1.xml";
+            //irregularSolvedPuzzle = puzzleManager.ReadFromXMlFile(directoryLocation);
             for (int puzzleRowNumber = 0; puzzleRowNumber <= loadedPuzzle.gridsize - 1; puzzleRowNumber++)
             {
                 for (int puzzleColumnNumber = 0; puzzleColumnNumber <= loadedPuzzle.gridsize - 1; puzzleColumnNumber++)
@@ -1554,6 +1539,7 @@ namespace SudokuSetterAndSolver
                     puzzleCell tempPuzzleCell = new puzzleCell();
                     tempPuzzleCell.rownumber = puzzleRowNumber;
                     tempPuzzleCell.columnnumber = puzzleColumnNumber;
+                    //tempPuzzleCell.value = irregularSolvedPuzzle.puzzlecells[puzzleRowNumber * 9 + puzzleColumnNumber].solutionvalue;
 
                     if ((puzzleRowNumber == 0 && puzzleColumnNumber == 0) || (puzzleRowNumber == 0 && puzzleColumnNumber == 1) || (puzzleRowNumber == 0 && puzzleColumnNumber == 2) || (puzzleRowNumber == 0 && puzzleColumnNumber == 3) || (puzzleRowNumber == 1 && puzzleColumnNumber == 0) || (puzzleRowNumber == 1 && puzzleColumnNumber == 1) || (puzzleRowNumber == 2 && puzzleColumnNumber == 0) || (puzzleRowNumber == 2 && puzzleColumnNumber == 1) || (puzzleRowNumber == 3 && puzzleColumnNumber == 0))
                     {
@@ -1602,7 +1588,7 @@ namespace SudokuSetterAndSolver
             ClearScreen();
             //Load statistics textbox
             staticsDispalyTb.Visible = true;
-            this.Text = "Statistics : Siwel Sudoku";      
+            this.Text = "Statistics : Siwel Sudoku";
             LoadStaticsAndDisplay();
         }
 
@@ -1610,7 +1596,7 @@ namespace SudokuSetterAndSolver
         {
             //Dispalying all of the stats 
             StatisticsManager.ReadFromStatisticsFile();
-            staticsDispalyTb.Text += "Hints:"+ StatisticsManager.currentStats.hintNumber + "\r\n";
+            staticsDispalyTb.Text += "Hints:" + StatisticsManager.currentStats.hintNumber + "\r\n";
             staticsDispalyTb.Text += "Fastest solving time:" + StatisticsManager.currentStats.fastestsolvetime + "\r\n";
             staticsDispalyTb.Text += "Levls completed:" + StatisticsManager.currentStats.levelcompleted + "\r\n";
             staticsDispalyTb.Text += "Extreme Puzzle Completed:" + StatisticsManager.currentStats.numberOfExtremePuzzleCompleted + "\r\n";
