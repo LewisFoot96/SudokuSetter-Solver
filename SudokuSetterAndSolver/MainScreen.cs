@@ -284,7 +284,7 @@ namespace SudokuSetterAndSolver
             //Making sure one has been selected. 
             if (PopUpRandomPuzzleSelection.isPuzzleTypeSelected)
             {
-                //Restarting time for new puzzle. 
+                //Restarting timer for new puzzle. 
                 StartTimerAndAddInfo();           
                 errorSubmitCount = 0;
                 ClearGrid();

@@ -61,35 +61,11 @@
       <DependentUpon>DevelopmentForm.cs</DependentUpon>
     </Compile>
     <Compile Include="GridManager.cs" />
-    <Compile Include="InstructionsCreditsScreen.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="InstructionsCreditsScreen.Designer.cs">
-      <DependentUpon>InstructionsCreditsScreen.cs</DependentUpon>
-    </Compile>
     <Compile Include="MainScreen.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainScreen.Designer.cs">
       <DependentUpon>MainScreen.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MainMenu.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MainMenu.Designer.cs">
-      <DependentUpon>MainMenu.cs</DependentUpon>
-    </Compile>
-    <Compile Include="PlayLevelsScreen.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PlayLevelsScreen.Designer.cs">
-      <DependentUpon>PlayLevelsScreen.cs</DependentUpon>
-    </Compile>
-    <Compile Include="PlaySudokuScreen.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PlaySudokuScreen.Designer.cs">
-      <DependentUpon>PlaySudokuScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="PopUpRandomPuzzleSelection.cs">
       <SubType>Form</SubType>
@@ -112,23 +88,11 @@
     </Compile>
     <Compile Include="PuzzleManager.cs" />
     <Compile Include="puzzleschema.cs" />
-    <Compile Include="RandomPuzzleGameScreen.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="RandomPuzzleGameScreen.Designer.cs">
-      <DependentUpon>RandomPuzzleGameScreen.cs</DependentUpon>
-    </Compile>
     <Compile Include="SolutionsAddForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="SolutionsAddForm.Designer.cs">
       <DependentUpon>SolutionsAddForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SolveSudokuScreen.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SolveSudokuScreen.Designer.cs">
-      <DependentUpon>SolveSudokuScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="SplashScreen.cs">
       <SubType>Form</SubType>
@@ -148,12 +112,6 @@
     </Compile>
     <Compile Include="SudokuPuzzleGenerator.cs" />
     <Compile Include="SudokuSolver.cs" />
-    <Compile Include="TemplateScreen.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="TemplateScreen.Designer.cs">
-      <DependentUpon>TemplateScreen.cs</DependentUpon>
-    </Compile>
     <Compile Include="TipScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -170,20 +128,8 @@
     <EmbeddedResource Include="DevelopmentForm.resx">
       <DependentUpon>DevelopmentForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="InstructionsCreditsScreen.resx">
-      <DependentUpon>InstructionsCreditsScreen.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MainScreen.resx">
       <DependentUpon>MainScreen.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MainMenu.resx">
-      <DependentUpon>MainMenu.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PlayLevelsScreen.resx">
-      <DependentUpon>PlayLevelsScreen.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PlaySudokuScreen.resx">
-      <DependentUpon>PlaySudokuScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PopUpRandomPuzzleSelection.resx">
       <DependentUpon>PopUpRandomPuzzleSelection.cs</DependentUpon>
@@ -196,23 +142,14 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="RandomPuzzleGameScreen.resx">
-      <DependentUpon>RandomPuzzleGameScreen.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="SolutionsAddForm.resx">
       <DependentUpon>SolutionsAddForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SolveSudokuScreen.resx">
-      <DependentUpon>SolveSudokuScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SplashScreen.resx">
       <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StatisticsScreen.resx">
       <DependentUpon>StatisticsScreen.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TemplateScreen.resx">
-      <DependentUpon>TemplateScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TipScreen.resx">
       <DependentUpon>TipScreen.cs</DependentUpon>
