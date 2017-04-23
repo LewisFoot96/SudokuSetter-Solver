@@ -41,7 +41,7 @@ namespace SudokuSetterAndSolver
             puzzleGenerationTime.Reset();
             puzzleGenerationTime.Start();
             //Creating 10 puzzles using the generator 
-            for (int puzzleNumber = 0; puzzleNumber <= 99; puzzleNumber++)
+            for (int puzzleNumber = 0; puzzleNumber <= 9; puzzleNumber++)
             {
                 //Creating puzzles. 
                 generatedPuzzle = new puzzle();

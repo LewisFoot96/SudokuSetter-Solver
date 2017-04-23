@@ -43,6 +43,108 @@ namespace SudokuSetterAndSolver
             }
 
         }
+
+        /// <summary>
+        /// Method to update the statistics when a user has compelted a leveled puzzle. 
+        /// </summary>
+        /// <param name="levelCompleted"></param>
+        /// <param name="solvingTime"></param>
+        /// <param name="extreme"></param>
+        /// <param name="difficulty"></param>
+        /// <param name="score"></param>
+        public static void LeveledPuzzleComlpeted(int levelCompleted, decimal solvingTime, bool extreme, string difficulty, int score)
+        {
+            //Reading, updating and writing. 
+            ReadFromStatisticsFile();
+            currentStats.levelcompleted = levelCompleted;
+            if(difficulty.ToLower() == "extreme")
+            {
+                currentStats.extremeHighScore++;
+            }
+            UpdateFastestSolvingTime(solvingTime);
+            HighScoresUpdate(difficulty, score);
+            WriteToStatisticsFile();
+        }
+
+        /// <summary>
+        /// Method for when the user completes a random puzzle. 
+        /// </summary>
+        /// <param name="difficulty"></param>
+        /// <param name="score"></param>
+        /// <param name="solvingTime"></param>
+        public static void RandomPuzzleCompleted(string difficulty, int score, decimal solvingTime)
+        {
+            //Reading, updating and writing. 
+            ReadFromStatisticsFile();
+            if (difficulty.ToLower() == "extreme")
+            {
+                currentStats.extremeHighScore++;
+            }
+            UpdateFastestSolvingTime(solvingTime);
+            HighScoresUpdate(difficulty, score);
+            WriteToStatisticsFile();
+        }
+
+        /// <summary>
+        /// Updating the fastest solving time of a puzzle. 
+        /// </summary>
+        /// <param name="solvingTime"></param>
+        private static void UpdateFastestSolvingTime(decimal solvingTime)
+        {
+            if (currentStats.fastestsolvetime > solvingTime)
+            {
+                currentStats.fastestsolvetime = solvingTime;
+            }
+        }
+
+        /// <summary>
+        /// Method to update the users high score, depending on difficulty. 
+        /// </summary>
+        /// <param name="difficulty"></param>
+        /// <param name="score"></param>
+        private static void HighScoresUpdate(string difficulty, int score)
+        {
+            //Updating the high score for that level of difficulty.
+            switch(difficulty.ToLower())
+            {
+                case "easy":
+                    if(currentStats.easyHighScore < score)
+                    {
+                        currentStats.easyHighScore = score;
+                    }
+                    break;
+                case "medium":
+                    if (currentStats.mediumHighScore < score)
+                    {
+                        currentStats.mediumHighScore = score;
+                    }
+                    break;
+                case "hard":
+                    if (currentStats.hardHighScore < score)
+                    {
+                        currentStats.hardHighScore = score;
+                    }
+                    break;
+                case "extreme":
+                    if (currentStats.extremeHighScore < score)
+                    {
+                        currentStats.extremeHighScore = score;
+                    }
+                    break;
+            }
+        }
+        
+        /// <summary>
+        /// Updating the users hints value. 
+        /// </summary>
+        /// <param name="hintUpdateValue"></param>
+        public static void UpdateHints(int hintUpdateValue)
+        {
+            ReadFromStatisticsFile();
+            currentStats.hintNumber += hintUpdateValue;
+            WriteToStatisticsFile();
+        }
+        
         #endregion 
     }
 }

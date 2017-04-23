@@ -40,7 +40,6 @@ namespace SudokuSetterAndSolver
         string puzzleCurrentDetails;
 
         //Scores
-        int startScore = 0;
         int currentScore = 0;
         #endregion
 
@@ -267,8 +266,10 @@ namespace SudokuSetterAndSolver
             bool correctPuzzle = CheckPuzzleSolution();
             if (correctPuzzle == true)
             {
+                puzzleTimer.Stop();
+                TimeSpan time = TimeSpan.FromSeconds(currentTime);
                 MessageBox.Show("Puzzle Completed! Well Done! Error count: " + errorSubmitCount);
-
+                StatisticsManager.RandomPuzzleCompleted(loadedPuzzle.difficulty, currentScore, (decimal)time.TotalSeconds);
             }
             else
             {
@@ -277,12 +278,14 @@ namespace SudokuSetterAndSolver
         }
 
         private void newPuzzleBtn_Click(object sender, EventArgs e)
-        {
+        {     
             PopUpRandomPuzzleSelection popUpPuzzleSelection = new PopUpRandomPuzzleSelection();
             popUpPuzzleSelection.ShowDialog();
             //Making sure one has been selected. 
             if (PopUpRandomPuzzleSelection.isPuzzleTypeSelected)
             {
+                //Restarting time for new puzzle. 
+                StartTimerAndAddInfo();           
                 errorSubmitCount = 0;
                 ClearGrid();
                 listOfTextBoxes.Clear();
@@ -408,13 +411,20 @@ namespace SudokuSetterAndSolver
                 puzzleTimer.Stop();
                 MessageBox.Show("Puzzle Completed! Well Done! Error count: " + errorSubmitCount + " Level:" + (currentLevel + 1) + " completed");
 
+                puzzleTimer.Stop();
+                TimeSpan time = TimeSpan.FromSeconds(currentTime);
+                string puzzleDifficulty = loadedPuzzle.difficulty.ToLower();
+                bool extremeBool = false;
+                if(puzzleDifficulty == "extreme")
+                {
+                    extremeBool = true;
+                }          
                 //If the user completes the level that is last on their list, unlock the next one. 
                 if (currentLevel == levelSelected)
                 {
-                    StatisticsManager.currentStats.levelcompleted = currentLevel++;
-                    StatisticsManager.WriteToStatisticsFile();
+                    StatisticsManager.currentStats.levelcompleted = currentLevel++;                   
                 }
-
+                StatisticsManager.LeveledPuzzleComlpeted(StatisticsManager.currentStats.levelcompleted, (decimal)time.TotalSeconds, extremeBool, puzzleDifficulty, currentScore);
             }
             else
             {
@@ -437,8 +447,7 @@ namespace SudokuSetterAndSolver
             if (hintNumber > 0)
             {
                 RevealValueFromHint();
-                StatisticsManager.currentStats.hintNumber = hintNumber - 1;
-                StatisticsManager.WriteToStatisticsFile();
+                StatisticsManager.UpdateHints(-1);
                 LevelsUpdate();
             }
             else
@@ -459,11 +468,10 @@ namespace SudokuSetterAndSolver
             StatisticsManager.ReadFromStatisticsFile();
             int hintNumber = StatisticsManager.currentStats.hintNumber;
             //Providing the hint adn revealing the region. 
-            if (hintNumber > 0)
+            if (hintNumber >= 5)
             {
                 RevealValueFromRegionHint();
-                StatisticsManager.currentStats.hintNumber = hintNumber - 5;
-                StatisticsManager.WriteToStatisticsFile();
+                StatisticsManager.UpdateHints(-5);
                 LevelsUpdate();
             }
             else
@@ -487,8 +495,7 @@ namespace SudokuSetterAndSolver
             {
                 //Decreasing number of hints by 5 and storing this. 
                 currentHintNumber -= 5;
-                StatisticsManager.currentStats.hintNumber = currentHintNumber;
-                StatisticsManager.WriteToStatisticsFile();
+                StatisticsManager.UpdateHints(-5);
                 //Getting a random tip to display. 
                 Random tipRandomNumber = new Random();
                 int tipValue = tipRandomNumber.Next(1, 10);
