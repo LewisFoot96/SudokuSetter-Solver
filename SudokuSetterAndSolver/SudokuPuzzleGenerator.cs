@@ -65,10 +65,7 @@ namespace SudokuSetterAndSolver
             solver.currentPuzzleToBeSolved = generatedPuzzle;
 
             solved = solver.BacktrackingUsingXmlTemplateFile(true);
-            for(int cellNumber =0;cellNumber<=generatedPuzzle.puzzlecells.Count-1;cellNumber++)
-            {
-                Console.Write(generatedPuzzle.puzzlecells[cellNumber].value);
-            }
+
             //Setting the orginal solution of the puzzle. 
             for (int orginalSolutionCounter = 0; orginalSolutionCounter <= generatedPuzzle.puzzlecells.Count - 1; orginalSolutionCounter++)
             {
@@ -97,7 +94,8 @@ namespace SudokuSetterAndSolver
             //Depending on grid size, remove a certain amount of numbers from the puzzle initially. 
             if(generatedPuzzle.gridsize ==9)
             {
-                blankCellNumber = 49;
+                //If you increase this number the puzzle generated will become harder. 
+                blankCellNumber = 48;
             }
             else if(generatedPuzzle.gridsize ==16)
             {

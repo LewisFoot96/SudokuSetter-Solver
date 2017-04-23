@@ -67,6 +67,8 @@ namespace SudokuSetterAndSolver
         public puzzle currentPuzzleToBeSolved = new puzzle();
         //THis will be the cell that is currently being handled by the solver. 
         puzzleCell puzzleCellCurrentlyBeingHandled = new puzzleCell();
+
+        List<int> listOfCellsToBeRemoved = new List<int>();
         #endregion
 
         #region General Methods 
@@ -129,6 +131,10 @@ namespace SudokuSetterAndSolver
                     {
                         numberOfStaticNumbers++;
                     }
+                    else
+                    {
+                        listOfCellsToBeRemoved.Add(nonBlankCellCount);
+                    }
                 }
                 candidatesList = tempCandiateList;
 
@@ -174,6 +180,7 @@ namespace SudokuSetterAndSolver
                 bool solved = CheckToSeeIfPuzzleSolvedXML();
                 if (solved)
                 {
+                    //CheckUniqueSolution();
                     return true;
                 }
                 else
@@ -184,6 +191,7 @@ namespace SudokuSetterAndSolver
             bool checkSolved = CheckToSeeIfPuzzleSolvedXML();
             if (checkSolved)
             {
+                //CheckUniqueSolution();
                 //MessageBox.Show("Human Solving Methods Completed! Puzzle Completed. Difficulty: " + difficluty);
                 return true;
             }
@@ -192,6 +200,7 @@ namespace SudokuSetterAndSolver
             checkSolved = CheckToSeeIfPuzzleSolvedXML();
             if (checkSolved)
             {
+                //CheckUniqueSolution();
                 //MessageBox.Show("Human Solving Methods Completed! Puzzle Completed. Difficulty: " + difficluty);
                 return true;
             }
@@ -202,6 +211,8 @@ namespace SudokuSetterAndSolver
 
             backtrackingBool = true;
             solvedBacktracking = BacktrackingUsingXmlTemplateFile(false);
+            //CheckUniqueSolution();
+            
             return solvedBacktracking;
         }
 
@@ -1315,6 +1326,8 @@ namespace SudokuSetterAndSolver
                 }
             }
 
+           
+
             //Starting the timer
             stopWatch.Reset();
             stopWatch.Start();
@@ -1376,7 +1389,7 @@ namespace SudokuSetterAndSolver
             for (startingValue = numberOfCellToBeHandled; startingValue <= logicalOrderOfCellsXml.Count - 1; startingValue++)
             {
 
-                if (stopWatch.Elapsed.Seconds >= 10000)
+                if (stopWatch.Elapsed.Seconds >= 5)
                 {
                     logicalOrderOfCellsXml.Clear();
                     return false;
@@ -1394,6 +1407,10 @@ namespace SudokuSetterAndSolver
 
                 if (validNumbersInCell.Count == 0)
                 {
+                    if(startingValue ==0)
+                    {
+                        return false;
+                    }
                     backtrackingNodesCount++;
                     previousNumberInCell = currentPuzzleToBeSolved.puzzlecells[logicalOrderOfCellsXml[startingValue - 1]].value;
                     currentPuzzleToBeSolved.puzzlecells[logicalOrderOfCellsXml[numberOfCellToBeHandled - 1]].value = 0;
@@ -1486,11 +1503,71 @@ namespace SudokuSetterAndSolver
                 //Console.WriteLine();
                 validNumbersInCell.Clear();
             }
-            Console.WriteLine(stopWatch.Elapsed.TotalSeconds);
             cellNumbersForLogicalEffcientOrder.Clear();
             stopWatch.Stop();
             return true;
         }
+        #endregion
+
+        #region Check Unique Solution
+
+        public void CheckUniqueSolution()
+        {
+            //Finding the cell to induce further backtracking 
+            for (int reverseCellCount = currentPuzzleToBeSolved.puzzlecells.Count - 1; reverseCellCount >= 0; reverseCellCount--)
+            {   
+                //Get a vlaid cell, that a value has been removed from, the last number that has had a value removed, 
+                bool isRemovedCell = false;
+                for (int removeCellIndex = 0; removeCellIndex <= listOfCellsToBeRemoved.Count - 1; removeCellIndex++)
+                {
+                    if (reverseCellCount == listOfCellsToBeRemoved[removeCellIndex])
+                    {
+                        isRemovedCell = true;
+                    }
+                }
+                if (isRemovedCell == false) //If there has been no value removed from this cell then skip the iteration. 
+                {
+                    continue;
+                }
+                //Setting prervious number, so can not be used. 
+                int previousNumberReverse = currentPuzzleToBeSolved.puzzlecells[reverseCellCount].value;
+                currentPuzzleToBeSolved.puzzlecells[reverseCellCount].value = 0;
+                //Getting valid numebrs for that cell. 
+                List<int> validNumbersInRow = CheckValidNumbersForRegions.GetValuesForRowXmlPuzzleTemplate(currentPuzzleToBeSolved, currentPuzzleToBeSolved.puzzlecells[reverseCellCount]);
+                List<int> validNumbersInColumn = CheckValidNumbersForRegions.GetValuesForColumnXmlPuzzleTemplate(currentPuzzleToBeSolved, currentPuzzleToBeSolved.puzzlecells[reverseCellCount]);
+                List<int> validNumbersInBlock = CheckValidNumbersForRegions.GetValuesForBlockXmlPuzzleTemplate(currentPuzzleToBeSolved, currentPuzzleToBeSolved.puzzlecells[reverseCellCount]);
+                List<int> validNumbers = CheckValidNumbersForRegions.GetValidNumbers(validNumbersInColumn, validNumbersInRow, validNumbersInBlock);
+                //If the cell contains more than 1 candidate then the backtracking can occur. 
+                if (validNumbers.Count >= 2)
+                {
+                    //If there is a cell with 2 or more candidates, where the current value is not the last valid number in that list. 
+                    if (previousNumberReverse != validNumbers[validNumbers.Count - 1])
+                    {
+                        for (int validNumberIndexNumber = 0; validNumberIndexNumber <= validNumbers.Count - 1; validNumberIndexNumber++)
+                        {
+                            if (validNumbers[validNumberIndexNumber] > previousNumberReverse)
+                            {
+                                //Testing the new puzzle, which has the changed value. 
+                                currentPuzzleToBeSolved.puzzlecells[reverseCellCount].value = validNumbers[validNumberIndexNumber];
+                                
+                               bool solvedSecond =BacktrackingUsingXmlTemplateFile(false);
+                                //there is another solution. Therefore another value needs to be removed. 
+                                if (solvedSecond == true)
+                                {
+                                    Console.WriteLine("Not unique");
+                                }
+                                //If there is no other solution, then it is a unique solution. 
+                                else
+                                {
+                                    Console.WriteLine("Unique");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         #endregion
 
         #region Neighbourhood Operator
@@ -1508,10 +1585,6 @@ namespace SudokuSetterAndSolver
                     currentPuzzleToBeSolved.puzzlecells[cellNumber].value = validNumbersInBlock[0];
                     cellIndexes.Add(cellNumber);
                 }
-            }
-            for(int print =0;print<=currentPuzzleToBeSolved.puzzlecells.Count-1;print++)
-            {
-                Console.Write(currentPuzzleToBeSolved.puzzlecells[print].value);
             }
             Random randomBlockNumber = new Random();
             int numberOfErros = GetPuzzleErrors(); 
@@ -1673,6 +1746,7 @@ namespace SudokuSetterAndSolver
         }
 
         #endregion
+
         #region Methods for checking rows columns and blocks using the XML generated class
 
         //Methods for getting the values using the xml file. 
@@ -1795,13 +1869,14 @@ namespace SudokuSetterAndSolver
             tempStopWatch.Reset();
             tempStopWatch.Start();
             bool rule = SolveSudokuRuleBasedXML();
+            /*
             Console.WriteLine(tempStopWatch.Elapsed.TotalSeconds);
             Console.WriteLine(tempStopWatch.Elapsed.TotalMilliseconds);
             Console.WriteLine(numberOfStaticNumbers);
             Console.WriteLine(totalNumberOfCandidates);
 
             Console.WriteLine("" + singlesCount + " " + hiddenCount + " " + doublesCount + " " + triplesCount);
-
+            */
             executionTimeDifficulty = EvaluateExecutionTime(tempStopWatch.Elapsed.TotalSeconds);
             tempStopWatch.Stop();
             totalNumberOfCandidatesDifficulty = EvaluateTotalNumberOfCandidatesDifficulty(totalNumberOfCandidates);
@@ -1833,15 +1908,15 @@ namespace SudokuSetterAndSolver
         private int EvaluateExecutionTime(double time)
         {
             //Change to return int, to get the time if the solving time. 
-            if (time <= 0.02)
+            if (time <= 0.015)
             {
                 return 0;
             }
-            else if (time > 0.02 && time <= 0.04)
+            else if (time > 0.015 && time <= 0.03)
             {
                 return 1;
             }
-            else if (time > 0.4 && time <= 0.06)
+            else if (time > 0.03 && time <= 0.055)
             {
                 return 2;
             }
@@ -1857,11 +1932,11 @@ namespace SudokuSetterAndSolver
             {
                 return 0;
             }
-            else if (totalNumber >= 151 && totalNumber <= 177)
+            else if (totalNumber > 150 && totalNumber <= 180)
             {
                 return 1;
             }
-            else if (totalNumber >= 178 && totalNumber <= 196)
+            else if (totalNumber > 180 && totalNumber <= 197)
             {
                 return 2;
             }
@@ -1873,15 +1948,15 @@ namespace SudokuSetterAndSolver
 
         private int EvaluateNumberOfStaticNumbers(int totalNumber)
         {
-            if (totalNumber >= 40)
+            if (totalNumber >= 31)
             {
                 return 0;
             }
-            else if (totalNumber <= 39 && totalNumber >= 32)
+            else if (totalNumber < 31 && totalNumber >= 28)
             {
                 return 1;
             }
-            else if (totalNumber >= 31 && totalNumber <= 26)
+            else if (totalNumber > 28 && totalNumber <= 26)
             {
                 return 2;
             }
@@ -1894,8 +1969,8 @@ namespace SudokuSetterAndSolver
         private int CalculateHumanDifficultyValue()
         {
             //Getting the human difficulty from the number of occurrences of singles, doubles and triples. 
-            decimal totaloccurences = singlesCount + doublesCount + triplesCount;
-            decimal totalValue = (singlesCount * 1) + (doublesCount * 9) + (triplesCount * 27);
+            decimal totaloccurences = singlesCount + +hiddenCount+ doublesCount + triplesCount;
+            decimal totalValue = (singlesCount * 1) + (hiddenCount*3)+(doublesCount * 9) + (triplesCount * 27);
             decimal tempDifficulty = totalValue / totaloccurences;
             decimal roundedValue = Math.Round(tempDifficulty, 0);
             //Converting to int
@@ -1908,17 +1983,18 @@ namespace SudokuSetterAndSolver
         {
             double totals = (humanSolvingDifficulty * 2) + totalNumberOfCandidatesDifficulty + executionTimeDifficulty + numberOfStaticNumberDifficulty;
 
+            totals += 4;
             double difficlutyRating = totals / 5;
 
-            if (difficlutyRating <= 0.5)
+            if (difficlutyRating <= 1.5)
             {
                 difficluty = "Easy";
             }
-            else if (difficlutyRating > 0.5 && difficlutyRating <= 1.5)
+            else if (difficlutyRating > 1.5 && difficlutyRating <= 2.5)
             {
                 difficluty = "Medium";
             }
-            else if (difficlutyRating > 1.5 && difficlutyRating <= 2.5)
+            else if (difficlutyRating > 2.5 && difficlutyRating <= 3.5)
             {
                 difficluty = "Hard";
             }

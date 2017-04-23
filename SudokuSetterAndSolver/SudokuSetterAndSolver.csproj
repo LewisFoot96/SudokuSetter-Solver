@@ -54,6 +54,12 @@
       <DependentUpon>ConvertTextFileToXMLFile.cs</DependentUpon>
     </Compile>
     <Compile Include="CreatePuzzle.cs" />
+    <Compile Include="DevelopmentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DevelopmentForm.Designer.cs">
+      <DependentUpon>DevelopmentForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="GridManager.cs" />
     <Compile Include="InstructionsCreditsScreen.cs">
       <SubType>Form</SubType>
@@ -160,6 +166,9 @@
     <Compile Include="TipTemplate.cs" />
     <EmbeddedResource Include="ConvertTextFileToXMLFile.resx">
       <DependentUpon>ConvertTextFileToXMLFile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DevelopmentForm.resx">
+      <DependentUpon>DevelopmentForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="InstructionsCreditsScreen.resx">
       <DependentUpon>InstructionsCreditsScreen.cs</DependentUpon>
@@ -369,6 +378,32 @@
     <Content Include="Puzzles\TestPuzzles\Extreme\Test2ExtremePuzzle7.xml" />
     <Content Include="Puzzles\TestPuzzles\Extreme\Test2ExtremePuzzle8.xml" />
     <Content Include="Puzzles\TestPuzzles\Extreme\Test2ExtremePuzzle9.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\HardLB1.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\HardLB10.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\HardLB11.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\HardLB12.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\HardLB13.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\HardLB2.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\HardLB3.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\HardLB4.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\HardLB5.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\HardLB6.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\HardLB7.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\HardLB8.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\HardLB9.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\HardSB1.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\HardSB10.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\HardSB11.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\HardSB12.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\HardSB13.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\HardSB2.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\HardSB3.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\HardSB4.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\HardSB5.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\HardSB6.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\HardSB7.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\HardSB8.xml" />
+    <Content Include="Puzzles\TestPuzzles\Hard\HardSB9.xml" />
     <Content Include="Puzzles\TestPuzzles\Hard\MobileSolvingHard1.xml" />
     <Content Include="Puzzles\TestPuzzles\Hard\MobileSolvingHard10.xml" />
     <Content Include="Puzzles\TestPuzzles\Hard\MobileSolvingHard2.xml" />

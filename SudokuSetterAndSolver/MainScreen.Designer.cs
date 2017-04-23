@@ -58,11 +58,12 @@ namespace SudokuSetterAndSolver
             this.irregularToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.irregular2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.smallGridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.statisticsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.puzzleTimer = new System.Windows.Forms.Timer(this.components);
             this.timerText = new System.Windows.Forms.TextBox();
             this.puzzlesInformationTb = new System.Windows.Forms.TextBox();
-            this.statisticsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.staticsDispalyTb = new System.Windows.Forms.TextBox();
+            this.developmentBtn = new System.Windows.Forms.Button();
             this.mainMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -248,6 +249,12 @@ namespace SudokuSetterAndSolver
             resources.ApplyResources(this.smallGridToolStripMenuItem, "smallGridToolStripMenuItem");
             this.smallGridToolStripMenuItem.Click += new System.EventHandler(this.LevelsSelectClick);
             // 
+            // statisticsToolStripMenuItem
+            // 
+            this.statisticsToolStripMenuItem.Name = "statisticsToolStripMenuItem";
+            resources.ApplyResources(this.statisticsToolStripMenuItem, "statisticsToolStripMenuItem");
+            this.statisticsToolStripMenuItem.Click += new System.EventHandler(this.statisticsToolStripMenuItem_Click);
+            // 
             // puzzleTimer
             // 
             this.puzzleTimer.Interval = 1000;
@@ -265,23 +272,25 @@ namespace SudokuSetterAndSolver
             resources.ApplyResources(this.puzzlesInformationTb, "puzzlesInformationTb");
             this.puzzlesInformationTb.Name = "puzzlesInformationTb";
             // 
-            // statisticsToolStripMenuItem
-            // 
-            this.statisticsToolStripMenuItem.Name = "statisticsToolStripMenuItem";
-            resources.ApplyResources(this.statisticsToolStripMenuItem, "statisticsToolStripMenuItem");
-            this.statisticsToolStripMenuItem.Click += new System.EventHandler(this.statisticsToolStripMenuItem_Click);
-            // 
             // staticsDispalyTb
             // 
             this.staticsDispalyTb.BackColor = System.Drawing.Color.Aqua;
             resources.ApplyResources(this.staticsDispalyTb, "staticsDispalyTb");
             this.staticsDispalyTb.Name = "staticsDispalyTb";
             // 
+            // developmentBtn
+            // 
+            resources.ApplyResources(this.developmentBtn, "developmentBtn");
+            this.developmentBtn.Name = "developmentBtn";
+            this.developmentBtn.UseVisualStyleBackColor = true;
+            this.developmentBtn.Click += new System.EventHandler(this.developmentBtn_Click);
+            // 
             // MainScreen
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.Controls.Add(this.developmentBtn);
             this.Controls.Add(this.staticsDispalyTb);
             this.Controls.Add(this.puzzlesInformationTb);
             this.Controls.Add(this.timerText);
@@ -531,6 +540,7 @@ namespace SudokuSetterAndSolver
         private TextBox puzzlesInformationTb;
         private ToolStripMenuItem statisticsToolStripMenuItem;
         private TextBox staticsDispalyTb;
+        private Button developmentBtn;
     }
 
 

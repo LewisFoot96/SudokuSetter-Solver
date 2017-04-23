@@ -176,6 +176,7 @@ namespace SudokuSetterAndSolver
 
         private void ClearScreen()
         {
+            developmentBtn.Visible = false;
             ClearGrid();
             DeleteButtons();
             listOfTextBoxes.Clear();
@@ -963,8 +964,6 @@ namespace SudokuSetterAndSolver
                 tempStopWatch.Start();
                 bool puzzleSolved = false;
                 puzzleSolved = sudokuSolver.BacktrackingUsingXmlTemplateFile(false);
-                Console.WriteLine(tempStopWatch.Elapsed.TotalSeconds);
-                Console.WriteLine(tempStopWatch.Elapsed.TotalMilliseconds);
                 tempStopWatch.Stop();
                 loadedPuzzle = sudokuSolver.currentPuzzleToBeSolved;
 
@@ -1583,6 +1582,7 @@ namespace SudokuSetterAndSolver
         }
         #endregion
 
+        #region Statistics 
         private void statisticsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ClearScreen();
@@ -1606,5 +1606,22 @@ namespace SudokuSetterAndSolver
             staticsDispalyTb.Text += "Medium Puzzle High Score:" + StatisticsManager.currentStats.mediumHighScore + "\r\n";
             staticsDispalyTb.Text += "Easy Puzzle High Score:" + StatisticsManager.currentStats.easyHighScore + "\r\n";
         }
+
+        #endregion
+
+        #region Development Screen
+        /// <summary>
+        /// Displaying the development form. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void developmentBtn_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            DevelopmentForm developmentForm = new DevelopmentForm();
+            developmentForm.Show();
+        }
+
+        #endregion 
     }
 }

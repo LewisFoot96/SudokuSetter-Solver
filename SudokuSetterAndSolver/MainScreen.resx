@@ -144,7 +144,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;mainMenuStrip.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="fIleToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>115, 45</value>
@@ -296,6 +296,12 @@
   <data name="smallGridToolStripMenuItem.Text" xml:space="preserve">
     <value>smallgrid</value>
   </data>
+  <data name="statisticsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 45</value>
+  </data>
+  <data name="statisticsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Statistics</value>
+  </data>
   <metadata name="puzzleTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>308, 17</value>
   </metadata>
@@ -328,7 +334,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;timerText.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="puzzlesInformationTb.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -358,13 +364,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;puzzlesInformationTb.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="statisticsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 45</value>
-  </data>
-  <data name="statisticsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Statistics</value>
+    <value>2</value>
   </data>
   <data name="staticsDispalyTb.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -397,6 +397,30 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;staticsDispalyTb.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="developmentBtn.Location" type="System.Drawing.Point, System.Drawing">
+    <value>507, 107</value>
+  </data>
+  <data name="developmentBtn.Size" type="System.Drawing.Size, System.Drawing">
+    <value>219, 85</value>
+  </data>
+  <data name="developmentBtn.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="developmentBtn.Text" xml:space="preserve">
+    <value>Development</value>
+  </data>
+  <data name="&gt;&gt;developmentBtn.Name" xml:space="preserve">
+    <value>developmentBtn</value>
+  </data>
+  <data name="&gt;&gt;developmentBtn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;developmentBtn.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;developmentBtn.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -666,17 +690,17 @@
   <data name="&gt;&gt;smallGridToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;puzzleTimer.Name" xml:space="preserve">
-    <value>puzzleTimer</value>
-  </data>
-  <data name="&gt;&gt;puzzleTimer.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;statisticsToolStripMenuItem.Name" xml:space="preserve">
     <value>statisticsToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;statisticsToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;puzzleTimer.Name" xml:space="preserve">
+    <value>puzzleTimer</value>
+  </data>
+  <data name="&gt;&gt;puzzleTimer.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>MainScreen</value>
