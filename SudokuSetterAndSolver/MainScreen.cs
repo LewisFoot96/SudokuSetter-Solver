@@ -125,6 +125,7 @@ namespace SudokuSetterAndSolver
             {
                 this.Text = "Solve Puzzle : Siwel Sudoku";
                 ClearScreen();
+                SetSolvingDetailsToTextBox(0.0, "None");
                 if (_puzzleSelectionSolve == 0)
                 {
                     loadedPuzzle.gridsize = 9;
@@ -175,6 +176,7 @@ namespace SudokuSetterAndSolver
 
         private void ClearScreen()
         {
+            solutionDisplayInfoTb.Visible = false;
             logoStartUpPb.Visible = false;
             developmentBtn.Visible = false;
             ClearGrid();
@@ -209,12 +211,22 @@ namespace SudokuSetterAndSolver
             puzzlesInformationTb.Visible = true;
         }
 
-        private void SetSolvingDetailsToTextBox()
+        private void SetSolvingDetailsToTextBox(double executionTime, string uniqueSting)
         {
-            puzzlesInformationTb.Visible = true;
+            //Getting the execution time
+            string executionDisplayString = "";
+            if(executionTime ==0.0)
+            {
+                executionDisplayString = "N/A";
+            }
+            else
+            {
+                executionDisplayString = executionTime.ToString();
+            }
+            solutionDisplayInfoTb.Visible = true;
             //Setting up the score and the difficulty of the current puzzle the user is solving. 
-            puzzlesInformationTb.Text = "Difficulty= " + loadedPuzzle.difficulty + " Solving Time= "
-                + errorSubmitCount + " Mutilpe Solutions " + currentScore;
+            solutionDisplayInfoTb.Text = "Difficulty= " + loadedPuzzle.difficulty + " Solving Time= "
+                + executionDisplayString + "(ms) Mutilpe Solutions " + uniqueSting;
         }
         #endregion 
 
@@ -349,8 +361,12 @@ namespace SudokuSetterAndSolver
         private void difficultyDetermineBtn_Click(object sender, EventArgs e)
         {
             sudokuSolver.currentPuzzleToBeSolved = loadedPuzzle;
-
-            sudokuSolver.EvaluatePuzzleDifficulty();
+            Stopwatch executionTimeSw = new Stopwatch();
+            executionTimeSw.Start();
+            string uniqueString = sudokuSolver.EvaluatePuzzleDifficulty();
+            executionTimeSw.Stop();
+            double executionTimeValue = executionTimeSw.Elapsed.Milliseconds;
+            executionTimeSw.Reset();
             loadedPuzzle.difficulty = sudokuSolver.difficluty;
 
             for (int cellNumberCount = 0; cellNumberCount <= loadedPuzzle.puzzlecells.Count - 1; cellNumberCount++)
@@ -364,7 +380,7 @@ namespace SudokuSetterAndSolver
                     }
                 }
             }
-            SetSolvingDetailsToTextBox();
+            SetSolvingDetailsToTextBox(executionTimeValue, uniqueString);
         }
 
         /// <summary>

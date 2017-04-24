@@ -1511,7 +1511,7 @@ namespace SudokuSetterAndSolver
 
         #region Check Unique Solution
 
-        public void CheckUniqueSolution()
+        public string  CheckUniqueSolution()
         {
             //Finding the cell to induce further backtracking 
             for (int reverseCellCount = currentPuzzleToBeSolved.puzzlecells.Count - 1; reverseCellCount >= 0; reverseCellCount--)
@@ -1554,18 +1554,19 @@ namespace SudokuSetterAndSolver
                                 //there is another solution. Therefore another value needs to be removed. 
                                 if (solvedSecond == true)
                                 {
-                                    Console.WriteLine("Not unique");
+                                    return "Not unique";
                                 }
                                 //If there is no other solution, then it is a unique solution. 
                                 else
                                 {
-                                    Console.WriteLine("Unique");
+                                   return "Unique";
                                 }
                             }
                         }
                     }
                 }
             }
+            return "Unique";
         }
 
         #endregion
@@ -1856,7 +1857,7 @@ namespace SudokuSetterAndSolver
 
         #region Evaluate Difficulty
 
-        public void EvaluatePuzzleDifficulty()
+        public string EvaluatePuzzleDifficulty()
         {
             if (backtrackingNodesCount > 0)
             {
@@ -1869,6 +1870,7 @@ namespace SudokuSetterAndSolver
             tempStopWatch.Reset();
             tempStopWatch.Start();
             bool rule = SolveSudokuRuleBasedXML();
+            string uniqueString = CheckUniqueSolution();
             /*
             Console.WriteLine(tempStopWatch.Elapsed.TotalSeconds);
             Console.WriteLine(tempStopWatch.Elapsed.TotalMilliseconds);
@@ -1899,6 +1901,7 @@ namespace SudokuSetterAndSolver
             hiddenCount = 0;
             doublesCount = 0;
             triplesCount = 0;
+            return uniqueString;
         }
 
         /// <summary>

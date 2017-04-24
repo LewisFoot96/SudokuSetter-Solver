@@ -64,6 +64,7 @@ namespace SudokuSetterAndSolver
             this.staticsDispalyTb = new System.Windows.Forms.TextBox();
             this.developmentBtn = new System.Windows.Forms.Button();
             this.logoStartUpPb = new System.Windows.Forms.PictureBox();
+            this.solutionDisplayInfoTb = new System.Windows.Forms.TextBox();
             this.mainMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoStartUpPb)).BeginInit();
             this.SuspendLayout();
@@ -286,11 +287,18 @@ namespace SudokuSetterAndSolver
             this.logoStartUpPb.Name = "logoStartUpPb";
             this.logoStartUpPb.TabStop = false;
             // 
+            // solutionDisplayInfoTb
+            // 
+            this.solutionDisplayInfoTb.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            resources.ApplyResources(this.solutionDisplayInfoTb, "solutionDisplayInfoTb");
+            this.solutionDisplayInfoTb.Name = "solutionDisplayInfoTb";
+            // 
             // MainScreen
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.Controls.Add(this.solutionDisplayInfoTb);
             this.Controls.Add(this.logoStartUpPb);
             this.Controls.Add(this.developmentBtn);
             this.Controls.Add(this.staticsDispalyTb);
@@ -544,8 +552,7 @@ namespace SudokuSetterAndSolver
         private TextBox staticsDispalyTb;
         private Button developmentBtn;
         private PictureBox logoStartUpPb;
+        private TextBox solutionDisplayInfoTb;
     }
-
-
 }
 
