@@ -26,12 +26,6 @@ namespace SudokuSetterAndSolver
         #endregion
 
         #region Event Handlers
-        private void addSolutionsBtn_Click(object sender, EventArgs e)
-        {
-            this.Hide();
-            SolutionsAddForm addForm = new SolutionsAddForm();
-            addForm.Show();
-        }
 
         private void generatePuzzleBtn_Click(object sender, EventArgs e)
         {
@@ -114,9 +108,8 @@ namespace SudokuSetterAndSolver
 
         private void convertFileBtn_Click(object sender, EventArgs e)
         {
-            this.Hide();
             ConvertTextFileToXMLFile convertScreen = new ConvertTextFileToXMLFile();
-            convertScreen.Show();       
+            convertScreen.ShowDialog();       
         }
         #endregion
 
@@ -148,6 +141,18 @@ namespace SudokuSetterAndSolver
                     generatedPuzzle.puzzlecells.Add(tempPuzzleCell);
                 }
             }
+        }
+
+        /// <summary>
+        /// Returning to the main screen. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void mainScreenBtn_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            MainScreen mainScreen = new MainScreen();
+            mainScreen.Show();
         }
 
         #endregion
@@ -285,6 +290,6 @@ namespace SudokuSetterAndSolver
 
         }
 
-        #endregion
+        #endregion      
     }
 }

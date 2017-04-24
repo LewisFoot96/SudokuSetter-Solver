@@ -175,6 +175,7 @@ namespace SudokuSetterAndSolver
 
         private void ClearScreen()
         {
+            logoStartUpPb.Visible = false;
             developmentBtn.Visible = false;
             ClearGrid();
             DeleteButtons();
@@ -709,13 +710,6 @@ namespace SudokuSetterAndSolver
 
             //Setting the selected textbox as the current one. 
             currentSelectedTextBox = tb;
-        }
-
-        protected void mainMenuBtn_Click(object sender, EventArgs e)
-        {
-            this.Close();
-            MainMenu mainMenu = new MainMenu();
-            mainMenu.Show();
         }
 
         /// <summary>
@@ -1616,19 +1610,11 @@ namespace SudokuSetterAndSolver
 
         #endregion
 
-        #region Development Screen
-        /// <summary>
-        /// Displaying the development form. 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void developmentBtn_Click(object sender, EventArgs e)
         {
             this.Hide();
-            DevelopmentForm developmentForm = new DevelopmentForm();
-            developmentForm.Show();
+            DevelopmentForm developmentFrm = new DevelopmentForm();
+            developmentFrm.Show();
         }
-
-        #endregion 
     }
 }

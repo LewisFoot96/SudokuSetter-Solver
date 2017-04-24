@@ -24,11 +24,14 @@ namespace SudokuSetterAndSolver
         puzzle xmlPuzzle = new puzzle();
         //Location to store the test file. 
         string fileDirctoryLocation = "";
+
+        PuzzleManager puzzleManager;
         #endregion
 
         #region Constructor 
         public ConvertTextFileToXMLFile()
         {
+            puzzleManager = new PuzzleManager();
             InitializeComponent();
         }
         #endregion
@@ -70,6 +73,17 @@ namespace SudokuSetterAndSolver
             }
             //Method to create puzzle. 
             CreateXMLFIle();
+        }
+
+        /// <summary>
+        /// Method to return to the main screen. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void mainScreenBtn_Click(object sender, EventArgs e)
+        {
+            //Closing form 
+            this.Close();
         }
         #endregion
 
@@ -128,6 +142,9 @@ namespace SudokuSetterAndSolver
                     columnNumber++;
                 }
             }
+           
+
+
             //Saving the file in the same area. 
             string filePath = Path.GetDirectoryName(fileDirctoryLocation);
             CreateAndSaveXmlFile(filePath);
@@ -144,9 +161,40 @@ namespace SudokuSetterAndSolver
             string extension = fileNameTb.Text;
             string saveFileLocation = directoryLocation + "\\" + extension + ".xml";
 
+
+
+            //Adding solutions to puzzle. 
+            puzzle finalPuzzle = xmlPuzzle;
+
+            List<int> blannkCellNumbers = new List<int>();
+            for(int cellNUmber = 0;cellNUmber<=xmlPuzzle.puzzlecells.Count-1;cellNUmber++)
+            {
+                if(xmlPuzzle.puzzlecells[cellNUmber].value ==0)
+                {
+                    blannkCellNumbers.Add(cellNUmber);
+                }
+            }
+            SudokuSolver solver = new SudokuSolver();
+            solver.currentPuzzleToBeSolved = finalPuzzle;
+            solver.SolveSudokuRuleBasedXML();
+
+            for (int cellNumber = 0; cellNumber <= finalPuzzle.puzzlecells.Count - 1; cellNumber++)
+            {          
+                finalPuzzle.puzzlecells[cellNumber].solutionvalue = finalPuzzle.puzzlecells[cellNumber].value;
+                foreach(int blankNumber in blannkCellNumbers)
+                {
+                    //Removing cells from value. 
+                    if(blankNumber == cellNumber)
+                    {
+                        finalPuzzle.puzzlecells[cellNumber].value = 0;
+                        break;
+                    }
+                }
+            }
+
             var serializer = new XmlSerializer(typeof(puzzle));
             using (var stream = new StreamWriter(saveFileLocation))
-                serializer.Serialize(stream, xmlPuzzle);
+                serializer.Serialize(stream, finalPuzzle);
         }
         #endregion
 
@@ -282,5 +330,7 @@ namespace SudokuSetterAndSolver
 
         }
         #endregion
+
+      
     }
 }

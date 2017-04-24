@@ -28,24 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.addSolutionsBtn = new System.Windows.Forms.Button();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DevelopmentForm));
             this.generatePuzzleBtn = new System.Windows.Forms.Button();
             this.convertFileBtn = new System.Windows.Forms.Button();
+            this.mainScreenBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
-            // addSolutionsBtn
-            // 
-            this.addSolutionsBtn.Location = new System.Drawing.Point(293, 310);
-            this.addSolutionsBtn.Name = "addSolutionsBtn";
-            this.addSolutionsBtn.Size = new System.Drawing.Size(166, 90);
-            this.addSolutionsBtn.TabIndex = 12;
-            this.addSolutionsBtn.Text = "Solutions";
-            this.addSolutionsBtn.UseVisualStyleBackColor = true;
-            this.addSolutionsBtn.Click += new System.EventHandler(this.addSolutionsBtn_Click);
             // 
             // generatePuzzleBtn
             // 
-            this.generatePuzzleBtn.Location = new System.Drawing.Point(293, 163);
+            this.generatePuzzleBtn.Location = new System.Drawing.Point(319, 166);
             this.generatePuzzleBtn.Name = "generatePuzzleBtn";
             this.generatePuzzleBtn.Size = new System.Drawing.Size(166, 90);
             this.generatePuzzleBtn.TabIndex = 11;
@@ -55,7 +46,7 @@
             // 
             // convertFileBtn
             // 
-            this.convertFileBtn.Location = new System.Drawing.Point(293, 30);
+            this.convertFileBtn.Location = new System.Drawing.Point(319, 34);
             this.convertFileBtn.Name = "convertFileBtn";
             this.convertFileBtn.Size = new System.Drawing.Size(166, 81);
             this.convertFileBtn.TabIndex = 10;
@@ -63,24 +54,39 @@
             this.convertFileBtn.UseVisualStyleBackColor = true;
             this.convertFileBtn.Click += new System.EventHandler(this.convertFileBtn_Click);
             // 
+            // mainScreenBtn
+            // 
+            this.mainScreenBtn.Location = new System.Drawing.Point(319, 296);
+            this.mainScreenBtn.Name = "mainScreenBtn";
+            this.mainScreenBtn.Size = new System.Drawing.Size(166, 90);
+            this.mainScreenBtn.TabIndex = 12;
+            this.mainScreenBtn.Text = "Main Screen";
+            this.mainScreenBtn.UseVisualStyleBackColor = true;
+            this.mainScreenBtn.Click += new System.EventHandler(this.mainScreenBtn_Click);
+            // 
             // DevelopmentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(781, 470);
-            this.Controls.Add(this.addSolutionsBtn);
+            this.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.ClientSize = new System.Drawing.Size(527, 416);
+            this.Controls.Add(this.mainScreenBtn);
             this.Controls.Add(this.generatePuzzleBtn);
             this.Controls.Add(this.convertFileBtn);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "DevelopmentForm";
-            this.Text = "Development ";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Development Menu";
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Button addSolutionsBtn;
         private System.Windows.Forms.Button generatePuzzleBtn;
         private System.Windows.Forms.Button convertFileBtn;
+        private System.Windows.Forms.Button mainScreenBtn;
     }
 }

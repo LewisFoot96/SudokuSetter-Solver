@@ -64,7 +64,9 @@ namespace SudokuSetterAndSolver
             this.puzzlesInformationTb = new System.Windows.Forms.TextBox();
             this.staticsDispalyTb = new System.Windows.Forms.TextBox();
             this.developmentBtn = new System.Windows.Forms.Button();
+            this.logoStartUpPb = new System.Windows.Forms.PictureBox();
             this.mainMenuStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.logoStartUpPb)).BeginInit();
             this.SuspendLayout();
             // 
             // mainMenuStrip
@@ -285,11 +287,18 @@ namespace SudokuSetterAndSolver
             this.developmentBtn.UseVisualStyleBackColor = true;
             this.developmentBtn.Click += new System.EventHandler(this.developmentBtn_Click);
             // 
+            // logoStartUpPb
+            // 
+            resources.ApplyResources(this.logoStartUpPb, "logoStartUpPb");
+            this.logoStartUpPb.Name = "logoStartUpPb";
+            this.logoStartUpPb.TabStop = false;
+            // 
             // MainScreen
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.Controls.Add(this.logoStartUpPb);
             this.Controls.Add(this.developmentBtn);
             this.Controls.Add(this.staticsDispalyTb);
             this.Controls.Add(this.puzzlesInformationTb);
@@ -302,6 +311,7 @@ namespace SudokuSetterAndSolver
             this.Name = "MainScreen";
             this.mainMenuStrip.ResumeLayout(false);
             this.mainMenuStrip.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.logoStartUpPb)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -541,6 +551,7 @@ namespace SudokuSetterAndSolver
         private ToolStripMenuItem statisticsToolStripMenuItem;
         private TextBox staticsDispalyTb;
         private Button developmentBtn;
+        private PictureBox logoStartUpPb;
     }
 
 

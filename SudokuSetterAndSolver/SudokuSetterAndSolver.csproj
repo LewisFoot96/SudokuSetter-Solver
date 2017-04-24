@@ -88,12 +88,6 @@
     </Compile>
     <Compile Include="PuzzleManager.cs" />
     <Compile Include="puzzleschema.cs" />
-    <Compile Include="SolutionsAddForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SolutionsAddForm.Designer.cs">
-      <DependentUpon>SolutionsAddForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="SplashScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -104,12 +98,6 @@
       <DependentUpon>Statistics.xsd</DependentUpon>
     </Compile>
     <Compile Include="StatisticsManager.cs" />
-    <Compile Include="StatisticsScreen.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="StatisticsScreen.Designer.cs">
-      <DependentUpon>StatisticsScreen.cs</DependentUpon>
-    </Compile>
     <Compile Include="SudokuPuzzleGenerator.cs" />
     <Compile Include="SudokuSolver.cs" />
     <Compile Include="TipScreen.cs">
@@ -142,14 +130,8 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="SolutionsAddForm.resx">
-      <DependentUpon>SolutionsAddForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="SplashScreen.resx">
       <DependentUpon>SplashScreen.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StatisticsScreen.resx">
-      <DependentUpon>StatisticsScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TipScreen.resx">
       <DependentUpon>TipScreen.cs</DependentUpon>
