@@ -36,7 +36,6 @@ namespace SudokuSetterAndSolver
             this.fIleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newPuzzleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.solvePuzzleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.clearPuzzleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.levelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.easyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.level1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -83,8 +82,7 @@ namespace SudokuSetterAndSolver
             // 
             this.fIleToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newPuzzleToolStripMenuItem,
-            this.solvePuzzleToolStripMenuItem,
-            this.clearPuzzleToolStripMenuItem});
+            this.solvePuzzleToolStripMenuItem});
             this.fIleToolStripMenuItem.Name = "fIleToolStripMenuItem";
             resources.ApplyResources(this.fIleToolStripMenuItem, "fIleToolStripMenuItem");
             // 
@@ -99,11 +97,6 @@ namespace SudokuSetterAndSolver
             this.solvePuzzleToolStripMenuItem.Name = "solvePuzzleToolStripMenuItem";
             resources.ApplyResources(this.solvePuzzleToolStripMenuItem, "solvePuzzleToolStripMenuItem");
             this.solvePuzzleToolStripMenuItem.Click += new System.EventHandler(this.solvePuzzleToolStripMenuItem_Click);
-            // 
-            // clearPuzzleToolStripMenuItem
-            // 
-            this.clearPuzzleToolStripMenuItem.Name = "clearPuzzleToolStripMenuItem";
-            resources.ApplyResources(this.clearPuzzleToolStripMenuItem, "clearPuzzleToolStripMenuItem");
             // 
             // levelsToolStripMenuItem
             // 
@@ -511,7 +504,6 @@ namespace SudokuSetterAndSolver
         private System.Windows.Forms.MenuStrip mainMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem fIleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newPuzzleToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem clearPuzzleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem solvePuzzleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem levelsToolStripMenuItem;
         private Button submitPuzzleBtn;

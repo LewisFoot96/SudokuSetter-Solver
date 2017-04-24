@@ -73,7 +73,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "TipScreen";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Tip";
             ((System.ComponentModel.ISupportInitialize)(this.tipImageBox)).EndInit();
             this.ResumeLayout(false);
