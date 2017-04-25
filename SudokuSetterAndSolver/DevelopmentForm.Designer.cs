@@ -36,7 +36,7 @@
             // 
             // generatePuzzleBtn
             // 
-            this.generatePuzzleBtn.BackColor = System.Drawing.Color.Aqua;
+            this.generatePuzzleBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.generatePuzzleBtn.ForeColor = System.Drawing.Color.Maroon;
             this.generatePuzzleBtn.Location = new System.Drawing.Point(319, 166);
             this.generatePuzzleBtn.Name = "generatePuzzleBtn";
@@ -48,7 +48,7 @@
             // 
             // convertFileBtn
             // 
-            this.convertFileBtn.BackColor = System.Drawing.Color.Aqua;
+            this.convertFileBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.convertFileBtn.ForeColor = System.Drawing.Color.Maroon;
             this.convertFileBtn.Location = new System.Drawing.Point(319, 34);
             this.convertFileBtn.Name = "convertFileBtn";
@@ -60,7 +60,7 @@
             // 
             // mainScreenBtn
             // 
-            this.mainScreenBtn.BackColor = System.Drawing.Color.Aqua;
+            this.mainScreenBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.mainScreenBtn.ForeColor = System.Drawing.Color.Maroon;
             this.mainScreenBtn.Location = new System.Drawing.Point(319, 296);
             this.mainScreenBtn.Name = "mainScreenBtn";

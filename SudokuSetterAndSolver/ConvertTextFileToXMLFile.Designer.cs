@@ -38,12 +38,14 @@
             // 
             // selectFileBtn
             // 
+            this.selectFileBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.selectFileBtn.ForeColor = System.Drawing.Color.Maroon;
             this.selectFileBtn.Location = new System.Drawing.Point(504, 103);
             this.selectFileBtn.Name = "selectFileBtn";
             this.selectFileBtn.Size = new System.Drawing.Size(158, 68);
             this.selectFileBtn.TabIndex = 0;
             this.selectFileBtn.Text = "Select File";
-            this.selectFileBtn.UseVisualStyleBackColor = true;
+            this.selectFileBtn.UseVisualStyleBackColor = false;
             this.selectFileBtn.Click += new System.EventHandler(this.selectFileBtn_Click);
             // 
             // fileNameTb
@@ -60,12 +62,14 @@
             // 
             // mainScreenBtn
             // 
+            this.mainScreenBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.mainScreenBtn.ForeColor = System.Drawing.Color.Maroon;
             this.mainScreenBtn.Location = new System.Drawing.Point(302, 233);
             this.mainScreenBtn.Name = "mainScreenBtn";
             this.mainScreenBtn.Size = new System.Drawing.Size(158, 68);
             this.mainScreenBtn.TabIndex = 2;
             this.mainScreenBtn.Text = "Back";
-            this.mainScreenBtn.UseVisualStyleBackColor = true;
+            this.mainScreenBtn.UseVisualStyleBackColor = false;
             this.mainScreenBtn.Click += new System.EventHandler(this.mainScreenBtn_Click);
             // 
             // puzzleTitleLb

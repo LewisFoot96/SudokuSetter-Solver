@@ -270,7 +270,7 @@ namespace SudokuSetterAndSolver
             // 
             // staticsDispalyTb
             // 
-            this.staticsDispalyTb.BackColor = System.Drawing.Color.Aqua;
+            this.staticsDispalyTb.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             resources.ApplyResources(this.staticsDispalyTb, "staticsDispalyTb");
             this.staticsDispalyTb.Name = "staticsDispalyTb";
             // 
@@ -335,7 +335,7 @@ namespace SudokuSetterAndSolver
             this.submitPuzzleBtn.Text = "Submit Puzzle";
             this.submitPuzzleBtn.UseVisualStyleBackColor = true;
             this.submitPuzzleBtn.Click += new System.EventHandler(this.submitPuzzleBtn_Click);
-            this.submitPuzzleBtn.BackColor = System.Drawing.Color.Aqua;
+            this.submitPuzzleBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.submitPuzzleBtn.ForeColor = System.Drawing.Color.Maroon;
             // 
             // solveGeneratedPuzzleBtn
@@ -347,7 +347,7 @@ namespace SudokuSetterAndSolver
             this.solveGeneratedPuzzleBtn.Text = "Solve";
             this.solveGeneratedPuzzleBtn.UseVisualStyleBackColor = true;
             this.solveGeneratedPuzzleBtn.Click += new System.EventHandler(this.solveGeneratedPuzzleBtn_Click);
-            this.solveGeneratedPuzzleBtn.BackColor = System.Drawing.Color.Aqua;
+            this.solveGeneratedPuzzleBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.solveGeneratedPuzzleBtn.ForeColor = System.Drawing.Color.Maroon;
             // 
             // newPuzzleBtn
@@ -359,7 +359,7 @@ namespace SudokuSetterAndSolver
             this.newPuzzleBtn.Text = "New Puzzle";
             this.newPuzzleBtn.UseVisualStyleBackColor = true;
             this.newPuzzleBtn.Click += new System.EventHandler(this.newPuzzleBtn_Click);
-            this.newPuzzleBtn.BackColor = System.Drawing.Color.Aqua;
+            this.newPuzzleBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.newPuzzleBtn.ForeColor = System.Drawing.Color.Maroon;
             //
             // tipBtn
@@ -371,7 +371,7 @@ namespace SudokuSetterAndSolver
             this.tipBtn.Text = "Tip\r\n (5 hints)";
             this.tipBtn.UseVisualStyleBackColor = true;
             this.tipBtn.Click += new System.EventHandler(this.tipBtn_Click);
-            this.tipBtn.BackColor = System.Drawing.Color.Aqua;
+            this.tipBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.tipBtn.ForeColor = System.Drawing.Color.Maroon;
 
             this.Controls.Add(this.newPuzzleBtn);
@@ -401,7 +401,7 @@ namespace SudokuSetterAndSolver
             this.submitLevelPuzzleBtn.Text = "Submit Puzzle";
             this.submitLevelPuzzleBtn.UseVisualStyleBackColor = true;
             this.submitLevelPuzzleBtn.Click += new System.EventHandler(this.submitLevelPuzzleBtn_Click);
-            this.submitLevelPuzzleBtn.BackColor = System.Drawing.Color.Aqua;
+            this.submitLevelPuzzleBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.submitLevelPuzzleBtn.ForeColor = System.Drawing.Color.Maroon;
             // 
             // hintsBtn
@@ -413,7 +413,7 @@ namespace SudokuSetterAndSolver
             this.hintsBtn.Text = " Cell\r\n (1 hint)";
             this.hintsBtn.UseVisualStyleBackColor = true;
             this.hintsBtn.Click += new System.EventHandler(this.hintsBtn_Click);
-            this.hintsBtn.BackColor = System.Drawing.Color.Aqua;
+            this.hintsBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.hintsBtn.ForeColor = System.Drawing.Color.Maroon;
             // 
             // hintsRegionBtn
@@ -425,7 +425,7 @@ namespace SudokuSetterAndSolver
             this.hintsRegionBtn.Text = "Region\r\n (5 hints)";
             this.hintsRegionBtn.UseVisualStyleBackColor = true;
             this.hintsRegionBtn.Click += new System.EventHandler(this.hintsRegionBtn_Click);
-            this.hintsRegionBtn.BackColor = System.Drawing.Color.Aqua;
+            this.hintsRegionBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.hintsRegionBtn.ForeColor = System.Drawing.Color.Maroon;
             //
             // tipBtn
@@ -437,7 +437,7 @@ namespace SudokuSetterAndSolver
             this.tipBtn.Text = "Tip\r\n (5 hints)";
             this.tipBtn.UseVisualStyleBackColor = true;
             this.tipBtn.Click += new System.EventHandler(this.tipBtn_Click);
-            this.tipBtn.BackColor = System.Drawing.Color.Aqua;
+            this.tipBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.tipBtn.ForeColor = System.Drawing.Color.Maroon;
 
             this.Controls.Add(this.submitLevelPuzzleBtn);
@@ -468,7 +468,7 @@ namespace SudokuSetterAndSolver
             this.solveGeneratedPuzzleBtn.Text = "Solve";
             this.solveGeneratedPuzzleBtn.UseVisualStyleBackColor = true;
             this.solveGeneratedPuzzleBtn.Click += new System.EventHandler(this.solveGeneratedPuzzleBtn_Click);
-            this.solveGeneratedPuzzleBtn.BackColor = System.Drawing.Color.Aqua;
+            this.solveGeneratedPuzzleBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.solveGeneratedPuzzleBtn.ForeColor = System.Drawing.Color.Maroon;
             // 
             // loadFileBtn
@@ -481,7 +481,7 @@ namespace SudokuSetterAndSolver
             this.loadFileBtn.Text = "Load File";
             this.loadFileBtn.UseVisualStyleBackColor = true;
             this.loadFileBtn.Click += new System.EventHandler(this.loadFileBtn_Click);
-            this.loadFileBtn.BackColor = System.Drawing.Color.Aqua;
+            this.loadFileBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.loadFileBtn.ForeColor = System.Drawing.Color.Maroon;
             // 
             // fileChooser
@@ -499,7 +499,7 @@ namespace SudokuSetterAndSolver
             this.difficultyDetermineBtn.Text = "Difficulty";
             this.difficultyDetermineBtn.UseVisualStyleBackColor = true;
             this.difficultyDetermineBtn.Click += new System.EventHandler(this.difficultyDetermineBtn_Click);
-            this.difficultyDetermineBtn.BackColor = System.Drawing.Color.Aqua;
+            this.difficultyDetermineBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.difficultyDetermineBtn.ForeColor = System.Drawing.Color.Maroon;
             // 
             // validatePuzzleBtn
@@ -512,7 +512,7 @@ namespace SudokuSetterAndSolver
             this.validatePuzzleBtn.Text = "Validate";
             this.validatePuzzleBtn.UseVisualStyleBackColor = true;
             this.validatePuzzleBtn.Click += new System.EventHandler(this.validatePuzzleBtn_Click);
-            this.validatePuzzleBtn.BackColor = System.Drawing.Color.Aqua;
+            this.validatePuzzleBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.validatePuzzleBtn.ForeColor = System.Drawing.Color.Maroon;
 
             this.Controls.Add(this.validatePuzzleBtn);
