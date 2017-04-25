@@ -36,32 +36,38 @@
             // 
             // generatePuzzleBtn
             // 
+            this.generatePuzzleBtn.BackColor = System.Drawing.Color.Aqua;
+            this.generatePuzzleBtn.ForeColor = System.Drawing.Color.Maroon;
             this.generatePuzzleBtn.Location = new System.Drawing.Point(319, 166);
             this.generatePuzzleBtn.Name = "generatePuzzleBtn";
             this.generatePuzzleBtn.Size = new System.Drawing.Size(166, 90);
             this.generatePuzzleBtn.TabIndex = 11;
             this.generatePuzzleBtn.Text = "Create 10 Puzzles";
-            this.generatePuzzleBtn.UseVisualStyleBackColor = true;
+            this.generatePuzzleBtn.UseVisualStyleBackColor = false;
             this.generatePuzzleBtn.Click += new System.EventHandler(this.generatePuzzleBtn_Click);
             // 
             // convertFileBtn
             // 
+            this.convertFileBtn.BackColor = System.Drawing.Color.Aqua;
+            this.convertFileBtn.ForeColor = System.Drawing.Color.Maroon;
             this.convertFileBtn.Location = new System.Drawing.Point(319, 34);
             this.convertFileBtn.Name = "convertFileBtn";
             this.convertFileBtn.Size = new System.Drawing.Size(166, 81);
             this.convertFileBtn.TabIndex = 10;
             this.convertFileBtn.Text = "Convert";
-            this.convertFileBtn.UseVisualStyleBackColor = true;
+            this.convertFileBtn.UseVisualStyleBackColor = false;
             this.convertFileBtn.Click += new System.EventHandler(this.convertFileBtn_Click);
             // 
             // mainScreenBtn
             // 
+            this.mainScreenBtn.BackColor = System.Drawing.Color.Aqua;
+            this.mainScreenBtn.ForeColor = System.Drawing.Color.Maroon;
             this.mainScreenBtn.Location = new System.Drawing.Point(319, 296);
             this.mainScreenBtn.Name = "mainScreenBtn";
             this.mainScreenBtn.Size = new System.Drawing.Size(166, 90);
             this.mainScreenBtn.TabIndex = 12;
             this.mainScreenBtn.Text = "Main Screen";
-            this.mainScreenBtn.UseVisualStyleBackColor = true;
+            this.mainScreenBtn.UseVisualStyleBackColor = false;
             this.mainScreenBtn.Click += new System.EventHandler(this.mainScreenBtn_Click);
             // 
             // DevelopmentForm
@@ -79,7 +85,7 @@
             this.MinimizeBox = false;
             this.Name = "DevelopmentForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Development Menu";
+            this.Text = "Development Menu : Siwel Sudoku";
             this.ResumeLayout(false);
 
         }

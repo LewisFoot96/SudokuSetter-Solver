@@ -772,23 +772,30 @@ namespace SudokuSetterAndSolver
         private void SetStartingScore()
         {
             currentScore = 0;
-            switch (loadedPuzzle.difficulty.ToLower())
+            if (loadedPuzzle.gridsize == 9)
             {
-                case "easy":
-                    currentScore = 20;
-                    break;
-                case "medium":
-                    currentScore = 30;
-                    break;
-                case "hard":
-                    currentScore = 40;
-                    break;
-                case "insane":
-                    currentScore = 50;
-                    break;
-                default:
-                    currentScore = 20;
-                    break;
+                switch (loadedPuzzle.difficulty.ToLower())
+                {
+                    case "easy":
+                        currentScore = 20;
+                        break;
+                    case "medium":
+                        currentScore = 30;
+                        break;
+                    case "hard":
+                        currentScore = 40;
+                        break;
+                    case "insane":
+                        currentScore = 50;
+                        break;
+                    default:
+                        currentScore = 20;
+                        break;
+                }
+            }
+            else
+            {
+                currentScore = 10;
             }
         }
 
@@ -818,6 +825,7 @@ namespace SudokuSetterAndSolver
                 loadedPuzzle.gridsize = 9;
                 //Seleting which irregular template to use. 
                 Random newRandomNumber = new Random();
+                /*
                 int irregularRandom = newRandomNumber.Next(0, 1);
                 if (irregularRandom == 1)
                 {
@@ -830,15 +838,24 @@ namespace SudokuSetterAndSolver
                
 
                 GeneratePuzzle();
+                */
+                //Loading puzzle form file as cannot generate them
+                string fileDirctoryLocationIrregular = Path.GetFullPath(@"..\..\") + @"Puzzles\TestPuzzles\IrregularPuzzles";
+                fileDirctoryLocationIrregular += @"\irregulartest1.xml";
+
+                loadedPuzzle = puzzleManager.ReadFromXMlFile(fileDirctoryLocationIrregular);
+
                 GenerateStandardSudokuPuzzle(false);
             }
             else
             {
                 loadedPuzzle.gridsize = 4;
+                loadedPuzzle.difficulty = "Easy";
                 GenerateBlankGridStandardSudoku();
                 GeneratePuzzle();
                 GenerateSmallSudokuPuzzle();
             }
+            SetStartingScore();
         }
 
         private void GeneratePuzzle()
@@ -1397,8 +1414,6 @@ namespace SudokuSetterAndSolver
                     rowLocation += 38;
                     txtBox.Location = new System.Drawing.Point(rowLocation, columnLocation);
                 }
-
-
             }
             if (activePuzzle)
             {
