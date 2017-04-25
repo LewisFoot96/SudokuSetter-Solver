@@ -41,7 +41,11 @@ public partial class statistics {
     private int mediumHighScoreField;
     
     private int easyHighScoreField;
-    
+
+    private int numberofSmallGridCompletedField;
+
+    private int numberofIrregularCompletedField;
+
     /// <remarks/>
     public decimal fastestsolvetime {
         get {
@@ -129,6 +133,32 @@ public partial class statistics {
         }
         set {
             this.easyHighScoreField = value;
+        }
+    }
+
+    /// <remarks/>
+    public int numberofSmallGridCompleted
+    {
+        get
+        {
+            return this.numberofSmallGridCompletedField;
+        }
+        set
+        {
+            this.numberofSmallGridCompletedField = value;
+        }
+    }
+
+    /// <remarks/>
+    public int numberofIrregularCompleted
+    {
+        get
+        {
+            return this.numberofIrregularCompletedField;
+        }
+        set
+        {
+            this.numberofIrregularCompletedField = value;
         }
     }
 }

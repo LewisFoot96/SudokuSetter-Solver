@@ -3,10 +3,12 @@
   <fastestsolvetime>0</fastestsolvetime>
   <puzzlecompleted>0</puzzlecompleted>
   <numberOfExtremePuzzleCompleted>0</numberOfExtremePuzzleCompleted>
-  <levelcompleted>3</levelcompleted>
-  <hintNumber>95</hintNumber>
+  <levelcompleted>13</levelcompleted>
+  <hintNumber>100</hintNumber>
   <extremeHighScore>0</extremeHighScore>
   <hardHighScore>0</hardHighScore>
   <mediumHighScore>0</mediumHighScore>
   <easyHighScore>10</easyHighScore>
+  <numberofSmallGridCompleted>0</numberofSmallGridCompleted>
+  <numberofIrregularCompleted>0</numberofIrregularCompleted>
 </statistics>

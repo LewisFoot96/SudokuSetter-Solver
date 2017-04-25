@@ -270,7 +270,7 @@ namespace SudokuSetterAndSolver
             // 
             // staticsDispalyTb
             // 
-            this.staticsDispalyTb.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.staticsDispalyTb.BackColor = System.Drawing.Color.Aqua;
             resources.ApplyResources(this.staticsDispalyTb, "staticsDispalyTb");
             this.staticsDispalyTb.Name = "staticsDispalyTb";
             // 
