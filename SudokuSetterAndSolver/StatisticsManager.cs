@@ -93,7 +93,7 @@ namespace SudokuSetterAndSolver
         /// <param name="solvingTime"></param>
         private static void UpdateFastestSolvingTime(decimal solvingTime)
         {
-            if (currentStats.fastestsolvetime > solvingTime)
+            if (currentStats.fastestsolvetime > solvingTime || currentStats.fastestsolvetime ==0)
             {
                 currentStats.fastestsolvetime = solvingTime;
             }

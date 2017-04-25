@@ -323,12 +323,14 @@ namespace SudokuSetterAndSolver
             this.submitPuzzleBtn = new System.Windows.Forms.Button();
             this.solveGeneratedPuzzleBtn = new System.Windows.Forms.Button();
             this.newPuzzleBtn = new System.Windows.Forms.Button();
+            this.hintBtn = new Button();
+            this.hintsRegionBtn = new Button();
             this.tipBtn = new Button();
 
             // 
             // submitPuzzleBtn
             // 
-            this.submitPuzzleBtn.Location = new System.Drawing.Point(195,230);
+            this.submitPuzzleBtn.Location = new System.Drawing.Point(135,230);
             this.submitPuzzleBtn.Name = "submitPuzzleBtn";
             this.submitPuzzleBtn.Size = new System.Drawing.Size(60, 35);
             this.submitPuzzleBtn.TabIndex = 87;
@@ -340,19 +342,19 @@ namespace SudokuSetterAndSolver
             // 
             // solveGeneratedPuzzleBtn
             // 
-            this.solveGeneratedPuzzleBtn.Location = new System.Drawing.Point(135, 230);
+            this.solveGeneratedPuzzleBtn.Location = new System.Drawing.Point(75, 230);
             this.solveGeneratedPuzzleBtn.Name = "solveGeneratedPuzzleBtn";
             this.solveGeneratedPuzzleBtn.Size = new System.Drawing.Size(60, 35);
             this.solveGeneratedPuzzleBtn.TabIndex = 88;
             this.solveGeneratedPuzzleBtn.Text = "Solve";
             this.solveGeneratedPuzzleBtn.UseVisualStyleBackColor = true;
             this.solveGeneratedPuzzleBtn.Click += new System.EventHandler(this.solveGeneratedPuzzleBtn_Click);
-            this.solveGeneratedPuzzleBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.solveGeneratedPuzzleBtn.ForeColor = System.Drawing.Color.Maroon;
+            this.solveGeneratedPuzzleBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.solveGeneratedPuzzleBtn.ForeColor = System.Drawing.Color.Black;      
             // 
             // newPuzzleBtn
             // 
-            this.newPuzzleBtn.Location = new System.Drawing.Point(255, 230);
+            this.newPuzzleBtn.Location = new System.Drawing.Point(196, 230);
             this.newPuzzleBtn.Name = "newPuzzleBtn";
             this.newPuzzleBtn.Size = new System.Drawing.Size(60, 35);
             this.newPuzzleBtn.TabIndex = 89;
@@ -361,10 +363,35 @@ namespace SudokuSetterAndSolver
             this.newPuzzleBtn.Click += new System.EventHandler(this.newPuzzleBtn_Click);
             this.newPuzzleBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.newPuzzleBtn.ForeColor = System.Drawing.Color.Maroon;
+
+            // 
+            // hintsBtn
+            // 
+            this.hintBtn.Location = new System.Drawing.Point(256, 230);
+            this.hintBtn.Name = "hintsBtn";
+            this.hintBtn.Size = new System.Drawing.Size(60, 35);
+            this.hintBtn.TabIndex = 87;
+            this.hintBtn.Text = " Cell\r\n (1 hint)";
+            this.hintBtn.UseVisualStyleBackColor = true;
+            this.hintBtn.Click += new System.EventHandler(this.hintsBtn_Click);
+            this.hintBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.hintBtn.ForeColor = System.Drawing.Color.Maroon;
+            // 
+            // hintsRegionBtn
+            // 
+            this.hintsRegionBtn.Location = new System.Drawing.Point(316, 230);
+            this.hintsRegionBtn.Name = "hintsRegionBtn";
+            this.hintsRegionBtn.Size = new System.Drawing.Size(60, 35);
+            this.hintsRegionBtn.TabIndex = 87;
+            this.hintsRegionBtn.Text = "Region\r\n (5 hints)";
+            this.hintsRegionBtn.UseVisualStyleBackColor = true;
+            this.hintsRegionBtn.Click += new System.EventHandler(this.hintsRegionBtn_Click);
+            this.hintsRegionBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.hintsRegionBtn.ForeColor = System.Drawing.Color.Maroon;
             //
             // tipBtn
             //
-            this.tipBtn.Location = new System.Drawing.Point(315, 230);
+            this.tipBtn.Location = new System.Drawing.Point(376, 230);
             this.tipBtn.Name = "tipBtn";
             this.tipBtn.Size = new System.Drawing.Size(60, 35);
             this.tipBtn.TabIndex = 88;
@@ -380,16 +407,20 @@ namespace SudokuSetterAndSolver
             this.Controls.SetChildIndex(this.submitPuzzleBtn, 1);
             this.Controls.SetChildIndex(this.solveGeneratedPuzzleBtn, 2);
             this.Controls.SetChildIndex(this.newPuzzleBtn, 3);
+            this.Controls.Add(this.hintBtn);
+            this.Controls.SetChildIndex(this.hintBtn, 4);
+            this.Controls.Add(this.hintsRegionBtn);
+            this.Controls.SetChildIndex(this.hintsRegionBtn, 5);
             this.Controls.Add(this.tipBtn);
-            this.Controls.SetChildIndex(this.tipBtn, 4);
+            this.Controls.SetChildIndex(this.tipBtn, 6);
         }
 
         private void CreateLevelPuzzleButtons()
         {
             this.submitLevelPuzzleBtn = new System.Windows.Forms.Button();
-            this.hintsBtn = new Button();
+            this.hintsLevelBtn = new Button();
             this.tipBtn = new Button();
-            this.hintsRegionBtn = new Button();
+            this.hintsRegionLevelBtn = new Button();
 
             // 
             // submitPuzzleBtn
@@ -406,27 +437,27 @@ namespace SudokuSetterAndSolver
             // 
             // hintsBtn
             // 
-            this.hintsBtn.Location = new System.Drawing.Point(194, 230);
-            this.hintsBtn.Name = "hintsBtn";
-            this.hintsBtn.Size = new System.Drawing.Size(60, 35);
-            this.hintsBtn.TabIndex = 87;
-            this.hintsBtn.Text = " Cell\r\n (1 hint)";
-            this.hintsBtn.UseVisualStyleBackColor = true;
-            this.hintsBtn.Click += new System.EventHandler(this.hintsBtn_Click);
-            this.hintsBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.hintsBtn.ForeColor = System.Drawing.Color.Maroon;
+            this.hintsLevelBtn.Location = new System.Drawing.Point(194, 230);
+            this.hintsLevelBtn.Name = "hintsBtn";
+            this.hintsLevelBtn.Size = new System.Drawing.Size(60, 35);
+            this.hintsLevelBtn.TabIndex = 87;
+            this.hintsLevelBtn.Text = " Cell\r\n (1 hint)";
+            this.hintsLevelBtn.UseVisualStyleBackColor = true;
+            this.hintsLevelBtn.Click += new System.EventHandler(this.hintsBtn_Click);
+            this.hintsLevelBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.hintsLevelBtn.ForeColor = System.Drawing.Color.Maroon;
             // 
             // hintsRegionBtn
             // 
-            this.hintsRegionBtn.Location = new System.Drawing.Point(254, 230);
-            this.hintsRegionBtn.Name = "hintsRegionBtn";
-            this.hintsRegionBtn.Size = new System.Drawing.Size(60, 35);
-            this.hintsRegionBtn.TabIndex = 87;
-            this.hintsRegionBtn.Text = "Region\r\n (5 hints)";
-            this.hintsRegionBtn.UseVisualStyleBackColor = true;
-            this.hintsRegionBtn.Click += new System.EventHandler(this.hintsRegionBtn_Click);
-            this.hintsRegionBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.hintsRegionBtn.ForeColor = System.Drawing.Color.Maroon;
+            this.hintsRegionLevelBtn.Location = new System.Drawing.Point(254, 230);
+            this.hintsRegionLevelBtn.Name = "hintsRegionBtn";
+            this.hintsRegionLevelBtn.Size = new System.Drawing.Size(60, 35);
+            this.hintsRegionLevelBtn.TabIndex = 87;
+            this.hintsRegionLevelBtn.Text = "Region\r\n (5 hints)";
+            this.hintsRegionLevelBtn.UseVisualStyleBackColor = true;
+            this.hintsRegionLevelBtn.Click += new System.EventHandler(this.hintsRegionBtn_Click);
+            this.hintsRegionLevelBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.hintsRegionLevelBtn.ForeColor = System.Drawing.Color.Maroon;
             //
             // tipBtn
             //
@@ -442,10 +473,10 @@ namespace SudokuSetterAndSolver
 
             this.Controls.Add(this.submitLevelPuzzleBtn);
             this.Controls.SetChildIndex(this.submitLevelPuzzleBtn, 0);
-            this.Controls.Add(this.hintsBtn);
-            this.Controls.SetChildIndex(this.hintsBtn, 1);
-            this.Controls.Add(this.hintsRegionBtn);
-            this.Controls.SetChildIndex(this.hintsRegionBtn, 2);
+            this.Controls.Add(this.hintsLevelBtn);
+            this.Controls.SetChildIndex(this.hintsLevelBtn, 1);
+            this.Controls.Add(this.hintsRegionLevelBtn);
+            this.Controls.SetChildIndex(this.hintsRegionLevelBtn, 2);
             this.Controls.Add(this.tipBtn);
             this.Controls.SetChildIndex(this.tipBtn, 3);
         }
@@ -457,32 +488,34 @@ namespace SudokuSetterAndSolver
             this.fileChooser = new System.Windows.Forms.OpenFileDialog();
             this.difficultyDetermineBtn = new System.Windows.Forms.Button();
             this.validatePuzzleBtn = new System.Windows.Forms.Button();
+            this.newSolvePuzzleBtn = new Button();
+            this.clearPuzzleBtn = new Button();
 
             // 
             // solveGeneratedPuzzleBtn
             // 
-            this.solveGeneratedPuzzleBtn.Location = new System.Drawing.Point(252, 230);
+            this.solveGeneratedPuzzleBtn.Location = new System.Drawing.Point(192, 230);
             this.solveGeneratedPuzzleBtn.Name = "solveGeneratedPuzzleBtn";
             this.solveGeneratedPuzzleBtn.Size = new System.Drawing.Size(60, 35);
             this.solveGeneratedPuzzleBtn.TabIndex = 88;
             this.solveGeneratedPuzzleBtn.Text = "Solve";
             this.solveGeneratedPuzzleBtn.UseVisualStyleBackColor = true;
             this.solveGeneratedPuzzleBtn.Click += new System.EventHandler(this.solveGeneratedPuzzleBtn_Click);
-            this.solveGeneratedPuzzleBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.solveGeneratedPuzzleBtn.ForeColor = System.Drawing.Color.Maroon;
+            System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.solveGeneratedPuzzleBtn.ForeColor = System.Drawing.Color.Black;
             // 
             // loadFileBtn
             // 
             this.loadFileBtn.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.loadFileBtn.Location = new System.Drawing.Point(312, 230);
+            this.loadFileBtn.Location = new System.Drawing.Point(372, 230);
             this.loadFileBtn.Name = "loadFileBtn";
             this.loadFileBtn.Size = new System.Drawing.Size(60, 35);
             this.loadFileBtn.TabIndex = 11;
             this.loadFileBtn.Text = "Load File";
             this.loadFileBtn.UseVisualStyleBackColor = true;
             this.loadFileBtn.Click += new System.EventHandler(this.loadFileBtn_Click);
-            this.loadFileBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.loadFileBtn.ForeColor = System.Drawing.Color.Maroon;
+            this.loadFileBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.loadFileBtn.ForeColor = System.Drawing.Color.Black;
             // 
             // fileChooser
             // 
@@ -492,7 +525,7 @@ namespace SudokuSetterAndSolver
             // difficultyDetermineBtn
             // 
             this.difficultyDetermineBtn.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.difficultyDetermineBtn.Location = new System.Drawing.Point(192, 230);
+            this.difficultyDetermineBtn.Location = new System.Drawing.Point(132, 230);
             this.difficultyDetermineBtn.Name = "difficultyDetermineBtn";
             this.difficultyDetermineBtn.Size = new System.Drawing.Size(60, 35);
             this.difficultyDetermineBtn.TabIndex = 12;
@@ -505,24 +538,56 @@ namespace SudokuSetterAndSolver
             // validatePuzzleBtn
             // 
             this.validatePuzzleBtn.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.validatePuzzleBtn.Location = new System.Drawing.Point(132, 230);
+            this.validatePuzzleBtn.Location = new System.Drawing.Point(72, 230);
             this.validatePuzzleBtn.Name = "validatePuzzleBtn";
             this.validatePuzzleBtn.Size = new System.Drawing.Size(60, 35);
             this.validatePuzzleBtn.TabIndex = 13;
             this.validatePuzzleBtn.Text = "Validate";
             this.validatePuzzleBtn.UseVisualStyleBackColor = true;
             this.validatePuzzleBtn.Click += new System.EventHandler(this.validatePuzzleBtn_Click);
-            this.validatePuzzleBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.validatePuzzleBtn.ForeColor = System.Drawing.Color.Maroon;
+            this.validatePuzzleBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.validatePuzzleBtn.ForeColor = System.Drawing.Color.Black;
+
+            // 
+            // newSolvePuzzleBtn
+            // 
+            this.newSolvePuzzleBtn.ForeColor = System.Drawing.SystemColors.InfoText;
+            this.newSolvePuzzleBtn.Location = new System.Drawing.Point(252, 230);
+            this.newSolvePuzzleBtn.Name = "newSolvePuzzleBtn";
+            this.newSolvePuzzleBtn.Size = new System.Drawing.Size(60, 35);
+            this.newSolvePuzzleBtn.TabIndex = 14;
+            this.newSolvePuzzleBtn.Text = "New Puzzle";
+            this.newSolvePuzzleBtn.UseVisualStyleBackColor = true;
+            this.newSolvePuzzleBtn.Click += new System.EventHandler(this.newSolvePuzzleBtn_Click);
+            this.newSolvePuzzleBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.newSolvePuzzleBtn.ForeColor = System.Drawing.Color.Maroon;
+
+            // 
+            // clearPuzzleBtn
+            // 
+            this.clearPuzzleBtn.ForeColor = System.Drawing.SystemColors.InfoText;
+            this.clearPuzzleBtn.Location = new System.Drawing.Point(312, 230);
+            this.clearPuzzleBtn.Name = "clearPuzzleBtn";
+            this.clearPuzzleBtn.Size = new System.Drawing.Size(60, 35);
+            this.clearPuzzleBtn.TabIndex = 15;
+            this.clearPuzzleBtn.Text = "Clear";
+            this.clearPuzzleBtn.UseVisualStyleBackColor = true;
+            this.clearPuzzleBtn.Click += new System.EventHandler(this.clearPuzzleBtn_Click);
+            this.clearPuzzleBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.clearPuzzleBtn.ForeColor = System.Drawing.Color.Maroon;
 
             this.Controls.Add(this.validatePuzzleBtn);
             this.Controls.Add(this.difficultyDetermineBtn);
             this.Controls.Add(this.loadFileBtn);
             this.Controls.Add(this.solveGeneratedPuzzleBtn);
+            this.Controls.Add(this.newSolvePuzzleBtn);
+            this.Controls.Add(this.clearPuzzleBtn);
             this.Controls.SetChildIndex(this.solveGeneratedPuzzleBtn, 0);
-            this.Controls.SetChildIndex(this.loadFileBtn, 0);
-            this.Controls.SetChildIndex(this.difficultyDetermineBtn, 0);
-            this.Controls.SetChildIndex(this.validatePuzzleBtn, 0);
+            this.Controls.SetChildIndex(this.loadFileBtn, 1);
+            this.Controls.SetChildIndex(this.difficultyDetermineBtn,2);
+            this.Controls.SetChildIndex(this.validatePuzzleBtn, 3);
+            this.Controls.SetChildIndex(this.newSolvePuzzleBtn, 4);
+            this.Controls.SetChildIndex(this.clearPuzzleBtn, 5);
         }
 
         #endregion
@@ -540,9 +605,13 @@ namespace SudokuSetterAndSolver
         private OpenFileDialog fileChooser;
         private Button difficultyDetermineBtn;
         private Button validatePuzzleBtn;
-        private Button hintsBtn;
+        private Button hintsLevelBtn;
+        private Button hintsRegionLevelBtn;
+        private Button hintBtn;
         private Button hintsRegionBtn;
         private Button tipBtn;
+        private Button clearPuzzleBtn;
+        private Button newSolvePuzzleBtn;
         private ToolStripMenuItem easyToolStripMenuItem;
         private ToolStripMenuItem level1ToolStripMenuItem;
         private ToolStripMenuItem level2ToolStripMenuItem;

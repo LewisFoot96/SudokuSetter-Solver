@@ -134,7 +134,7 @@
     <value>Solve Puzzle</value>
   </data>
   <data name="fIleToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 48</value>
+    <value>115, 45</value>
   </data>
   <data name="fIleToolStripMenuItem.Text" xml:space="preserve">
     <value>Puzzle</value>
@@ -158,7 +158,7 @@
     <value>level3</value>
   </data>
   <data name="easyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>327, 46</value>
+    <value>244, 46</value>
   </data>
   <data name="easyToolStripMenuItem.Text" xml:space="preserve">
     <value>Easy</value>
@@ -182,7 +182,7 @@
     <value>level6</value>
   </data>
   <data name="mediumToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>327, 46</value>
+    <value>244, 46</value>
   </data>
   <data name="mediumToolStripMenuItem.Text" xml:space="preserve">
     <value>Medium</value>
@@ -206,7 +206,7 @@
     <value>level9</value>
   </data>
   <data name="hardToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>327, 46</value>
+    <value>244, 46</value>
   </data>
   <data name="hardToolStripMenuItem.Text" xml:space="preserve">
     <value>Hard</value>
@@ -230,43 +230,43 @@
     <value>level12</value>
   </data>
   <data name="insaneToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>327, 46</value>
+    <value>244, 46</value>
   </data>
   <data name="insaneToolStripMenuItem.Text" xml:space="preserve">
     <value>Insane</value>
   </data>
   <data name="irregularToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>327, 46</value>
+    <value>270, 46</value>
   </data>
   <data name="irregularToolStripMenuItem.Text" xml:space="preserve">
     <value>smallgrid1</value>
   </data>
   <data name="irregular2ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>327, 46</value>
+    <value>270, 46</value>
   </data>
   <data name="irregular2ToolStripMenuItem.Text" xml:space="preserve">
     <value>smallgrid2</value>
   </data>
   <data name="smallGridToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>327, 46</value>
+    <value>270, 46</value>
   </data>
   <data name="smallGridToolStripMenuItem.Text" xml:space="preserve">
     <value>irregular</value>
   </data>
   <data name="uniqueToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>327, 46</value>
+    <value>244, 46</value>
   </data>
   <data name="uniqueToolStripMenuItem.Text" xml:space="preserve">
     <value>Unique</value>
   </data>
   <data name="levelsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>110, 48</value>
+    <value>110, 45</value>
   </data>
   <data name="levelsToolStripMenuItem.Text" xml:space="preserve">
     <value>Levels</value>
   </data>
   <data name="statisticsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 48</value>
+    <value>144, 45</value>
   </data>
   <data name="statisticsToolStripMenuItem.Text" xml:space="preserve">
     <value>Statistics</value>
@@ -275,7 +275,7 @@
     <value>0, 0</value>
   </data>
   <data name="mainMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1468, 52</value>
+    <value>1468, 49</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="mainMenuStrip.TabIndex" type="System.Int32, mscorlib">
@@ -516,10 +516,10 @@
     <value>False</value>
   </data>
   <data name="solutionDisplayInfoTb.Location" type="System.Drawing.Point, System.Drawing">
-    <value>210, 92</value>
+    <value>197, 92</value>
   </data>
   <data name="solutionDisplayInfoTb.Size" type="System.Drawing.Size, System.Drawing">
-    <value>846, 38</value>
+    <value>871, 38</value>
   </data>
   <data name="solutionDisplayInfoTb.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>

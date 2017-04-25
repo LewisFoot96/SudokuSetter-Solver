@@ -38,9 +38,9 @@
             // 
             // selectFileBtn
             // 
-            this.selectFileBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.selectFileBtn.ForeColor = System.Drawing.Color.Maroon;
-            this.selectFileBtn.Location = new System.Drawing.Point(504, 103);
+            this.selectFileBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.selectFileBtn.ForeColor = System.Drawing.Color.Black;
+            this.selectFileBtn.Location = new System.Drawing.Point(519, 115);
             this.selectFileBtn.Name = "selectFileBtn";
             this.selectFileBtn.Size = new System.Drawing.Size(158, 68);
             this.selectFileBtn.TabIndex = 0;
@@ -50,9 +50,9 @@
             // 
             // fileNameTb
             // 
-            this.fileNameTb.Location = new System.Drawing.Point(229, 50);
+            this.fileNameTb.Location = new System.Drawing.Point(213, 50);
             this.fileNameTb.Name = "fileNameTb";
-            this.fileNameTb.Size = new System.Drawing.Size(433, 38);
+            this.fileNameTb.Size = new System.Drawing.Size(464, 38);
             this.fileNameTb.TabIndex = 1;
             // 
             // fileChooser
@@ -62,9 +62,9 @@
             // 
             // mainScreenBtn
             // 
-            this.mainScreenBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.mainScreenBtn.ForeColor = System.Drawing.Color.Maroon;
-            this.mainScreenBtn.Location = new System.Drawing.Point(302, 233);
+            this.mainScreenBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.mainScreenBtn.ForeColor = System.Drawing.Color.Black;
+            this.mainScreenBtn.Location = new System.Drawing.Point(301, 235);
             this.mainScreenBtn.Name = "mainScreenBtn";
             this.mainScreenBtn.Size = new System.Drawing.Size(158, 68);
             this.mainScreenBtn.TabIndex = 2;
@@ -83,10 +83,10 @@
             // 
             // ConvertTextFileToXMLFile
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(240F, 240F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.ClientSize = new System.Drawing.Size(719, 348);
+            this.ClientSize = new System.Drawing.Size(746, 348);
             this.Controls.Add(this.puzzleTitleLb);
             this.Controls.Add(this.mainScreenBtn);
             this.Controls.Add(this.fileNameTb);

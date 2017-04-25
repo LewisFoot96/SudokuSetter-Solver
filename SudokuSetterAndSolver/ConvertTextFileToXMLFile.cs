@@ -73,6 +73,7 @@ namespace SudokuSetterAndSolver
             }
             //Method to create puzzle. 
             CreateXMLFIle();
+            MessageBox.Show("Puzzle created, solution addeed.");
         }
 
         /// <summary>

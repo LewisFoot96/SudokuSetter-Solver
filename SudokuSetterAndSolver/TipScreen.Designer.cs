@@ -57,6 +57,7 @@
             this.tipImageBox.Location = new System.Drawing.Point(593, 192);
             this.tipImageBox.Name = "tipImageBox";
             this.tipImageBox.Size = new System.Drawing.Size(310, 185);
+            this.tipImageBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.tipImageBox.TabIndex = 2;
             this.tipImageBox.TabStop = false;
             // 

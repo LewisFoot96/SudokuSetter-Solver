@@ -1513,6 +1513,11 @@ namespace SudokuSetterAndSolver
 
         public string  CheckUniqueSolution()
         {
+            int[] solvedPuzzlesOriginalValue = new int[currentPuzzleToBeSolved.puzzlecells.Count];
+            for (int solvedPuzzleValues=0;solvedPuzzleValues<= currentPuzzleToBeSolved.puzzlecells.Count-1;solvedPuzzleValues++ )
+            {
+                solvedPuzzlesOriginalValue[solvedPuzzleValues] = currentPuzzleToBeSolved.puzzlecells[solvedPuzzleValues].value;
+            }
             //Finding the cell to induce further backtracking 
             for (int reverseCellCount = currentPuzzleToBeSolved.puzzlecells.Count - 1; reverseCellCount >= 0; reverseCellCount--)
             {   
@@ -1551,6 +1556,10 @@ namespace SudokuSetterAndSolver
                                 currentPuzzleToBeSolved.puzzlecells[reverseCellCount].value = validNumbers[validNumberIndexNumber];
                                 
                                bool solvedSecond =BacktrackingUsingXmlTemplateFile(false);
+                                for (int resetCellValueIndex = 0; resetCellValueIndex <= currentPuzzleToBeSolved.puzzlecells.Count - 1; resetCellValueIndex++)
+                                {
+                                    currentPuzzleToBeSolved.puzzlecells[resetCellValueIndex].value = solvedPuzzlesOriginalValue[resetCellValueIndex];
+                                }
                                 //there is another solution. Therefore another value needs to be removed. 
                                 if (solvedSecond == true)
                                 {
@@ -1879,28 +1888,35 @@ namespace SudokuSetterAndSolver
 
             Console.WriteLine("" + singlesCount + " " + hiddenCount + " " + doublesCount + " " + triplesCount);
             */
-            executionTimeDifficulty = EvaluateExecutionTime(tempStopWatch.Elapsed.TotalSeconds);
-            tempStopWatch.Stop();
-            totalNumberOfCandidatesDifficulty = EvaluateTotalNumberOfCandidatesDifficulty(totalNumberOfCandidates);
-            numberOfStaticNumberDifficulty = EvaluateNumberOfStaticNumbers(numberOfStaticNumbers);
-            humanSolvingDifficulty = CalculateHumanDifficultyValue();
-            Console.WriteLine(humanSolvingDifficulty);
-            if (backtrackingBool)
+            if (currentPuzzleToBeSolved.gridsize != 4)
             {
-                Console.WriteLine("Backtracking used.");
-            }
-            FinalDifficulty();
+                executionTimeDifficulty = EvaluateExecutionTime(tempStopWatch.Elapsed.TotalSeconds);
+                tempStopWatch.Stop();
+                totalNumberOfCandidatesDifficulty = EvaluateTotalNumberOfCandidatesDifficulty(totalNumberOfCandidates);
+                numberOfStaticNumberDifficulty = EvaluateNumberOfStaticNumbers(numberOfStaticNumbers);
+                humanSolvingDifficulty = CalculateHumanDifficultyValue();
+                Console.WriteLine(humanSolvingDifficulty);
+                if (backtrackingBool)
+                {
+                    Console.WriteLine("Backtracking used.");
+                }
+                FinalDifficulty();
 
-            humanSolvingDifficulty = 0;
-            executionTimeDifficulty = 0;
-            totalNumberOfCandidates = 0;
-            numberOfStaticNumberDifficulty = 0;
-            numberOfStaticNumbers = 0;
-            methodRunNumber = 0;
-            singlesCount = 0;
-            hiddenCount = 0;
-            doublesCount = 0;
-            triplesCount = 0;
+                humanSolvingDifficulty = 0;
+                executionTimeDifficulty = 0;
+                totalNumberOfCandidates = 0;
+                numberOfStaticNumberDifficulty = 0;
+                numberOfStaticNumbers = 0;
+                methodRunNumber = 0;
+                singlesCount = 0;
+                hiddenCount = 0;
+                doublesCount = 0;
+                triplesCount = 0;
+            }
+            else
+            {
+                difficluty = "Easy";
+            }
             return uniqueString;
         }
 
