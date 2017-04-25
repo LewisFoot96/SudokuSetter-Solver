@@ -52,7 +52,7 @@ namespace SudokuSetterAndSolver
         /// <param name="extreme"></param>
         /// <param name="difficulty"></param>
         /// <param name="score"></param>
-        public static void LeveledPuzzleComlpeted(int levelCompleted, decimal solvingTime, bool extreme, string difficulty, int score)
+        public static void LeveledPuzzleComlpeted(int levelCompleted, decimal solvingTime, bool extreme, string difficulty, int score, string puzzleType)
         {
             //Reading, updating and writing. 
             ReadFromStatisticsFile();
@@ -61,6 +61,7 @@ namespace SudokuSetterAndSolver
             {
                 currentStats.extremeHighScore++;
             }
+            UpdatePuzzlesCompleted(puzzleType);
             UpdateFastestSolvingTime(solvingTime);
             HighScoresUpdate(difficulty, score);
             WriteToStatisticsFile();
@@ -72,7 +73,7 @@ namespace SudokuSetterAndSolver
         /// <param name="difficulty"></param>
         /// <param name="score"></param>
         /// <param name="solvingTime"></param>
-        public static void RandomPuzzleCompleted(string difficulty, int score, decimal solvingTime)
+        public static void RandomPuzzleCompleted(string difficulty, int score, decimal solvingTime, string puzzleType)
         {
             //Reading, updating and writing. 
             ReadFromStatisticsFile();
@@ -80,6 +81,7 @@ namespace SudokuSetterAndSolver
             {
                 currentStats.extremeHighScore++;
             }
+            UpdatePuzzlesCompleted(puzzleType);
             UpdateFastestSolvingTime(solvingTime);
             HighScoresUpdate(difficulty, score);
             WriteToStatisticsFile();
@@ -143,6 +145,24 @@ namespace SudokuSetterAndSolver
             ReadFromStatisticsFile();
             currentStats.hintNumber += hintUpdateValue;
             WriteToStatisticsFile();
+        }
+
+        private static void UpdatePuzzlesCompleted(string puzzleType)
+        {
+            //Based on the types update the puzzles completed. 
+            currentStats.puzzlecompleted++;
+            if(puzzleType.ToLower() == "irregular")
+            {
+                currentStats.numberofIrregularCompleted++;
+            }
+            else if (puzzleType.ToLower() == "normal")
+            {
+                currentStats.numberofRegularCompleted++;
+            }
+            else
+            {
+                currentStats.numberofSmallGridCompleted++;
+            }
         }
         
         #endregion 

@@ -46,6 +46,8 @@ public partial class statistics {
 
     private int numberofIrregularCompletedField;
 
+    private int numberofRegularCompletedField;
+
     /// <remarks/>
     public decimal fastestsolvetime {
         get {
@@ -159,6 +161,19 @@ public partial class statistics {
         set
         {
             this.numberofIrregularCompletedField = value;
+        }
+    }
+
+    /// <remarks/>
+    public int numberofRegularCompleted
+    {
+        get
+        {
+            return this.numberofRegularCompletedField;
+        }
+        set
+        {
+            this.numberofRegularCompletedField = value;
         }
     }
 }

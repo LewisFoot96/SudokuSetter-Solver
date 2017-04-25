@@ -282,7 +282,7 @@ namespace SudokuSetterAndSolver
                 puzzleTimer.Stop();
                 TimeSpan time = TimeSpan.FromSeconds(currentTime);
                 MessageBox.Show("Puzzle Completed! Well Done! Error count: " + errorSubmitCount);
-                StatisticsManager.RandomPuzzleCompleted(loadedPuzzle.difficulty, currentScore, (decimal)time.TotalSeconds);
+                StatisticsManager.RandomPuzzleCompleted(loadedPuzzle.difficulty, currentScore, (decimal)time.TotalSeconds, loadedPuzzle.type);
             }
             else
             {
@@ -441,7 +441,7 @@ namespace SudokuSetterAndSolver
                 {
                     StatisticsManager.currentStats.levelcompleted = currentLevel++;                   
                 }
-                StatisticsManager.LeveledPuzzleComlpeted(StatisticsManager.currentStats.levelcompleted, (decimal)time.TotalSeconds, extremeBool, puzzleDifficulty, currentScore);
+                StatisticsManager.LeveledPuzzleComlpeted(StatisticsManager.currentStats.levelcompleted, (decimal)time.TotalSeconds, extremeBool, puzzleDifficulty, currentScore, loadedPuzzle.type);
             }
             else
             {
@@ -807,7 +807,15 @@ namespace SudokuSetterAndSolver
         {
             //Creating the sudoku grid values. 
             loadedPuzzle = puzzleManager.ReadFromXMlFile(fileDirctoryLocation);
-            GenerateStandardSudokuPuzzle(false);
+            //Generate correct sized grid to be displayed. 
+            if (loadedPuzzle.gridsize == 9)
+            {
+                GenerateStandardSudokuPuzzle(false);
+            }
+            else
+            {
+                GenerateSmallSudokuPuzzle();
+            }
         }
 
         protected void LoadPuzzleSelection()
@@ -816,12 +824,14 @@ namespace SudokuSetterAndSolver
             if (_puzzleSelection == 1)
             {
                 loadedPuzzle.gridsize = 9;
+                loadedPuzzle.type = "normal";
                 GenerateBlankGridStandardSudoku();
                 GeneratePuzzle();
                 GenerateStandardSudokuPuzzle(true);
             }
             else if (_puzzleSelection == 0)
             {
+                loadedPuzzle.type = "irregular";
                 loadedPuzzle.gridsize = 9;
                 //Seleting which irregular template to use. 
                 Random newRandomNumber = new Random();
@@ -850,6 +860,7 @@ namespace SudokuSetterAndSolver
             else
             {
                 loadedPuzzle.gridsize = 4;
+                loadedPuzzle.type = "small";
                 loadedPuzzle.difficulty = "Easy";
                 GenerateBlankGridStandardSudoku();
                 GeneratePuzzle();

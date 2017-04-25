@@ -21,6 +21,7 @@
         <xs:element name="easyHighScore" type="xs:int"/>
         <xs:element name="numberofSmallGridCompleted" type="xs:int"/>
         <xs:element name="numberofIrregularCompleted" type="xs:int"/>
+        <xs:element name="numberofRegularCompleted" type="xs:int"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
