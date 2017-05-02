@@ -27,6 +27,11 @@ namespace SudokuSetterAndSolver
 
         #region Event Handlers
 
+        /// <summary>
+        /// Generating random puzzles. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void generatePuzzleBtn_Click(object sender, EventArgs e)
         {
             //Directory location and stop watch to time the creation process. 
@@ -41,7 +46,7 @@ namespace SudokuSetterAndSolver
                 generatedPuzzle = new puzzle();
                 generatedPuzzle.gridsize = 9;
                 //Creating a new puzzle. 
-                SudokuPuzzleGenerator puzzleGenerator = new SudokuPuzzleGenerator(generatedPuzzle.gridsize);
+                SudokuPuzzleGenerator puzzleGenerator = new SudokuPuzzleGenerator();
                 GenerateBlankGridStandardSudoku();
                 puzzleGenerator.generatedPuzzle = generatedPuzzle;
                 puzzleGenerator.CreateSudokuGridXML();
@@ -106,6 +111,11 @@ namespace SudokuSetterAndSolver
             MessageBox.Show("10 Puzzles Successfully Created");
         }
 
+        /// <summary>
+        /// Display conversion screen. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void convertFileBtn_Click(object sender, EventArgs e)
         {
             ConvertTextFileToXMLFile convertScreen = new ConvertTextFileToXMLFile();

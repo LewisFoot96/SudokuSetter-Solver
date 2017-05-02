@@ -27,10 +27,8 @@ namespace SudokuSetterAndSolver
         #endregion
 
         #region Constructor 
-        public SudokuPuzzleGenerator(int gridSize)
+        public SudokuPuzzleGenerator()
         {
-            _gridSize = gridSize;
-
         }
         #endregion
 

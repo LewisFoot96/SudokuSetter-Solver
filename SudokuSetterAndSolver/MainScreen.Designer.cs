@@ -603,12 +603,12 @@ namespace SudokuSetterAndSolver
         private System.Windows.Forms.ToolStripMenuItem levelsToolStripMenuItem;
         private Button submitPuzzleBtn;
         private Button submitLevelPuzzleBtn;
-        private Button solveGeneratedPuzzleBtn;
+        //private Button solveGeneratedPuzzleBtn;
         private Button newPuzzleBtn;
-        private Button loadFileBtn;
+        //private Button loadFileBtn;
         private OpenFileDialog fileChooser;
         private Button difficultyDetermineBtn;
-        private Button validatePuzzleBtn;
+       // private Button validatePuzzleBtn;
         private Button hintsLevelBtn;
         private Button hintsRegionLevelBtn;
         private Button hintBtn;
