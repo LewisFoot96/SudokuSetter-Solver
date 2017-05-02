@@ -36,7 +36,6 @@ namespace SudokuSetterAndSolver
             isPuzzleTypeSelected = true;
             //Dipslaying puzzle on application. 
             this.Close();
-
             MainScreen._puzzleSelection = puzzleTypeSelection.SelectedIndex;
         }
         #endregion 

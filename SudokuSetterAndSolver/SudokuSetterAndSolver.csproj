@@ -109,7 +109,6 @@
     <Compile Include="Tipsxsd.cs">
       <DependentUpon>Tipsxsd.xsd</DependentUpon>
     </Compile>
-    <Compile Include="TipTemplate.cs" />
     <EmbeddedResource Include="ConvertTextFileToXMLFile.resx">
       <DependentUpon>ConvertTextFileToXMLFile.cs</DependentUpon>
     </EmbeddedResource>

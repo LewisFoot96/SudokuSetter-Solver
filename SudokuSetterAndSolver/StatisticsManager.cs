@@ -32,8 +32,12 @@ namespace SudokuSetterAndSolver
                 serializer.Serialize(stream, data);
         }
 
+        /// <summary>
+        /// Method to read the statistics file of the game, update. 
+        /// </summary>
         public static void ReadFromStatisticsFile()
         {
+            //Reading file and setting stats object to it, updating it. 
             string fileDirectoryLocation = Path.GetFullPath(@"..\..\");
             fileDirectoryLocation += @"\Statistics.xml";
             var serializer = new XmlSerializer(typeof(statistics));
@@ -78,7 +82,6 @@ namespace SudokuSetterAndSolver
         {
             //Reading, updating and writing. 
             ReadFromStatisticsFile();
-
             switch(difficulty.ToLower())
             {
                 case "extreme":
@@ -161,6 +164,10 @@ namespace SudokuSetterAndSolver
             WriteToStatisticsFile();
         }
 
+        /// <summary>
+        /// Method to update the completed puzzle stats for the game. 
+        /// </summary>
+        /// <param name="puzzleType"></param>
         private static void UpdatePuzzlesCompleted(string puzzleType)
         {
             //Based on the types update the puzzles completed. 
@@ -178,7 +185,6 @@ namespace SudokuSetterAndSolver
                 currentStats.numberofSmallGridCompleted++;
             }
         }
-        
         #endregion 
     }
 }

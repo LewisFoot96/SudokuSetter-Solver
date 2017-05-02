@@ -15,8 +15,13 @@ namespace SudokuSetterAndSolver
 {
     public partial class TipScreen : Form
     {
+        #region Field Variables 
+        //Tip selection and object containing tip. 
         private int _tipSelection = 0;
         private tip loadedTip;
+        #endregion
+
+        #region Constructor
         public TipScreen(int tipSelection)
         {       
             InitializeComponent();
@@ -25,7 +30,9 @@ namespace SudokuSetterAndSolver
             _tipSelection = tipSelection;
             SetUpTip();
         }
+        #endregion
 
+        #region Methods 
         /// <summary>
         /// Method to set up the tip to be displayed. 
         /// </summary>
@@ -63,5 +70,6 @@ namespace SudokuSetterAndSolver
                 loadedTip = serializer.Deserialize(reader) as tip;
             }
         }
+        #endregion
     }
 }

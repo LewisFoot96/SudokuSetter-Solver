@@ -8,16 +8,13 @@ using System.Windows.Forms;
 
 namespace SudokuSetterAndSolver
 {
-    //For some reason, the code carries on going down the code after backtracking has occured, this is incorrect funcitonality and needs to be sorted. 
-    //Is the candidate list being transferred to the backtracking method. Does this really matter, as its only the human models that need to know this. 
-    //The rule based algorithm may need a lot more work to make compatible with the new xml files. 
     public class SudokuSolver
     {
         #region Objects 
         //Puzzle manager, that handles the loading and wiritng to xml files for the game. 
         PuzzleManager puzzleManager = new PuzzleManager();
         #endregion
-        //0,1,2,3 will be the difficulty values. HUman will have a 2 weighting. 
+        //0,1,2,3 will be the difficulty values. Human will have a 2 weighting. 
         #region Global Variables 
         //All of the check to see what numbers are valid for that particular square. 
         List<int> validNUmbersInRow = new List<int>();

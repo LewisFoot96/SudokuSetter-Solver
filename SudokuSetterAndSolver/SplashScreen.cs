@@ -41,6 +41,7 @@ namespace SudokuSetterAndSolver
 
             if (timerValue ==28)
             {
+                //Opening new form. 
                 this.Hide();
                 MainScreen mainScreen = new MainScreen();
                 mainScreen.Show();
