@@ -64,7 +64,7 @@
             this.MinimizeBox = false;
             this.Name = "SplashScreen";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Siwel Sudoku";
+            this.Text = "Siwel Sudoku : Splash Screen";
             ((System.ComponentModel.ISupportInitialize)(this.animationPb)).EndInit();
             this.ResumeLayout(false);
 

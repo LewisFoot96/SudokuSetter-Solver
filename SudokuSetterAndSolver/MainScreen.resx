@@ -393,6 +393,9 @@
   <data name="&gt;&gt;staticsDispalyTb.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="developmentBtn.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="developmentBtn.Location" type="System.Drawing.Point, System.Drawing">
     <value>507, 107</value>
   </data>
@@ -404,6 +407,9 @@
   </data>
   <data name="developmentBtn.Text" xml:space="preserve">
     <value>Development</value>
+  </data>
+  <data name="developmentBtn.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="&gt;&gt;developmentBtn.Name" xml:space="preserve">
     <value>developmentBtn</value>
@@ -489,10 +495,10 @@
 </value>
   </data>
   <data name="logoStartUpPb.Location" type="System.Drawing.Point, System.Drawing">
-    <value>434, 212</value>
+    <value>425, 198</value>
   </data>
   <data name="logoStartUpPb.Size" type="System.Drawing.Size, System.Drawing">
-    <value>363, 309</value>
+    <value>394, 326</value>
   </data>
   <data name="logoStartUpPb.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>Zoom</value>
