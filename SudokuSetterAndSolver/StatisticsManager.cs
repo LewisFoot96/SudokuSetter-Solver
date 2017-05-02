@@ -61,6 +61,7 @@ namespace SudokuSetterAndSolver
             {
                 currentStats.extremeHighScore++;
             }
+            currentStats.hintNumber += levelCompleted;
             UpdatePuzzlesCompleted(puzzleType);
             UpdateFastestSolvingTime(solvingTime);
             HighScoresUpdate(difficulty, score);
@@ -77,10 +78,23 @@ namespace SudokuSetterAndSolver
         {
             //Reading, updating and writing. 
             ReadFromStatisticsFile();
-            if (difficulty.ToLower() == "extreme")
+
+            switch(difficulty.ToLower())
             {
-                currentStats.extremeHighScore++;
-            }
+                case "extreme":
+                    currentStats.extremeHighScore++;
+                    currentStats.hintNumber += 4;
+                    break;
+                case "hard":
+                    currentStats.hintNumber += 3;
+                    break;
+                case "medium":
+                    currentStats.hintNumber += 2;
+                    break;
+                case "easy":
+                    currentStats.hintNumber += 1;
+                    break;
+            }        
             UpdatePuzzlesCompleted(puzzleType);
             UpdateFastestSolvingTime(solvingTime);
             HighScoresUpdate(difficulty, score);
