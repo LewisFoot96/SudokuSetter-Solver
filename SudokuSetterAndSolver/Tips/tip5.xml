@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tip xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://tempuri.org/Statistics.xsd">
   <tiptitle>Naked Triple</tiptitle>
-  <tipcontent>Naked triples are where three squares contain the same three candidates. See the image to the right. This means that these values are not longer candidates for the other squares wihtin that specific rowm column or block.</tipcontent>
+  <tipcontent>Naked triples are where three squares contain the same three candidates. See the right hand diagram. Therefore these values can no longer be candidates in any other cell relating to the naked double cells, i.e. all other cells in their corresponding regions.</tipcontent>
   <tippicturedirectorylocation>NakedTriples.png</tippicturedirectorylocation>
 </tip>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tip xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://tempuri.org/Statistics.xsd">
   <tiptitle>Hidden Singles</tiptitle>
-  <tipcontent>Hidden singles, are the values that only have one candidate in a row, column or box, however are  hidden by surrounding candidates. See image on the right for an example.</tipcontent>
+  <tipcontent>Hidden singles, are the values that only have one candidate in a row, column or box (region), however are  hidden by surrounding candidates. For example, within the diagram on the right, the '4' value is a hidden single within the cell '3g', </tipcontent>
   <tippicturedirectorylocation>HiddenSingles.png</tippicturedirectorylocation>
 </tip>

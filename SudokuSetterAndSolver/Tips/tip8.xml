@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tip xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://tempuri.org/Statistics.xsd">
-  <tiptitle>X-Y Wings</tiptitle>
-  <tipcontent>Naked singles are.</tipcontent>
+  <tiptitle>Sowrdfish</tiptitle>
+  <tipcontent>A Swordfish is a 3 by 3 nine-cell pattern where three candidates appear in, at most three different rows (or three columns) which line up in opposite directions. For a correct ‘Swordfish’, a candidate must appear in the all ‘Swordfish’ cells i.e. ‘7’ occurs in rows a,f,i and columns 2,5,8 (see right hand diagram), thus, all other ‘7’ candidates within these rows and columns can be removed i.e. a1, f1, f6, i6 and i9</tipcontent>
   <tippicturedirectorylocation>Swordfish.png</tippicturedirectorylocation>
 </tip>
