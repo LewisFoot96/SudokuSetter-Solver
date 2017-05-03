@@ -2,6 +2,5 @@
 <tip xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://tempuri.org/Statistics.xsd">
   <tiptitle>Hidden Singles</tiptitle>
   <tipcontent>Hidden singles, are the values that only have one candidate in a row, column or box, however are  hidden by surrounding candidates. See image on the right for an example.</tipcontent>
-  <tippicturedirectorylocation>HiddenSingles.png
-  </tippicturedirectorylocation>
+  <tippicturedirectorylocation>HiddenSingles.png</tippicturedirectorylocation>
 </tip>

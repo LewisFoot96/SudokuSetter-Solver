@@ -64,12 +64,16 @@ namespace SudokuSetterAndSolver
         public puzzle currentPuzzleToBeSolved = new puzzle();
         //THis will be the cell that is currently being handled by the solver. 
         puzzleCell puzzleCellCurrentlyBeingHandled = new puzzleCell();
-
+        //List of cells that can be removed from the puzzle, after it has been solved. 
         List<int> listOfCellsToBeRemoved = new List<int>();
         #endregion
 
         #region General Methods 
 
+        /// <summary>
+        /// Method to check whether the puzzle has been solved at various points. 
+        /// </summary>
+        /// <returns></returns>
         private bool CheckToSeeIfPuzzleSolvedXML()
         {
             foreach (var cell in currentPuzzleToBeSolved.puzzlecells)
@@ -182,7 +186,6 @@ namespace SudokuSetterAndSolver
                 }
                 else
                 { SolveSudokuRuleBasedXML(); }
-
             }
             //Checks to see if puzzle is solved. 
             bool checkSolved = CheckToSeeIfPuzzleSolvedXML();
@@ -213,7 +216,10 @@ namespace SudokuSetterAndSolver
             return solvedBacktracking;
         }
 
-        //Method that creates the correct candidate list. 
+      /// <summary>
+      /// Method that updates the candidates list so candidates can be removed from the puzzle correspondingly. 
+      /// </summary>
+      /// <param name="tempCandidateList"></param>
         private void CompareCandidateLists(List<List<int>> tempCandidateList)
         {
             for (int indexValue = 0; indexValue <= 80; indexValue++)
@@ -245,15 +251,12 @@ namespace SudokuSetterAndSolver
 
         private void CandidateHandling()
         {
+            //Candidate handling methods 
             NakedDoubles();
             HiddenDoubles();
-            difficluty = "hard";
             NakedTriples();
-
-            //Naked Triples 
-            //HIdden Triples 
+            HiddenTriples();
         }
-
         #endregion
 
         #region Hiddens Singles 
@@ -1323,8 +1326,6 @@ namespace SudokuSetterAndSolver
                 }
             }
 
-           
-
             //Starting the timer
             stopWatch.Reset();
             stopWatch.Start();
@@ -1360,7 +1361,6 @@ namespace SudokuSetterAndSolver
             }
 
             ////Order cells based on blocks 
-
             //for(int blockNumberTemp =0;blockNumberTemp<=currentPuzzleToBeSolved.gridsize-1;blockNumberTemp++)
             //{
             //    for (int cellReferenceNumber=0;cellReferenceNumber<=currentPuzzleToBeSolved.puzzlecells.Count-1;cellReferenceNumber++)
@@ -1372,7 +1372,6 @@ namespace SudokuSetterAndSolver
 
             //    }
             //}
-
 
             //Resetting the starting value, so it cycles through all of the cells. 
             startingValue = 0;
@@ -1386,7 +1385,7 @@ namespace SudokuSetterAndSolver
             for (startingValue = numberOfCellToBeHandled; startingValue <= logicalOrderOfCellsXml.Count - 1; startingValue++)
             {
 
-                if (stopWatch.Elapsed.Seconds >= 5)
+                if (stopWatch.Elapsed.Seconds >= 2)
                 {
                     logicalOrderOfCellsXml.Clear();
                     return false;
@@ -1467,7 +1466,6 @@ namespace SudokuSetterAndSolver
                                 {
                                     currentPuzzleToBeSolved.puzzlecells[logicalOrderOfCellsXml[numberOfCellToBeHandled]].value = validNumbersInCell[correctNumber];
                                     previousNumberInCell = 0;
-
                                 }
                             }
                             else
@@ -1493,13 +1491,9 @@ namespace SudokuSetterAndSolver
                         }
                     }
                 }
-                //foreach (var printCell in currentPuzzleToBeSolved.puzzlecells)
-                //{
-                //    Console.Write(printCell.value);
-                //}
-                //Console.WriteLine();
                 validNumbersInCell.Clear();
             }
+            //If the puzzle has been solved. 
             cellNumbersForLogicalEffcientOrder.Clear();
             stopWatch.Stop();
             return true;

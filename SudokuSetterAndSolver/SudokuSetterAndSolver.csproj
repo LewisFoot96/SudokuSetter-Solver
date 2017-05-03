@@ -441,10 +441,13 @@
     <Content Include="Puzzles\TestPuzzles\Medium\TestMedium9.xml" />
     <Content Include="Statistics.xml" />
     <Content Include="Tips\Images\HiddenSingles.png" />
+    <Content Include="Tips\Images\HiddenDoubles.png" />
+    <Content Include="Tips\Images\HiddenTriples.png" />
     <Content Include="Tips\Images\LockedCandidates.png" />
     <Content Include="Tips\Images\NakedDoubles.png" />
     <Content Include="Tips\Images\NakedSingles.png" />
     <Content Include="Tips\Images\NakedTriples.png" />
+    <Content Include="Tips\Images\Swordfish.PNG" />
     <Content Include="Tips\Images\VirtualLines.png" />
     <Content Include="Tips\Images\XWings.png" />
     <Content Include="Tips\tip2.xml" />

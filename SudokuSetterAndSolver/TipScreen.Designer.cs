@@ -1,4 +1,6 @@
-﻿namespace SudokuSetterAndSolver
+﻿using System.Drawing;
+
+namespace SudokuSetterAndSolver
 {
     partial class TipScreen
     {
@@ -49,14 +51,14 @@
             this.tipTextTb.Location = new System.Drawing.Point(44, 98);
             this.tipTextTb.Multiline = true;
             this.tipTextTb.Name = "tipTextTb";
-            this.tipTextTb.Size = new System.Drawing.Size(514, 386);
+            this.tipTextTb.Size = new System.Drawing.Size(353, 456);
             this.tipTextTb.TabIndex = 1;
             // 
             // tipImageBox
             // 
-            this.tipImageBox.Location = new System.Drawing.Point(593, 192);
+            this.tipImageBox.Location = new System.Drawing.Point(434, 98);
             this.tipImageBox.Name = "tipImageBox";
-            this.tipImageBox.Size = new System.Drawing.Size(310, 185);
+            this.tipImageBox.Size = new System.Drawing.Size(512, 456);
             this.tipImageBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.tipImageBox.TabIndex = 2;
             this.tipImageBox.TabStop = false;
@@ -66,7 +68,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Aqua;
-            this.ClientSize = new System.Drawing.Size(940, 521);
+            this.ClientSize = new System.Drawing.Size(1005, 590);
             this.Controls.Add(this.tipImageBox);
             this.Controls.Add(this.tipTextTb);
             this.Controls.Add(this.tipTitleTb);

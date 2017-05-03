@@ -43,9 +43,7 @@ namespace SudokuSetterAndSolver
             tipTextTb.Text = loadedTip.tipcontent;
 
             //Creating the new image. 
-            //string imagePath = Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory())) + @"\Tips\Images\"+ loadedTip.tippicturedirectorylocation;
-            string imagePath = Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory())) + @"\Tips\Images\" +@"\NakedDoubles.png";
-
+            string imagePath = Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory())) + @"\Tips\Images\"+ loadedTip.tippicturedirectorylocation;
             try
             {
                 tipImageBox.Image = Image.FromFile(imagePath);
@@ -62,8 +60,7 @@ namespace SudokuSetterAndSolver
         private void ReadFromTipFile()
         {
             string fileDirectoryLocation = Path.GetFullPath(@"..\..\");
-            //fileDirectoryLocation += @"Tips\tip"+_tipSelection+".xml";
-            fileDirectoryLocation += @"Tips\tip3.xml";
+            fileDirectoryLocation += @"Tips\tip"+_tipSelection+".xml";
             var serializer = new XmlSerializer(typeof(tip));
             using (var reader = XmlReader.Create(fileDirectoryLocation))
             {
