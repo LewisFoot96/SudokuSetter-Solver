@@ -85,8 +85,17 @@ namespace SudokuSetterAndSolver
             }
             return true;
         }
-        #endregion 
+        #endregion
 
+        #region Constructor 
+
+        public SudokuSolver()
+        {
+            //Resetting solving values
+            methodRunNumber = 0;
+            candidatesList.Clear();
+        }
+        #endregion
         #region Rule Based Algorithm 
 
         public bool SolveSudokuRuleBasedXML()
@@ -222,7 +231,7 @@ namespace SudokuSetterAndSolver
       /// <param name="tempCandidateList"></param>
         private void CompareCandidateLists(List<List<int>> tempCandidateList)
         {
-            for (int indexValue = 0; indexValue <= 80; indexValue++)
+            for (int indexValue = 0; indexValue <= currentPuzzleToBeSolved.puzzlecells.Count-1; indexValue++)
             {
                 List<int> finalCandidateList = new List<int>();
                 if (candidatesList[indexValue] == null || tempCandidateList[indexValue] == null)
@@ -1870,6 +1879,10 @@ namespace SudokuSetterAndSolver
             tempStopWatch.Reset();
             tempStopWatch.Start();
             bool rule = SolveSudokuRuleBasedXML();
+            if(!rule)
+            {
+                return "Error";
+            }
             string uniqueString = CheckUniqueSolution();
             /*
             Console.WriteLine(tempStopWatch.Elapsed.TotalSeconds);
@@ -1981,10 +1994,18 @@ namespace SudokuSetterAndSolver
             //Getting the human difficulty from the number of occurrences of singles, doubles and triples. 
             decimal totaloccurences = singlesCount + +hiddenCount+ doublesCount + triplesCount;
             decimal totalValue = (singlesCount * 1) + (hiddenCount*3)+(doublesCount * 9) + (triplesCount * 27);
-            decimal tempDifficulty = totalValue / totaloccurences;
-            decimal roundedValue = Math.Round(tempDifficulty, 0);
-            //Converting to int
-            int difficultyResult = Convert.ToInt32(roundedValue);
+            int difficultyResult;
+            if (totaloccurences != 0)
+            {
+                decimal tempDifficulty = totalValue / totaloccurences;
+                decimal roundedValue = Math.Round(tempDifficulty, 0);
+                //Converting to int
+                difficultyResult = Convert.ToInt32(roundedValue);
+            }
+            else
+            {
+                difficultyResult = 4;
+            }
             //Retunring the result in terms of the difficlity metrics. 
             return difficultyResult - 1;
         }

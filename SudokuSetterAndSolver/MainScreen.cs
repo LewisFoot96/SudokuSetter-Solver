@@ -303,14 +303,15 @@ namespace SudokuSetterAndSolver
             popUpPuzzleSelection.ShowDialog();
             //Making sure one has been selected. 
             if (PopUpRandomPuzzleSelection.isPuzzleTypeSelected)
-            {
-                //Reseting page for new puzzle. 
-                StartTimerAndAddInfo();           
+            {                         
                 errorSubmitCount = 0;
                 ClearGrid();
                 listOfTextBoxes.Clear();
                 loadedPuzzle.puzzlecells.Clear();
                 LoadPuzzleSelection();
+                SetStartingScore();
+                //Reseting page for new puzzle. 
+                StartTimerAndAddInfo();
             }
         }
 
@@ -373,29 +374,48 @@ namespace SudokuSetterAndSolver
         /// <param name="e"></param>
         private void difficultyDetermineBtn_Click(object sender, EventArgs e)
         {
-            //Timing algorithm and determining difficulty. 
-            sudokuSolver.currentPuzzleToBeSolved = loadedPuzzle;
-            Stopwatch executionTimeSw = new Stopwatch();        
-            executionTimeSw.Start();
-            string uniqueString = sudokuSolver.EvaluatePuzzleDifficulty();
-            executionTimeSw.Stop();
-            double executionTimeValue = executionTimeSw.Elapsed.Milliseconds;
-            executionTimeSw.Reset();
-            loadedPuzzle.difficulty = sudokuSolver.difficluty;
-            //Updating puzzle on the screen. 
-            for (int cellNumberCount = 0; cellNumberCount <= loadedPuzzle.puzzlecells.Count - 1; cellNumberCount++)
+            bool validPuzle = ValidateSolvePuzzleEntry();
+            if (validPuzle)
             {
-                foreach (var textBoxCurrent in listOfTextBoxes)
+                sudokuSolver = new SudokuSolver();
+                //Timing algorithm and determining difficulty. 
+                sudokuSolver.currentPuzzleToBeSolved = loadedPuzzle;
+                Stopwatch executionTimeSw = new Stopwatch();
+                executionTimeSw.Start();
+                string uniqueString = sudokuSolver.EvaluatePuzzleDifficulty();
+                //If there is no error then all the stuff.
+                if (uniqueString != "Error")
                 {
-                    if (textBoxCurrent.Name == cellNumberCount.ToString())
+                    executionTimeSw.Stop();
+                    double executionTimeValue = executionTimeSw.Elapsed.Milliseconds;
+                    executionTimeSw.Reset();
+                    loadedPuzzle.difficulty = sudokuSolver.difficluty;
+                    //Updating puzzle on the screen. 
+                    for (int cellNumberCount = 0; cellNumberCount <= loadedPuzzle.puzzlecells.Count - 1; cellNumberCount++)
                     {
-                        textBoxCurrent.Text = loadedPuzzle.puzzlecells[cellNumberCount].value.ToString();
-                        break;
+                        foreach (var textBoxCurrent in listOfTextBoxes)
+                        {
+                            if (textBoxCurrent.Name == cellNumberCount.ToString())
+                            {
+                                textBoxCurrent.Text = loadedPuzzle.puzzlecells[cellNumberCount].value.ToString();
+                                break;
+                            }
+                        }
                     }
+                    //Updating details of the puzzle that has been entered. 
+                    SetSolvingDetailsToTextBox(executionTimeValue, uniqueString, loadedPuzzle.difficulty);
+                }
+                else
+                {
+                    executionTimeSw.Stop();
+                    executionTimeSw.Reset();
+                    MessageBox.Show("Puzzle cannot be successfully solved. Irregular solving functionality is not fully correct within the game.");
                 }
             }
-            //Updating details of the puzzle that has been entered. 
-            SetSolvingDetailsToTextBox(executionTimeValue, uniqueString, loadedPuzzle.difficulty);
+            else
+            {
+                MessageBox.Show("Incorrect puzzle entered! Please check entry.");
+            }
         }
 
         /// <summary>
@@ -1089,10 +1109,29 @@ namespace SudokuSetterAndSolver
 
         #region Solve Puzzle 
 
+
+        protected bool ValidateSolvePuzzleEntry()
+        {
+            UpdatePuzzle();
+            bool validatePuzzle = false;
+
+            //Validating puzzle 
+            bool validRow = false;
+            bool validColumn = false;
+            bool validBlock = false;
+            validRow = ValidateRow();
+            validColumn = ValidateColumn();
+            validBlock = ValidateBlock();
+            //If puzzle is correct
+            if (validRow == true && validColumn == true && validBlock == true)
+            {
+                validatePuzzle = true;
+            }
+            return validatePuzzle;
+        }
         protected void SolvePuzzle()
         {
             bool validatePuzzle = false;
-
             //Validating puzzle 
             bool validRow = false;
             bool validColumn = false;
@@ -1242,7 +1281,7 @@ namespace SudokuSetterAndSolver
         {
             List<int> numbersInRow = new List<int>();
             bool validRows = true;
-            for (int rowNumberValidate = 0; rowNumberValidate <= 8; rowNumberValidate++)
+            for (int rowNumberValidate = 0; rowNumberValidate <= loadedPuzzle.gridsize-1; rowNumberValidate++)
             {
                 //Adding all number is that row to the list. 
                 foreach (var cell in loadedPuzzle.puzzlecells)
@@ -1266,7 +1305,7 @@ namespace SudokuSetterAndSolver
         {
             List<int> numbersInColumn = new List<int>();
             bool validColumns = true;
-            for (int columnNumberValidate = 0; columnNumberValidate <= 8; columnNumberValidate++)
+            for (int columnNumberValidate = 0; columnNumberValidate <= loadedPuzzle.gridsize-1; columnNumberValidate++)
             {
                 //Adding all number is that row to the list. 
                 foreach (var cell in loadedPuzzle.puzzlecells)
@@ -1290,7 +1329,7 @@ namespace SudokuSetterAndSolver
         {
             List<int> numbersInBlock = new List<int>();
             bool validBlocks = true;
-            for (int blockNumberValidate = 0; blockNumberValidate <= 8; blockNumberValidate++)
+            for (int blockNumberValidate = 0; blockNumberValidate <= loadedPuzzle.gridsize-1; blockNumberValidate++)
             {
                 //Adding all number is that row to the list. 
                 foreach (var cell in loadedPuzzle.puzzlecells)
@@ -1319,17 +1358,22 @@ namespace SudokuSetterAndSolver
         private bool CheckValidNumbers(List<int> listOfNumbers)
         {
             List<int> numbersUsed = new List<int>();
+            //Going through list and seeing if numbers repeat. 
             foreach (var number in listOfNumbers)
             {
+                int numberCount = 0;
+                numbersUsed.Add(number);
                 foreach (var usedNumber in numbersUsed)
                 {
-                    if (usedNumber == number)
+                    
+                    if (usedNumber == number && number!=0)
+                    {
+                        numberCount++;
+                       
+                    }
+                    if(numberCount>=2)
                     {
                         return false;
-                    }
-                    else
-                    {
-                        numbersUsed.Add(number);
                     }
                 }
             }
@@ -1667,8 +1711,11 @@ namespace SudokuSetterAndSolver
             //Dispalying all of the stats 
             StatisticsManager.ReadFromStatisticsFile();
             staticsDispalyTb.Text += "Hints:" + StatisticsManager.currentStats.hintNumber + "\r\n";
-            staticsDispalyTb.Text += "Fastest solving time:" + StatisticsManager.currentStats.fastestsolvetime + " (ms)\r\n";
-            staticsDispalyTb.Text += "Levls completed:" + StatisticsManager.currentStats.levelcompleted + "\r\n";
+            //Converting number of seconds
+            TimeSpan span = TimeSpan.FromSeconds((double)StatisticsManager.currentStats.fastestsolvetime);
+            string formattedTime = span.ToString(@"hh\:mm\:ss");
+            staticsDispalyTb.Text += "Fastest solving time:" + formattedTime + " (hh\\:mm\\:ss)\r\n";
+            staticsDispalyTb.Text += "Levles completed:" + StatisticsManager.currentStats.levelcompleted + "\r\n";
             staticsDispalyTb.Text += "Number of puzzles completed:" + StatisticsManager.currentStats.puzzlecompleted + "\r\n";
             staticsDispalyTb.Text += "Extreme Puzzle Completed:" + StatisticsManager.currentStats.numberOfExtremePuzzleCompleted + "\r\n";
             staticsDispalyTb.Text += "Extreme Puzzle High Score:" + StatisticsManager.currentStats.extremeHighScore + "\r\n";

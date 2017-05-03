@@ -522,10 +522,10 @@
     <value>False</value>
   </data>
   <data name="solutionDisplayInfoTb.Location" type="System.Drawing.Point, System.Drawing">
-    <value>197, 92</value>
+    <value>185, 92</value>
   </data>
   <data name="solutionDisplayInfoTb.Size" type="System.Drawing.Size, System.Drawing">
-    <value>871, 38</value>
+    <value>907, 38</value>
   </data>
   <data name="solutionDisplayInfoTb.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
