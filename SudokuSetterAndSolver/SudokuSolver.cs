@@ -221,17 +221,17 @@ namespace SudokuSetterAndSolver
             backtrackingBool = true;
             solvedBacktracking = BacktrackingUsingXmlTemplateFile(false);
             //CheckUniqueSolution();
-            
+
             return solvedBacktracking;
         }
 
-      /// <summary>
-      /// Method that updates the candidates list so candidates can be removed from the puzzle correspondingly. 
-      /// </summary>
-      /// <param name="tempCandidateList"></param>
+        /// <summary>
+        /// Method that updates the candidates list so candidates can be removed from the puzzle correspondingly. 
+        /// </summary>
+        /// <param name="tempCandidateList"></param>
         private void CompareCandidateLists(List<List<int>> tempCandidateList)
         {
-            for (int indexValue = 0; indexValue <= currentPuzzleToBeSolved.puzzlecells.Count-1; indexValue++)
+            for (int indexValue = 0; indexValue <= currentPuzzleToBeSolved.puzzlecells.Count - 1; indexValue++)
             {
                 List<int> finalCandidateList = new List<int>();
                 if (candidatesList[indexValue] == null || tempCandidateList[indexValue] == null)
@@ -1410,7 +1410,7 @@ namespace SudokuSetterAndSolver
 
                 if (validNumbersInCell.Count == 0)
                 {
-                    if(startingValue ==0)
+                    if (startingValue == 0)
                     {
                         return false;
                     }
@@ -1509,16 +1509,16 @@ namespace SudokuSetterAndSolver
 
         #region Check Unique Solution
 
-        public string  CheckUniqueSolution()
+        public string CheckUniqueSolution()
         {
             int[] solvedPuzzlesOriginalValue = new int[currentPuzzleToBeSolved.puzzlecells.Count];
-            for (int solvedPuzzleValues=0;solvedPuzzleValues<= currentPuzzleToBeSolved.puzzlecells.Count-1;solvedPuzzleValues++ )
+            for (int solvedPuzzleValues = 0; solvedPuzzleValues <= currentPuzzleToBeSolved.puzzlecells.Count - 1; solvedPuzzleValues++)
             {
                 solvedPuzzlesOriginalValue[solvedPuzzleValues] = currentPuzzleToBeSolved.puzzlecells[solvedPuzzleValues].value;
             }
             //Finding the cell to induce further backtracking 
             for (int reverseCellCount = currentPuzzleToBeSolved.puzzlecells.Count - 1; reverseCellCount >= 0; reverseCellCount--)
-            {   
+            {
                 //Get a vlaid cell, that a value has been removed from, the last number that has had a value removed, 
                 bool isRemovedCell = false;
                 for (int removeCellIndex = 0; removeCellIndex <= listOfCellsToBeRemoved.Count - 1; removeCellIndex++)
@@ -1546,14 +1546,14 @@ namespace SudokuSetterAndSolver
                     //If there is a cell with 2 or more candidates, where the current value is not the last valid number in that list. 
                     if (previousNumberReverse != validNumbers[validNumbers.Count - 1])
                     {
-                        for (int validNumberIndexNumber = validNumbers.Count-1; validNumberIndexNumber >= 0; validNumberIndexNumber--)
+                        for (int validNumberIndexNumber = validNumbers.Count - 1; validNumberIndexNumber >= 0; validNumberIndexNumber--)
                         {
                             if (validNumbers[validNumberIndexNumber] > previousNumberReverse)
                             {
                                 //Testing the new puzzle, which has the changed value. 
                                 currentPuzzleToBeSolved.puzzlecells[reverseCellCount].value = validNumbers[validNumberIndexNumber];
-                                
-                               bool solvedSecond =BacktrackingUsingXmlTemplateFile(false);
+
+                                bool solvedSecond = BacktrackingUsingXmlTemplateFile(false);
                                 for (int resetCellValueIndex = 0; resetCellValueIndex <= currentPuzzleToBeSolved.puzzlecells.Count - 1; resetCellValueIndex++)
                                 {
                                     currentPuzzleToBeSolved.puzzlecells[resetCellValueIndex].value = solvedPuzzlesOriginalValue[resetCellValueIndex];
@@ -1566,7 +1566,7 @@ namespace SudokuSetterAndSolver
                                 //If there is no other solution, then it is a unique solution. 
                                 else
                                 {
-                                   return "Unique";
+                                    return "Unique";
                                 }
                             }
                         }
@@ -1600,13 +1600,13 @@ namespace SudokuSetterAndSolver
                 }
             }
             Random randomBlockNumber = new Random();
-            int numberOfErros = GetPuzzleErrors(); 
+            int numberOfErros = GetPuzzleErrors();
 
             while (numberOfErros != 0)
             {
                 int tempNumberOfErrors = numberOfErros;
                 //Apply operator 
-                
+
                 List<int> blockValues = new List<int>();
 
                 while (blockValues.Count <= 1)
@@ -1614,7 +1614,7 @@ namespace SudokuSetterAndSolver
                     int blockNumber = randomBlockNumber.Next(0, 8);
                     for (int nonStaticCellNumber = 0; nonStaticCellNumber <= cellIndexes.Count - 1; nonStaticCellNumber++)
                     {
-                        if (currentPuzzleToBeSolved.puzzlecells[cellIndexes[ nonStaticCellNumber]].blocknumber == blockNumber)
+                        if (currentPuzzleToBeSolved.puzzlecells[cellIndexes[nonStaticCellNumber]].blocknumber == blockNumber)
                         {
                             blockValues.Add(nonStaticCellNumber);
                         }
@@ -1635,17 +1635,17 @@ namespace SudokuSetterAndSolver
                 currentPuzzleToBeSolved.puzzlecells[blockValues[firstRandom]].value = secondValue;
                 currentPuzzleToBeSolved.puzzlecells[blockValues[secondRandom]].value = firstValue;
 
-               //Re-assessing the errors count and then commiting change if correct. 
+                //Re-assessing the errors count and then commiting change if correct. 
                 numberOfErros = GetPuzzleErrors();
 
-                if(numberOfErros >tempNumberOfErrors)
+                if (numberOfErros > tempNumberOfErrors)
                 {
                     numberOfErros = tempNumberOfErrors;
                     //Undo change and do next neighbourhood operator
                     currentPuzzleToBeSolved.puzzlecells[blockValues[firstRandom]].value = firstValue;
                     currentPuzzleToBeSolved.puzzlecells[blockValues[secondRandom]].value = secondValue;
                 }
-                else if(numberOfErros < tempNumberOfErrors)
+                else if (numberOfErros < tempNumberOfErrors)
                 {
                     Console.WriteLine("Better");
                 }
@@ -1721,14 +1721,14 @@ namespace SudokuSetterAndSolver
                 for (int getRowNumber = 0; getRowNumber <= currentPuzzleToBeSolved.puzzlecells.Count - 1; getRowNumber++)
                 {
                     //Adding all the values in the column. 
-                   if(currentPuzzleToBeSolved.puzzlecells[getRowNumber].columnnumber == tempColumnNumber)
+                    if (currentPuzzleToBeSolved.puzzlecells[getRowNumber].columnnumber == tempColumnNumber)
                     {
                         columnNumberValues.Add(currentPuzzleToBeSolved.puzzlecells[getRowNumber].value);
                     }
                 }
 
                 //Lookin for the errors within the row
-                List<int>columnCount = new List<int>();
+                List<int> columnCount = new List<int>();
                 //Getting the occurences of each 
                 for (int value = 1; value <= currentPuzzleToBeSolved.gridsize; value++)
                 {
@@ -1881,8 +1881,18 @@ namespace SudokuSetterAndSolver
             Stopwatch tempStopWatch = new Stopwatch();
             tempStopWatch.Reset();
             tempStopWatch.Start();
-            bool rule = SolveSudokuRuleBasedXML();
-            if(!rule)
+            //Solving the puzzle 
+            bool rule = false;
+            if (currentPuzzleToBeSolved.gridsize == 9)
+            {
+                rule = SolveSudokuRuleBasedXML();
+            }
+            else
+            {
+                rule = BacktrackingUsingXmlTemplateFile(false);
+            }
+
+            if (!rule)
             {
                 return "Error";
             }
@@ -1995,8 +2005,8 @@ namespace SudokuSetterAndSolver
         private int CalculateHumanDifficultyValue()
         {
             //Getting the human difficulty from the number of occurrences of singles, doubles and triples. 
-            decimal totaloccurences = singlesCount + +hiddenCount+ doublesCount + triplesCount;
-            decimal totalValue = (singlesCount * 1) + (hiddenCount*3)+(doublesCount * 9) + (triplesCount * 27);
+            decimal totaloccurences = singlesCount + +hiddenCount + doublesCount + triplesCount;
+            decimal totalValue = (singlesCount * 1) + (hiddenCount * 3) + (doublesCount * 9) + (triplesCount * 27);
             int difficultyResult;
             if (totaloccurences != 0)
             {

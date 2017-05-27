@@ -56,7 +56,7 @@ namespace SudokuSetterAndSolver
         /// <param name="extreme"></param>
         /// <param name="difficulty"></param>
         /// <param name="score"></param>
-        public static void LeveledPuzzleComlpeted(int levelCompleted, decimal solvingTime, bool extreme, string difficulty, int score, string puzzleType)
+        public static void LeveledPuzzleComlpeted(int levelCompleted, decimal solvingTime, bool extreme, string difficulty, int score, string puzzleType, int currentLevel)
         {
             //Reading, updating and writing. 
             ReadFromStatisticsFile();
@@ -65,7 +65,7 @@ namespace SudokuSetterAndSolver
             {
                 currentStats.extremeHighScore++;
             }
-            currentStats.hintNumber += levelCompleted;
+            currentStats.hintNumber += currentLevel;
             UpdatePuzzlesCompleted(puzzleType);
             UpdateFastestSolvingTime(solvingTime);
             HighScoresUpdate(difficulty, score);
