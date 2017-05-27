@@ -486,7 +486,7 @@ namespace SudokuSetterAndSolver
         private void CreateSolveButtons()
         {
             //this.solveGeneratedPuzzleBtn = new System.Windows.Forms.Button();
-            //this.loadFileBtn = new System.Windows.Forms.Button();
+            this.loadFileBtn = new System.Windows.Forms.Button();
             this.fileChooser = new System.Windows.Forms.OpenFileDialog();
             this.difficultyDetermineBtn = new System.Windows.Forms.Button();
             //this.validatePuzzleBtn = new System.Windows.Forms.Button();
@@ -505,11 +505,12 @@ namespace SudokuSetterAndSolver
             this.solveGeneratedPuzzleBtn.Click += new System.EventHandler(this.solveGeneratedPuzzleBtn_Click);
             System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.solveGeneratedPuzzleBtn.ForeColor = System.Drawing.Color.Black;
+             */
             // 
             // loadFileBtn
             // 
             this.loadFileBtn.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.loadFileBtn.Location = new System.Drawing.Point(372, 230);
+            this.loadFileBtn.Location = new System.Drawing.Point(342, 230);
             this.loadFileBtn.Name = "loadFileBtn";
             this.loadFileBtn.Size = new System.Drawing.Size(60, 35);
             this.loadFileBtn.TabIndex = 11;
@@ -518,7 +519,7 @@ namespace SudokuSetterAndSolver
             this.loadFileBtn.Click += new System.EventHandler(this.loadFileBtn_Click);
             this.loadFileBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.loadFileBtn.ForeColor = System.Drawing.Color.Black;
-            */
+           
             // 
             // fileChooser
             // 
@@ -582,12 +583,12 @@ namespace SudokuSetterAndSolver
 
             //this.Controls.Add(this.validatePuzzleBtn);
             this.Controls.Add(this.difficultyDetermineBtn);
-            //this.Controls.Add(this.loadFileBtn);
+            this.Controls.Add(this.loadFileBtn);
             //this.Controls.Add(this.solveGeneratedPuzzleBtn);
             this.Controls.Add(this.newSolvePuzzleBtn);
             this.Controls.Add(this.clearPuzzleBtn);
             //this.Controls.SetChildIndex(this.solveGeneratedPuzzleBtn, 0);
-            //this.Controls.SetChildIndex(this.loadFileBtn, 1);
+            this.Controls.SetChildIndex(this.loadFileBtn, 1);
             this.Controls.SetChildIndex(this.difficultyDetermineBtn,2);
             //this.Controls.SetChildIndex(this.validatePuzzleBtn, 3);
             this.Controls.SetChildIndex(this.newSolvePuzzleBtn, 4);
@@ -605,7 +606,7 @@ namespace SudokuSetterAndSolver
         private Button submitLevelPuzzleBtn;
         //private Button solveGeneratedPuzzleBtn;
         private Button newPuzzleBtn;
-        //private Button loadFileBtn;
+        private Button loadFileBtn;
         private OpenFileDialog fileChooser;
         private Button difficultyDetermineBtn;
        // private Button validatePuzzleBtn;

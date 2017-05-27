@@ -15,11 +15,11 @@ namespace SudokuSetterAndSolver
         /// </summary>
         /// <param name="nonValidNumbers"></param>
         /// <returns></returns>
-        public static List<int> GetValidNumbers(List<int> nonValidNumbers)
+        public static List<int> GetValidNumbers(List<int> nonValidNumbers, int puzzleLength)
         {
             List<int> validNumbers = new List<int>();
             //Get the valid number that can be within this row. These should be in number order. 
-            for (int y = 1; y <= 9; y++)
+            for (int y = 1; y <= Math.Sqrt(puzzleLength) - 1; y++)
             {
                 if (nonValidNumbers.Contains(y) == false)
                 {
@@ -77,7 +77,7 @@ namespace SudokuSetterAndSolver
                 }
             }
             //Return non valid values. 
-            return validNumbersInRow = GetValidNumbers(nonValidNumberInRow);
+            return validNumbersInRow = GetValidNumbers(nonValidNumberInRow, currentPuzzleToBeSolved.puzzlecells.Count);
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace SudokuSetterAndSolver
                 }
             }
             //return non valud values. 
-            return validNumbersInColumn = GetValidNumbers(nonValidNumberInColumn);
+            return validNumbersInColumn = GetValidNumbers(nonValidNumberInColumn, currentPuzzleToBeSolved.puzzlecells.Count);
         }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace SudokuSetterAndSolver
                 }
             }
             //Returning the numbers that are in the block, the ones that cannot be valid numbers within the cell that is currently being handled. 
-            return validNumbersInBlock = GetValidNumbers(nonValidNumberInBlock);
+            return validNumbersInBlock = GetValidNumbers(nonValidNumberInBlock, currentPuzzleToBeSolved.puzzlecells.Count);
         }
         #endregion
     }

@@ -344,6 +344,15 @@
     <Content Include="Puzzles\TestPuzzles\Hard\Test2HardPuzzle7.xml" />
     <Content Include="Puzzles\TestPuzzles\Hard\Test2HardPuzzle8.xml" />
     <Content Include="Puzzles\TestPuzzles\Hard\Test2HardPuzzle9.xml" />
+    <Content Include="Puzzles\TestPuzzles\IrregularPuzzles\irregulartest2.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Puzzles\TestPuzzles\IrregularPuzzles\irregulartest3.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Puzzles\TestPuzzles\IrregularPuzzles\irregulartest4.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Puzzles\TestPuzzles\Medium\MediumLB1.xml" />
     <Content Include="Puzzles\TestPuzzles\Medium\MediumLB10.xml" />
     <Content Include="Puzzles\TestPuzzles\Medium\MediumLB11.xml" />

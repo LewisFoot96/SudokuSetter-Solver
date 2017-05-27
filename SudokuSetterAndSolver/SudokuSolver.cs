@@ -1393,10 +1393,8 @@ namespace SudokuSetterAndSolver
 
             for (startingValue = numberOfCellToBeHandled; startingValue <= logicalOrderOfCellsXml.Count - 1; startingValue++)
             {
-
-                if (stopWatch.Elapsed.Seconds >= 2)
+                if (stopWatch.Elapsed.Seconds >= 5)
                 {
-                    logicalOrderOfCellsXml.Clear();
                     return false;
                 }
                 numberOfCellToBeHandled = startingValue;
@@ -1548,7 +1546,7 @@ namespace SudokuSetterAndSolver
                     //If there is a cell with 2 or more candidates, where the current value is not the last valid number in that list. 
                     if (previousNumberReverse != validNumbers[validNumbers.Count - 1])
                     {
-                        for (int validNumberIndexNumber = 0; validNumberIndexNumber <= validNumbers.Count - 1; validNumberIndexNumber++)
+                        for (int validNumberIndexNumber = validNumbers.Count-1; validNumberIndexNumber >= 0; validNumberIndexNumber--)
                         {
                             if (validNumbers[validNumberIndexNumber] > previousNumberReverse)
                             {
@@ -1575,7 +1573,12 @@ namespace SudokuSetterAndSolver
                     }
                 }
             }
-            return "Unique";
+            //Resetting solution
+            for (int resetCellValueIndex = 0; resetCellValueIndex <= currentPuzzleToBeSolved.puzzlecells.Count - 1; resetCellValueIndex++)
+            {
+                currentPuzzleToBeSolved.puzzlecells[resetCellValueIndex].value = solvedPuzzlesOriginalValue[resetCellValueIndex];
+            }
+            return "Not Unique";
         }
 
         #endregion

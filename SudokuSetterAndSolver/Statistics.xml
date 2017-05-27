@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <statistics xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://tempuri.org/Statistics.xsd">
-  <fastestsolvetime>29</fastestsolvetime>
-  <puzzlecompleted>3</puzzlecompleted>
+  <fastestsolvetime>5</fastestsolvetime>
+  <puzzlecompleted>11</puzzlecompleted>
   <numberOfExtremePuzzleCompleted>0</numberOfExtremePuzzleCompleted>
   <levelcompleted>14</levelcompleted>
-  <hintNumber>99</hintNumber>
+  <hintNumber>4</hintNumber>
   <extremeHighScore>0</extremeHighScore>
   <hardHighScore>0</hardHighScore>
-  <mediumHighScore>28</mediumHighScore>
+  <mediumHighScore>30</mediumHighScore>
   <easyHighScore>10</easyHighScore>
-  <numberofSmallGridCompleted>2</numberofSmallGridCompleted>
-  <numberofIrregularCompleted>0</numberofIrregularCompleted>
-  <numberofRegularCompleted>1</numberofRegularCompleted>
+  <numberofSmallGridCompleted>8</numberofSmallGridCompleted>
+  <numberofIrregularCompleted>1</numberofIrregularCompleted>
+  <numberofRegularCompleted>2</numberofRegularCompleted>
 </statistics>

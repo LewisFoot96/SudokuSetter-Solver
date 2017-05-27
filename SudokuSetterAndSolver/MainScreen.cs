@@ -103,7 +103,10 @@ namespace SudokuSetterAndSolver
 
             //Get the level selected. 
             string levelString = Regex.Match(menuOption.Text, @"\d+").Value;
-            levelSelected = Int32.Parse(levelString);
+            if (levelString != "")
+            {
+                levelSelected = Int32.Parse(levelString);
+            }
             //Maually setting level number, if different format. 
             if(menuOption.Text =="irregular")
             {
@@ -375,6 +378,20 @@ namespace SudokuSetterAndSolver
         private void difficultyDetermineBtn_Click(object sender, EventArgs e)
         {
             bool validPuzle = ValidateSolvePuzzleEntry();
+            int emptyCellCountNumber = 0;
+            bool fewStaticNumbers = false;
+            for(int cellNumber =0;cellNumber<=loadedPuzzle.puzzlecells.Count-1;cellNumber++)
+            {
+                if (loadedPuzzle.puzzlecells[cellNumber].value == 0)
+                {
+                    emptyCellCountNumber++;
+                }
+            }
+
+            if(emptyCellCountNumber >=56)
+            {
+                fewStaticNumbers = true;
+            }
             if (validPuzle)
             {
                 sudokuSolver = new SudokuSolver();
@@ -383,6 +400,11 @@ namespace SudokuSetterAndSolver
                 Stopwatch executionTimeSw = new Stopwatch();
                 executionTimeSw.Start();
                 string uniqueString = sudokuSolver.EvaluatePuzzleDifficulty();
+
+                if(fewStaticNumbers)
+                {
+                    uniqueString = "Not Unique";
+                }
                 //If there is no error then all the stuff.
                 if (uniqueString != "Error")
                 {
@@ -1108,7 +1130,6 @@ namespace SudokuSetterAndSolver
         #endregion
 
         #region Solve Puzzle 
-
 
         protected bool ValidateSolvePuzzleEntry()
         {
