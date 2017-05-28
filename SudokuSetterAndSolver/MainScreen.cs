@@ -298,7 +298,7 @@ namespace SudokuSetterAndSolver
             {
                 MessageBox.Show("Puzzle incorrect. Please try again.");
             }
-            
+
         }
 
         private void newPuzzleBtn_Click(object sender, EventArgs e)
@@ -506,40 +506,34 @@ namespace SudokuSetterAndSolver
                 ClearScreen();
                 //Setting puzzle details. 
                 SetSolvingDetailsToTextBox(0.0, "N/A", "N/A");
-                if (_puzzleSelectionSolve == 0)
-                {
-                    loadedPuzzle.gridsize = 9;
-                }
-                else if (_puzzleSelectionSolve == 1)
-                {
-                    loadedPuzzle.gridsize = 9;
-                }
-                else
+                if (_puzzleSelectionSolve == 3)
                 {
                     loadedPuzzle.gridsize = 4;
                 }
+                else
+                {
+                    loadedPuzzle.gridsize = 9;
+                }
                 //Creating the blank grid for the screen. 
                 loadedPuzzle.type = "regular";
-                if (_puzzleSelectionSolve >= 1)
+                if (_puzzleSelectionSolve >= 2)
                 {
                     GenerateBlankGridStandardSudoku();
                 }
-                Random irregularRandom = new Random();
-                int irregularRandomValue = irregularRandom.Next(1, 2);
+                //Generating random puzzle based on selection. 
                 if (_puzzleSelectionSolve == 0)
                 {
                     loadedPuzzle.type = "irregular";
-                    if (irregularRandomValue == 1)
-                    {
-                        GenerateFirstTemplateIrregular();
-                    }
-                    else
-                    {
-                        GenerateSecondTemplateIrregular();
-                    }
+                    GenerateFirstTemplateIrregular();
                     GenerateStandardSudokuPuzzle(false);
                 }
                 else if (_puzzleSelectionSolve == 1)
+                {
+                    loadedPuzzle.type = "irregular";
+                    GenerateSecondTemplateIrregular();
+                    GenerateStandardSudokuPuzzle(false);
+                }
+                else if (_puzzleSelectionSolve == 2)
                 {
                     GenerateStandardSudokuPuzzle(false);
                 }
@@ -584,7 +578,7 @@ namespace SudokuSetterAndSolver
                 {
                     StatisticsManager.currentStats.levelcompleted++;
                 }
-                StatisticsManager.LeveledPuzzleComlpeted(StatisticsManager.currentStats.levelcompleted, (decimal)time.TotalSeconds, extremeBool, puzzleDifficulty, currentScore, loadedPuzzle.type,levelSelected);
+                StatisticsManager.LeveledPuzzleComlpeted(StatisticsManager.currentStats.levelcompleted, (decimal)time.TotalSeconds, extremeBool, puzzleDifficulty, currentScore, loadedPuzzle.type, levelSelected);
                 LevelsUpdate();
                 //Set enabled menu options
                 levelCount = 1;
@@ -1425,24 +1419,32 @@ namespace SudokuSetterAndSolver
         {
             switch (loadedPuzzle.puzzlecells[textBoxNumber].blocknumber)
             {
-                case (0):
-                case (8):
-                    listOfTextBoxes[textBoxNumber].BackColor = Color.LightGreen;
+                case (0):                 
+                    listOfTextBoxes[textBoxNumber].BackColor = Color.PaleTurquoise;
+                    break;
+                case (8):                
+                    listOfTextBoxes[textBoxNumber].BackColor = Color.LightBlue;
                     break;
                 case (1):
+                    listOfTextBoxes[textBoxNumber].BackColor = Color.LightPink;
+                    break;
                 case (7):
                     listOfTextBoxes[textBoxNumber].BackColor = Color.Pink;
                     break;
                 case (2):
-                case (6):
-                    listOfTextBoxes[textBoxNumber].BackColor = Color.LightCyan;
+                    listOfTextBoxes[textBoxNumber].BackColor = Color.LightGreen;                
+                    break;
+                case (6):                  
+                    listOfTextBoxes[textBoxNumber].BackColor = Color.PaleGreen;
                     break;
                 case (3):
+                    listOfTextBoxes[textBoxNumber].BackColor = Color.PaleGoldenrod;
+                    break;
                 case (5):
                     listOfTextBoxes[textBoxNumber].BackColor = Color.LightYellow;
                     break;
                 default:
-                    listOfTextBoxes[textBoxNumber].BackColor = Color.LightBlue;
+                    listOfTextBoxes[textBoxNumber].BackColor = Color.LightCyan;
                     break;
             }
         }

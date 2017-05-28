@@ -38,6 +38,7 @@
             this.solveSudokuSelectionCb.FormattingEnabled = true;
             this.solveSudokuSelectionCb.Items.AddRange(new object[] {
             "Irregular",
+            "Irregular2",
             "9*9",
             "4*4"});
             this.solveSudokuSelectionCb.Location = new System.Drawing.Point(247, 61);
