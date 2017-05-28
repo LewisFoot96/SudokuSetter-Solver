@@ -308,7 +308,6 @@ namespace SudokuSetterAndSolver
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.mainMenuStrip;
             this.MaximizeBox = false;
-            this.MinimizeBox = false;
             this.Name = "MainScreen";
             this.mainMenuStrip.ResumeLayout(false);
             this.mainMenuStrip.PerformLayout();

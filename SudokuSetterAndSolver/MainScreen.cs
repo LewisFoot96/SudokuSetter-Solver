@@ -936,7 +936,7 @@ namespace SudokuSetterAndSolver
                     case "hard":
                         currentScore = 40;
                         break;
-                    case "insane":
+                    case "extreme":
                         currentScore = 50;
                         break;
                     default:
