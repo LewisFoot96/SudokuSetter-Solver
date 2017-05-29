@@ -1096,7 +1096,24 @@ namespace SudokuSetterAndSolver
             }
             else
             {
-                return true;
+                //Resetting colour of cells. 
+                for (int cellNumber = 0; cellNumber <= listOfTextBoxes.Count - 1; cellNumber++)
+                {
+                    if (listOfTextBoxes[cellNumber].BackColor == Color.Red)
+                    {
+                        //Resetting colours of grid. 
+                        //Getting colour of cell. 
+                        if (loadedPuzzle.gridsize == 9)
+                        {
+                            GetStandardPuzzleColour(cellNumber);
+                        }
+                        else
+                        {
+                            GetSmallPuzzleColour(cellNumber);
+                        }
+                    }
+                }
+                    return true;
             }
         }
 
