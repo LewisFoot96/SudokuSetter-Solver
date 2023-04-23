@@ -433,7 +433,7 @@ namespace SudokuSetterAndSolver
                 {
                     executionTimeSw.Stop();
                     executionTimeSw.Reset();
-                    MessageBox.Show("Puzzle cannot be successfully solved. Irregular solving functionality is not fully correct within the game.");
+                    MessageBox.Show("Puzzle cannot be successfully solved, no solution. NB: Irregular solving functionality is not fully correct within the game.");
                 }
             }
             else
